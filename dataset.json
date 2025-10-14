@@ -1,0 +1,38 @@
+{
+  "cases": [
+	{
+	  "article_text": "Article: The event happened on March 5, 1984 in Berlin.",
+	  "tip_text": "Tip: The event actually occurred on March 7, 1984 in Munich.",
+	  "facts": [
+		{"category": "Date", "value": "March 5, 1984", "source": "Article"},
+		{"category": "Date", "value": "March 7, 1984", "source": "Tip"},
+		{"category": "Location", "value": "Berlin", "source": "Article"},
+		{"category": "Location", "value": "Munich", "source": "Tip"}
+	  ],
+	  "stance": "Neutral",
+	  "integrity_score": 0.75
+	},
+	{
+	  "article_text": "Article: The minister announced new policies on April 2, 1990.",
+	  "tip_text": "Tip: The statement was given on April 3, 1990 during a private session.",
+	  "facts": [
+		{"category": "Date", "value": "April 2, 1990", "source": "Article"},
+		{"category": "Date", "value": "April 3, 1990", "source": "Tip"},
+		{"category": "Context", "value": "Public Announcement", "source": "Article"},
+		{"category": "Context", "value": "Private Session", "source": "Tip"}
+	  ],
+	  "stance": "Right",
+	  "integrity_score": 0.62
+	},
+	{
+	  "article_text": "Article: Witnesses claim the accident happened at dusk.",
+	  "tip_text": "Tip: Surveillance shows the incident also occurred at dusk.",
+	  "facts": [
+		{"category": "Time", "value": "Dusk", "source": "Article"},
+		{"category": "Time", "value": "Dusk", "source": "Tip"}
+	  ],
+	  "stance": "Left",
+	  "integrity_score": 0.81
+	}
+  ]
+}

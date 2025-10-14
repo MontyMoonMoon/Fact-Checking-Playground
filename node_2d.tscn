@@ -1,0 +1,73 @@
+[gd_scene load_steps=2 format=3 uid="uid://b4mkahx5ft0ug"]
+
+[ext_resource type="Script" uid="uid://cbyr7ryxqg4p0" path="res://article_comparer.gd" id="1_wtcfe"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="ArticleComparer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_top = -1.0
+offset_right = 1155.0
+offset_bottom = 646.0
+script = ExtResource("1_wtcfe")
+
+[node name="ArticleText" type="RichTextLabel" parent="ArticleComparer"]
+layout_mode = 0
+offset_left = 825.0
+offset_top = 180.0
+offset_right = 1092.0
+offset_bottom = 269.0
+text = "Article"
+
+[node name="TipText" type="RichTextLabel" parent="ArticleComparer"]
+layout_mode = 0
+offset_left = 829.0
+offset_top = 47.0
+offset_right = 1082.0
+offset_bottom = 129.0
+text = "Tip"
+
+[node name="FactsContainer" type="VBoxContainer" parent="ArticleComparer"]
+layout_mode = 0
+offset_left = 109.0
+offset_top = 38.0
+offset_right = 703.0
+offset_bottom = 265.0
+
+[node name="CompareButton" type="Button" parent="ArticleComparer"]
+layout_mode = 0
+offset_left = 198.0
+offset_top = 423.0
+offset_right = 403.0
+offset_bottom = 502.0
+text = "compare
+"
+
+[node name="PrevButton" type="Button" parent="ArticleComparer"]
+layout_mode = 0
+offset_left = 727.0
+offset_top = 540.0
+offset_right = 850.0
+offset_bottom = 580.0
+text = "previous"
+
+[node name="NextButton" type="Button" parent="ArticleComparer"]
+layout_mode = 0
+offset_left = 859.0
+offset_top = 540.0
+offset_right = 964.0
+offset_bottom = 579.0
+text = "next"
+
+[node name="ResultText" type="RichTextLabel" parent="ArticleComparer"]
+layout_mode = 0
+offset_left = 726.0
+offset_top = 427.0
+offset_right = 1043.0
+offset_bottom = 535.0
+text = "Results
+
+"
+
+[connection signal="pressed" from="ArticleComparer/CompareButton" to="ArticleComparer" method="_on_compare_button_pressed"]

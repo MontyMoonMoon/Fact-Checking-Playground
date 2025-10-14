@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://70hk1lbigtjj"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="InfoSelector" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="InfoListContainer" type="VBoxContainer" parent="InfoSelector"]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 135.0
+offset_right = 832.0
+offset_bottom = 510.0
+
+[node name="Available Information" type="Label" parent="InfoSelector/InfoListContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="InfoSelector/InfoListContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="InfoSelector/InfoListContainer"]
+layout_mode = 2
+
+[node name="info_buttons_container" type="VBoxContainer" parent="InfoSelector/InfoListContainer/ScrollContainer"]
+layout_mode = 2
+
+[node name="InfoPopup" type="Window" parent="InfoSelector"]
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(800, 400)
+
+[node name="popup_title" type="Label" parent="InfoSelector/InfoPopup"]
+offset_left = 12.0
+offset_top = -29.0
+offset_right = 206.0
+offset_bottom = -6.0
+
+[node name="popup_content" type="TextEdit" parent="InfoSelector/InfoPopup"]
+offset_left = 660.0
+offset_top = 169.0
+offset_right = 787.0
+offset_bottom = 224.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="InfoSelector/InfoPopup"]
+offset_left = 623.0
+offset_top = 20.0
+offset_right = 795.0
+offset_bottom = 157.0
+
+[node name="Keep" type="Button" parent="InfoSelector/InfoPopup/HBoxContainer"]
+layout_mode = 2
+text = "Keep"
+
+[node name="Discard" type="Button" parent="InfoSelector/InfoPopup/HBoxContainer"]
+layout_mode = 2
+text = "Discard"
+
+[node name="Close" type="Button" parent="InfoSelector/InfoPopup/HBoxContainer"]
+layout_mode = 2
+text = "Close
+"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(577, 325)
