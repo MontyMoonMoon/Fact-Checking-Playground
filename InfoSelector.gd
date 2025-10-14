@@ -10,12 +10,12 @@ extends Control
 
 var available_infos = []  # Will contain dicts like { "type": "article" | "tip", "title": "X", "content": "Y" }
 var selected_info = null
-var comparer_scene_ref = null  # Reference to your ArticleComparer if needed
+var comparer_scene_ref = null  #Reference to your ArticleComparer if needed
 
 func _ready():
 	info_popup.hide()
 	
-	# Example placeholder data for testing
+	#PLACEHOLDER
 	available_infos = [
 		{"type": "article", "title": "Vaccine Study Findings", "content": "Recent studies show..."},
 		{"type": "tip", "title": "Check Sources Carefully", "content": "Always verify URLs and..."},

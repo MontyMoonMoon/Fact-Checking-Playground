@@ -1,7 +1,7 @@
 extends Control
 class_name ArticleComparer
 
-# --- Fact class ---
+#Fact class
 class Fact:
 	var category: String
 	var value: String
@@ -15,7 +15,7 @@ class Fact:
 		true_value = _true_value
 
 
-# --- Node references ---
+#Node references
 @onready var article_label = $ArticleText
 @onready var tip_label = $TipText
 @onready var facts_container = $FactsContainer
@@ -29,13 +29,13 @@ var selected_facts: Array[Fact] = []
 
 
 func _ready():
-	# Load your JSON data
+	#Load your JSON data
 	var file = FileAccess.open("res://dataset.json", FileAccess.READ)
 	if file:
 		var data = JSON.parse_string(file.get_as_text())
 		if typeof(data) == TYPE_DICTIONARY and data.has("cases"):
 			comparisons_data = data["cases"]
-			print("✅ Loaded", comparisons_data.size(), "cases")
+			print("Loaded", comparisons_data.size(), "cases")
 		else:
 			push_error("Invalid JSON format: missing 'cases' array")
 	else:
@@ -53,7 +53,7 @@ func _ready():
 	_display_comparison(current_index)
 
 
-# --- Display a single case ---
+#Display a single case
 func _display_comparison(index: int):
 	if comparisons_data.is_empty():
 		return
@@ -91,7 +91,7 @@ func _display_comparison(index: int):
 	result_text.text = "[i]Select two facts to compare...[/i]\n\n[b]Stance:[/b] %s | [b]Integrity:[/b] %s" % [stance, integrity]
 
 
-# --- Create a fact button ---
+#Create a fact button
 func _add_fact_button(fact: Fact):
 	var btn = Button.new()
 	btn.text = "%s: %s (%s)" % [fact.category, fact.value, fact.source]
@@ -99,7 +99,7 @@ func _add_fact_button(fact: Fact):
 	facts_container.add_child(btn)
 
 
-# --- Select facts and compare when two are picked ---
+#Select facts and compare when two are picked
 func _on_fact_selected(fact: Fact, btn: Button):
 	if selected_facts.has(fact):
 		selected_facts.erase(fact)
@@ -113,13 +113,13 @@ func _on_fact_selected(fact: Fact, btn: Button):
 		_show_result(result)
 		selected_facts.clear()
 
-		# reset button highlight
+		#reset button highlight
 		for child in facts_container.get_children():
 			if child is Button:
 				child.remove_theme_color_override("font_color")
 
 
-# --- Compare two facts (placeholder for ML integration) ---
+#Compare two facts (placeholder for ML integration)
 func compare_facts(fact_a: ArticleComparer.Fact, fact_b: ArticleComparer.Fact) -> Dictionary:
 	var result = {
 		"is_discrepancy": false,
@@ -130,7 +130,7 @@ func compare_facts(fact_a: ArticleComparer.Fact, fact_b: ArticleComparer.Fact) -
 	if fact_a.category == fact_b.category:
 		if fact_a.value != fact_b.value:
 			result.is_discrepancy = true
-			result.reason = "❌ Discrepancy in %s: '%s' vs '%s'" % [fact_a.category, fact_a.value, fact_b.value]
+			result.reason = "Discrepancy in %s: '%s' vs '%s'" % [fact_a.category, fact_a.value, fact_b.value]
 
 			# Placeholder truth comparison logic
 			if fact_a.true_value != "" or fact_b.true_value != "":
@@ -139,16 +139,16 @@ func compare_facts(fact_a: ArticleComparer.Fact, fact_b: ArticleComparer.Fact) -
 				var b_correct = fact_b.value == truth
 
 				if a_correct and b_correct:
-					result.truth_status = "🟩 Both are correct."
+					result.truth_status = "Both are correct."
 				elif a_correct:
-					result.truth_status = "🟩 Article is correct, Tip is false."
+					result.truth_status = "Article is correct, Tip is false."
 				elif b_correct:
-					result.truth_status = "🟩 Tip is correct, Article is false."
+					result.truth_status = "Tip is correct, Article is false."
 				else:
-					result.truth_status = "🟥 Both are incorrect."
+					result.truth_status = "Both are incorrect."
 		else:
 			result.reason = "✔ Facts match: %s = %s" % [fact_a.category, fact_a.value]
-			result.truth_status = "🟩 Matching facts — consistent."
+			result.truth_status = "Matching facts — consistent."
 	else:
 		result.reason = "⚠ Different categories: cannot compare directly."
 		result.truth_status = "N/A"
@@ -156,7 +156,7 @@ func compare_facts(fact_a: ArticleComparer.Fact, fact_b: ArticleComparer.Fact) -
 	return result
 
 
-# --- Show result on screen ---
+#Show result on screen
 func _show_result(result: Dictionary):
 	var text = result.reason
 	if result.truth_status != "":
@@ -168,7 +168,7 @@ func _show_result(result: Dictionary):
 		result_text.text = "[color=green]%s[/color]" % text
 
 
-# --- Navigation ---
+#Navigation
 func _on_next_pressed():
 	_display_comparison(current_index + 1)
 
