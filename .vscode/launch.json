@@ -1,0 +1,18 @@
+        {
+            "version": "0.2.0",
+            "configurations": [
+                {
+                    "name": "FastAPI: Uvicorn",
+                    "type": "debugpy",
+                    "request": "launch",
+                    "module": "uvicorn",
+                    "args": [
+                        "ml_api:app", // Replace with your actual module and app instance
+                        "--reload",
+                        "--host", "0.0.0.0",
+                        "--port", "8000" // Or your desired port
+                    ],
+                    "console": "integratedTerminal"
+                }
+            ]
+        }

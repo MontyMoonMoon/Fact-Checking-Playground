@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cbyr7ryxqg4p0" path="res://article_comparer.gd" id="1_wtcfe"]
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_wtcfe")
 
 [node name="ArticleComparer" type="Control" parent="."]
 layout_mode = 3
@@ -10,7 +11,8 @@ anchors_preset = 0
 offset_top = -1.0
 offset_right = 1155.0
 offset_bottom = 646.0
-script = ExtResource("1_wtcfe")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="ArticleComparer"]
 
 [node name="ArticleText" type="RichTextLabel" parent="ArticleComparer"]
 layout_mode = 0
@@ -70,4 +72,5 @@ text = "Results
 
 "
 
+[connection signal="request_completed" from="ArticleComparer/HTTPRequest" to="ArticleComparer" method="_on_http_request_request_completed"]
 [connection signal="pressed" from="ArticleComparer/CompareButton" to="ArticleComparer" method="_on_compare_button_pressed"]

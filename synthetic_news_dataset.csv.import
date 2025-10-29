@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://pdo8w7homuhq"
+
+[deps]
+
+files=["res://synthetic_news_dataset.headline.translation", "res://synthetic_news_dataset.source.translation", "res://synthetic_news_dataset.topic.translation", "res://synthetic_news_dataset.sentiment.translation", "res://synthetic_news_dataset.evidence.translation", "res://synthetic_news_dataset.contradiction.translation", "res://synthetic_news_dataset.editorial.translation", "res://synthetic_news_dataset.leak.translation", "res://synthetic_news_dataset.propaganda.translation", "res://synthetic_news_dataset.source.translation", "res://synthetic_news_dataset.truth.translation"]
+
+source_file="res://synthetic_news_dataset.csv"
+dest_files=["res://synthetic_news_dataset.headline.translation", "res://synthetic_news_dataset.source.translation", "res://synthetic_news_dataset.topic.translation", "res://synthetic_news_dataset.sentiment.translation", "res://synthetic_news_dataset.evidence.translation", "res://synthetic_news_dataset.contradiction.translation", "res://synthetic_news_dataset.editorial.translation", "res://synthetic_news_dataset.leak.translation", "res://synthetic_news_dataset.propaganda.translation", "res://synthetic_news_dataset.source.translation", "res://synthetic_news_dataset.truth.translation"]
+
+[params]
+
+compress=true
+delimiter=0

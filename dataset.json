@@ -9,9 +9,21 @@
 		{"category": "Location", "value": "Berlin", "source": "Article"},
 		{"category": "Location", "value": "Munich", "source": "Tip"}
 	  ],
-	  "stance": "Neutral",
-	  "integrity_score": 0.75
+	  "stance": "Anti-Government",
+	  "integrity_score": 0.75,
+
+	  
+	  "ml_input": {
+		"text": "The event happened on March 5, 1984 in Berlin.",
+		"sentiment_score": -0.2,
+		"evidence_count": 2,
+		"contradiction_score": 0.7,
+		"propaganda_pattern_score": 0.3,
+		"source_type": "independent",
+		"topic": "politics"
+	  }
 	},
+
 	{
 	  "article_text": "Article: The minister announced new policies on April 2, 1990.",
 	  "tip_text": "Tip: The statement was given on April 3, 1990 during a private session.",
@@ -21,18 +33,39 @@
 		{"category": "Context", "value": "Public Announcement", "source": "Article"},
 		{"category": "Context", "value": "Private Session", "source": "Tip"}
 	  ],
-	  "stance": "Right",
-	  "integrity_score": 0.62
+	  "stance": "Pro-Government",
+	  "integrity_score": 0.62,
+
+	  "ml_input": {
+		"text": "The minister announced new policies on April 2, 1990.",
+		"sentiment_score": 0.1,
+		"evidence_count": 3,
+		"contradiction_score": 0.5,
+		"propaganda_pattern_score": 0.4,
+		"source_type": "state_media",
+		"topic": "politics"
+	  }
 	},
+
 	{
-	  "article_text": "Article: Witnesses claim the accident happened at dusk.",
-	  "tip_text": "Tip: Surveillance shows the incident also occurred at dusk.",
+	  "article_text": "Article: Breaking Briefing: Border Operations Escalate.",
+	  "tip_text": "Tip: Locals reported intense skirmishing along the demarcation line.",
 	  "facts": [
 		{"category": "Time", "value": "Dusk", "source": "Article"},
 		{"category": "Time", "value": "Dusk", "source": "Tip"}
 	  ],
-	  "stance": "Left",
-	  "integrity_score": 0.81
+	  "stance": "Neutral",
+	  "integrity_score": 0.81,
+
+	  "ml_input": {
+		"text": "Breaking Briefing: Border Operations Escalate.",
+		"sentiment_score": 0.0,
+		"evidence_count": 1,
+		"contradiction_score": 0.0,
+		"propaganda_pattern_score": 0.1,
+		"source_type": "independent",
+		"topic": "health"
+	  }
 	}
   ]
 }

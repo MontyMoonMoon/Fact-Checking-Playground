@@ -1,36 +1,41 @@
-[gd_scene format=3 uid="uid://70hk1lbigtjj"]
+[gd_scene load_steps=2 format=3 uid="uid://70hk1lbigtjj"]
+
+[ext_resource type="Script" uid="uid://bago6ugsw0lum" path="res://InfoSelector.gd" id="1_tnogu"]
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_tnogu")
 
 [node name="InfoSelector" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
+offset_left = 40.0
+offset_top = 40.0
 offset_right = 40.0
 offset_bottom = 40.0
-
-[node name="InfoListContainer" type="VBoxContainer" parent="InfoSelector"]
-layout_mode = 0
-offset_left = 192.0
-offset_top = 135.0
-offset_right = 832.0
-offset_bottom = 510.0
-
-[node name="Available Information" type="Label" parent="InfoSelector/InfoListContainer"]
-layout_mode = 2
-
-[node name="HSeparator" type="HSeparator" parent="InfoSelector/InfoListContainer"]
-layout_mode = 2
-
-[node name="ScrollContainer" type="ScrollContainer" parent="InfoSelector/InfoListContainer"]
-layout_mode = 2
-
-[node name="info_buttons_container" type="VBoxContainer" parent="InfoSelector/InfoListContainer/ScrollContainer"]
-layout_mode = 2
 
 [node name="InfoPopup" type="Window" parent="InfoSelector"]
 oversampling_override = 1.0
 initial_position = 1
 size = Vector2i(800, 400)
+
+[node name="InfoListContainer" type="VBoxContainer" parent="InfoSelector/InfoPopup"]
+offset_left = 7.0
+offset_top = -5.0
+offset_right = 647.0
+offset_bottom = 370.0
+scale = Vector2(0.942458, 1.0438812)
+
+[node name="Available Information" type="Label" parent="InfoSelector/InfoPopup/InfoListContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="InfoSelector/InfoPopup/InfoListContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="InfoSelector/InfoPopup/InfoListContainer"]
+layout_mode = 2
+
+[node name="info_buttons_container" type="VBoxContainer" parent="InfoSelector/InfoPopup/InfoListContainer/ScrollContainer"]
+layout_mode = 2
 
 [node name="popup_title" type="Label" parent="InfoSelector/InfoPopup"]
 offset_left = 12.0
