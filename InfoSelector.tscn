@@ -2,70 +2,61 @@
 
 [ext_resource type="Script" uid="uid://bago6ugsw0lum" path="res://InfoSelector.gd" id="1_tnogu"]
 
-[node name="Node2D" type="Node2D"]
+[node name="InfoSelector" type="Node2D"]
 script = ExtResource("1_tnogu")
 
-[node name="InfoSelector" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 40.0
-offset_top = 40.0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="InfoPopup" type="Window" parent="InfoSelector"]
+[node name="InfoPopup" type="PopupPanel" parent="."]
 oversampling_override = 1.0
 initial_position = 1
-size = Vector2i(800, 400)
+size = Vector2i(200, 100)
+visible = true
 
-[node name="InfoListContainer" type="VBoxContainer" parent="InfoSelector/InfoPopup"]
-offset_left = 7.0
-offset_top = -5.0
-offset_right = 647.0
-offset_bottom = 370.0
-scale = Vector2(0.942458, 1.0438812)
+[node name="MarginContainer" type="MarginContainer" parent="InfoPopup"]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 196.0
+offset_bottom = 96.0
 
-[node name="Available Information" type="Label" parent="InfoSelector/InfoPopup/InfoListContainer"]
+[node name="popup_title" type="Label" parent="InfoPopup/MarginContainer"]
+layout_mode = 2
+autowrap_mode = 3
+
+[node name="popup_content" type="RichTextLabel" parent="InfoPopup/MarginContainer"]
+layout_mode = 2
+fit_content = true
+
+[node name="InfoListContainer" type="VBoxContainer" parent="InfoPopup/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="InfoPopup/MarginContainer/InfoListContainer"]
 layout_mode = 2
 
-[node name="HSeparator" type="HSeparator" parent="InfoSelector/InfoPopup/InfoListContainer"]
+[node name="info_list_container" type="VBoxContainer" parent="InfoPopup/MarginContainer/InfoListContainer/ScrollContainer"]
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="InfoSelector/InfoPopup/InfoListContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="InfoPopup/MarginContainer"]
 layout_mode = 2
 
-[node name="info_buttons_container" type="VBoxContainer" parent="InfoSelector/InfoPopup/InfoListContainer/ScrollContainer"]
-layout_mode = 2
-
-[node name="popup_title" type="Label" parent="InfoSelector/InfoPopup"]
-offset_left = 12.0
-offset_top = -29.0
-offset_right = 206.0
-offset_bottom = -6.0
-
-[node name="popup_content" type="TextEdit" parent="InfoSelector/InfoPopup"]
-offset_left = 660.0
-offset_top = 169.0
-offset_right = 787.0
-offset_bottom = 224.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="InfoSelector/InfoPopup"]
-offset_left = 623.0
-offset_top = 20.0
-offset_right = 795.0
-offset_bottom = 157.0
-
-[node name="Keep" type="Button" parent="InfoSelector/InfoPopup/HBoxContainer"]
+[node name="Add" type="Button" parent="InfoPopup/MarginContainer/HBoxContainer"]
 layout_mode = 2
 text = "Keep"
 
-[node name="Discard" type="Button" parent="InfoSelector/InfoPopup/HBoxContainer"]
+[node name="Trash" type="Button" parent="InfoPopup/MarginContainer/HBoxContainer"]
 layout_mode = 2
 text = "Discard"
 
-[node name="Close" type="Button" parent="InfoSelector/InfoPopup/HBoxContainer"]
+[node name="Close" type="Button" parent="InfoPopup/MarginContainer/HBoxContainer"]
 layout_mode = 2
 text = "Close
+"
+
+[node name="DebugButton" type="Button" parent="."]
+offset_left = 1018.0
+offset_top = 572.0
+offset_right = 1121.0
+offset_bottom = 624.0
+text = "debugCheck
 "
 
 [node name="Camera2D" type="Camera2D" parent="."]

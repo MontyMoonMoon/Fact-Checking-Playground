@@ -1,79 +1,97 @@
-extends Control
+extends Node2D
 
-
-@onready var info_buttons_container = $InfoListContainer/ScrollContainer/VBoxContainer
+@onready var info_list_container = $InfoPopup/InfoListContainer/ScrollContainer/info_list_container
 @onready var info_popup = $InfoPopup
 @onready var popup_title = $InfoPopup/popup_title
 @onready var popup_content = $InfoPopup/popup_content
-@onready var keep_button = $InfoPopup/HBoxContainer/Keep
-@onready var discard_button = $InfoPopup/HBoxContainer/Discard
+@onready var add_button = $InfoPopup/HBoxContainer/Add
+@onready var trash_button = $InfoPopup/HBoxContainer/Trash
 @onready var close_button = $InfoPopup/HBoxContainer/Close
+@onready var debug_button = $DebugButton
 
-var available_infos = [] # Example: [{"type":"article","title":"X","content":"Y"}]
+var stored_infos: Array = []
 var selected_info: Dictionary = {}
-var comparer_scene_ref: Node = null # Reference to ArticleComparer
+var article_comparator_ref: Node = null
+var debug_cases: Array = []
 
 func _ready():
 	info_popup.hide()
+	_load_collected_infos()
+	_display_info_buttons()
+	_load_debug_cases("res://dataset.json")
 
-	# Temporary demo data
-	available_infos = [
-		{"type": "article", "title": "Vaccine Study Findings", "content": "Recent studies show..."},
-		{"type": "tip", "title": "Check Sources Carefully", "content": "Always verify URLs and..."},
-		{"type": "article", "title": "Political News Leak", "content": "Anonymous sources claim..."},
-	]
-
-	_display_info_list()
-
-	# Button signals
-	keep_button.pressed.connect(_on_keep_pressed)
-	discard_button.pressed.connect(_on_discard_pressed)
+	add_button.pressed.connect(_on_add_pressed)
+	trash_button.pressed.connect(_on_trash_pressed)
 	close_button.pressed.connect(_on_close_popup)
+	debug_button.pressed.connect(_on_debug_pressed)
 
 
-func _display_info_list():
-	# Clear existing buttons
-	for child in info_buttons_container.get_children():
-		child.queue_free()
-
-	# Add buttons dynamically
-	for info in available_infos:
-		var btn := Button.new()
-		btn.text = "%s: %s" % [info["type"].capitalize(), info["title"]]
-		btn.connect("pressed", Callable(self, "_on_info_selected").bind(info))
-		info_buttons_container.add_child(btn)
-
-
-func _on_info_selected(info: Dictionary):
-	selected_info = info
-
-	# Optional zoom effect
-	_zoom_to_info()
-
-	# Show popup
-	popup_title.text = "%s - %s" % [info["type"].capitalize(), info["title"]]
-	popup_content.text = info["content"]
-	info_popup.popup_centered(Vector2(400, 300))
-
-
-func _on_keep_pressed():
-	if selected_info.is_empty():
+# --- Load the player’s accumulated infos ---
+func _load_collected_infos():
+	var file_path = "res://dataset.json"
+	if not FileAccess.file_exists(file_path):
+		push_error("Collected infos not found at %s" % file_path)
 		return
 
-	print("✅ Keeping info:", selected_info["title"])
+	var file = FileAccess.open(file_path, FileAccess.READ)
+	var data = JSON.parse_string(file.get_as_text())
+	file.close()
 
-	if comparer_scene_ref and comparer_scene_ref.has_method("add_info"):
-		comparer_scene_ref.add_info(selected_info)
+	if typeof(data) == TYPE_ARRAY:
+		stored_infos = data
 	else:
-		push_warning("No comparer scene connected, or add_info() missing.")
+		push_error("Invalid JSON format — expected an Array of info objects.")
 
+
+# --- Load and parse debug case data ---
+func _load_debug_cases(path: String):
+	if not FileAccess.file_exists(path):
+		push_warning("No debug cases found at %s" % path)
+		return
+	var file = FileAccess.open(path, FileAccess.READ)
+	var data = JSON.parse_string(file.get_as_text())
+	file.close()
+	if data and data.has("cases"):
+		debug_cases = data["cases"]
+		print("✅ Loaded %d debug cases." % debug_cases.size())
+	else:
+		push_warning("Invalid cases.json format.")
+
+
+# --- Display info buttons ---
+func _display_info_buttons():
+	for child in info_list_container.get_children():
+		child.queue_free()
+
+	for info in stored_infos:
+		var btn = Button.new()
+		btn.text = "📰 %s" % info.get("title", "Untitled Info")
+		btn.connect("pressed", Callable(self, "_on_info_selected").bind(info))
+		info_list_container.add_child(btn)
+
+
+# --- Popup window logic ---
+func _on_info_selected(info: Dictionary):
+	selected_info = info
+	popup_title.text = info.get("title", "Untitled Info")
+	popup_content.text = info.get("content", "No content available.")
+	info_popup.popup_centered(Vector2(600, 400))
+
+
+func _on_add_pressed():
+	if selected_info.is_empty(): return
+	print("📤 Added to Comparator:", selected_info["title"])
+	if article_comparator_ref and article_comparator_ref.has_method("add_info"):
+		article_comparator_ref.add_info(selected_info)
 	info_popup.hide()
 
 
-func _on_discard_pressed():
-	if selected_info.is_empty():
-		return
-	print("❌ Discarded info:", selected_info["title"])
+func _on_trash_pressed():
+	if selected_info.is_empty(): return
+	print("🗑️ Moved to Trash:", selected_info["title"])
+	stored_infos.erase(selected_info)
+	_save_updated_infos()
+	_display_info_buttons()
 	info_popup.hide()
 
 
@@ -81,10 +99,31 @@ func _on_close_popup():
 	info_popup.hide()
 
 
-func _zoom_to_info():
-	var cam = get_tree().get_current_scene().get_node_or_null("Camera2D")
-	if cam:
-		var tween = create_tween()
-		tween.tween_property(cam, "zoom", Vector2(0.8, 0.8), 0.4)
-		await get_tree().create_timer(0.6).timeout
-		tween.tween_property(cam, "zoom", Vector2(1.0, 1.0), 0.4)
+func _save_updated_infos():
+	var file = FileAccess.open("res://collected_infos.json", FileAccess.WRITE)
+	file.store_string(JSON.stringify(stored_infos, "\t"))
+	file.close()
+
+
+# --- Debug Button: show random case from cases.json ---
+func _on_debug_pressed():
+	if debug_cases.is_empty():
+		push_warning("No debug cases loaded!")
+		return
+
+	var c = debug_cases[randi() % debug_cases.size()]
+	popup_title.text = "🧩 Debug Case — " + c["stance"]
+	popup_content.text = (
+		"[b]Article:[/b] " + c["article_text"] + "\n\n" +
+		"[b]Tip:[/b] " + c["tip_text"] + "\n\n" +
+		"[b]Facts:[/b]\n" + _format_facts(c["facts"]) + "\n" +
+		"[b]Integrity Score:[/b] %.2f" % c["integrity_score"]
+	)
+	info_popup.popup_centered(Vector2(650, 450))
+
+
+func _format_facts(facts: Array) -> String:
+	var out = ""
+	for f in facts:
+		out += "- %s (%s): %s\n" % [f["category"], f["source"], f["value"]]
+	return out.strip_edges()
