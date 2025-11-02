@@ -52,7 +52,7 @@
 	  "tip_text": "Tip: Locals reported intense skirmishing along the demarcation line.",
 	  "facts": [
 		{"category": "Time", "value": "Dusk", "source": "Article"},
-		{"category": "Time", "value": "Dusk", "source": "Tip"}
+		{"category": "Time", "value": "dusk", "source": "Tip"}
 	  ],
 	  "stance": "Neutral",
 	  "integrity_score": 0.81,
