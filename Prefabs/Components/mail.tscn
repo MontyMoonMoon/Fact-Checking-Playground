@@ -1,0 +1,213 @@
+[gd_scene load_steps=15 format=3 uid="uid://cnp1vfo5hq53u"]
+
+[ext_resource type="Script" uid="uid://cfsubjr2c6it7" path="res://Scripts/Component Scripts/mail.gd" id="1_ayirk"]
+[ext_resource type="Texture2D" uid="uid://dbatqj8wjl0dh" path="res://Assets/PNGs/UI/UI Assets.png" id="2_ptgt2"]
+[ext_resource type="FontFile" uid="uid://bhqhtnkkcerbn" path="res://Assets/Fonts/BMmini.TTF" id="2_t0pm4"]
+[ext_resource type="FontFile" uid="uid://de2qiyybswcte" path="res://Assets/Fonts/windows-xp-tahoma.otf" id="4_no1ox"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wyowl"]
+texture = ExtResource("2_ptgt2")
+region_rect = Rect2(384, 646, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hmrn8"]
+texture = ExtResource("2_ptgt2")
+region_rect = Rect2(451, 646, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ythtk"]
+texture = ExtResource("2_ptgt2")
+region_rect = Rect2(418, 646, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5j1e6"]
+texture = ExtResource("2_ptgt2")
+region_rect = Rect2(963, 179, 25, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ayirk"]
+texture = ExtResource("2_ptgt2")
+region_rect = Rect2(963, 243, 26, 26)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ayirk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_no1ox"]
+bg_color = Color(0, 1, 1, 1)
+border_width_left = 15
+
+[sub_resource type="Theme" id="Theme_ptgt2"]
+VScrollBar/styles/grabber = SubResource("StyleBoxFlat_ayirk")
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_ayirk")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_ayirk")
+VScrollBar/styles/scroll = SubResource("StyleBoxFlat_no1ox")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_no1ox"]
+texture = ExtResource("2_ptgt2")
+expand_margin_bottom = 3.0
+region_rect = Rect2(384, 560, 48, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ptgt2"]
+texture = ExtResource("2_ptgt2")
+region_rect = Rect2(384, 624, 48, 16)
+
+[node name="Mail" type="Control" node_paths=PackedStringArray("receiver", "subject", "main_text", "confirm_button")]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ayirk")
+receiver = NodePath("MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Headers/ReceiverLabels/Receiver")
+subject = NodePath("MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Headers/SubjectLabels/Subject")
+main_text = NodePath("MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/SrollableArea/VBoxContainer/Content")
+confirm_button = NodePath("MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/SrollableArea/VBoxContainer/Confirm")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -266.0
+offset_top = -168.0
+offset_right = 266.0
+offset_bottom = 168.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer"]
+custom_minimum_size = Vector2(532, 336)
+layout_mode = 2
+texture = ExtResource("2_ptgt2")
+region_rect = Rect2(444, 304, 532, 336)
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_bottom = 17
+
+[node name="Buttons" type="MarginContainer" parent="MarginContainer/NinePatchRect/MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_right = 10
+
+[node name="Buttons" type="HBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="Size" type="Button" parent="MarginContainer/NinePatchRect/MarginContainer/Buttons/Buttons"]
+custom_minimum_size = Vector2(25, 26)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_wyowl")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_hmrn8")
+theme_override_styles/hover = SubResource("StyleBoxTexture_hmrn8")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_ythtk")
+disabled = true
+
+[node name="Exit" type="Button" parent="MarginContainer/NinePatchRect/MarginContainer/Buttons/Buttons"]
+custom_minimum_size = Vector2(25, 26)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_5j1e6")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_ayirk")
+theme_override_styles/hover = SubResource("StyleBoxTexture_ayirk")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/NinePatchRect/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_top = 39
+theme_override_constants/margin_right = 2
+
+[node name="Headers" type="VBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 13
+
+[node name="ReceiverLabels" type="HBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Headers"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Headers/ReceiverLabels"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_t0pm4")
+text = "To:"
+
+[node name="Receiver" type="Label" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Headers/ReceiverLabels"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_t0pm4")
+
+[node name="SubjectLabels" type="HBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Headers"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Headers/SubjectLabels"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_t0pm4")
+text = "Subject: "
+
+[node name="Subject" type="Label" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Headers/SubjectLabels"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_t0pm4")
+
+[node name="Main" type="VBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main"]
+custom_minimum_size = Vector2(0, 223)
+layout_mode = 2
+theme = SubResource("Theme_ptgt2")
+
+[node name="SrollableArea" type="MarginContainer" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/SrollableArea"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Content" type="Label" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/SrollableArea/VBoxContainer"]
+custom_minimum_size = Vector2(490, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_t0pm4")
+autowrap_mode = 3
+
+[node name="Confirm" type="Button" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/SrollableArea/VBoxContainer"]
+custom_minimum_size = Vector2(96, 36)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_no1ox")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_no1ox")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_ptgt2")
+theme_override_styles/hover = SubResource("StyleBoxTexture_ptgt2")
+text = "Confirm
+"
+
+[connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/Buttons/Buttons/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/SrollableArea/VBoxContainer/Confirm" to="." method="_on_confirm_pressed"]

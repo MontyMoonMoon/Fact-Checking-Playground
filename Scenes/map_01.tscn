@@ -1,0 +1,199 @@
+[gd_scene load_steps=14 format=3 uid="uid://c0t6505sx6arq"]
+
+[ext_resource type="Script" uid="uid://dgq6oe33k16qn" path="res://Scripts/Scene Scripts/map_01.gd" id="1_iq20c"]
+[ext_resource type="PackedScene" uid="uid://0er4ikvu0igi" path="res://Prefabs/Main Components/integrity_meter.tscn" id="2_rct2e"]
+[ext_resource type="Texture2D" uid="uid://brply3wb5ao5b" path="res://Assets/PNGs/UI/Settings.png" id="2_tp66r"]
+[ext_resource type="Texture2D" uid="uid://j2q0crcp6tuh" path="res://Assets/PNGs/DeskBG.png" id="3_3rba1"]
+[ext_resource type="Texture2D" uid="uid://b332t2ebskgvy" path="res://Assets/PNGs/Main Components/PhoneIcon.png" id="3_iq20c"]
+[ext_resource type="PackedScene" uid="uid://dlpb35r0pfucw" path="res://Prefabs/Main Components/phone.tscn" id="4_5230n"]
+[ext_resource type="PackedScene" uid="uid://0tax7malsyxa" path="res://Prefabs/Main Components/laptop.tscn" id="4_rct2e"]
+[ext_resource type="PackedScene" uid="uid://b3kx7naf8h3j5" path="res://Prefabs/Components/game_failed_popup.tscn" id="7_546ff"]
+[ext_resource type="PackedScene" uid="uid://66tsh40r2xar" path="res://Prefabs/Components/TrashPopup.tscn" id="8_trash"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_43hql"]
+bg_color = Color(0.380392, 0.380392, 0.380392, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ph8ol"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3rba1"]
+texture = ExtResource("2_tp66r")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5230n"]
+texture = ExtResource("3_iq20c")
+
+[node name="map_01" type="CanvasLayer" node_paths=PackedStringArray("main_container", "day_counter", "settings_button", "timer_label", "integrity_meter_node", "phone_button", "phone_container", "phone", "laptop")]
+script = ExtResource("1_iq20c")
+main_container = NodePath("Contents/ComponentsContainer")
+day_counter = NodePath("Contents/TopBar/MarginContainer/DayCounter")
+settings_button = NodePath("Contents/TopBar/MarginContainer/Right/Settings")
+timer_label = NodePath("Contents/TopBar/MarginContainer/Right/Time")
+integrity_meter_node = NodePath("Contents/ComponentsContainer/Integriy Meter/MarginContainer/IntegrityMeter")
+phone_button = NodePath("Contents/ComponentsContainer/Phone/MarginContainer/PhoneButton")
+phone_container = NodePath("Contents/ComponentsContainer/Phone/MarginContainer/Phone")
+phone = NodePath("Contents/ComponentsContainer/Phone/MarginContainer/Phone/Phone")
+laptop = NodePath("Contents/ComponentsContainer/Laptop/Laptop")
+
+[node name="Contents" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TopBar" type="Panel" parent="Contents"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_43hql")
+
+[node name="MarginContainer" type="MarginContainer" parent="Contents/TopBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="Header" type="Label" parent="Contents/TopBar/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24
+text = "The Republia Post"
+
+[node name="DayCounter" type="Label" parent="Contents/TopBar/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 28
+text = "DAY 1"
+
+[node name="Right" type="HBoxContainer" parent="Contents/TopBar/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_constants/separation = 10
+
+[node name="Date" type="Label" parent="Contents/TopBar/MarginContainer/Right"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "00/00/0000"
+
+[node name="Panel" type="Panel" parent="Contents/TopBar/MarginContainer/Right"]
+custom_minimum_size = Vector2(2, 4)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ph8ol")
+
+[node name="Time" type="Label" parent="Contents/TopBar/MarginContainer/Right"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "05:00"
+
+[node name="Control" type="Control" parent="Contents/TopBar/MarginContainer/Right"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="Settings" type="Button" parent="Contents/TopBar/MarginContainer/Right"]
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_3rba1")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_3rba1")
+theme_override_styles/hover = SubResource("StyleBoxTexture_3rba1")
+toggle_mode = true
+
+[node name="Background" type="NinePatchRect" parent="Contents"]
+custom_minimum_size = Vector2(0, 567.8)
+layout_mode = 2
+size_flags_vertical = 8
+texture = ExtResource("3_3rba1")
+region_rect = Rect2(0, 0, 386, 189)
+
+[node name="ComponentsContainer" type="MarginContainer" parent="Contents"]
+custom_minimum_size = Vector2(0, 570)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Integriy Meter" type="Control" parent="Contents/ComponentsContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="Contents/ComponentsContainer/Integriy Meter"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+
+[node name="IntegrityMeter" parent="Contents/ComponentsContainer/Integriy Meter/MarginContainer" instance=ExtResource("2_rct2e")]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Phone" type="Control" parent="Contents/ComponentsContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Contents/ComponentsContainer/Phone"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_right = 15
+
+[node name="PhoneButton" type="VBoxContainer" parent="Contents/ComponentsContainer/Phone/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="PhoneButton" type="Button" parent="Contents/ComponentsContainer/Phone/MarginContainer/PhoneButton"]
+custom_minimum_size = Vector2(44, 80)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_5230n")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5230n")
+theme_override_styles/hover = SubResource("StyleBoxTexture_5230n")
+
+[node name="Control" type="Control" parent="Contents/ComponentsContainer/Phone/MarginContainer/PhoneButton"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Phone" type="VBoxContainer" parent="Contents/ComponentsContainer/Phone/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+
+[node name="Control" type="Control" parent="Contents/ComponentsContainer/Phone/MarginContainer/Phone"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Phone" parent="Contents/ComponentsContainer/Phone/MarginContainer/Phone" instance=ExtResource("4_5230n")]
+layout_mode = 2
+
+[node name="Laptop" type="Control" parent="Contents/ComponentsContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Laptop" parent="Contents/ComponentsContainer/Laptop" instance=ExtResource("4_rct2e")]
+layout_mode = 1
+
+[node name="GameFailedPopup" parent="Contents" instance=ExtResource("7_546ff")]
+visible = false
+layout_mode = 2
+
+[node name="TrashPopup" parent="Contents" instance=ExtResource("8_trash")]
+layout_mode = 2
+
+[connection signal="pressed" from="Contents/TopBar/MarginContainer/Right/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="Contents/ComponentsContainer/Phone/MarginContainer/PhoneButton/PhoneButton" to="." method="_on_phone_button_pressed"]

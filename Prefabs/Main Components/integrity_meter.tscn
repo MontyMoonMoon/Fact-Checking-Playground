@@ -1,0 +1,61 @@
+[gd_scene load_steps=7 format=3 uid="uid://0er4ikvu0igi"]
+
+[ext_resource type="Script" uid="uid://cvnloe0rt5ubl" path="res://Scripts/Main Component Scripts/integrity_meter.gd" id="1_h18f2"]
+[ext_resource type="Texture2D" uid="uid://b3igogdb67wnr" path="res://Assets/PNGs/Main Components/IntegrityMeter.png" id="2_5u6gd"]
+[ext_resource type="Texture2D" uid="uid://pneqbxmr62yh" path="res://Assets/PNGs/Main Components/IntegrityMeterPointer.png" id="2_an6fg"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_an6fg"]
+texture = ExtResource("2_5u6gd")
+expand_margin_left = 40.0
+expand_margin_right = 40.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_an6fg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xaxt6"]
+
+[node name="IntegrityMeter" type="Control" node_paths=PackedStringArray("integrity_meter")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -35.0
+offset_top = -14.0
+offset_right = -35.0
+offset_bottom = -14.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_h18f2")
+integrity_meter = NodePath("VBoxContainer/VSlider")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -64.0
+offset_right = 40.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VSlider" type="VSlider" parent="VBoxContainer"]
+custom_minimum_size = Vector2(80, 300)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/grabber_offset = -20
+theme_override_icons/grabber = ExtResource("2_an6fg")
+theme_override_icons/grabber_highlight = ExtResource("2_an6fg")
+theme_override_icons/grabber_disabled = ExtResource("2_an6fg")
+theme_override_styles/slider = SubResource("StyleBoxTexture_an6fg")
+theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_an6fg")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_xaxt6")
+
+[node name="Integrity" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Integrity"
+horizontal_alignment = 1
+vertical_alignment = 1

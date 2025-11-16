@@ -1,20 +1,20 @@
 {
   "cases": [
 	{
-	  "article_text": "Article: The event happened on March 5, 1984 in Berlin.",
-	  "tip_text": "Tip: The event actually occurred on March 7, 1984 in Munich.",
+	  "article_text": "Article: The event happened on March 5, 1984 in Kapistan.",
+	  "tip_text": "Tip: The event actually occurred on March 7, 1984 in Eulrich.",
 	  "facts": [
 		{"category": "Date", "value": "March 5, 1984", "source": "Article"},
 		{"category": "Date", "value": "March 7, 1984", "source": "Tip"},
-		{"category": "Location", "value": "Berlin", "source": "Article"},
-		{"category": "Location", "value": "Munich", "source": "Tip"}
+		{"category": "Location", "value": "Kapistan", "source": "Article"},
+		{"category": "Location", "value": "Eulrich", "source": "Tip"}
 	  ],
 	  "stance": "Anti-Government",
 	  "integrity_score": 0.75,
 
 	  
 	  "ml_input": {
-		"text": "The event happened on March 5, 1984 in Berlin.",
+		"text": "The event happened on March 5, 1984 in Kapistan.",
 		"sentiment_score": -0.2,
 		"evidence_count": 2,
 		"contradiction_score": 0.7,
@@ -54,6 +54,7 @@
 		{"category": "Time", "value": "Dusk", "source": "Article"},
 		{"category": "Time", "value": "dusk", "source": "Tip"}
 	  ],
+	
 	  "stance": "Neutral",
 	  "integrity_score": 0.81,
 

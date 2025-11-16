@@ -1,0 +1,263 @@
+[gd_scene load_steps=12 format=3 uid="uid://c3kbynasxfujb"]
+
+[ext_resource type="Texture2D" uid="uid://26ewu8qqdk1x" path="res://Assets/PNGs/ScreenBackground.png" id="1_03b3j"]
+[ext_resource type="Script" uid="uid://3j8048x61usr" path="res://Scripts/Scene Scripts/map_0.gd" id="1_rxa4l"]
+[ext_resource type="Texture2D" uid="uid://bpfse1fdrj8hh" path="res://Assets/PNGs/Logo.png" id="2_roy3c"]
+[ext_resource type="FontFile" uid="uid://bhqhtnkkcerbn" path="res://Assets/Fonts/BMmini.TTF" id="5_rxa4l"]
+[ext_resource type="Texture2D" uid="uid://bm5d5mcvgptfg" path="res://Assets/PNGs/UI/UI Assets.png" id="6_rxa4l"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nj8rq"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rxa4l"]
+texture = ExtResource("6_rxa4l")
+region_rect = Rect2(384, 646, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1pxgp"]
+texture = ExtResource("6_rxa4l")
+region_rect = Rect2(451, 646, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ceqoh"]
+texture = ExtResource("6_rxa4l")
+region_rect = Rect2(418, 646, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xg6e6"]
+texture = ExtResource("6_rxa4l")
+region_rect = Rect2(963, 179, 25, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0861s"]
+texture = ExtResource("6_rxa4l")
+region_rect = Rect2(963, 213, 26, 26)
+
+[node name="map_0" type="CanvasLayer" node_paths=PackedStringArray("titlescreen_container", "buttons", "name_edit")]
+follow_viewport_enabled = true
+script = ExtResource("1_rxa4l")
+titlescreen_container = NodePath("TitleScreenContainer")
+buttons = [NodePath("TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer/Play"), NodePath("TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer/Continue"), NodePath("TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer/Settings"), NodePath("TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer/Exit"), NodePath("TitleScreenContainer/MailNotif")]
+name_edit = NodePath("TitleScreenContainer/Background/MarginContainer/HBoxContainer/LoginContainer/Login/PlayerName")
+
+[node name="TitleScreenContainer" type="MarginContainer" parent="."]
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Background" type="NinePatchRect" parent="TitleScreenContainer"]
+layout_mode = 2
+texture = ExtResource("1_03b3j")
+
+[node name="MarginContainer" type="MarginContainer" parent="TitleScreenContainer/Background"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 472.0
+grow_horizontal = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TitleScreenContainer/Background/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Logo" type="NinePatchRect" parent="TitleScreenContainer/Background/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(616, 472.5)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_roy3c")
+
+[node name="LoginContainer" type="MarginContainer" parent="TitleScreenContainer/Background/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 160
+
+[node name="Login" type="NinePatchRect" parent="TitleScreenContainer/Background/MarginContainer/HBoxContainer/LoginContainer"]
+custom_minimum_size = Vector2(443, 140)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("6_rxa4l")
+region_rect = Rect2(572, 17, 404, 128)
+
+[node name="PlayerName" type="LineEdit" parent="TitleScreenContainer/Background/MarginContainer/HBoxContainer/LoginContainer/Login"]
+layout_mode = 0
+offset_left = 206.0
+offset_top = 61.0
+offset_right = 417.0
+offset_bottom = 103.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/caret_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_rxa4l")
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxFlat_nj8rq")
+theme_override_styles/read_only = SubResource("StyleBoxFlat_nj8rq")
+theme_override_styles/focus = SubResource("StyleBoxFlat_nj8rq")
+max_length = 12
+caret_blink = true
+
+[node name="Buttons" type="MarginContainer" parent="TitleScreenContainer/Background/MarginContainer/HBoxContainer/LoginContainer/Login"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 10
+
+[node name="ButtonContainer" type="HBoxContainer" parent="TitleScreenContainer/Background/MarginContainer/HBoxContainer/LoginContainer/Login/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="Size" type="Button" parent="TitleScreenContainer/Background/MarginContainer/HBoxContainer/LoginContainer/Login/Buttons/ButtonContainer"]
+custom_minimum_size = Vector2(25, 26)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_rxa4l")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_1pxgp")
+theme_override_styles/hover = SubResource("StyleBoxTexture_1pxgp")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_ceqoh")
+disabled = true
+
+[node name="Exit" type="Button" parent="TitleScreenContainer/Background/MarginContainer/HBoxContainer/LoginContainer/Login/Buttons/ButtonContainer"]
+custom_minimum_size = Vector2(25, 26)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_xg6e6")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_xg6e6")
+theme_override_styles/hover = SubResource("StyleBoxTexture_xg6e6")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_0861s")
+disabled = true
+
+[node name="MainMenu" type="MarginContainer" parent="TitleScreenContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_constants/margin_right = 35
+theme_override_constants/margin_bottom = 35
+
+[node name="MainMenuContainer" type="NinePatchRect" parent="TitleScreenContainer/MainMenu"]
+custom_minimum_size = Vector2(700, 350)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+texture = ExtResource("6_rxa4l")
+region_rect = Rect2(15, 15.2264, 532.461, 252.774)
+
+[node name="MainContent" type="MarginContainer" parent="TitleScreenContainer/MainMenu/MainMenuContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ButtonsContainer" type="MarginContainer" parent="TitleScreenContainer/MainMenu/MainMenuContainer/MainContent"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 65
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 15
+
+[node name="Play" type="Button" parent="TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+
+[node name="Continue" type="Button" parent="TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+
+[node name="Settings" type="Button" parent="TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+
+[node name="Exit" type="Button" parent="TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+
+[node name="Buttons" type="MarginContainer" parent="TitleScreenContainer/MainMenu/MainMenuContainer/MainContent"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 15
+
+[node name="ButtonContainer" type="HBoxContainer" parent="TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="Size" type="Button" parent="TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/Buttons/ButtonContainer"]
+custom_minimum_size = Vector2(25, 26)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_rxa4l")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_1pxgp")
+theme_override_styles/hover = SubResource("StyleBoxTexture_1pxgp")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_ceqoh")
+disabled = true
+
+[node name="Exit" type="Button" parent="TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/Buttons/ButtonContainer"]
+custom_minimum_size = Vector2(25, 26)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_xg6e6")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_xg6e6")
+theme_override_styles/hover = SubResource("StyleBoxTexture_xg6e6")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_0861s")
+disabled = true
+
+[node name="CreditsContainer" type="MarginContainer" parent="TitleScreenContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_constants/margin_left = 135
+theme_override_constants/margin_bottom = 145
+
+[node name="Credits" type="Button" parent="TitleScreenContainer/CreditsContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+
+[node name="MailNotif" type="Button" parent="TitleScreenContainer"]
+custom_minimum_size = Vector2(300, 103.5)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+focus_mode = 0
+
+[connection signal="pressed" from="TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="TitleScreenContainer/CreditsContainer/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="TitleScreenContainer/MailNotif" to="." method="_on_mail_pressed"]

@@ -23,37 +23,73 @@ class Fact:
 @onready var result_text = $ResultText
 @onready var next_button = $NextButton
 @onready var prev_button = $PrevButton
+@onready var close_button = $CloseButton
 
 var comparisons_data = []
 var current_index = 0
 var selected_facts: Array[Fact] = []
+var current_article_data: Dictionary = {}
+var game_manager: Node = null
 
 
 
 func _ready():
+	# Button connections
+	if next_button:
+		next_button.pressed.connect(_on_next_pressed)
+	if prev_button:
+		prev_button.pressed.connect(_on_prev_pressed)
+	if close_button:
+		close_button.pressed.connect(_on_close_pressed)
+
+	# BBCode formatting
+	if article_label:
+		article_label.bbcode_enabled = true
+	if tip_label:
+		tip_label.bbcode_enabled = true
+	if result_text:
+		result_text.bbcode_enabled = true
 	
-	#JSON loading ||temporarily loaded in this scene for prototype
+	# Connect HTTP request
+	if http_request:
+		http_request.request_completed.connect(_on_http_request_request_completed)
+	
+	# Make visible but start hidden
+	visible = false
+	
+	# Load dataset if needed
+	_load_dataset()
+
+func _load_dataset():
 	var file = FileAccess.open("res://dataset.json", FileAccess.READ)
 	if file:
 		var data = JSON.parse_string(file.get_as_text())
 		if typeof(data) == TYPE_DICTIONARY and data.has("cases"):
 			comparisons_data = data["cases"]
-			print("Loaded", comparisons_data.size(), "cases")
+			print("ArticleComparer: Loaded", comparisons_data.size(), "cases")
 		else:
 			push_error("Invalid JSON format: missing 'cases' array")
+		file.close()
 	else:
 		push_error("Could not open dataset.json")
 
-	# Button connections
-	next_button.pressed.connect(_on_next_pressed)
-	prev_button.pressed.connect(_on_prev_pressed)
+func set_game_manager(manager: Node):
+	game_manager = manager
 
-	# BBCode formatting
-	article_label.bbcode_enabled = true
-	tip_label.bbcode_enabled = true
-	result_text.bbcode_enabled = true
-
-	_display_comparison(current_index)
+func load_article(article_data: Dictionary):
+	current_article_data = article_data
+	visible = true
+	
+	# Find matching case in dataset or use provided data
+	var case_data = article_data
+	if comparisons_data.size() > 0:
+		# Try to find matching case
+		for case in comparisons_data:
+			if case.get("article_text") == article_data.get("article_text"):
+				case_data = case
+				break
+	
+	_display_article(case_data)
 
 
 #on click between 2 articles, compare.
@@ -71,7 +107,42 @@ func _on_analyze_pressed():
 	)
 
 
-#display result
+# Display article data
+func _display_article(entry: Dictionary):
+	selected_facts.clear()
+
+	# Clear old buttons
+	if facts_container:
+		for child in facts_container.get_children():
+			child.queue_free()
+
+	# Update text
+	if article_label:
+		article_label.text = entry.get("article_text", "Missing article")
+	if tip_label:
+		tip_label.text = entry.get("tip_text", "Missing tip")
+
+	# Create fact buttons
+	if facts_container:
+		for fact_data in entry.get("facts", []):
+			var fact = Fact.new(
+				fact_data.get("category", ""),
+				fact_data.get("value", ""),
+				fact_data.get("source", "")
+			)
+			_add_fact_button(fact)
+
+	# Show meta info
+	var stance = entry.get("stance", "Unknown")
+	var integrity = str(entry.get("integrity_score", 0.0))
+	if result_text:
+		result_text.text = "[i]Select two facts to compare...[/i]\n\n[b]Stance:[/b] %s | [b]Integrity:[/b] %s" % [stance, integrity]
+
+	# Send article for ML analysis
+	if article_label:
+		_send_article_for_analysis(article_label.text)
+
+#display result (legacy method for navigation)
 func _display_comparison(index: int):
 	if comparisons_data.is_empty():
 		return
@@ -84,32 +155,7 @@ func _display_comparison(index: int):
 		current_index = index
 
 	var entry = comparisons_data[current_index]
-	selected_facts.clear()
-
-	# Clear old buttons
-	for child in facts_container.get_children():
-		child.queue_free()
-
-	# Update text
-	article_label.text = entry.get("article_text", "Missing article")
-	tip_label.text = entry.get("tip_text", "Missing tip")
-
-	# Create fact buttons
-	for fact_data in entry.get("facts", []):
-		var fact = Fact.new(
-			fact_data.get("category", ""),
-			fact_data.get("value", ""),
-			fact_data.get("source", "")
-		)
-		_add_fact_button(fact)
-
-	# Show meta info
-	var stance = entry.get("stance", "Unknown")
-	var integrity = str(entry.get("integrity_score", 0.0))
-	result_text.text = "[i]Select two facts to compare...[/i]\n\n[b]Stance:[/b] %s | [b]Integrity:[/b] %s" % [stance, integrity]
-
-	#Send article for ML analysis
-	_send_article_for_analysis(article_label.text)
+	_display_article(entry)
 
 
 #Throws Article to Backend
@@ -225,25 +271,44 @@ func _show_result(result: Dictionary):
 
 #Nav
 func _on_next_pressed():
-	_display_comparison(current_index + 1)
+	if comparisons_data.size() > 0:
+		_display_comparison(current_index + 1)
 
 func _on_prev_pressed():
-	_display_comparison(current_index - 1)
+	if comparisons_data.size() > 0:
+		_display_comparison(current_index - 1)
+
+func _on_close_pressed():
+	visible = false
+	# Could emit signal to notify game manager
+	if game_manager:
+		print("Article comparer closed")
 
 
 #API response handling
 func _on_http_request_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
 	if response_code != 200:
 		push_error("ML API request failed: %s" % str(response_code))
+		# Still show error in result text
+		if result_text:
+			result_text.text += "\n\n[color=red]ML API Error: %d[/color]" % response_code
 		return
 
 	var response = JSON.parse_string(body.get_string_from_utf8())
 	if typeof(response) == TYPE_DICTIONARY:
-		var rf = response.get("random_forest_score", 0)
-		var log = response.get("logistic_regression_score", 0)
-		var avg = response.get("average_score", 0)
+		var rf = response.get("random_forest_score", 0.5)
+		var log = response.get("logistic_regression_score", 0.5)
+		var avg = response.get("average_score", 0.5)
 		var verdict = response.get("result", "Unknown")
 
-#returns ML backend results || shown only for debug
-		result_text.text += "\n\n[b]ML Analysis:[/b]\n" + \
-			"RF: %.2f | LogReg: %.2f | Avg: %.2f\nVerdict: %s" % [rf, log, avg, verdict]
+		# Returns ML backend results || shown only for debug
+		if result_text:
+			var existing_text = result_text.text
+			result_text.text = existing_text + "\n\n[b]ML Analysis:[/b]\n" + \
+				"RF: %.2f | LogReg: %.2f | Avg: %.2f\nVerdict: %s" % [rf, log, avg, verdict]
+		
+		# Send results to game manager
+		if game_manager and game_manager.has_method("add_article_result"):
+			game_manager.add_article_result(rf, log)
+	else:
+		push_error("Invalid response from ML API")

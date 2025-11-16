@@ -1,0 +1,653 @@
+[gd_scene load_steps=23 format=3 uid="uid://dlpb35r0pfucw"]
+
+[ext_resource type="Script" uid="uid://be6je7wckv7es" path="res://Scripts/Main Component Scripts/mobile_phone.gd" id="1_qkp33"]
+[ext_resource type="Texture2D" uid="uid://cyky7784vb1o0" path="res://Assets/PNGs/Main Components/Phone.png" id="2_5xoch"]
+[ext_resource type="FontFile" uid="uid://dee4q2pxdjpua" path="res://Assets/Fonts/BMgermar.TTF" id="2_l7r67"]
+[ext_resource type="Texture2D" uid="uid://b7q4tgf0o8p5w" path="res://Assets/PNGs/Apps/Phone/messageApp.png" id="4_4hdon"]
+[ext_resource type="Texture2D" uid="uid://dxbq0ht5nukjg" path="res://Assets/PNGs/Apps/Phone/notesApp.png" id="5_5xoch"]
+[ext_resource type="Texture2D" uid="uid://dtkdqxedabvus" path="res://Assets/PNGs/Apps/Phone/contactsApp.png" id="6_5xoch"]
+[ext_resource type="Script" uid="uid://bj343pn4foclu" path="res://Scripts/App Scripts/message_app.gd" id="7_jaril"]
+[ext_resource type="Script" uid="uid://crdubrf8yhw0n" path="res://Scripts/App Scripts/notes_app.gd" id="8_g367n"]
+[ext_resource type="Texture2D" uid="uid://c6b1nefcuxaij" path="res://Assets/PNGs/Apps/Phone/Trello v2.png" id="9_lqrb5"]
+[ext_resource type="Texture2D" uid="uid://hup3injnoy5m" path="res://Assets/PNGs/Apps/Phone/Checkmark_Blue.png" id="10_nm0lr"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jaril"]
+texture = ExtResource("4_4hdon")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_g367n"]
+texture = ExtResource("5_5xoch")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lqrb5"]
+texture = ExtResource("6_5xoch")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qkp33"]
+bg_color = Color(0.8509804, 0.8509804, 0.8509804, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fan7k"]
+bg_color = Color(0.85098, 0.85098, 0.85098, 1)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_qkp33"]
+color = Color(0.380392, 0.380392, 0.380392, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5xoch"]
+bg_color = Color(0.85098, 0.85098, 0.85098, 1)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_jaril"]
+color = Color(0.380392, 0.380392, 0.380392, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g367n"]
+bg_color = Color(0.6431373, 0.6431373, 0.6431373, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nm0lr"]
+texture = ExtResource("9_lqrb5")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xgwv0"]
+texture = ExtResource("10_nm0lr")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_djuqe"]
+bg_color = Color(0.20472386, 0.21005303, 0.210053, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="Phone" type="Control" node_paths=PackedStringArray("time", "date", "phone_main", "app_container")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 10
+size_flags_vertical = 6
+script = ExtResource("1_qkp33")
+time = NodePath("PhoneContainer/MainPhone/Screen/VBoxContainer/Time")
+date = NodePath("PhoneContainer/MainPhone/Screen/VBoxContainer/Date")
+phone_main = NodePath("PhoneContainer/MainPhone")
+app_container = NodePath("PhoneContainer/MainPhone/AppContainers")
+
+[node name="PhoneContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -290.0
+offset_top = -272.5
+offset_bottom = 272.5
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="MainPhone" type="NinePatchRect" parent="PhoneContainer"]
+custom_minimum_size = Vector2(270, 495)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_5xoch")
+region_rect = Rect2(18, 20, 224, 455)
+
+[node name="Screen" type="MarginContainer" parent="PhoneContainer/MainPhone"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -114.0
+offset_top = -205.0
+offset_right = 115.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PhoneContainer/MainPhone/Screen"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/separation = 0
+
+[node name="Time" type="Label" parent="PhoneContainer/MainPhone/Screen/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("2_l7r67")
+theme_override_font_sizes/font_size = 48
+text = "00 : 00"
+
+[node name="Date" type="Label" parent="PhoneContainer/MainPhone/Screen/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("2_l7r67")
+theme_override_font_sizes/font_size = 20
+text = "MM / DD / YYYY"
+horizontal_alignment = 1
+
+[node name="Seperator" type="Control" parent="PhoneContainer/MainPhone/Screen/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="AppIcons" type="VBoxContainer" parent="PhoneContainer/MainPhone/Screen/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Top" type="HBoxContainer" parent="PhoneContainer/MainPhone/Screen/VBoxContainer/AppIcons"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 25
+
+[node name="Button" type="Button" parent="PhoneContainer/MainPhone/Screen/VBoxContainer/AppIcons/Top"]
+custom_minimum_size = Vector2(170, 80)
+layout_mode = 2
+
+[node name="Bottom" type="HBoxContainer" parent="PhoneContainer/MainPhone/Screen/VBoxContainer/AppIcons"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 15
+
+[node name="Messages" type="Button" parent="PhoneContainer/MainPhone/Screen/VBoxContainer/AppIcons/Bottom"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_jaril")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_jaril")
+theme_override_styles/hover = SubResource("StyleBoxTexture_jaril")
+
+[node name="Notes" type="Button" parent="PhoneContainer/MainPhone/Screen/VBoxContainer/AppIcons/Bottom"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_g367n")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_g367n")
+theme_override_styles/hover = SubResource("StyleBoxTexture_g367n")
+
+[node name="Contacts" type="Button" parent="PhoneContainer/MainPhone/Screen/VBoxContainer/AppIcons/Bottom"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_lqrb5")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_lqrb5")
+theme_override_styles/hover = SubResource("StyleBoxTexture_lqrb5")
+
+[node name="AppContainers" type="MarginContainer" parent="PhoneContainer/MainPhone"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 40.5
+offset_right = -20.0
+offset_bottom = -47.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_bottom = 0
+
+[node name="MessageApp" type="Panel" parent="PhoneContainer/MainPhone/AppContainers" node_paths=PackedStringArray("phone", "message_app", "chat_preview", "chat_content", "chats_scroll_container")]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qkp33")
+script = ExtResource("7_jaril")
+phone = NodePath("../../../..")
+message_app = NodePath(".")
+chat_preview = NodePath("Preview")
+chat_content = NodePath("Chats")
+chats_scroll_container = NodePath("Preview/VBoxContainer/Scrollable/MessagesScrollContainer")
+
+[node name="Preview" type="MarginContainer" parent="PhoneContainer/MainPhone/AppContainers/MessageApp"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -115.0
+offset_top = -204.0
+offset_right = 115.0
+offset_bottom = 205.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_top = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PhoneContainer/MainPhone/AppContainers/MessageApp/Preview"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Messages_Main" type="Button" parent="PhoneContainer/MainPhone/AppContainers/MessageApp/Preview/VBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_colors/font_pressed_color = Color(0.494118, 0.494118, 0.494118, 1)
+theme_override_colors/font_hover_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_fonts/font = ExtResource("2_l7r67")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_fan7k")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fan7k")
+theme_override_styles/hover = SubResource("StyleBoxFlat_fan7k")
+text = "  <  Messages "
+alignment = 0
+
+[node name="Control" type="Control" parent="PhoneContainer/MainPhone/AppContainers/MessageApp/Preview/VBoxContainer"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="PhoneContainer/MainPhone/AppContainers/MessageApp/Preview/VBoxContainer"]
+custom_minimum_size = Vector2(228, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxLine_qkp33")
+
+[node name="Control1" type="Control" parent="PhoneContainer/MainPhone/AppContainers/MessageApp/Preview/VBoxContainer"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+
+[node name="Scrollable" type="ScrollContainer" parent="PhoneContainer/MainPhone/AppContainers/MessageApp/Preview/VBoxContainer"]
+custom_minimum_size = Vector2(230, 375)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="MessagesScrollContainer" type="VBoxContainer" parent="PhoneContainer/MainPhone/AppContainers/MessageApp/Preview/VBoxContainer/Scrollable"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Chats" type="MarginContainer" parent="PhoneContainer/MainPhone/AppContainers/MessageApp"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 7
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PhoneContainer/MainPhone/AppContainers/MessageApp/Chats"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Chat Closed" type="Button" parent="PhoneContainer/MainPhone/AppContainers/MessageApp/Chats/VBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_colors/font_pressed_color = Color(0.494118, 0.494118, 0.494118, 1)
+theme_override_colors/font_hover_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_fonts/font = ExtResource("2_l7r67")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_5xoch")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_5xoch")
+theme_override_styles/hover = SubResource("StyleBoxFlat_5xoch")
+text = "  <  "
+alignment = 0
+
+[node name="Name" type="Label" parent="PhoneContainer/MainPhone/AppContainers/MessageApp/Chats/VBoxContainer/Chat Closed"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.454902, 0.454902, 0.454902, 1)
+theme_override_fonts/font = ExtResource("2_l7r67")
+theme_override_font_sizes/font_size = 24
+text = "Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel" type="Panel" parent="PhoneContainer/MainPhone/AppContainers/MessageApp/Chats/VBoxContainer"]
+custom_minimum_size = Vector2(228, 1)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxLine_jaril")
+
+[node name="Scrollable" type="ScrollContainer" parent="PhoneContainer/MainPhone/AppContainers/MessageApp/Chats/VBoxContainer"]
+custom_minimum_size = Vector2(230, 375)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="MessagesContainer" type="VBoxContainer" parent="PhoneContainer/MainPhone/AppContainers/MessageApp/Chats/VBoxContainer/Scrollable"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="NotesApp" type="Panel" parent="PhoneContainer/MainPhone/AppContainers" node_paths=PackedStringArray("phone", "notes_app", "bottom_bar", "notes_preview", "notes_content", "notes_scroll_container", "to_do_preview", "to_do_scroll_container")]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qkp33")
+script = ExtResource("8_g367n")
+phone = NodePath("../../../..")
+notes_app = NodePath(".")
+bottom_bar = NodePath("BottomBar")
+notes_preview = NodePath("Notes Preview")
+notes_content = NodePath("New Note")
+notes_scroll_container = NodePath("Notes Preview/Content/NotesContainer/Scrollable/Container/NotesContainer")
+to_do_preview = NodePath("To-do Preview")
+to_do_scroll_container = NodePath("To-do Preview/Content/To-doContainer/Scrollable/Container/To-doContainer")
+
+[node name="Notes Preview" type="MarginContainer" parent="PhoneContainer/MainPhone/AppContainers/NotesApp"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -115.0
+offset_top = -204.0
+offset_right = 115.0
+offset_bottom = 205.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 5
+
+[node name="Content" type="VBoxContainer" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/Notes Preview"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/Notes Preview/Content"]
+layout_mode = 2
+theme_override_constants/separation = 115
+
+[node name="Notes_main" type="Button" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/Notes Preview/Content/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+focus_mode = 0
+theme_override_colors/font_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_colors/font_pressed_color = Color(0.494118, 0.494118, 0.494118, 1)
+theme_override_colors/font_hover_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_fonts/font = ExtResource("2_l7r67")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_fan7k")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fan7k")
+theme_override_styles/hover = SubResource("StyleBoxFlat_fan7k")
+text = " < Notes"
+alignment = 0
+
+[node name="New_note" type="Button" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/Notes Preview/Content/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+focus_mode = 0
+theme_override_colors/font_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_colors/font_pressed_color = Color(0.494118, 0.494118, 0.494118, 1)
+theme_override_colors/font_hover_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_fonts/font = ExtResource("2_l7r67")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_fan7k")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fan7k")
+theme_override_styles/hover = SubResource("StyleBoxFlat_fan7k")
+text = " + "
+alignment = 0
+
+[node name="Control" type="Control" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/Notes Preview/Content"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/Notes Preview/Content"]
+custom_minimum_size = Vector2(228, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxLine_qkp33")
+
+[node name="Control1" type="Control" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/Notes Preview/Content"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+
+[node name="NotesContainer" type="MarginContainer" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/Notes Preview/Content"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 10
+
+[node name="Scrollable" type="ScrollContainer" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/Notes Preview/Content/NotesContainer"]
+custom_minimum_size = Vector2(223, 315)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="Container" type="VBoxContainer" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/Notes Preview/Content/NotesContainer/Scrollable"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 9
+
+[node name="NotesContainer" type="VBoxContainer" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/Notes Preview/Content/NotesContainer/Scrollable/Container"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Panel" type="Panel" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/Notes Preview/Content/NotesContainer/Scrollable/Container"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="New Note" type="MarginContainer" parent="PhoneContainer/MainPhone/AppContainers/NotesApp"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 7
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/New Note"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Chats Closed" type="Button" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/New Note/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+focus_mode = 0
+theme_override_colors/font_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_colors/font_pressed_color = Color(0.494118, 0.494118, 0.494118, 1)
+theme_override_colors/font_hover_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_fonts/font = ExtResource("2_l7r67")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_fan7k")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fan7k")
+theme_override_styles/hover = SubResource("StyleBoxFlat_fan7k")
+text = " < New Note"
+alignment = 0
+
+[node name="Panel" type="Panel" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/New Note/VBoxContainer"]
+custom_minimum_size = Vector2(228, 1)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxLine_jaril")
+
+[node name="Scrollable" type="ScrollContainer" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/New Note/VBoxContainer"]
+custom_minimum_size = Vector2(230, 375)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="NewNoteContainer" type="VBoxContainer" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/New Note/VBoxContainer/Scrollable"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="To-do Preview" type="MarginContainer" parent="PhoneContainer/MainPhone/AppContainers/NotesApp"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -115.0
+offset_top = -204.0
+offset_right = 115.0
+offset_bottom = 205.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 5
+
+[node name="Content" type="VBoxContainer" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/To-do Preview"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/To-do Preview/Content"]
+layout_mode = 2
+theme_override_constants/separation = 115
+
+[node name="To-do_main" type="Button" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/To-do Preview/Content/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+focus_mode = 0
+theme_override_colors/font_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_colors/font_pressed_color = Color(0.494118, 0.494118, 0.494118, 1)
+theme_override_colors/font_hover_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_fonts/font = ExtResource("2_l7r67")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_fan7k")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_fan7k")
+theme_override_styles/hover = SubResource("StyleBoxFlat_fan7k")
+text = " < To-do"
+alignment = 0
+
+[node name="Control" type="Control" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/To-do Preview/Content"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/To-do Preview/Content"]
+custom_minimum_size = Vector2(228, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxLine_qkp33")
+
+[node name="Control1" type="Control" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/To-do Preview/Content"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+
+[node name="To-doContainer" type="MarginContainer" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/To-do Preview/Content"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 10
+
+[node name="Scrollable" type="ScrollContainer" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/To-do Preview/Content/To-doContainer"]
+custom_minimum_size = Vector2(223, 315)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="Container" type="VBoxContainer" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/To-do Preview/Content/To-doContainer/Scrollable"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 9
+
+[node name="To-doContainer" type="VBoxContainer" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/To-do Preview/Content/To-doContainer/Scrollable/Container"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Panel" type="Panel" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/To-do Preview/Content/To-doContainer/Scrollable/Container"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="BottomBar" type="Panel" parent="PhoneContainer/MainPhone/AppContainers/NotesApp"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_g367n")
+
+[node name="MarginContainer" type="MarginContainer" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/BottomBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/BottomBar/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 45
+
+[node name="All_notes" type="Button" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/BottomBar/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxTexture_nm0lr")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_nm0lr")
+theme_override_styles/hover = SubResource("StyleBoxTexture_nm0lr")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_nm0lr")
+
+[node name="Todo" type="Button" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/BottomBar/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxTexture_xgwv0")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_xgwv0")
+theme_override_styles/hover = SubResource("StyleBoxTexture_xgwv0")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_xgwv0")
+
+[node name="Exit" type="VBoxContainer" parent="PhoneContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="ExitPhone" type="Button" parent="PhoneContainer/Exit"]
+custom_minimum_size = Vector2(70, 25)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_djuqe")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_djuqe")
+theme_override_styles/hover = SubResource("StyleBoxFlat_djuqe")
+
+[node name="Control" type="Control" parent="PhoneContainer/Exit"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+
+[connection signal="pressed" from="PhoneContainer/MainPhone/Screen/VBoxContainer/AppIcons/Bottom/Messages" to="." method="_on_messages_pressed"]
+[connection signal="pressed" from="PhoneContainer/MainPhone/Screen/VBoxContainer/AppIcons/Bottom/Notes" to="." method="_on_notes_pressed"]
+[connection signal="pressed" from="PhoneContainer/MainPhone/Screen/VBoxContainer/AppIcons/Bottom/Contacts" to="." method="_on_contacts_pressed"]
+[connection signal="pressed" from="PhoneContainer/MainPhone/AppContainers/MessageApp/Preview/VBoxContainer/Messages_Main" to="PhoneContainer/MainPhone/AppContainers/MessageApp" method="_on_messages_main_pressed"]
+[connection signal="pressed" from="PhoneContainer/MainPhone/AppContainers/MessageApp/Chats/VBoxContainer/Chat Closed" to="PhoneContainer/MainPhone/AppContainers/MessageApp" method="_on_chat_closed_pressed"]
+[connection signal="pressed" from="PhoneContainer/MainPhone/AppContainers/NotesApp/Notes Preview/Content/HBoxContainer/Notes_main" to="PhoneContainer/MainPhone/AppContainers/NotesApp" method="_on_notes_main_pressed"]
+[connection signal="pressed" from="PhoneContainer/MainPhone/AppContainers/NotesApp/Notes Preview/Content/HBoxContainer/New_note" to="PhoneContainer/MainPhone/AppContainers/NotesApp" method="_on_new_note_pressed"]
+[connection signal="pressed" from="PhoneContainer/MainPhone/AppContainers/NotesApp/New Note/VBoxContainer/Chats Closed" to="PhoneContainer/MainPhone/AppContainers/NotesApp" method="_on_chats_closed_pressed"]
+[connection signal="pressed" from="PhoneContainer/Exit/ExitPhone" to="." method="_on_exit_phone_pressed"]

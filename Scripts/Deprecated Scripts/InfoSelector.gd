@@ -15,7 +15,7 @@ var article_comparator_ref: Node = null
 var debug_cases: Array = []
 
 func _ready():
-	info_popup.hide()
+	info_popup.show()
 	_load_collected_infos()
 	_display_info_buttons()
 	_load_debug_cases("res://dataset.json")
@@ -77,7 +77,7 @@ func _on_info_selected(info: Dictionary):
 	selected_info = info
 	popup_title.text = info.get("title", "Untitled Info")
 	popup_content.text = info.get("content", "No content available.")
-	info_popup.popup_centered(Vector2(600, 400))
+	
 
 
 func _on_add_pressed():
@@ -85,7 +85,7 @@ func _on_add_pressed():
 	print("Added to Comparator:", selected_info["title"])
 	if article_comparator_ref and article_comparator_ref.has_method("add_info"):
 		article_comparator_ref.add_info(selected_info)
-	info_popup.hide()
+
 
 
 func _on_trash_pressed():
@@ -94,11 +94,11 @@ func _on_trash_pressed():
 	stored_infos.erase(selected_info)
 	_save_updated_infos()
 	_display_info_buttons()
-	info_popup.hide()
+
 
 
 func _on_close_popup():
-	info_popup.hide()
+	pass
 
 
 func _save_updated_infos():

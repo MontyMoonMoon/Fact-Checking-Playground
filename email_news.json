@@ -1,0 +1,174 @@
+{
+  "emails": [
+	{
+	  "sender": "News Desk",
+	  "subject": "Breaking: Government Announces New Economic Policies",
+	  "content": "The government has announced a new series of economic policies aimed at stabilizing the market. Officials claim these measures will benefit all citizens.",
+	  "timestamp": "14:30",
+	  "news_data": {
+		"article_text": "The government has announced a new series of economic policies aimed at stabilizing the market. Officials claim these measures will benefit all citizens.",
+		"tip_text": "Tip: Independent analysts suggest these policies may favor certain industries over others.",
+		"facts": [
+		  {"category": "Announcement", "value": "New Economic Policies", "source": "Article"},
+		  {"category": "Claim", "value": "Will benefit all citizens", "source": "Article"},
+		  {"category": "Analysis", "value": "May favor certain industries", "source": "Tip"}
+		],
+		"stance": "Pro-Government",
+		"integrity_score": 0.68
+	  }
+	},
+	{
+	  "sender": "Investigative Reporter",
+	  "subject": "Leak: Internal Documents Reveal Budget Allocation",
+	  "content": "Internal documents leaked to our office reveal unexpected budget allocations. The documents show significant funds diverted to unknown projects.",
+	  "timestamp": "09:15",
+	  "news_data": {
+		"article_text": "Internal documents leaked to our office reveal unexpected budget allocations. The documents show significant funds diverted to unknown projects.",
+		"tip_text": "Tip: Cross-reference with public financial reports to verify the discrepancies.",
+		"facts": [
+		  {"category": "Documents", "value": "Internal budget documents", "source": "Article"},
+		  {"category": "Finding", "value": "Funds diverted to unknown projects", "source": "Article"},
+		  {"category": "Verification", "value": "Cross-reference with public reports", "source": "Tip"}
+		],
+		"stance": "Anti-Government",
+		"integrity_score": 0.82
+	  }
+	},
+	{
+	  "sender": "Local News",
+	  "subject": "Community Center Opens in Downtown Area",
+	  "content": "A new community center has opened in the downtown area, providing services to local residents. The facility was funded through public-private partnership.",
+	  "timestamp": "11:45",
+	  "news_data": {
+		"article_text": "A new community center has opened in the downtown area, providing services to local residents. The facility was funded through public-private partnership.",
+		"tip_text": "Tip: The opening ceremony was delayed twice, raising questions about the partnership transparency.",
+		"facts": [
+		  {"category": "Event", "value": "Community center opened", "source": "Article"},
+		  {"category": "Funding", "value": "Public-private partnership", "source": "Article"},
+		  {"category": "Timeline", "value": "Opening delayed twice", "source": "Tip"}
+		],
+		"stance": "Neutral",
+		"integrity_score": 0.75
+	  }
+	},
+	{
+	  "sender": "Business Journal",
+	  "subject": "Major Corporation Relocates Headquarters",
+	  "content": "TechCorp Industries announced it will relocate its headquarters to the neighboring region, citing better infrastructure and tax incentives.",
+	  "timestamp": "13:20",
+	  "news_data": {
+		"article_text": "TechCorp Industries announced it will relocate its headquarters to the neighboring region, citing better infrastructure and tax incentives.",
+		"tip_text": "Tip: Sources indicate the relocation decision was made after closed-door negotiations with regional officials.",
+		"facts": [
+		  {"category": "Company", "value": "TechCorp Industries", "source": "Article"},
+		  {"category": "Reason", "value": "Better infrastructure and tax incentives", "source": "Article"},
+		  {"category": "Process", "value": "Closed-door negotiations with officials", "source": "Tip"}
+		],
+		"stance": "Neutral",
+		"integrity_score": 0.71
+	  }
+	},
+	{
+	  "sender": "Public Health Office",
+	  "subject": "Health Initiative Launched Across Regions",
+	  "content": "A comprehensive health initiative has been launched across multiple regions. The program aims to improve healthcare access for underserved communities.",
+	  "timestamp": "10:00",
+	  "news_data": {
+		"article_text": "A comprehensive health initiative has been launched across multiple regions. The program aims to improve healthcare access for underserved communities.",
+		"tip_text": "Tip: Some regions report they have not received the promised resources, creating disparities in implementation.",
+		"facts": [
+		  {"category": "Program", "value": "Health initiative launched", "source": "Article"},
+		  {"category": "Goal", "value": "Improve healthcare access for underserved", "source": "Article"},
+		  {"category": "Issue", "value": "Some regions missing promised resources", "source": "Tip"}
+		],
+		"stance": "Pro-Government",
+		"integrity_score": 0.64
+	  }
+	},
+	{
+	  "sender": "Whistleblower Network",
+	  "subject": "Allegations of Misconduct Surface",
+	  "content": "Anonymous sources have come forward with allegations of misconduct in public office. Documents supporting these claims have been submitted for review.",
+	  "timestamp": "15:50",
+	  "news_data": {
+		"article_text": "Anonymous sources have come forward with allegations of misconduct in public office. Documents supporting these claims have been submitted for review.",
+		"tip_text": "Tip: Verify the authenticity of the documents and cross-check with official records before publishing.",
+		"facts": [
+		  {"category": "Source", "value": "Anonymous sources", "source": "Article"},
+		  {"category": "Allegation", "value": "Misconduct in public office", "source": "Article"},
+		  {"category": "Verification", "value": "Need to verify document authenticity", "source": "Tip"}
+		],
+		"stance": "Anti-Government",
+		"integrity_score": 0.79
+	  }
+	},
+	{
+	  "sender": "Education Board",
+	  "subject": "New Curriculum Standards Approved",
+	  "content": "The education board has approved new curriculum standards for public schools. The changes will be implemented starting next academic year.",
+	  "timestamp": "08:30",
+	  "news_data": {
+		"article_text": "The education board has approved new curriculum standards for public schools. The changes will be implemented starting next academic year.",
+		"tip_text": "Tip: Teachers' unions were not consulted in the decision-making process, raising concerns about implementation feasibility.",
+		"facts": [
+		  {"category": "Decision", "value": "New curriculum standards approved", "source": "Article"},
+		  {"category": "Timeline", "value": "Implementation next academic year", "source": "Article"},
+		  {"category": "Stakeholder", "value": "Teachers' unions not consulted", "source": "Tip"}
+		],
+		"stance": "Pro-Government",
+		"integrity_score": 0.66
+	  }
+	},
+	{
+	  "sender": "Environment Watch",
+	  "subject": "Pollution Levels Drop in Industrial Zone",
+	  "content": "Environmental monitoring shows a significant drop in pollution levels in the industrial zone. Officials attribute this to new regulations and cleaner technologies.",
+	  "timestamp": "12:15",
+	  "news_data": {
+		"article_text": "Environmental monitoring shows a significant drop in pollution levels in the industrial zone. Officials attribute this to new regulations and cleaner technologies.",
+		"tip_text": "Tip: Independent environmental groups report conflicting data and question the monitoring methodology.",
+		"facts": [
+		  {"category": "Measurement", "value": "Pollution levels dropped", "source": "Article"},
+		  {"category": "Attribution", "value": "New regulations and cleaner technologies", "source": "Article"},
+		  {"category": "Dispute", "value": "Conflicting data from independent groups", "source": "Tip"}
+		],
+		"stance": "Pro-Government",
+		"integrity_score": 0.59
+	  }
+	},
+	{
+	  "sender": "Citizen Journalist",
+	  "subject": "Public Protest Planned for Next Week",
+	  "content": "Organizers have announced a public protest scheduled for next week. The demonstration is in response to recent policy changes affecting working conditions.",
+	  "timestamp": "16:45",
+	  "news_data": {
+		"article_text": "Organizers have announced a public protest scheduled for next week. The demonstration is in response to recent policy changes affecting working conditions.",
+		"tip_text": "Tip: Verify the organizers' credentials and check if proper permits were obtained for the demonstration.",
+		"facts": [
+		  {"category": "Event", "value": "Public protest planned", "source": "Article"},
+		  {"category": "Reason", "value": "Policy changes affecting working conditions", "source": "Article"},
+		  {"category": "Verification", "value": "Check permits and organizer credentials", "source": "Tip"}
+		],
+		"stance": "Anti-Government",
+		"integrity_score": 0.77
+	  }
+	},
+	{
+	  "sender": "Sports News",
+	  "subject": "National Team Wins Championship",
+	  "content": "The national team has won the international championship, bringing pride to the nation. The victory is being celebrated across the country.",
+	  "timestamp": "19:00",
+	  "news_data": {
+		"article_text": "The national team has won the international championship, bringing pride to the nation. The victory is being celebrated across the country.",
+		"tip_text": "Tip: Some players have raised concerns about funding disparities and lack of support during training.",
+		"facts": [
+		  {"category": "Achievement", "value": "National team won championship", "source": "Article"},
+		  {"category": "Impact", "value": "Celebrated across the country", "source": "Article"},
+		  {"category": "Issue", "value": "Players concerned about funding and support", "source": "Tip"}
+		],
+		"stance": "Neutral",
+		"integrity_score": 0.73
+	  }
+	}
+  ]
+}

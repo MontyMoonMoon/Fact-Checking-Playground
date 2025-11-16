@@ -1,0 +1,129 @@
+[gd_scene load_steps=9 format=3 uid="uid://v35wsa4ym7hx"]
+
+[ext_resource type="Script" uid="uid://ck84d2nlo7v2d" path="res://Scripts/Component Scripts/error_message.gd" id="1_cm0hd"]
+[ext_resource type="Texture2D" uid="uid://dbatqj8wjl0dh" path="res://Assets/PNGs/UI/UI Assets.png" id="2_2la5w"]
+[ext_resource type="FontFile" uid="uid://de2qiyybswcte" path="res://Assets/Fonts/windows-xp-tahoma.otf" id="3_cm0hd"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0cmhb"]
+texture = ExtResource("2_2la5w")
+region_rect = Rect2(384, 646, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2pccu"]
+texture = ExtResource("2_2la5w")
+region_rect = Rect2(451, 646, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hje6g"]
+texture = ExtResource("2_2la5w")
+region_rect = Rect2(418, 646, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sfv6s"]
+texture = ExtResource("2_2la5w")
+region_rect = Rect2(963, 179, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7kfaa"]
+texture = ExtResource("2_2la5w")
+region_rect = Rect2(963, 243, 26, 26)
+
+[node name="Message" type="Control" node_paths=PackedStringArray("message", "error_message_label")]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cm0hd")
+message = NodePath("MarginContainer")
+error_message_label = NodePath("MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/ErrorMessage")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -179.5
+offset_top = -53.0
+offset_right = 179.5
+offset_bottom = 53.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer"]
+custom_minimum_size = Vector2(359, 106)
+layout_mode = 2
+texture = ExtResource("2_2la5w")
+region_rect = Rect2(576, 176, 359, 107)
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ErrorMessage" type="Label" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_cm0hd")
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Buttons" type="MarginContainer" parent="MarginContainer/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -64.0
+offset_bottom = 40.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 10
+
+[node name="ButtonContainer" type="HBoxContainer" parent="MarginContainer/NinePatchRect/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="Size" type="Button" parent="MarginContainer/NinePatchRect/Buttons/ButtonContainer"]
+custom_minimum_size = Vector2(25, 26)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_0cmhb")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_2pccu")
+theme_override_styles/hover = SubResource("StyleBoxTexture_2pccu")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_hje6g")
+disabled = true
+
+[node name="Exit" type="Button" parent="MarginContainer/NinePatchRect/Buttons/ButtonContainer"]
+custom_minimum_size = Vector2(25, 26)
+layout_mode = 2
+size_flags_horizontal = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_sfv6s")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_7kfaa")
+theme_override_styles/hover = SubResource("StyleBoxTexture_7kfaa")
+
+[connection signal="pressed" from="MarginContainer/NinePatchRect/Buttons/ButtonContainer/Exit" to="." method="_on_exit_pressed"]

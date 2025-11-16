@@ -1,0 +1,74 @@
+[gd_scene load_steps=6 format=3 uid="uid://b24ayq2tow7r5"]
+
+[ext_resource type="Script" uid="uid://bicurxgsbtvsy" path="res://Scripts/Component Scripts/chats_content.gd" id="1_ftpxr"]
+[ext_resource type="FontFile" uid="uid://dee4q2pxdjpua" path="res://Assets/Fonts/BMgermar.TTF" id="1_n6msf"]
+[ext_resource type="FontFile" uid="uid://bhqhtnkkcerbn" path="res://Assets/Fonts/BMmini.TTF" id="2_dwnwg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n86ce"]
+bg_color = Color(0.694118, 0.698039, 0.701961, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n6msf"]
+bg_color = Color(0.380392, 0.380392, 0.380392, 1)
+
+[node name="MessageChat" type="Control"]
+custom_minimum_size = Vector2(230, 50)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ftpxr")
+
+[node name="Preview" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = -1
+
+[node name="Chat" type="Button" parent="Preview"]
+custom_minimum_size = Vector2(228, 50)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_n86ce")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_n86ce")
+theme_override_styles/hover = SubResource("StyleBoxFlat_n86ce")
+
+[node name="Contents" type="MarginContainer" parent="Preview/Chat"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Preview/Chat/Contents"]
+layout_mode = 2
+
+[node name="Header" type="Label" parent="Preview/Chat/Contents/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("1_n6msf")
+theme_override_font_sizes/font_size = 22
+text = "Name"
+
+[node name="Preview" type="Label" parent="Preview/Chat/Contents/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("2_dwnwg")
+theme_override_font_sizes/font_size = 15
+text = "Hey what's up? "
+
+[node name="Line" type="Panel" parent="Preview"]
+custom_minimum_size = Vector2(228, 1)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_n6msf")
+
+[connection signal="pressed" from="Preview/Chat" to="." method="_on_chat_pressed"]

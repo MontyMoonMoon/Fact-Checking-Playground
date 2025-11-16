@@ -1,0 +1,45 @@
+[gd_scene load_steps=12 format=3 uid="uid://ccetierkoni7f"]
+
+[ext_resource type="Script" uid="uid://c7eqmov67u6ak" path="res://Scripts/Master Scripts/master.gd" id="1_qemos"]
+[ext_resource type="Script" uid="uid://5nhq2bfua1p0" path="res://Scripts/Master Scripts/scene_loader.gd" id="2_tcv0n"]
+[ext_resource type="PackedScene" uid="uid://c3kbynasxfujb" path="res://Scenes/map_0.tscn" id="3_urij7"]
+[ext_resource type="PackedScene" uid="uid://c0t6505sx6arq" path="res://Scenes/map_01.tscn" id="4_4kcn7"]
+[ext_resource type="Script" uid="uid://c3rxcmmbsf0ks" path="res://Scripts/Master Scripts/data_manager.gd" id="5_sxu81"]
+[ext_resource type="Script" uid="uid://db5i32iw08st8" path="res://Scripts/Master Scripts/settings_manager.gd" id="6_tcv0n"]
+[ext_resource type="AudioStream" uid="uid://brvdbs1v1etnu" path="res://Assets/SFX/mouse_click.mp3" id="7_8ixx1"]
+[ext_resource type="AudioStream" uid="uid://dml1m2uu0r1pd" path="res://Assets/SFX/error_sound.mp3" id="7_iwwxa"]
+[ext_resource type="Script" uid="uid://duxgux4fbi6bo" path="res://Scripts/Master Scripts/sound_manager.gd" id="7_urij7"]
+[ext_resource type="Script" uid="uid://5vln78lpacer" path="res://Scripts/Master Scripts/json_manager.gd" id="8_4kcn7"]
+[ext_resource type="Script" uid="uid://bt78ohuwpelix" path="res://Scripts/Master Scripts/time_date_manager.gd" id="9_sxu81"]
+
+[node name="Master" type="Node" node_paths=PackedStringArray("scene_loader", "data_manager", "settings_manager", "sound_manager", "json_manager", "timedate_manager")]
+script = ExtResource("1_qemos")
+scene_loader = NodePath("Scene Loader")
+data_manager = NodePath("Data Manager")
+settings_manager = NodePath("Settings Manager")
+sound_manager = NodePath("Sound Manager")
+json_manager = NodePath("JSON Manager")
+timedate_manager = NodePath("TimeDate Manager")
+
+[node name="Scene Loader" type="Node" parent="."]
+script = ExtResource("2_tcv0n")
+scenes = Array[PackedScene]([ExtResource("3_urij7"), ExtResource("4_4kcn7")])
+
+[node name="Sound Manager" type="Node" parent="."]
+script = ExtResource("7_urij7")
+audio_sources = Dictionary[String, AudioStream]({
+"error": ExtResource("7_iwwxa"),
+"mouse_click": ExtResource("7_8ixx1")
+})
+
+[node name="Data Manager" type="Node" parent="."]
+script = ExtResource("5_sxu81")
+
+[node name="Settings Manager" type="Node" parent="."]
+script = ExtResource("6_tcv0n")
+
+[node name="JSON Manager" type="Node" parent="."]
+script = ExtResource("8_4kcn7")
+
+[node name="TimeDate Manager" type="Node" parent="."]
+script = ExtResource("9_sxu81")

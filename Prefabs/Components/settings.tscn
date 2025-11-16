@@ -1,0 +1,401 @@
+[gd_scene load_steps=23 format=3 uid="uid://buwqe1pymhbag"]
+
+[ext_resource type="Script" uid="uid://c8n2j52amxe6l" path="res://Scripts/Component Scripts/settings.gd" id="1_me6tl"]
+[ext_resource type="Texture2D" uid="uid://dbatqj8wjl0dh" path="res://Assets/PNGs/UI/UI Assets.png" id="2_ctaxl"]
+[ext_resource type="FontFile" uid="uid://de2qiyybswcte" path="res://Assets/Fonts/windows-xp-tahoma.otf" id="3_befpv"]
+[ext_resource type="Texture2D" uid="uid://dbx3e0utgej80" path="res://Assets/PNGs/UI/Slider_Handle.png" id="3_ctaxl"]
+[ext_resource type="Texture2D" uid="uid://dppori4e035rl" path="res://Assets/PNGs/UI/Slider_Handle_HL.png" id="4_g15yg"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ctaxl"]
+texture = ExtResource("2_ctaxl")
+region_rect = Rect2(384, 646, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_g15yg"]
+texture = ExtResource("2_ctaxl")
+region_rect = Rect2(451, 646, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_befpv"]
+texture = ExtResource("2_ctaxl")
+region_rect = Rect2(418, 646, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_enuo7"]
+texture = ExtResource("2_ctaxl")
+region_rect = Rect2(963, 179, 25, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0prer"]
+texture = ExtResource("2_ctaxl")
+region_rect = Rect2(963, 243, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3f0qk"]
+texture = ExtResource("2_ctaxl")
+region_rect = Rect2(963, 213, 26, 26)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_befpv"]
+bg_color = Color(0.8156863, 0.8156863, 0.8156863, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_h8mtp"]
+texture = ExtResource("2_ctaxl")
+region_rect = Rect2(528, 672, 32, 32)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_t0enh"]
+texture = ExtResource("2_ctaxl")
+region_rect = Rect2(496, 673, 32, 32)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_82pem"]
+texture = ExtResource("2_ctaxl")
+region_rect = Rect2(560, 672, 32, 32)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_me6tl"]
+texture = ExtResource("2_ctaxl")
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+region_rect = Rect2(18, 548, 123, 4)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2fhot"]
+texture = ExtResource("2_ctaxl")
+texture_margin_left = 1.0
+expand_margin_bottom = 3.0
+region_rect = Rect2(384, 560, 48, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_iybll"]
+texture = ExtResource("2_ctaxl")
+region_rect = Rect2(384, 624, 48, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q817d"]
+texture = ExtResource("2_ctaxl")
+region_rect = Rect2(384, 592, 48, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_eoave"]
+texture = ExtResource("2_ctaxl")
+expand_margin_bottom = 3.0
+region_rect = Rect2(613, 643, 22, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ejmes"]
+texture = ExtResource("2_ctaxl")
+expand_margin_bottom = 3.0
+region_rect = Rect2(613, 685, 23, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_k1nmv"]
+texture = ExtResource("2_ctaxl")
+region_rect = Rect2(613, 664, 22, 16)
+
+[node name="Settings" type="Control" node_paths=PackedStringArray("main_button", "pause_button", "help_button", "master_slider", "music_slider", "sfx_slider", "master_button", "music_button", "sfx_button")]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_me6tl")
+main_button = NodePath("MarginContainer/NinePatchRect/MarginContainer/Button2/MainMenu")
+pause_button = NodePath("MarginContainer/NinePatchRect/MarginContainer/Buttons1/Pause")
+help_button = NodePath("MarginContainer/NinePatchRect/MarginContainer/Buttons1/Help")
+master_slider = NodePath("MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders/MasterSet/Master")
+music_slider = NodePath("MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders/MusicSet/Music")
+sfx_slider = NodePath("MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders/SFXSet/SFX")
+master_button = NodePath("MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders/MasterSet/MasterButton")
+music_button = NodePath("MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders/MusicSet/MusicButton")
+sfx_button = NodePath("MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders/SFXSet/SFXButton")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -201.5
+offset_top = -125.5
+offset_right = 201.5
+offset_bottom = 125.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer"]
+custom_minimum_size = Vector2(448, 273)
+layout_mode = 2
+texture = ExtResource("2_ctaxl")
+region_rect = Rect2(16, 688, 449, 288)
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 15
+
+[node name="Buttons" type="HBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="Size" type="Button" parent="MarginContainer/NinePatchRect/MarginContainer/Buttons"]
+custom_minimum_size = Vector2(25, 26)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_ctaxl")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_g15yg")
+theme_override_styles/hover = SubResource("StyleBoxTexture_g15yg")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_befpv")
+disabled = true
+
+[node name="Exit" type="Button" parent="MarginContainer/NinePatchRect/MarginContainer/Buttons"]
+custom_minimum_size = Vector2(25, 26)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_enuo7")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_0prer")
+theme_override_styles/hover = SubResource("StyleBoxTexture_0prer")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_3f0qk")
+
+[node name="Labels Container" type="MarginContainer" parent="MarginContainer/NinePatchRect/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_constants/margin_top = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer/Labels Container"]
+layout_mode = 2
+
+[node name="Master" type="Panel" parent="MarginContainer/NinePatchRect/MarginContainer/Labels Container/VBoxContainer"]
+custom_minimum_size = Vector2(80, 20)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_befpv")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/NinePatchRect/MarginContainer/Labels Container/VBoxContainer/Master"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="MarginContainer/NinePatchRect/MarginContainer/Labels Container/VBoxContainer/Master/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_befpv")
+theme_override_font_sizes/font_size = 32
+text = "Master"
+
+[node name="sep1" type="Control" parent="MarginContainer/NinePatchRect/MarginContainer/Labels Container/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Music" type="Panel" parent="MarginContainer/NinePatchRect/MarginContainer/Labels Container/VBoxContainer"]
+custom_minimum_size = Vector2(70, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_befpv")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/NinePatchRect/MarginContainer/Labels Container/VBoxContainer/Music"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="MarginContainer/NinePatchRect/MarginContainer/Labels Container/VBoxContainer/Music/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_befpv")
+theme_override_font_sizes/font_size = 32
+text = "Music"
+
+[node name="sep2" type="Control" parent="MarginContainer/NinePatchRect/MarginContainer/Labels Container/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="SFX" type="Panel" parent="MarginContainer/NinePatchRect/MarginContainer/Labels Container/VBoxContainer"]
+custom_minimum_size = Vector2(50, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_befpv")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/NinePatchRect/MarginContainer/Labels Container/VBoxContainer/SFX"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="MarginContainer/NinePatchRect/MarginContainer/Labels Container/VBoxContainer/SFX/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_befpv")
+theme_override_font_sizes/font_size = 32
+text = "SFX"
+
+[node name="Volume Managers" type="MarginContainer" parent="MarginContainer/NinePatchRect/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 50
+
+[node name="Sliders" type="VBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer/Volume Managers"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="MasterSet" type="HBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="MasterButton" type="Button" parent="MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders/MasterSet"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxTexture_h8mtp")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_t0enh")
+theme_override_styles/hover = SubResource("StyleBoxTexture_82pem")
+toggle_mode = true
+
+[node name="Master" type="HSlider" parent="MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders/MasterSet"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_icons/grabber = ExtResource("3_ctaxl")
+theme_override_icons/grabber_highlight = ExtResource("4_g15yg")
+theme_override_styles/slider = SubResource("StyleBoxTexture_me6tl")
+theme_override_styles/grabber_area = SubResource("StyleBoxTexture_me6tl")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxTexture_me6tl")
+value = 100.0
+
+[node name="sep1" type="Control" parent="MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders"]
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+
+[node name="MusicSet" type="HBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="MusicButton" type="Button" parent="MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders/MusicSet"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxTexture_h8mtp")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_t0enh")
+theme_override_styles/hover = SubResource("StyleBoxTexture_82pem")
+toggle_mode = true
+
+[node name="Music" type="HSlider" parent="MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders/MusicSet"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_icons/grabber = ExtResource("3_ctaxl")
+theme_override_icons/grabber_highlight = ExtResource("4_g15yg")
+theme_override_styles/slider = SubResource("StyleBoxTexture_me6tl")
+theme_override_styles/grabber_area = SubResource("StyleBoxTexture_me6tl")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxTexture_me6tl")
+value = 100.0
+
+[node name="sep2" type="Control" parent="MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders"]
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+
+[node name="SFXSet" type="HBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="SFXButton" type="Button" parent="MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders/SFXSet"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxTexture_h8mtp")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_t0enh")
+theme_override_styles/hover = SubResource("StyleBoxTexture_82pem")
+toggle_mode = true
+
+[node name="SFX" type="HSlider" parent="MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders/SFXSet"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_icons/grabber = ExtResource("3_ctaxl")
+theme_override_icons/grabber_highlight = ExtResource("4_g15yg")
+theme_override_styles/slider = SubResource("StyleBoxTexture_me6tl")
+theme_override_styles/grabber_area = SubResource("StyleBoxTexture_me6tl")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxTexture_me6tl")
+value = 100.0
+
+[node name="Buttons1" type="HBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="Pause" type="Button" parent="MarginContainer/NinePatchRect/MarginContainer/Buttons1"]
+custom_minimum_size = Vector2(110, 36)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_disabled_color = Color(0.31801978, 0.3180198, 0.31801972, 1)
+theme_override_fonts/font = ExtResource("3_befpv")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_2fhot")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_iybll")
+theme_override_styles/hover = SubResource("StyleBoxTexture_iybll")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_q817d")
+text = "Pause"
+
+[node name="Help" type="Button" parent="MarginContainer/NinePatchRect/MarginContainer/Buttons1"]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_disabled_color = Color(0.31801978, 0.3180198, 0.31801972, 1)
+theme_override_fonts/font = ExtResource("3_befpv")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_eoave")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_ejmes")
+theme_override_styles/hover = SubResource("StyleBoxTexture_ejmes")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_k1nmv")
+text = "?"
+
+[node name="Button2" type="HBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="MainMenu" type="Button" parent="MarginContainer/NinePatchRect/MarginContainer/Button2"]
+custom_minimum_size = Vector2(120, 36)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_disabled_color = Color(0.31801978, 0.3180198, 0.31801972, 1)
+theme_override_fonts/font = ExtResource("3_befpv")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_2fhot")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_iybll")
+theme_override_styles/hover = SubResource("StyleBoxTexture_iybll")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_q817d")
+text = "Main Menu"
+
+[connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/Buttons/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders/MasterSet/MasterButton" to="." method="_on_master_button_pressed"]
+[connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders/MusicSet/MusicButton" to="." method="_on_music_button_pressed"]
+[connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders/SFXSet/SFXButton" to="." method="_on_sfx_button_pressed"]
+[connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/Buttons1/Pause" to="." method="_on_pause_pressed"]
+[connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/Button2/MainMenu" to="." method="_on_main_menu_pressed"]

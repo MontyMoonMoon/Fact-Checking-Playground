@@ -1,0 +1,184 @@
+[gd_scene load_steps=10 format=3 uid="uid://dlpb35r0pfucw"]
+
+[ext_resource type="Texture2D" uid="uid://b13tcv1awaxf5" path="res://Assets/PNGs/Phone.png" id="1_b24ir"]
+[ext_resource type="Script" uid="uid://be6je7wckv7es" path="res://Scripts/Component Scripts/mobile_phone.gd" id="1_qkp33"]
+[ext_resource type="FontFile" uid="uid://dee4q2pxdjpua" path="res://Assets/Fonts/BMgermar.TTF" id="2_l7r67"]
+[ext_resource type="Texture2D" uid="uid://cxpb65f3yckc" path="res://Assets/PNGs/AppIcons.png" id="3_qkp33"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fan7k"]
+texture = ExtResource("3_qkp33")
+region_rect = Rect2(0, 0, 36, 36)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_r31ro"]
+texture = ExtResource("3_qkp33")
+region_rect = Rect2(36, 0, 36, 36)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_icmd2"]
+texture = ExtResource("3_qkp33")
+region_rect = Rect2(72, 0, 36, 36)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rfx6h"]
+texture = ExtResource("3_qkp33")
+region_rect = Rect2(108, 0, 36, 36)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_17j6m"]
+texture = ExtResource("3_qkp33")
+region_rect = Rect2(144, 0, 36, 36)
+
+[node name="Phone" type="Control" node_paths=PackedStringArray("time", "date", "app_container")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 10
+size_flags_vertical = 6
+script = ExtResource("1_qkp33")
+time = NodePath("NinePatchRect/MarginContainer/VBoxContainer/Time")
+date = NodePath("NinePatchRect/MarginContainer/VBoxContainer/Date")
+app_container = NodePath("NinePatchRect/MarginContainer2")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+custom_minimum_size = Vector2(540, 990)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -331.0
+offset_top = -298.0
+offset_right = 209.0
+offset_bottom = 692.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("1_b24ir")
+
+[node name="MarginContainer" type="MarginContainer" parent="NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 155
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NinePatchRect/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Time" type="Label" parent="NinePatchRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("2_l7r67")
+theme_override_font_sizes/font_size = 101
+text = "1:00 PM"
+
+[node name="Date" type="Label" parent="NinePatchRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("2_l7r67")
+theme_override_font_sizes/font_size = 30
+text = "Aug 15, 2025"
+horizontal_alignment = 1
+
+[node name="Seperator" type="Control" parent="NinePatchRect/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 69.055)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NinePatchRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NinePatchRect/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 25
+
+[node name="Mail" type="Button" parent="NinePatchRect/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_styles/hover = SubResource("StyleBoxTexture_fan7k")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_fan7k")
+theme_override_styles/normal = SubResource("StyleBoxTexture_fan7k")
+
+[node name="Camera" type="Button" parent="NinePatchRect/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_styles/hover = SubResource("StyleBoxTexture_r31ro")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_r31ro")
+theme_override_styles/normal = SubResource("StyleBoxTexture_r31ro")
+
+[node name="Chat" type="Button" parent="NinePatchRect/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_styles/hover = SubResource("StyleBoxTexture_icmd2")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_icmd2")
+theme_override_styles/normal = SubResource("StyleBoxTexture_icmd2")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="NinePatchRect/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 25
+
+[node name="Buzz" type="Button" parent="NinePatchRect/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_styles/hover = SubResource("StyleBoxTexture_rfx6h")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_rfx6h")
+theme_override_styles/normal = SubResource("StyleBoxTexture_rfx6h")
+
+[node name="News" type="Button" parent="NinePatchRect/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_styles/hover = SubResource("StyleBoxTexture_17j6m")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_17j6m")
+theme_override_styles/normal = SubResource("StyleBoxTexture_17j6m")
+
+[node name="Button3" type="Button" parent="NinePatchRect/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 0
+
+[node name="MarginContainer2" type="MarginContainer" parent="NinePatchRect"]
+visible = false
+layout_mode = 0
+offset_left = 48.0
+offset_top = 80.0
+offset_right = 487.0
+offset_bottom = 945.0
+
+[node name="Panel" type="Panel" parent="NinePatchRect/MarginContainer2"]
+layout_mode = 2
+
+[node name="ClockTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="pressed" from="NinePatchRect/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/Mail" to="." method="_on_mail_pressed"]
+[connection signal="pressed" from="NinePatchRect/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/Camera" to="." method="_on_camera_pressed"]
+[connection signal="pressed" from="NinePatchRect/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/Chat" to="." method="_on_chat_pressed"]
+[connection signal="pressed" from="NinePatchRect/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/Buzz" to="." method="_on_buzz_pressed"]
+[connection signal="pressed" from="NinePatchRect/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/News" to="." method="_on_news_pressed"]
+[connection signal="pressed" from="NinePatchRect/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/Button3" to="." method="_on_button_3_pressed"]
+[connection signal="timeout" from="ClockTimer" to="." method="_on_clock_timer_timeout"]

@@ -6,71 +6,120 @@
 
 [node name="ArticleComparer" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 0
-offset_top = -1.0
-offset_right = 1155.0
+anchor_left = 0.57
+anchor_right = 0.57
+offset_right = 1157.0
 offset_bottom = 646.0
 script = ExtResource("1_wtcfe")
 
 [node name="HTTPRequest" type="HTTPRequest" parent="ArticleComparer"]
 
 [node name="ArticleText" type="RichTextLabel" parent="ArticleComparer"]
-layout_mode = 0
-offset_left = 825.0
-offset_top = 180.0
-offset_right = 1092.0
-offset_bottom = 269.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 246.5
+offset_top = -143.0
+offset_right = 513.5
+offset_bottom = -54.0
 text = "Article"
 
 [node name="TipText" type="RichTextLabel" parent="ArticleComparer"]
-layout_mode = 0
-offset_left = 829.0
-offset_top = 47.0
-offset_right = 1082.0
-offset_bottom = 129.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 250.5
+offset_top = -276.0
+offset_right = 503.5
+offset_bottom = -194.0
 text = "Tip"
 
 [node name="FactsContainer" type="VBoxContainer" parent="ArticleComparer"]
-layout_mode = 0
-offset_left = 109.0
-offset_top = 38.0
-offset_right = 703.0
-offset_bottom = 265.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -469.5
+offset_top = -285.0
+offset_right = 124.5
+offset_bottom = -58.0
 
 [node name="CompareButton" type="Button" parent="ArticleComparer"]
-layout_mode = 0
-offset_left = 198.0
-offset_top = 423.0
-offset_right = 403.0
-offset_bottom = 502.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -380.5
+offset_top = 100.0
+offset_right = -175.5
+offset_bottom = 179.0
 text = "compare
 "
 
 [node name="PrevButton" type="Button" parent="ArticleComparer"]
-layout_mode = 0
-offset_left = 727.0
-offset_top = 540.0
-offset_right = 850.0
-offset_bottom = 580.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 148.5
+offset_top = 217.0
+offset_right = 271.5
+offset_bottom = 257.0
 text = "previous"
 
 [node name="NextButton" type="Button" parent="ArticleComparer"]
-layout_mode = 0
-offset_left = 859.0
-offset_top = 540.0
-offset_right = 964.0
-offset_bottom = 579.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 280.5
+offset_top = 217.0
+offset_right = 385.5
+offset_bottom = 256.0
 text = "next"
 
+[node name="CloseButton" type="Button" parent="ArticleComparer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 400.5
+offset_top = 217.0
+offset_right = 500.5
+offset_bottom = 257.0
+text = "Close"
+
 [node name="ResultText" type="RichTextLabel" parent="ArticleComparer"]
-layout_mode = 0
-offset_left = 726.0
-offset_top = 427.0
-offset_right = 1043.0
-offset_bottom = 535.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 147.5
+offset_top = 104.0
+offset_right = 464.5
+offset_bottom = 212.0
 text = "Results
 
 "
 
 [connection signal="request_completed" from="ArticleComparer/HTTPRequest" to="ArticleComparer" method="_on_http_request_request_completed"]
-[connection signal="pressed" from="ArticleComparer/CompareButton" to="ArticleComparer" method="_on_compare_button_pressed"]
+[connection signal="pressed" from="ArticleComparer/CompareButton" to="ArticleComparer" method="_on_analyze_pressed"]
+[connection signal="pressed" from="ArticleComparer/CloseButton" to="ArticleComparer" method="_on_close_pressed"]

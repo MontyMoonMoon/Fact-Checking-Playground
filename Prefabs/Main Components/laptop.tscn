@@ -1,0 +1,653 @@
+[gd_scene load_steps=29 format=3 uid="uid://0tax7malsyxa"]
+
+[ext_resource type="Script" uid="uid://b78hmegyor2cd" path="res://Scripts/Main Component Scripts/laptop.gd" id="1_6yp3k"]
+[ext_resource type="Texture2D" uid="uid://dtbsh2rf8jbvb" path="res://Assets/PNGs/Main Components/Laptop.png" id="1_asa33"]
+[ext_resource type="Texture2D" uid="uid://v30rju7pyxhl" path="res://Assets/PNGs/Main Components/LaptopScreen.png" id="2_33gdn"]
+[ext_resource type="Texture2D" uid="uid://dcscg1b2qiqa1" path="res://Assets/PNGs/ScreenBackground.png" id="3_jukb7"]
+[ext_resource type="Texture2D" uid="uid://016dltg3sr5d" path="res://Assets/PNGs/Apps/Laptop/Exit.png" id="5_jqnag"]
+[ext_resource type="Texture2D" uid="uid://br7kdvsyng20v" path="res://Assets/PNGs/Apps/Laptop/Ethernet.png" id="6_uuvnn"]
+[ext_resource type="Texture2D" uid="uid://bph8ahg8s6qlc" path="res://Assets/PNGs/Apps/Laptop/Gmail.png" id="7_6qx5p"]
+[ext_resource type="Texture2D" uid="uid://bp0dj4y1ifdmn" path="res://Assets/PNGs/Apps/Laptop/EvidenceBank.png" id="8_cpu8m"]
+[ext_resource type="Texture2D" uid="uid://deaquh2w7n4nc" path="res://Assets/PNGs/Apps/Laptop/Patreon.png" id="8_mhrp6"]
+[ext_resource type="FontFile" uid="uid://de2qiyybswcte" path="res://Assets/Fonts/windows-xp-tahoma.otf" id="10_bbqqd"]
+[ext_resource type="Texture2D" uid="uid://ca1ou32b8wtgu" path="res://Assets/PNGs/UI/UI Assets.png" id="12_4bp56"]
+[ext_resource type="Script" uid="uid://ckiny1ihn76gb" path="res://Scripts/App Scripts/emails_controller.gd" id="12_j8xk1"]
+[ext_resource type="Script" uid="uid://djgqfwtop0vle" path="res://Scripts/App Scripts/ai_analysis_controller.gd" id="13_aianalysis"]
+[ext_resource type="Script" uid="uid://dolxqses1eif1" path="res://Scripts/App Scripts/evidence_bank_controller.gd" id="14_evbank"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4bp56"]
+texture = ExtResource("2_33gdn")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6yp3k"]
+bg_color = Color(0.259294, 0.259294, 0.259294, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_c8npv"]
+texture = ExtResource("5_jqnag")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c8npv"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cpu8m"]
+texture = ExtResource("7_6qx5p")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bbqqd"]
+texture = ExtResource("8_mhrp6")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mhrp6"]
+texture = ExtResource("8_cpu8m")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_article"]
+bg_color = Color(0.15, 0.15, 0.2, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.3, 0.4, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tip"]
+bg_color = Color(0.15, 0.2, 0.25, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.4, 0.5, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_j8xk1"]
+texture = ExtResource("12_4bp56")
+region_rect = Rect2(384, 646, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_err50"]
+texture = ExtResource("12_4bp56")
+region_rect = Rect2(451, 646, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yrng6"]
+texture = ExtResource("12_4bp56")
+region_rect = Rect2(418, 646, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7fn0r"]
+texture = ExtResource("12_4bp56")
+region_rect = Rect2(963, 179, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_25n6i"]
+texture = ExtResource("12_4bp56")
+region_rect = Rect2(963, 243, 26, 26)
+
+[node name="Laptop" type="Control" node_paths=PackedStringArray("laptop_screen", "home_screen", "app_main", "app_name", "emails", "ai_analysis", "evidence_bank")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_6yp3k")
+laptop_screen = NodePath("LaptopIn")
+home_screen = NodePath("LaptopIn/HomeScreen")
+app_main = NodePath("LaptopIn/Apps")
+app_name = NodePath("LaptopIn/Apps/Content/App_BG/AppName Container/Name")
+emails = NodePath("LaptopIn/Apps/Content/App_BG/Emails Controller")
+ai_analysis = NodePath("LaptopIn/Apps/Content/App_BG/AI Analysis Controller")
+evidence_bank = NodePath("LaptopIn/Apps/Content/App_BG/Evidence Bank Controller")
+
+[node name="LaptopOut" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -286.5
+offset_top = -357.0
+offset_right = 286.5
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="NinePatchRect" type="NinePatchRect" parent="LaptopOut"]
+custom_minimum_size = Vector2(459, 286)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("1_asa33")
+
+[node name="MarginContainer" type="MarginContainer" parent="LaptopOut/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -128.0
+offset_right = 128.0
+offset_bottom = 188.0
+grow_horizontal = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LaptopOut/NinePatchRect/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Control" type="Control" parent="LaptopOut/NinePatchRect/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 11)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Screen" type="Button" parent="LaptopOut/NinePatchRect/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(265, 148.9)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_4bp56")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_4bp56")
+theme_override_styles/hover = SubResource("StyleBoxTexture_4bp56")
+
+[node name="Control" type="Control" parent="LaptopOut"]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+
+[node name="LaptopIn" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="HomeScreen" type="NinePatchRect" parent="LaptopIn"]
+custom_minimum_size = Vector2(0, 569)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_jukb7")
+
+[node name="TaskBar" type="MarginContainer" parent="LaptopIn/HomeScreen"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Panel" type="Panel" parent="LaptopIn/HomeScreen/TaskBar"]
+custom_minimum_size = Vector2(0, 55)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6yp3k")
+
+[node name="MarginContainer" type="MarginContainer" parent="LaptopIn/HomeScreen/TaskBar/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 25
+
+[node name="Left" type="HBoxContainer" parent="LaptopIn/HomeScreen/TaskBar/Panel/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="Exit" type="Button" parent="LaptopIn/HomeScreen/TaskBar/Panel/MarginContainer/Left"]
+custom_minimum_size = Vector2(31.2, 36.4)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_c8npv")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_c8npv")
+theme_override_styles/hover = SubResource("StyleBoxTexture_c8npv")
+
+[node name="Right" type="HBoxContainer" parent="LaptopIn/HomeScreen/TaskBar/Panel/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/separation = 20
+
+[node name="Ethernet" type="NinePatchRect" parent="LaptopIn/HomeScreen/TaskBar/Panel/MarginContainer/Right"]
+custom_minimum_size = Vector2(44, 36)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("6_uuvnn")
+
+[node name="Panel" type="Panel" parent="LaptopIn/HomeScreen/TaskBar/Panel/MarginContainer/Right"]
+custom_minimum_size = Vector2(3, 35)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_c8npv")
+
+[node name="Time" type="Label" parent="LaptopIn/HomeScreen/TaskBar/Panel/MarginContainer/Right"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "00:00 "
+
+[node name="HomeScreen" type="MarginContainer" parent="LaptopIn/HomeScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -56.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DesktopIcons" type="MarginContainer" parent="LaptopIn/HomeScreen/HomeScreen"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Icons" type="VBoxContainer" parent="LaptopIn/HomeScreen/HomeScreen/DesktopIcons"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="App" type="HBoxContainer" parent="LaptopIn/HomeScreen/HomeScreen/DesktopIcons/Icons"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 20
+
+[node name="Email" type="Button" parent="LaptopIn/HomeScreen/HomeScreen/DesktopIcons/Icons/App"]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_cpu8m")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_cpu8m")
+theme_override_styles/hover = SubResource("StyleBoxTexture_cpu8m")
+
+[node name="AI Analysis" type="Button" parent="LaptopIn/HomeScreen/HomeScreen/DesktopIcons/Icons/App"]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_bbqqd")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_bbqqd")
+theme_override_styles/hover = SubResource("StyleBoxTexture_bbqqd")
+
+[node name="Evidence Bank" type="Button" parent="LaptopIn/HomeScreen/HomeScreen/DesktopIcons/Icons/App"]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_mhrp6")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_mhrp6")
+theme_override_styles/hover = SubResource("StyleBoxTexture_mhrp6")
+
+[node name="Files" type="HBoxContainer" parent="LaptopIn/HomeScreen/HomeScreen/DesktopIcons/Icons"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 20
+
+[node name="File" type="Button" parent="LaptopIn/HomeScreen/HomeScreen/DesktopIcons/Icons/Files"]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+focus_mode = 0
+
+[node name="Trash" type="HBoxContainer" parent="LaptopIn/HomeScreen/HomeScreen/DesktopIcons"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_constants/separation = 20
+
+[node name="TrashBin" type="Button" parent="LaptopIn/HomeScreen/HomeScreen/DesktopIcons/Trash"]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+focus_mode = 0
+
+[node name="Apps" type="MarginContainer" parent="LaptopIn"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_bottom = 55
+
+[node name="Content" type="MarginContainer" parent="LaptopIn/Apps"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="App_BG" type="NinePatchRect" parent="LaptopIn/Apps/Content"]
+layout_mode = 2
+texture = ExtResource("12_4bp56")
+region_rect = Rect2(16, 287, 402, 252)
+
+[node name="AppName Container" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG"]
+layout_mode = 1
+offset_right = 122.0
+offset_bottom = 36.0
+mouse_filter = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 10
+
+[node name="Name" type="Label" parent="LaptopIn/Apps/Content/App_BG/AppName Container"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.8980392, 0.8980392, 0.8980392, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+text = "App Name "
+
+[node name="Emails Controller" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG" node_paths=PackedStringArray("laptop", "mails_container", "mails_content")]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -546.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 5
+script = ExtResource("12_j8xk1")
+laptop = NodePath("../../../../..")
+mails_container = NodePath("ScrollableArea")
+mails_content = NodePath("ScrollableArea/EmailsContent")
+
+[node name="ScrollableArea" type="ScrollContainer" parent="LaptopIn/Apps/Content/App_BG/Emails Controller"]
+custom_minimum_size = Vector2(0, 527)
+layout_mode = 2
+size_flags_vertical = 0
+horizontal_scroll_mode = 0
+
+[node name="EmailsContent" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Emails Controller/ScrollableArea"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="Seperator" type="Control" parent="LaptopIn/Apps/Content/App_BG/Emails Controller/ScrollableArea/EmailsContent"]
+layout_mode = 2
+
+[node name="AI Analysis Controller" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG"]
+visible = false
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -478.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 10
+script = ExtResource("13_aianalysis")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller"]
+
+[node name="ScrollableArea" type="ScrollContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller"]
+custom_minimum_size = Vector2(0, 455)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="ContentContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 15
+
+[node name="PapersContainer" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer"]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ArticlePanel" type="Panel" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/PapersContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_article")
+
+[node name="ArticleVBox" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/PapersContainer/ArticlePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="ArticleLabel" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/PapersContainer/ArticlePanel/ArticleVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 16
+text = "ARTICLE"
+
+[node name="ArticleText" type="RichTextLabel" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/PapersContainer/ArticlePanel/ArticleVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+bbcode_enabled = true
+text = "Article text will appear here"
+
+[node name="ArticleFactsLabel" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/PapersContainer/ArticlePanel/ArticleVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 14
+text = "Facts:"
+
+[node name="ArticleFactsContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/PapersContainer/ArticlePanel/ArticleVBox"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="TipPanel" type="Panel" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/PapersContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_tip")
+
+[node name="TipVBox" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/PapersContainer/TipPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="TipLabel" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/PapersContainer/TipPanel/TipVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.9, 1, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 16
+text = "TIP"
+
+[node name="TipText" type="RichTextLabel" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/PapersContainer/TipPanel/TipVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.8, 0.9, 1, 1)
+bbcode_enabled = true
+text = "Tip text will appear here"
+
+[node name="TipFactsLabel" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/PapersContainer/TipPanel/TipVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.9, 1, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 14
+text = "Facts:"
+
+[node name="TipFactsContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/PapersContainer/TipPanel/TipVBox"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="ResultSection" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="ResultLabel" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/ResultSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 14
+text = "Results:"
+
+[node name="ResultText" type="RichTextLabel" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/ResultSection"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+bbcode_enabled = true
+text = "Select two facts to compare or click Analyze..."
+
+[node name="ButtonSection" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PrevButton" type="Button" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/ButtonSection"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 12
+text = "Previous"
+
+[node name="AnalyzeButton" type="Button" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/ButtonSection"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 12
+text = "Analyze"
+
+[node name="NextButton" type="Button" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/ButtonSection"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 12
+text = "Next"
+
+[node name="Evidence Bank Controller" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG"]
+visible = false
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -478.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 10
+script = ExtResource("14_evbank")
+
+[node name="ScrollableArea" type="ScrollContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller"]
+custom_minimum_size = Vector2(0, 455)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="ContentContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollableArea"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 15
+
+[node name="InfoListSection" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollableArea/ContentContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="InfoListLabel" type="Label" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollableArea/ContentContainer/InfoListSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 14
+text = "Evidence List:"
+
+[node name="InfoListContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollableArea/ContentContainer/InfoListSection"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="SelectedSection" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollableArea/ContentContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="SelectedLabel" type="Label" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollableArea/ContentContainer/SelectedSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 14
+text = "Selected Evidence:"
+
+[node name="TitleLabel" type="Label" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollableArea/ContentContainer/SelectedSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 12
+text = "No selection"
+
+[node name="ContentLabel" type="RichTextLabel" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollableArea/ContentContainer/SelectedSection"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+bbcode_enabled = true
+text = "Select an item from the list to view details."
+
+[node name="ButtonSection" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollableArea/ContentContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="AddButton" type="Button" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollableArea/ContentContainer/ButtonSection"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 12
+text = "Add to Analysis"
+
+[node name="TrashButton" type="Button" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollableArea/ContentContainer/ButtonSection"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 12
+text = "Trash"
+
+[node name="RefreshButton" type="Button" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollableArea/ContentContainer/ButtonSection"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 12
+text = "Refresh"
+
+[node name="Buttons" type="MarginContainer" parent="LaptopIn/Apps/Content"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+
+[node name="ButtonContainer" type="HBoxContainer" parent="LaptopIn/Apps/Content/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="Size" type="Button" parent="LaptopIn/Apps/Content/Buttons/ButtonContainer"]
+custom_minimum_size = Vector2(30, 31)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_j8xk1")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_err50")
+theme_override_styles/hover = SubResource("StyleBoxTexture_err50")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_yrng6")
+disabled = true
+
+[node name="Exit" type="Button" parent="LaptopIn/Apps/Content/Buttons/ButtonContainer"]
+custom_minimum_size = Vector2(30, 31)
+layout_mode = 2
+size_flags_horizontal = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_7fn0r")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_25n6i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_25n6i")
+
+[connection signal="pressed" from="LaptopOut/NinePatchRect/MarginContainer/VBoxContainer/Screen" to="." method="_on_screen_pressed"]
+[connection signal="pressed" from="LaptopIn/HomeScreen/TaskBar/Panel/MarginContainer/Left/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="LaptopIn/HomeScreen/HomeScreen/DesktopIcons/Icons/App/Email" to="." method="_on_email_pressed"]
+[connection signal="pressed" from="LaptopIn/HomeScreen/HomeScreen/DesktopIcons/Icons/App/AI Analysis" to="." method="_on_ai_analysis_pressed"]
+[connection signal="pressed" from="LaptopIn/HomeScreen/HomeScreen/DesktopIcons/Icons/App/Evidence Bank" to="." method="_on_evidence_bank_pressed"]
+[connection signal="pressed" from="LaptopIn/HomeScreen/HomeScreen/DesktopIcons/Trash/TrashBin" to="." method="_on_trashbin_pressed"]
+[connection signal="pressed" from="LaptopIn/Apps/Content/Buttons/ButtonContainer/Exit" to="." method="_on_exit_pressed"]

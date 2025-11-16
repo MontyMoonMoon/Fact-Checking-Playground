@@ -1,0 +1,79 @@
+[gd_scene load_steps=4 format=3 uid="uid://cowp7efolgj4p"]
+
+[ext_resource type="Script" uid="uid://bsckkmto3cmwt" path="res://Scripts/Component Scripts/note_content.gd" id="1_g0ffl"]
+[ext_resource type="FontFile" uid="uid://dee4q2pxdjpua" path="res://Assets/Fonts/BMgermar.TTF" id="2_nsyt1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3o8b3"]
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="note_content" type="Control"]
+custom_minimum_size = Vector2(100, 70)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -49.5
+offset_top = -36.5
+offset_right = 49.5
+offset_bottom = 36.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_g0ffl")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -35.0
+offset_right = 50.0
+offset_bottom = 35.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Open" type="Button" parent="MarginContainer"]
+custom_minimum_size = Vector2(100, 70)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_3o8b3")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_3o8b3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3o8b3")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Open"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="Title" type="Label" parent="MarginContainer/Open/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("2_nsyt1")
+theme_override_font_sizes/font_size = 12
+text = "Meeting Ideas"
+
+[node name="Date" type="Label" parent="MarginContainer/Open/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_nsyt1")
+theme_override_font_sizes/font_size = 12
+text = "mm/dd/yy"
+
+[connection signal="pressed" from="MarginContainer/Open" to="." method="_on_open_pressed"]
