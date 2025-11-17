@@ -1,6 +1,5 @@
-[gd_scene load_steps=4 format=3 uid="uid://b2kx7m9f8h3j4"]
+[gd_scene load_steps=3 format=3 uid="uid://b2kx7m9f8h3j4"]
 
-[ext_resource type="Script" path="res://Scripts/article_popup.gd" id="1_popup"]
 [ext_resource type="Texture2D" uid="uid://dbatqj8wjl0dh" path="res://Assets/PNGs/UI/UI Assets.png" id="2_ui"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
@@ -23,7 +22,6 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_overlay")
-script = ExtResource("1_popup")
 
 [node name="PopupContainer" type="Panel" parent="."]
 layout_mode = 1

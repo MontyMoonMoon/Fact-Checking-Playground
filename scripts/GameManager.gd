@@ -7,8 +7,6 @@ class_name GameManager
 @onready var game_failed_popup: Control = null
 var article_popup_scene: PackedScene = null
 
-
-
 # Game state
 var articles_analyzed = []
 var articles_added = []
@@ -132,10 +130,45 @@ func start_game():
 		"articles_removed_penalty": 0.0
 	}
 	
+	# Reset evidence bank for new game
+	_reset_evidence_bank()
+	
 	if game_timer:
 		game_timer.start_timer()
 	
 	_update_integrity_display()
+
+func _reset_evidence_bank():
+	"""Reset evidence bank when starting a new game"""
+	# Clear JSON files for new game
+	_reset_game_data_files()
+	
+	var laptop = _find_laptop()
+	if laptop and laptop.has_method("get_evidence_bank_controller"):
+		var evidence_controller = laptop.get_evidence_bank_controller()
+		if evidence_controller and evidence_controller.has_method("reset_evidence_bank"):
+			evidence_controller.reset_evidence_bank()
+			print("GameManager: Evidence bank reset for new game")
+		else:
+			push_warning("GameManager: Evidence bank controller not found or missing reset method")
+	else:
+		push_warning("GameManager: Could not find laptop to reset evidence bank")
+
+func _reset_game_data_files():
+	"""Clear all game data JSON files for new game"""
+	var files_to_clear = [
+		"user://collected_infos.json",
+		"user://dataset_additions.json",
+		"user://trashed_infos.json"
+	]
+	
+	for file_path in files_to_clear:
+		if FileAccess.file_exists(file_path):
+			var file = FileAccess.open(file_path, FileAccess.WRITE)
+			if file:
+				file.store_string("[]")
+				file.close()
+				print("GameManager: Cleared %s for new game" % file_path)
 
 func _start_new_day():
 	articles_analyzed.clear()
@@ -152,25 +185,31 @@ func _on_article_spawn_requested(article_data: Dictionary):
 	_spawn_article_popup(article_data)
 
 func _spawn_article_popup(article_data: Dictionary):
-	if not article_popup_scene:
-		push_error("Article popup scene not loaded")
-		return
+	# Article popup is currently disabled/placeholder
+	# This function is kept for compatibility but does nothing
+	# TODO: Re-enable when article_popup.gd is implemented
+	return
 	
-	var popup = article_popup_scene.instantiate()
-	# Add to current scene's root (should be a CanvasLayer)
-	var scene_root = get_tree().current_scene
-	if scene_root:
-		scene_root.add_child(popup)
-		current_article_popups.append(popup)
-		
-		popup.article_added.connect(_on_article_added)
-		popup.article_removed.connect(_on_article_removed)
-		popup.popup_closed.connect(_on_popup_closed)
-		
-		if popup.has_method("setup"):
-			popup.setup(article_data, self)
-	else:
-		push_error("No current scene to add popup to")
+	# Disabled code below:
+	# if not article_popup_scene:
+	# 	push_error("Article popup scene not loaded")
+	# 	return
+	# 
+	# var popup = article_popup_scene.instantiate()
+	# # Add to current scene's root (should be a CanvasLayer)
+	# var scene_root = get_tree().current_scene
+	# if scene_root:
+	# 	scene_root.add_child(popup)
+	# 	current_article_popups.append(popup)
+	# 	
+	# 	popup.article_added.connect(_on_article_added)
+	# 	popup.article_removed.connect(_on_article_removed)
+	# 	popup.popup_closed.connect(_on_popup_closed)
+	# 	
+	# 	if popup.has_method("setup"):
+	# 		popup.setup(article_data, self)
+	# else:
+	# 	push_error("No current scene to add popup to")
 
 func _on_article_added(article_data: Dictionary):
 	articles_added.append(article_data)
@@ -282,7 +321,8 @@ func add_article_result(rf_score: float, lr_score: float):
 	print("[INTEGRITY DEBUG] ==================================")
 	
 	_update_integrity_display()
-
+	
+#Will eventually remove debug crap
 func add_high_overlap_comparison():
 	"""Called when a comparison has high semantic overlap (0.90-1.0)"""
 	print("[INTEGRITY DEBUG] ===== High Overlap Comparison =====")
@@ -294,6 +334,19 @@ func add_high_overlap_comparison():
 	
 	print("[INTEGRITY DEBUG] Integrity AFTER: %.2f" % integrity_score)
 	print("[INTEGRITY DEBUG] High overlap count AFTER: %d" % high_overlap_comparisons)
+	print("[INTEGRITY DEBUG] ==================================")
+	
+	_update_integrity_display()
+
+func add_integrity_score(increment: float):
+	"""Add integrity score increment directly (used by Article Publisher)"""
+	print("[INTEGRITY DEBUG] ===== Adding Integrity Score =====")
+	print("[INTEGRITY DEBUG] Integrity BEFORE: %.2f" % integrity_score)
+	print("[INTEGRITY DEBUG] Increment: +%.2f" % increment)
+	
+	integrity_score = min(10.0, integrity_score + increment)
+	
+	print("[INTEGRITY DEBUG] Integrity AFTER: %.2f" % integrity_score)
 	print("[INTEGRITY DEBUG] ==================================")
 	
 	_update_integrity_display()
@@ -376,36 +429,24 @@ func _evaluate_day():
 	_show_integrity_breakdown_popup()
 
 func _show_integrity_breakdown_popup():
-	"""Show the integrity breakdown popup when timer runs out (Papers Please style)"""
-	# Try to find popup again if not found yet
 	if not game_failed_popup:
 		_find_and_hide_game_failed_popup()
 	
 	if game_failed_popup:
-		game_failed_popup.visible = true
-		game_failed_popup.process_mode = Node.PROCESS_MODE_ALWAYS  # for interactivity when paused
+		game_failed_popup.process_mode = Node.PROCESS_MODE_ALWAYS
+		game_failed_popup.show_breakdown(integrity_breakdown, {
+			"articles_analyzed": articles_analyzed.size(),
+			"high_overlap": high_overlap_comparisons,
+			"articles_added": articles_added.size(),
+			"articles_removed": articles_removed.size(),
+			"final_score": integrity_score
+		})
 		
-		# Update popup with breakdown data
-		if game_failed_popup.has_method("show_breakdown"):
-			game_failed_popup.show_breakdown(integrity_breakdown, {
-				"articles_analyzed": articles_analyzed.size(),
-				"high_overlap": high_overlap_comparisons,
-				"articles_added": articles_added.size(),
-				"articles_removed": articles_removed.size(),
-				"final_score": integrity_score
-			})
-		
-		# Determine if game failed
 		var game_failed = integrity_score < 6.0
-		if game_failed:
-			emit_signal("game_over", "Game Has Failed")
-		else:
-			emit_signal("game_over", "You survived another day.")
-		
+		emit_signal("game_over", "Game Has Failed" if game_failed else "You survived another day.")
 		get_tree().paused = true
-		print("Integrity Breakdown shown. Final score: %.2f" % integrity_score)
 	else:
-		push_error("GameFailedPopup node not found - cannot show popup")
+		push_error("GameFailedPopup node not found")
 		emit_signal("game_over", "Day Complete")
 		get_tree().paused = true
 		

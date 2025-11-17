@@ -11,6 +11,8 @@ class_name Laptop
 @export var emails: MarginContainer
 @export var ai_analysis: MarginContainer
 @export var evidence_bank: MarginContainer
+@export var article_publisher: MarginContainer
+@export var trash: MarginContainer
 @export var time_label: Label = null
 
 # ---------- VARIABLES & SIGNALS ----------
@@ -18,11 +20,14 @@ var laptop_screen_in := false
 var emails_controller: Node = null
 var ai_analysis_controller: AIAnalysisController = null
 var evidence_bank_controller: EvidenceBankController = null
+var article_publisher_controller: ArticlePublisherController = null
+var trash_controller: TrashController = null
 signal laptop_toggled(is_open: bool)
 
 signal open_emails
 signal open_analysis
 signal open_evidences
+signal open_article_publisher
 
 # ---------- APP CONTAINER MANAGER ----------
 func set_ui(visibility: bool, target: int) -> void: 
@@ -34,17 +39,35 @@ func set_ui(visibility: bool, target: int) -> void:
 			app_main.visible = visibility
 
 func set_app(open: String) -> void:
-	emails.visible = false
-	ai_analysis.visible = false
-	evidence_bank.visible = false
+	if emails:
+		emails.visible = false
+	if ai_analysis:
+		ai_analysis.visible = false
+	if evidence_bank:
+		evidence_bank.visible = false
+	if article_publisher:
+		article_publisher.visible = false
+	if trash:
+		trash.visible = false
 
 	match open:
 		"emails":
-			emails.visible = true
+			if emails:
+				emails.visible = true
 		"ai_analysis":
-			ai_analysis.visible = true
+			if ai_analysis:
+				ai_analysis.visible = true
 		"evidence_bank":
-			evidence_bank.visible = true
+			if evidence_bank:
+				evidence_bank.visible = true
+		"article_publisher":
+			if article_publisher:
+				article_publisher.visible = true
+			else:
+				push_warning("Article Publisher node not found!")
+		"trash":
+			if trash:
+				trash.visible = true
 		_:
 			push_warning("Unknown app: " + open)
 
@@ -87,17 +110,21 @@ func _on_evidence_bank_pressed() -> void:
 	if evidence_bank_controller:
 		evidence_bank_controller._on_refresh_pressed()
 
+func _on_article_publisher_pressed() -> void:
+	set_text("Article Publisher")
+	set_ui(true, 1)
+	emit_signal("open_article_publisher")
+	set_app("article_publisher")
+	
+	# Refresh articles when opening
+	if article_publisher_controller:
+		article_publisher_controller.refresh_articles()
+
 func _on_trashbin_pressed() -> void:
-	"""Open trash popup when trashbin button is pressed"""
-	print("[Laptop] TrashBin button pressed")
-	if evidence_bank_controller:
-		if evidence_bank_controller.has_method("_show_trash_popup"):
-			evidence_bank_controller._show_trash_popup()
-			print("[Laptop] Trash popup shown")
-		else:
-			push_warning("[Laptop] Evidence bank controller doesn't have _show_trash_popup method")
-	else:
-		push_warning("[Laptop] Evidence bank controller is null")
+	"""Open trash app when trashbin button is pressed"""
+	set_text("Trash")
+	set_ui(true, 1)
+	set_app("trash")
 
 func get_ai_analysis_controller() -> AIAnalysisController:
 	return ai_analysis_controller
@@ -113,6 +140,8 @@ func set_game_manager(manager: Node):
 		ai_analysis_controller.set_game_manager(manager)
 	if evidence_bank_controller:
 		evidence_bank_controller.set_game_manager(manager)
+	if article_publisher_controller:
+		article_publisher_controller.set_game_manager(manager)
 
 func set_evidence_bank_to_emails():
 	"""Connect evidence bank controller to emails controller"""
@@ -133,10 +162,31 @@ func _ready() -> void:
 		ai_analysis_controller = ai_analysis as AIAnalysisController
 	if evidence_bank:
 		evidence_bank_controller = evidence_bank as EvidenceBankController
+	if article_publisher:
+		article_publisher_controller = article_publisher as ArticlePublisherController
+	if trash:
+		trash_controller = trash as TrashController
 	
 	# Connect controllers
 	if ai_analysis_controller and evidence_bank_controller:
 		evidence_bank_controller.set_ai_analysis_ref(ai_analysis_controller)
+		# Also set laptop reference for app switching
+		if evidence_bank_controller.has_method("set_laptop_ref"):
+			evidence_bank_controller.set_laptop_ref(self)
+	
+	# Connect trash controller to evidence bank
+	if trash_controller and evidence_bank_controller:
+		trash_controller.set_evidence_bank_ref(evidence_bank_controller)
+		if evidence_bank_controller.has_method("set_trash_controller_ref"):
+			evidence_bank_controller.set_trash_controller_ref(trash_controller)
+			print("Laptop: Connected trash controller to evidence bank")
+		else:
+			push_warning("Laptop: Evidence bank controller doesn't have set_trash_controller_ref method")
+	else:
+		if not trash_controller:
+			push_warning("Laptop: trash_controller is null!")
+		if not evidence_bank_controller:
+			push_warning("Laptop: evidence_bank_controller is null!")
 	
 	# Connect evidence bank to emails controller
 	set_evidence_bank_to_emails()
@@ -150,6 +200,10 @@ func _ready() -> void:
 		print("Laptop: Emails controller found")
 	else:
 		push_warning("Laptop: Emails controller is null!")
+	if article_publisher_controller:
+		print("Laptop: Article Publisher controller found")
+	else:
+		push_warning("Laptop: Article Publisher controller is null!")
 
 func set_time_label(label: Label):
 	time_label = label

@@ -4,7 +4,7 @@ extends MarginContainer
 @onready var sender_label: Label = $TextsContainer/Text/Sender_Info/Sender
 @onready var timestamp_label: Label = $TextsContainer/Text/Time_Info/Timestamp
 @onready var content_label: RichTextLabel = $TextsContainer/Text/RichTextLabel
-@onready var background_panel: Panel = $Background
+@onready var background_panel: Panel = get_node("Background Panel")
 @onready var button_container: HBoxContainer = $TextsContainer/Text/ButtonContainer
 @onready var add_button: Button = $TextsContainer/Text/ButtonContainer/AddButton
 @onready var discard_button: Button = $TextsContainer/Text/ButtonContainer/DiscardButton
