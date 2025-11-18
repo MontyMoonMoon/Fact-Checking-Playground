@@ -14,6 +14,8 @@ var articles_data: Array = []
 var constructed_parts: Array = []
 var max_parts: int = 4
 var game_manager: Node = null
+var published_article_texts: Array = []  # Track published articles by article_text
+const PUBLISHED_ARTICLES_PATH = "user://published_articles.json"
 
 func _ready():
 	visible = false
@@ -25,6 +27,7 @@ func _ready():
 		http_request.request_completed.connect(_on_http_request_request_completed)
 	if result_label:
 		result_label.bbcode_enabled = true
+	_load_published_articles()
 	_load_articles()
 
 func _notification(what):
@@ -51,13 +54,28 @@ func refresh_articles():
 	if articles_list_container:
 		articles_list_container.visible = true
 	
-	# Load and display articles
+	# Reload published articles list and then load articles
+	_load_published_articles()
 	_load_articles()
 	call_deferred("_display_articles_list")
 	
 	# Force layout update
 	if articles_list_container:
 		call_deferred("_force_layout_update")
+
+func _load_published_articles():
+	"""Load list of published article texts from file"""
+	var data = JSONManager.load_json(PUBLISHED_ARTICLES_PATH, [])
+	if typeof(data) == TYPE_ARRAY:
+		published_article_texts = data
+		print("Article Publisher: Loaded %d published articles" % published_article_texts.size())
+	else:
+		published_article_texts = []
+
+func _save_published_articles():
+	"""Save list of published article texts to file"""
+	JSONManager.save_json(PUBLISHED_ARTICLES_PATH, published_article_texts)
+	print("Article Publisher: Saved %d published articles" % published_article_texts.size())
 
 func _load_articles():
 	# Load all cases including additions (from evidence bank)
@@ -86,6 +104,22 @@ func _load_articles():
 				if article_text != "" and not existing_texts.has(article_text):
 					articles_data.append(addition)
 					existing_texts[article_text] = true
+	
+	# Filter out published articles
+	_load_published_articles()
+	if published_article_texts.size() > 0:
+		var published_set = {}
+		for text in published_article_texts:
+			published_set[text] = true
+		
+		var filtered_articles = []
+		for article in articles_data:
+			var article_text = article.get("article_text", "")
+			if article_text != "" and not published_set.has(article_text):
+				filtered_articles.append(article)
+		
+		articles_data = filtered_articles
+		print("Article Publisher: Filtered out %d published articles, %d remaining" % [published_article_texts.size(), articles_data.size()])
 
 func _display_articles_list():
 	if not articles_list_container:
@@ -338,6 +372,16 @@ func _on_http_request_request_completed(result: int, response_code: int, headers
 		
 		var integrity_increment = _calculate_integrity_increment(avg, avg_overlap, constructed_parts.size())
 		
+		# Check if verdict indicates fake news - apply penalty
+		var verdict_lower = verdict.to_lower()
+		var is_fake = verdict_lower.contains("fake") or verdict_lower.contains("likely fake") or verdict_lower.contains("probably fake")
+		
+		if is_fake:
+			# Penalize for publishing fake news
+			var fake_penalty = -2.0  # Significant penalty
+			integrity_increment = fake_penalty
+			print("Article Publisher: Published fake news! Applying penalty: %.2f" % fake_penalty)
+		
 		if result_label:
 			var result_text = "[b]Published Article Analysis:[/b]\n\n"
 			result_text += "Parts used: %d\n" % constructed_parts.size()
@@ -345,7 +389,11 @@ func _on_http_request_request_completed(result: int, response_code: int, headers
 			result_text += "[b]ML Analysis:[/b]\n"
 			result_text += "RF Score: %.2f | LogReg: %.2f | Avg: %.2f\n" % [rf, log, avg]
 			result_text += "Verdict: %s\n\n" % verdict
-			result_text += "[color=green]Integrity Score Increment: +%.2f[/color]" % integrity_increment
+			
+			if is_fake:
+				result_text += "[color=red]⚠ FAKE NEWS DETECTED! Integrity Penalty: %.2f[/color]" % integrity_increment
+			else:
+				result_text += "[color=green]Integrity Score Increment: +%.2f[/color]" % integrity_increment
 			result_label.text = result_text
 		
 		if game_manager and game_manager.has_method("add_integrity_score"):
@@ -357,8 +405,39 @@ func _on_http_request_request_completed(result: int, response_code: int, headers
 			if avg_overlap >= 0.7 and game_manager.has_method("add_high_overlap_comparison"):
 				game_manager.add_high_overlap_comparison()
 		
+		# Mark articles as published and save to file
+		var newly_published_texts = []
+		for part in constructed_parts:
+			if part.has("article_data"):
+				var article_data = part.article_data
+				var article_text = article_data.get("article_text", "")
+				if article_text != "":
+					# Add to published list if not already there
+					if not published_article_texts.has(article_text):
+						published_article_texts.append(article_text)
+						newly_published_texts.append(article_text)
+		
+		# Save published articles list
+		if newly_published_texts.size() > 0:
+			_save_published_articles()
+			print("Article Publisher: Marked %d articles as published" % newly_published_texts.size())
+		
+		# Remove from current articles_data array
+		var published_set = {}
+		for text in published_article_texts:
+			published_set[text] = true
+		
+		var filtered_articles = []
+		for article in articles_data:
+			var article_text = article.get("article_text", "")
+			if article_text != "" and not published_set.has(article_text):
+				filtered_articles.append(article)
+		
+		articles_data = filtered_articles
+		
 		constructed_parts.clear()
 		_update_construction_area()
+		_display_articles_list()  # Refresh the article list
 	else:
 		push_error("Invalid response from ML API")
 
@@ -378,6 +457,14 @@ func _calculate_integrity_increment(ml_avg_score: float, avg_overlap: float, num
 
 func set_game_manager(manager: Node):
 	game_manager = manager
+
+func reset_published_articles():
+	"""Reset published articles list for new game"""
+	published_article_texts.clear()
+	JSONManager.clear_json_file(PUBLISHED_ARTICLES_PATH)
+	_load_articles()
+	_display_articles_list()
+	print("Article Publisher: Published articles reset for new game")
 
 func _force_layout_update():
 	if articles_list_container:

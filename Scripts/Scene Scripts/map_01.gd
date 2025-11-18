@@ -31,6 +31,7 @@ var laptop_open := false
 # ---------- GAME SYSTEMS ----------
 var game_manager: GameManager = null
 var game_timer: GameTimer = null
+var lyra: Lyra = null
 
 # ---------- UI VISIBILITY ----------
 func set_ui(visibility: bool, target: int) -> void:
@@ -46,6 +47,11 @@ func _on_settings_pressed() -> void:
 	if settings_instance == null or not is_instance_valid(settings_instance):
 		settings_instance = settings.instantiate()
 		settings_instance.master = master
+		# Pass game timer and manager references
+		if settings_instance.has_method("set_game_timer"):
+			settings_instance.set_game_timer(game_timer)
+		if settings_instance.has_method("set_game_manager"):
+			settings_instance.set_game_manager(game_manager)
 		main_container.add_child(settings_instance)
 		settings_instance.set_anchors_preset(Control.PRESET_FULL_RECT)
 		settings_button.toggle_mode = true
@@ -163,6 +169,27 @@ func _setup_game_systems():
 	api_starter.name = "APIStarter"
 	add_child(api_starter)
 	
+	# Initialize Lyra (Enemy AI)
+	lyra = Lyra.new()
+	lyra.name = "Lyra"
+	add_child(lyra)
+	lyra.set_game_timer(game_timer)
+	lyra.set_game_manager(game_manager)
+	if laptop:
+		lyra.set_laptop(laptop)
+		# Wait a frame for laptop to fully initialize controllers
+		await get_tree().process_frame
+		if laptop.has_method("get_emails_controller"):
+			var emails_ctrl = laptop.get_emails_controller()
+			if emails_ctrl:
+				lyra.set_emails_controller(emails_ctrl)
+				print("[map_01] Lyra: Emails controller connected")
+			else:
+				push_warning("[map_01] Lyra: Emails controller is null")
+		else:
+			push_warning("[map_01] Lyra: Laptop doesn't have get_emails_controller method")
+	print("[map_01] Lyra AI initialized")
+	
 	# Start game after a short delay
 	await get_tree().create_timer(1.0).timeout
 	game_manager.start_game()
@@ -171,15 +198,17 @@ func _setup_game_systems():
 
 func _on_timer_updated(time_text: String):
 	"""Update laptop time when timer updates"""
-	print("[TIMER DEBUG] Timer updated signal received: %s" % time_text)
+	# print("[TIMER DEBUG] Timer updated signal received: %s" % time_text)
 	if laptop and laptop.has_method("update_time_display"):
 		laptop.update_time_display(time_text)
-		print("[TIMER DEBUG] Laptop time updated")
+		# print("[TIMER DEBUG] Laptop time updated")
 	else:
 		if not laptop:
-			print("[TIMER DEBUG] WARNING: Laptop is null!")
+			# print("[TIMER DEBUG] WARNING: Laptop is null!")
+			pass
 		else:
-			print("[TIMER DEBUG] WARNING: Laptop doesn't have update_time_display method!")
+			# print("[TIMER DEBUG] WARNING: Laptop doesn't have update_time_display method!")
+			pass
 
 func _on_integrity_changed(new_score: float):
 	print("Integrity changed to: %.2f" % new_score)

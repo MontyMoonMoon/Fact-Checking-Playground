@@ -23,8 +23,8 @@ var used_articles: Array = []
 func _ready():
 	time_remaining = time_limit
 	_load_articles()
-	# Make timer run even when game is paused
-	process_mode = Node.PROCESS_MODE_ALWAYS
+	# Timer should respect game pause state
+	process_mode = Node.PROCESS_MODE_INHERIT
 
 func _process(delta):
 	if not is_running:
@@ -72,16 +72,27 @@ func start_timer():
 	var time_text = "%02d:%02d" % [minutes, seconds]
 	if timer_label:
 		timer_label.text = time_text
-		print("[TIMER DEBUG] Timer label updated to: %s" % time_text)
+		#print("[TIMER DEBUG] Timer label updated to: %s" % time_text)
 	else:
 		print("[TIMER DEBUG] WARNING: Timer label is null!")
 	emit_signal("timer_updated", time_text)
 	
-	print("[TIMER DEBUG] Game timer started: %d seconds, is_running: %s, process_mode: %d" % [time_limit, is_running, process_mode])
+	#print("[TIMER DEBUG] Game timer started: %d seconds, is_running: %s, process_mode: %d" % [time_limit, is_running, process_mode])
 
 func stop_timer():
 	is_running = false
 	print("Game timer stopped")
+
+func pause_timer():
+	"""Pause the timer without resetting it"""
+	is_running = false
+	print("Game timer paused")
+
+func resume_timer():
+	"""Resume the timer from where it left off"""
+	if time_remaining > 0.0:
+		is_running = true
+		print("Game timer resumed")
 
 func set_timer_label(label: Label):
 	timer_label = label

@@ -172,6 +172,9 @@ func _reset_game_data_files():
 		JSONManager.clear_json_file("user://collected_infos.json")
 		JSONManager.clear_json_file("user://dataset_additions.json")
 		JSONManager.clear_json_file("user://trashed_infos.json")
+	
+	# Also clear published articles
+	JSONManager.clear_json_file("user://published_articles.json")
 
 func _start_new_day():
 	articles_analyzed.clear()

@@ -22,6 +22,9 @@ var sound_manager: SoundManager
 
 var is_dragging := false
 var drag_offset := Vector2.ZERO
+var game_timer: Node = null
+var game_manager: Node = null
+var is_paused: bool = false
 
 # ---------- UPDATE METHODS ----------
 func update_sliders() -> void:
@@ -65,8 +68,32 @@ func _toggle_slider_value(slider: HSlider, button: Button) -> void:
 # ---------- BUTTONS ----------
 func _on_pause_pressed() -> void:
 	master.sound_manager.play_sound("mouse_click")
-	#TODO: pause time here!
-	pass # Replace with function body.
+	toggle_pause()
+
+func toggle_pause() -> void:
+	is_paused = !is_paused
+	
+	# Pause/unpause the game tree
+	get_tree().paused = is_paused
+	
+	# Pause/unpause the timer
+	if game_timer:
+		if is_paused:
+			game_timer.pause_timer()
+		else:
+			game_timer.resume_timer()
+	
+	# Update button text
+	if pause_button:
+		pause_button.text = "Resume" if is_paused else "Pause"
+	
+	print("Game %s" % ("paused" if is_paused else "resumed"))
+
+func set_game_timer(timer: Node) -> void:
+	game_timer = timer
+
+func set_game_manager(manager: Node) -> void:
+	game_manager = manager
 
 func _on_main_menu_pressed() -> void:
 	master.sound_manager.play_sound("mouse_click")
@@ -88,6 +115,9 @@ func save_pref() -> void:
 func _ready() -> void:
 	master = get_node("/root/Master")  
 	scene_loader = master.scene_loader
+	
+	# Settings panel should work even when game is paused
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	
 	SettingsManager.load_settings()
 	update_sliders()

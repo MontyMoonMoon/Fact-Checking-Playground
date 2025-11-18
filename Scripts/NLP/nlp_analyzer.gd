@@ -354,8 +354,3 @@ static func _calculate_semantic_similarity(text_a: String, text_b: String) -> fl
 		return 0.0
 	
 	return float(intersection) / float(union)
-
-
-
-
-

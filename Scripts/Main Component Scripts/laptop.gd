@@ -22,6 +22,8 @@ var ai_analysis_controller: AIAnalysisController = null
 var evidence_bank_controller: EvidenceBankController = null
 var article_publisher_controller: ArticlePublisherController = null
 var trash_controller: TrashController = null
+var crash_glitch_effect: Node = null
+var is_crashed: bool = false
 signal laptop_toggled(is_open: bool)
 
 signal open_emails
@@ -149,6 +151,78 @@ func set_evidence_bank_to_emails():
 		if emails_controller.has_method("set_evidence_bank_controller"):
 			emails_controller.set_evidence_bank_controller(evidence_bank_controller)
 			print("Laptop: Connected evidence bank to emails controller")
+
+func trigger_crash(duration: float):
+	"""Trigger laptop crash/hang effects"""
+	if is_crashed:
+		return  # Already crashed, don't stack crashes
+	
+	is_crashed = true
+	print("Laptop: CRASH! System unresponsive for %.1f seconds" % duration)
+	# Disable all interactions
+	_set_crash_state(true)
+	# Add visual glitch effect
+	_add_glitch_effect()
+	# Auto-recover after duration
+	var timer = get_tree().create_timer(duration)
+	timer.timeout.connect(_on_crash_recover)
+
+func _on_crash_recover():
+	"""Recover from crash"""
+	is_crashed = false
+	_set_crash_state(false)
+	remove_glitch_effect()
+	print("Laptop: System recovered from crash")
+
+func _set_crash_state(crashed: bool):
+	"""Set crash state - disable/enable interactions"""
+	# Disable all app buttons and interactions
+	if app_main:
+		if crashed:
+			app_main.modulate = Color(0.3, 0.3, 0.3, 1.0)  # Darker when crashed
+			app_main.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		else:
+			app_main.modulate = Color.WHITE
+			app_main.mouse_filter = Control.MOUSE_FILTER_PASS
+	
+	# Also disable laptop screen if available
+	if laptop_screen:
+		if crashed:
+			laptop_screen.modulate = Color(0.4, 0.4, 0.4, 1.0)
+		else:
+			laptop_screen.modulate = Color.WHITE
+
+var glitch_tween: Tween = null
+
+func _add_glitch_effect():
+	"""Add visual glitch effect during crash"""
+	if not app_main:
+		return
+	
+	# Create a glitch effect using tween to flicker the screen
+	if glitch_tween:
+		glitch_tween.kill()
+	
+	glitch_tween = create_tween()
+	glitch_tween.set_loops()
+	
+	# Flicker effect - rapidly change modulate
+	for i in range(10):
+		glitch_tween.tween_property(app_main, "modulate", Color(0.2, 0.2, 0.8, 1.0), 0.05)
+		glitch_tween.tween_property(app_main, "modulate", Color(0.3, 0.3, 0.3, 1.0), 0.05)
+	
+	print("Laptop: Glitch effect activated")
+
+func add_glitch_effect(duration: float):
+	"""Add visual glitch effect during crash (called from Lyra)"""
+	_add_glitch_effect()
+
+func remove_glitch_effect():
+	"""Remove glitch effect"""
+	if glitch_tween:
+		glitch_tween.kill()
+		glitch_tween = null
+	print("Laptop: Glitch effect removed")
 
 # ---------- GODOT CALLBACKS ----------
 func _ready() -> void:

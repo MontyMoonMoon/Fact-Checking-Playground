@@ -12,6 +12,7 @@ var evidence_bank_controller: EvidenceBankController = null
 # Email data
 var email_news_pool: Array = []
 var used_email_indices: Array = []
+var spam_emails_queue: Array = []  # Queue of spam emails to show when app opens
 
 # ---------- PREFAB ----------
 @onready var email = preload("res://Prefabs/Components/email.tscn")
@@ -19,6 +20,7 @@ var used_email_indices: Array = []
 # ---------- METHODS ----------
 func _on_open_emails() -> void:
 	print("[Emails_controller._on_open_emails] Spawning emails...")
+	# Always spawn emails when app opens, including any queued spam
 	spawn_emails()
 
 func spawn_emails() -> void:
@@ -29,6 +31,16 @@ func spawn_emails() -> void:
 	# Load email news if not already loaded
 	if email_news_pool.is_empty():
 		_load_email_news()
+	
+	# First, spawn any queued spam emails
+	for spam_data in spam_emails_queue:
+		var email_instance = email.instantiate()
+		mails_content.add_child(email_instance)
+		if email_instance.has_method("setup_email"):
+			email_instance.setup_email(spam_data, evidence_bank_controller, self)
+	
+	# Clear spam queue after spawning
+	spam_emails_queue.clear()
 	
 	# Spawn emails with different news content
 	var email_count = 5  # Number of emails to spawn
@@ -81,6 +93,21 @@ func _load_email_news() -> void:
 func set_evidence_bank_controller(controller: EvidenceBankController) -> void:
 	"""Set the evidence bank controller reference"""
 	evidence_bank_controller = controller
+
+func add_spam_email(spam_data: Dictionary) -> void:
+	"""Add a spam email to queue (will appear when email app is opened)"""
+	# Add to spam queue - will be spawned when email app is opened
+	spam_emails_queue.append(spam_data)
+	
+	# If email app is currently open, spawn it immediately
+	if mails_content and mails_content.get_parent() and mails_content.get_parent().visible:
+		var email_instance = email.instantiate()
+		mails_content.add_child(email_instance)
+		if email_instance.has_method("setup_email"):
+			email_instance.setup_email(spam_data, evidence_bank_controller, self)
+		print("[Emails_controller] Spawned spam email immediately: %s" % spam_data.get("subject", "Unknown"))
+	else:
+		print("[Emails_controller] Queued spam email: %s (will appear when email app opens)" % spam_data.get("subject", "Unknown"))
 
 # ---------- GODOT CALLBACKS ----------
 func _ready() -> void:

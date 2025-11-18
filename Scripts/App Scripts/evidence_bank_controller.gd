@@ -231,6 +231,37 @@ func _on_add_pressed():
 		if not case_data.is_empty():
 			ai_analysis_ref.add_article_to_pool(case_data)
 			print("Evidence Bank: Article added to AI Analysis pool")
+			
+			# Remove from evidence bank after adding to analysis
+			var selected_case_data = selected_info.get("case_data", {})
+			var selected_article_text = selected_case_data.get("article_text", "")
+			var removed = false
+			
+			if selected_article_text != "":
+				for i in range(stored_infos.size() - 1, -1, -1):
+					var stored = stored_infos[i]
+					var stored_case_data = stored.get("case_data", {})
+					var stored_article_text = stored_case_data.get("article_text", "")
+					
+					if stored_article_text == selected_article_text:
+						stored_infos.remove_at(i)
+						removed = true
+						print("Evidence Bank: Removed from stored_infos after adding to analysis")
+						break
+			
+			if removed:
+				_save_updated_infos()
+				_display_info_buttons()
+				
+				# Clear selection and button highlight
+				if selected_button:
+					selected_button.modulate = Color.WHITE
+				selected_button = null
+				selected_info = {}
+				if selected_title_label:
+					selected_title_label.text = "No selection"
+				if selected_content_label:
+					selected_content_label.text = "Select an item from the list to view details."
 		else:
 			push_warning("No case data in selected info")
 	else:
@@ -285,18 +316,20 @@ func _on_trash_pressed():
 	
 	# Refresh JSONManager cache so trash controller gets updated data
 	var json_manager = JSONManager.get_instance()
-	if json_manager and json_manager.has_method("refresh_caches"):
-		json_manager.refresh_caches()
+	if json_manager:
+		# Force refresh the trashed_infos cache
+		if json_manager.has_method("refresh_caches"):
+			json_manager.refresh_caches()
+		# Also ensure cache is updated by reloading
+		json_manager.load_trashed_infos(true)
 	
 	_display_info_buttons()
 	
 	# Notify trash controller to refresh if it exists
 	if trash_controller_ref:
 		print("Evidence Bank: Notifying trash controller to refresh...")
-		if trash_controller_ref.has_method("_load_trashed_infos"):
-			trash_controller_ref._load_trashed_infos()
-		if trash_controller_ref.has_method("_refresh_list"):
-			trash_controller_ref._refresh_list()
+		# Use call_deferred to ensure save completes first
+		call_deferred("_notify_trash_refresh")
 	else:
 		print("Evidence Bank: WARNING - trash_controller_ref is null!")
 	
@@ -309,6 +342,15 @@ func _on_trash_pressed():
 		selected_title_label.text = "No selection"
 	if selected_content_label:
 		selected_content_label.text = "Select an item from the list to view details."
+
+func _notify_trash_refresh():
+	"""Notify trash controller to refresh (called deferred)"""
+	if trash_controller_ref:
+		if trash_controller_ref.has_method("_load_trashed_infos"):
+			trash_controller_ref._load_trashed_infos(true)  # Force reload
+		if trash_controller_ref.has_method("_refresh_list"):
+			trash_controller_ref._refresh_list()
+		print("Evidence Bank: Trash controller notified to refresh")
 
 func set_trash_controller_ref(ref: Node):
 	trash_controller_ref = ref
@@ -368,10 +410,11 @@ func _load_trashed_infos():
 	"""Load trashed articles from JSON"""
 	var json_manager = JSONManager.get_instance()
 	if json_manager:
-		trashed_infos = json_manager.load_trashed_infos()
+		trashed_infos = json_manager.load_trashed_infos(true)  # Force reload to get latest data
 		print("Evidence Bank: Loaded %d trashed articles" % trashed_infos.size())
 	else:
 		trashed_infos = JSONManager.load_json("user://trashed_infos.json", [])
+		print("Evidence Bank: Loaded %d trashed articles (fallback)" % trashed_infos.size())
 
 func _save_trashed_infos():
 	"""Save trashed articles to JSON"""
