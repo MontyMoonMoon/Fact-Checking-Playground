@@ -60,21 +60,32 @@ func refresh_articles():
 		call_deferred("_force_layout_update")
 
 func _load_articles():
-	var file_path = "res://dataset.json"
-	if not FileAccess.file_exists(file_path):
-		push_warning("Dataset not found at %s" % file_path)
-		articles_data = []
-		return
-	
-	var file = FileAccess.open(file_path, FileAccess.READ)
-	var data = JSON.parse_string(file.get_as_text())
-	file.close()
-	
-	if typeof(data) == TYPE_DICTIONARY and data.has("cases"):
-		articles_data = data["cases"]
+	# Load all cases including additions (from evidence bank)
+	var json_manager = JSONManager.get_instance()
+	if json_manager:
+		articles_data = json_manager.get_all_cases(false)  # Include all, even trashed
 	else:
-		push_error("Invalid dataset.json format")
-		articles_data = []
+		var file_path = "res://dataset.json"
+		var data = JSONManager.load_json(file_path, {})
+		if typeof(data) == TYPE_DICTIONARY and data.has("cases"):
+			articles_data = data["cases"]
+		else:
+			articles_data = []
+		
+		# Also load additions
+		var additions = JSONManager.load_json("user://dataset_additions.json", [])
+		if typeof(additions) == TYPE_ARRAY:
+			var existing_texts = {}
+			for case in articles_data:
+				var article_text = case.get("article_text", "")
+				if article_text != "":
+					existing_texts[article_text] = true
+			
+			for addition in additions:
+				var article_text = addition.get("article_text", "")
+				if article_text != "" and not existing_texts.has(article_text):
+					articles_data.append(addition)
+					existing_texts[article_text] = true
 
 func _display_articles_list():
 	if not articles_list_container:

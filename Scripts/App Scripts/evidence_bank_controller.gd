@@ -15,10 +15,13 @@ class_name EvidenceBankController
 var stored_infos: Array = []
 var trashed_infos: Array = []  # Store trashed articles
 var selected_info: Dictionary = {}
+var selected_button: Button = null  # Track selected button for highlighting
+var info_to_button: Dictionary = {}  # Map info to button for highlighting
 var ai_analysis_ref: Node = null
 var game_manager: Node = null
 var laptop_ref: Node = null  # Reference to laptop for app switching
 var trash_controller_ref: Node = null  # Reference to trash controller
+var article_publisher_ref: Node = null  # Reference to article publisher controller
 
 
 
@@ -58,6 +61,13 @@ func set_laptop_ref(laptop: Node):
 	laptop_ref = laptop
 
 func _load_collected_infos():
+	# Get JSONManager instance
+	var json_manager = JSONManager.get_instance()
+	if not json_manager:
+		# Fallback to static methods
+		_load_collected_infos_fallback()
+		return
+	
 	# First, load trashed items to know what to exclude
 	_load_trashed_infos()
 	
@@ -71,82 +81,28 @@ func _load_collected_infos():
 				trashed_article_texts[article_text] = true
 	
 	# Always try to load from saved collected_infos first (preserves runtime additions)
-	var saved_infos_path = "user://collected_infos.json"
+	var saved_data = json_manager.load_collected_infos()
 	var loaded_from_saved = false
 	
-	if FileAccess.file_exists(saved_infos_path):
-		var saved_file = FileAccess.open(saved_infos_path, FileAccess.READ)
-		if saved_file:
-			var file_text = saved_file.get_as_text()
-			saved_file.close()
-			
-			if file_text.strip_edges().length() > 0:
-				var saved_data = JSON.parse_string(file_text)
-				if saved_data != null and typeof(saved_data) == TYPE_ARRAY:
-					# Filter out trashed items
-					stored_infos = []
-					for info in saved_data:
-						var case_data = info.get("case_data", {})
-						var article_text = case_data.get("article_text", "")
-						if article_text != "" and not trashed_article_texts.has(article_text):
-							stored_infos.append(info)
-					loaded_from_saved = true
-					print("Evidence Bank: Loaded %d cases from saved file (after filtering trashed)" % stored_infos.size())
+	if saved_data.size() > 0:
+		# Filter out trashed items
+		stored_infos = []
+		for info in saved_data:
+			var case_data = info.get("case_data", {})
+			var article_text = case_data.get("article_text", "")
+			if article_text != "" and not trashed_article_texts.has(article_text):
+				stored_infos.append(info)
+		loaded_from_saved = true
+		print("Evidence Bank: Loaded %d cases from saved file (after filtering trashed)" % stored_infos.size())
 	
-	# If not loaded from saved file, load from dataset.json
+	# If not loaded from saved file, load from dataset.json and additions
 	if not loaded_from_saved:
-		var file_path = "res://dataset.json"
-		if not FileAccess.file_exists(file_path):
-			push_warning("Collected infos not found at %s" % file_path)
-			stored_infos = []
-			return
-
-		var file = FileAccess.open(file_path, FileAccess.READ)
-		var data = JSON.parse_string(file.get_as_text())
-		file.close()
-
-		var all_cases = []
-		if typeof(data) == TYPE_DICTIONARY and data.has("cases"):
-			all_cases = data["cases"].duplicate()
-			print("Evidence Bank: Loaded %d cases from dataset.json" % all_cases.size())
-		elif typeof(data) == TYPE_ARRAY:
-			all_cases = data
-		else:
-			push_error("Invalid JSON format")
-			stored_infos = []
-			return
+		# Use JSONManager to get all cases (dataset + additions, excluding trashed)
+		var all_cases = json_manager.get_all_cases(true)
 		
-		# Also load additions from user file (emails added during runtime)
-		var additions_path = "user://dataset_additions.json"
-		if FileAccess.file_exists(additions_path):
-			var additions_file = FileAccess.open(additions_path, FileAccess.READ)
-			if additions_file:
-				var file_text = additions_file.get_as_text()
-				additions_file.close()
-				
-				if file_text.strip_edges().length() > 0:
-					var additions_data = JSON.parse_string(file_text)
-					if additions_data != null and typeof(additions_data) == TYPE_ARRAY:
-						# Merge additions, avoiding duplicates
-						for addition in additions_data:
-							var article_text = addition.get("article_text", "")
-							var exists = false
-							for case in all_cases:
-								if case.get("article_text", "") == article_text:
-									exists = true
-									break
-							if not exists:
-								all_cases.append(addition)
-						print("Evidence Bank: Loaded %d additional cases from user file" % additions_data.size())
-		
-		# Convert cases to info format and filter out trashed items
+		# Convert cases to info format
 		stored_infos = []
 		for case in all_cases:
-			var article_text = case.get("article_text", "")
-			# Skip if this article is trashed
-			if article_text != "" and trashed_article_texts.has(article_text):
-				continue
-			
 			var info = {
 				"title": "Case: " + case.get("stance", "Unknown"),
 				"content": _format_case_content(case),
@@ -154,6 +110,64 @@ func _load_collected_infos():
 			}
 			stored_infos.append(info)
 		print("Evidence Bank: Total %d cases loaded (after filtering trashed)" % stored_infos.size())
+
+func _load_collected_infos_fallback():
+	"""Fallback method using static JSONManager methods"""
+	_load_trashed_infos()
+	
+	var trashed_article_texts = {}
+	for trashed in trashed_infos:
+		var case_data = trashed.get("case_data", {})
+		if not case_data.is_empty():
+			var article_text = case_data.get("article_text", "")
+			if article_text != "":
+				trashed_article_texts[article_text] = true
+	
+	var saved_data = JSONManager.load_json("user://collected_infos.json", [])
+	if saved_data.size() > 0:
+		stored_infos = []
+		for info in saved_data:
+			var case_data = info.get("case_data", {})
+			var article_text = case_data.get("article_text", "")
+			if article_text != "" and not trashed_article_texts.has(article_text):
+				stored_infos.append(info)
+		print("Evidence Bank: Loaded %d cases from saved file (fallback)" % stored_infos.size())
+		return
+	
+	# Load from dataset
+	var dataset = JSONManager.load_json("res://dataset.json", {})
+	var all_cases = []
+	if typeof(dataset) == TYPE_DICTIONARY and dataset.has("cases"):
+		all_cases = dataset["cases"].duplicate()
+	elif typeof(dataset) == TYPE_ARRAY:
+		all_cases = dataset
+	
+	# Load additions
+	var additions = JSONManager.load_json("user://dataset_additions.json", [])
+	var existing_texts = {}
+	for case in all_cases:
+		var article_text = case.get("article_text", "")
+		if article_text != "":
+			existing_texts[article_text] = true
+	
+	for addition in additions:
+		var article_text = addition.get("article_text", "")
+		if article_text != "" and not existing_texts.has(article_text):
+			all_cases.append(addition)
+			existing_texts[article_text] = true
+	
+	# Convert and filter
+	stored_infos = []
+	for case in all_cases:
+		var article_text = case.get("article_text", "")
+		if article_text != "" and not trashed_article_texts.has(article_text):
+			var info = {
+				"title": "Case: " + case.get("stance", "Unknown"),
+				"content": _format_case_content(case),
+				"case_data": case
+			}
+			stored_infos.append(info)
+	print("Evidence Bank: Total %d cases loaded (fallback)" % stored_infos.size())
 
 func _format_case_content(case: Dictionary) -> String:
 	var content = "[b]Article:[/b] " + case.get("article_text", "") + "\n\n"
@@ -172,20 +186,34 @@ func _display_info_buttons():
 	if not info_list_container:
 		return
 	
-	# Clear existing buttons
+	# Clear existing buttons and mappings
 	for child in info_list_container.get_children():
 		child.queue_free()
+	info_to_button.clear()
+	selected_button = null
 
 	# Create buttons for each info
 	for info in stored_infos:
 		var btn = Button.new()
 		btn.text = info.get("title", "Untitled Info")
 		btn.custom_minimum_size = Vector2(0, 30)
-		btn.connect("pressed", Callable(self, "_on_info_selected").bind(info))
+		btn.connect("pressed", Callable(self, "_on_info_selected").bind(info, btn))
 		info_list_container.add_child(btn)
+		info_to_button[info] = btn
 
-func _on_info_selected(info: Dictionary):
+func _on_info_selected(info: Dictionary, button: Button):
+	# Clear previous button highlight
+	if selected_button:
+		selected_button.modulate = Color.WHITE
+	
+	# Set new selection
 	selected_info = info
+	selected_button = button
+	
+	# Highlight selected button
+	if selected_button:
+		selected_button.modulate = Color(0.5, 0.8, 1.0, 1.0)  # Light blue highlight
+	
 	if selected_title_label:
 		selected_title_label.text = info.get("title", "Untitled Info")
 	if selected_content_label:
@@ -197,28 +225,16 @@ func _on_add_pressed():
 	
 	print("Added to AI Analysis:", selected_info.get("title", ""))
 	
-	# Switch to AI Analysis app first
-	if laptop_ref and laptop_ref.has_method("set_app") and laptop_ref.has_method("set_text"):
-		laptop_ref.set_text("AI Analysis")
-		laptop_ref.set_app("ai_analysis")
-		print("Evidence Bank: Switched to AI Analysis app")
-	
-	# Then load the article
-	if ai_analysis_ref and ai_analysis_ref.has_method("load_article"):
+	# Just add to AI Analysis pool without switching apps
+	if ai_analysis_ref and ai_analysis_ref.has_method("add_article_to_pool"):
 		var case_data = selected_info.get("case_data", {})
 		if not case_data.is_empty():
-			# Use call_deferred to ensure app switch completes first
-			call_deferred("_load_article_to_analysis", case_data)
+			ai_analysis_ref.add_article_to_pool(case_data)
+			print("Evidence Bank: Article added to AI Analysis pool")
 		else:
 			push_warning("No case data in selected info")
 	else:
-		push_warning("AI Analysis controller not available")
-
-func _load_article_to_analysis(case_data: Dictionary):
-	"""Load article to AI Analysis (called deferred after app switch)"""
-	if ai_analysis_ref and ai_analysis_ref.has_method("load_article"):
-		ai_analysis_ref.load_article(case_data)
-		print("Evidence Bank: Article loaded into AI Analysis")
+		push_warning("AI Analysis controller not available or missing add_article_to_pool method")
 
 func _on_trash_pressed():
 	if selected_info.is_empty():
@@ -233,16 +249,32 @@ func _on_trash_pressed():
 	trashed_infos.append(info_copy)
 	print("Evidence Bank: Added to trash - Title: %s, Total trashed: %d" % [info_copy.get("title", "Unknown"), trashed_infos.size()])
 	
-	# Remove from stored_infos by finding matching entry
+	# Remove from stored_infos by finding matching entry using article_text from case_data
 	var removed = false
-	for i in range(stored_infos.size() - 1, -1, -1):
-		var stored = stored_infos[i]
-		if stored.get("title", "") == selected_info.get("title", "") and \
-		   stored.get("content", "") == selected_info.get("content", ""):
-			stored_infos.remove_at(i)
-			removed = true
-			print("Evidence Bank: Removed from stored_infos")
-			break
+	var selected_case_data = selected_info.get("case_data", {})
+	var selected_article_text = selected_case_data.get("article_text", "")
+	
+	if selected_article_text != "":
+		for i in range(stored_infos.size() - 1, -1, -1):
+			var stored = stored_infos[i]
+			var stored_case_data = stored.get("case_data", {})
+			var stored_article_text = stored_case_data.get("article_text", "")
+			
+			if stored_article_text == selected_article_text:
+				stored_infos.remove_at(i)
+				removed = true
+				print("Evidence Bank: Removed from stored_infos by article_text: %s" % selected_article_text)
+				break
+	else:
+		# Fallback to title/content matching if no article_text
+		for i in range(stored_infos.size() - 1, -1, -1):
+			var stored = stored_infos[i]
+			if stored.get("title", "") == selected_info.get("title", "") and \
+			   stored.get("content", "") == selected_info.get("content", ""):
+				stored_infos.remove_at(i)
+				removed = true
+				print("Evidence Bank: Removed from stored_infos by title/content")
+				break
 	
 	if not removed:
 		print("Evidence Bank: WARNING - Could not find matching entry in stored_infos to remove")
@@ -250,6 +282,12 @@ func _on_trash_pressed():
 	# Save both lists
 	_save_updated_infos()
 	_save_trashed_infos()
+	
+	# Refresh JSONManager cache so trash controller gets updated data
+	var json_manager = JSONManager.get_instance()
+	if json_manager and json_manager.has_method("refresh_caches"):
+		json_manager.refresh_caches()
+	
 	_display_info_buttons()
 	
 	# Notify trash controller to refresh if it exists
@@ -262,7 +300,10 @@ func _on_trash_pressed():
 	else:
 		print("Evidence Bank: WARNING - trash_controller_ref is null!")
 	
-	# Clear selection
+	# Clear selection and button highlight
+	if selected_button:
+		selected_button.modulate = Color.WHITE
+	selected_button = null
 	selected_info = {}
 	if selected_title_label:
 		selected_title_label.text = "No selection"
@@ -273,16 +314,37 @@ func set_trash_controller_ref(ref: Node):
 	trash_controller_ref = ref
 	print("Evidence Bank: trash_controller_ref set to: %s" % (ref.name if ref else "null"))
 
+func set_article_publisher_ref(ref: Node):
+	article_publisher_ref = ref
+	print("Evidence Bank: article_publisher_ref set to: %s" % (ref.name if ref else "null"))
+
 func restore_from_trash(info: Dictionary):
-	# Remove from trashed_infos by finding matching entry
+	# Remove from trashed_infos by finding matching entry using article_text from case_data
 	var removed = false
-	for i in range(trashed_infos.size() - 1, -1, -1):
-		var trashed = trashed_infos[i]
-		if trashed.get("title", "") == info.get("title", "") and \
-		   trashed.get("content", "") == info.get("content", ""):
-			trashed_infos.remove_at(i)
-			removed = true
-			break
+	var info_case_data = info.get("case_data", {})
+	var info_article_text = info_case_data.get("article_text", "")
+	
+	if info_article_text != "":
+		for i in range(trashed_infos.size() - 1, -1, -1):
+			var trashed = trashed_infos[i]
+			var trashed_case_data = trashed.get("case_data", {})
+			var trashed_article_text = trashed_case_data.get("article_text", "")
+			
+			if trashed_article_text == info_article_text:
+				trashed_infos.remove_at(i)
+				removed = true
+				print("Evidence Bank: Restored from trash by article_text: %s" % info_article_text)
+				break
+	else:
+		# Fallback to title/content matching if no article_text
+		for i in range(trashed_infos.size() - 1, -1, -1):
+			var trashed = trashed_infos[i]
+			if trashed.get("title", "") == info.get("title", "") and \
+			   trashed.get("content", "") == info.get("content", ""):
+				trashed_infos.remove_at(i)
+				removed = true
+				print("Evidence Bank: Restored from trash by title/content")
+				break
 	
 	if removed:
 		stored_infos.append(info)
@@ -304,35 +366,26 @@ func restore_all_from_trash():
 
 func _load_trashed_infos():
 	"""Load trashed articles from JSON"""
-	var file_path = "user://trashed_infos.json"
-	if not FileAccess.file_exists(file_path):
-		trashed_infos = []
-		return
-	
-	var file = FileAccess.open(file_path, FileAccess.READ)
-	if not file:
-		trashed_infos = []
-		return
-	
-	var data = JSON.parse_string(file.get_as_text())
-	file.close()
-	
-	if typeof(data) == TYPE_ARRAY:
-		trashed_infos = data
+	var json_manager = JSONManager.get_instance()
+	if json_manager:
+		trashed_infos = json_manager.load_trashed_infos()
 		print("Evidence Bank: Loaded %d trashed articles" % trashed_infos.size())
 	else:
-		trashed_infos = []
+		trashed_infos = JSONManager.load_json("user://trashed_infos.json", [])
 
 func _save_trashed_infos():
 	"""Save trashed articles to JSON"""
-	var file = FileAccess.open("user://trashed_infos.json", FileAccess.WRITE)
-	if file:
-		var json_string = JSON.stringify(trashed_infos, "\t")
-		file.store_string(json_string)
-		file.close()
-		print("Evidence Bank: Saved %d trashed articles to trashed_infos.json" % trashed_infos.size())
+	var json_manager = JSONManager.get_instance()
+	if json_manager:
+		if json_manager.save_trashed_infos(trashed_infos):
+			print("Evidence Bank: Saved %d trashed articles to trashed_infos.json" % trashed_infos.size())
+		else:
+			push_error("Evidence Bank: Could not save trashed_infos.json")
 	else:
-		push_error("Evidence Bank: Could not open trashed_infos.json for writing")
+		if JSONManager.save_json("user://trashed_infos.json", trashed_infos):
+			print("Evidence Bank: Saved %d trashed articles to trashed_infos.json" % trashed_infos.size())
+		else:
+			push_error("Evidence Bank: Could not save trashed_infos.json")
 
 func _on_refresh_pressed():
 	_load_collected_infos()
@@ -361,10 +414,11 @@ func reset_evidence_bank():
 
 func _save_updated_infos():
 	# Save to a separate file if needed
-	var file = FileAccess.open("user://collected_infos.json", FileAccess.WRITE)
-	if file:
-		file.store_string(JSON.stringify(stored_infos, "\t"))
-		file.close()
+	var json_manager = JSONManager.get_instance()
+	if json_manager:
+		json_manager.save_collected_infos(stored_infos)
+	else:
+		JSONManager.save_json("user://collected_infos.json", stored_infos)
 
 func _add_info_directly(info: Dictionary):
 	"""Add info directly to evidence bank (used by emails) and save to dataset.json"""
@@ -383,74 +437,33 @@ func _add_info_directly(info: Dictionary):
 	# Also save to user file
 	_save_updated_infos()
 	_display_info_buttons()
+	
+	# Notify article publisher to refresh
+	if article_publisher_ref and article_publisher_ref.has_method("refresh_articles"):
+		article_publisher_ref.refresh_articles()
+		print("Evidence Bank: Notified article publisher to refresh")
+	
 	print("Evidence Bank: Added info directly - %s" % info.get("title", "Untitled"))
 
 func _save_to_dataset_json(case_data: Dictionary):
-	"""Append case data to dataset.json"""
-	var file_path = "res://dataset.json"
-	
-	# Read existing dataset
-	var file = FileAccess.open(file_path, FileAccess.READ)
-	if not file:
-		push_error("Could not open dataset.json for reading")
-		return
-	
-	var json_text = file.get_as_text()
-	file.close()
-	
-	var data = JSON.parse_string(json_text)
-	if typeof(data) != TYPE_DICTIONARY:
-		push_error("Invalid dataset.json format")
-		return
-	
-	# Ensure cases array exists
-	if not data.has("cases"):
-		data["cases"] = []
-	
-	# Check if case already exists (by article_text)
-	var article_text = case_data.get("article_text", "")
-	var exists = false
-	for case in data["cases"]:
-		if case.get("article_text", "") == article_text:
-			exists = true
-			break
-	
-	# Add new case if it doesn't exist
-	if not exists:
-		data["cases"].append(case_data)
-		print("Evidence Bank: Added case to dataset.json - %s" % article_text)
-		
-		# Write back to file
-		# Note: In Godot, we can't directly write to res:// at runtime
-		# So we'll save to user://dataset_additions.json and note it
-		
-		# First, read existing additions (if file exists)
-		var additions = []
-		var additions_path = "user://dataset_additions.json"
-		if FileAccess.file_exists(additions_path):
-			var existing_file = FileAccess.open(additions_path, FileAccess.READ)
-			if existing_file:
-				var file_text = existing_file.get_as_text()
-				existing_file.close()
-				
-				# Only parse if file has content
-				if file_text.strip_edges().length() > 0:
-					var existing_data = JSON.parse_string(file_text)
-					if existing_data != null and typeof(existing_data) == TYPE_ARRAY:
-						additions = existing_data
-					else:
-						push_warning("Evidence Bank: Could not parse existing additions file, starting fresh")
-		
-		# Add new case to additions
-		additions.append(case_data)
-		
-		# Write updated additions back to file
-		var user_file = FileAccess.open(additions_path, FileAccess.WRITE)
-		if user_file:
-			user_file.store_string(JSON.stringify(additions, "\t"))
-			user_file.close()
-			print("Evidence Bank: Saved addition to user://dataset_additions.json")
-		else:
-			push_error("Evidence Bank: Could not open user://dataset_additions.json for writing")
+	"""Append case data to dataset_additions.json (can't write to res:// at runtime)"""
+	var json_manager = JSONManager.get_instance()
+	if json_manager:
+		if json_manager.add_to_dataset_additions(case_data):
+			print("Evidence Bank: Added case to dataset_additions.json - %s" % case_data.get("article_text", ""))
 	else:
-		print("Evidence Bank: Case already exists in dataset.json, skipping")
+		# Fallback: manual save
+		var additions = JSONManager.load_json("user://dataset_additions.json", [])
+		var article_text = case_data.get("article_text", "")
+		
+		# Check if already exists
+		var exists = false
+		for addition in additions:
+			if addition.get("article_text", "") == article_text:
+				exists = true
+				break
+		
+		if not exists:
+			additions.append(case_data.duplicate(true))
+			JSONManager.save_json("user://dataset_additions.json", additions)
+			print("Evidence Bank: Added case to dataset_additions.json - %s" % article_text)

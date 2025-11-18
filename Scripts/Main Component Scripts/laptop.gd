@@ -188,6 +188,12 @@ func _ready() -> void:
 		if not evidence_bank_controller:
 			push_warning("Laptop: evidence_bank_controller is null!")
 	
+	# Connect evidence bank to article publisher (so publisher updates when articles are added)
+	if evidence_bank_controller and article_publisher_controller:
+		if evidence_bank_controller.has_method("set_article_publisher_ref"):
+			evidence_bank_controller.set_article_publisher_ref(article_publisher_controller)
+			print("Laptop: Connected evidence bank to article publisher")
+	
 	# Connect evidence bank to emails controller
 	set_evidence_bank_to_emails()
 	

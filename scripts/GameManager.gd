@@ -25,6 +25,11 @@ var integrity_breakdown = {
 	"articles_removed_penalty": 0.0
 }
 
+# Integrity decay
+var integrity_decay_timer: Timer = null
+var integrity_decay_rate: float = 0.1  # Lose 0.1 integrity every 30 seconds
+var integrity_decay_interval: float = 30.0  # Decay every 30 seconds
+
 # Signals
 signal integrity_changed(new_score: float)
 signal day_complete(final_score: float)
@@ -38,6 +43,9 @@ func _ready():
 	
 	if not article_popup_scene:
 		push_warning("Could not load article_popup.tscn")
+	
+	# Setup integrity decay timer
+	_setup_integrity_decay()
 	
 	# Wait a frame to ensure scene is fully loaded
 	await get_tree().process_frame
@@ -156,19 +164,14 @@ func _reset_evidence_bank():
 
 func _reset_game_data_files():
 	"""Clear all game data JSON files for new game"""
-	var files_to_clear = [
-		"user://collected_infos.json",
-		"user://dataset_additions.json",
-		"user://trashed_infos.json"
-	]
-	
-	for file_path in files_to_clear:
-		if FileAccess.file_exists(file_path):
-			var file = FileAccess.open(file_path, FileAccess.WRITE)
-			if file:
-				file.store_string("[]")
-				file.close()
-				print("GameManager: Cleared %s for new game" % file_path)
+	var json_manager = JSONManager.get_instance()
+	if json_manager and json_manager.has_method("clear_all_game_data"):
+		json_manager.clear_all_game_data()
+	else:
+		# Fallback if JSONManager not found
+		JSONManager.clear_json_file("user://collected_infos.json")
+		JSONManager.clear_json_file("user://dataset_additions.json")
+		JSONManager.clear_json_file("user://trashed_infos.json")
 
 func _start_new_day():
 	articles_analyzed.clear()
@@ -177,8 +180,36 @@ func _start_new_day():
 	integrity_score = 5.0
 	instant_death = false
 	
+	# Restart integrity decay timer
+	if integrity_decay_timer:
+		integrity_decay_timer.start()
+	
 	_update_integrity_display()
 	print("New day begins! Quota: %d articles" % daily_quota)
+
+func _setup_integrity_decay():
+	"""Setup timer for integrity score decay over time"""
+	integrity_decay_timer = Timer.new()
+	integrity_decay_timer.wait_time = integrity_decay_interval
+	integrity_decay_timer.timeout.connect(_on_integrity_decay)
+	integrity_decay_timer.autostart = true
+	add_child(integrity_decay_timer)
+	print("GameManager: Integrity decay timer set up (%.1f every %.1f seconds)" % [integrity_decay_rate, integrity_decay_interval])
+
+func _on_integrity_decay():
+	"""Called periodically to decrease integrity score"""
+	if day_over:
+		return  # Don't decay if day is over
+	
+	integrity_score = max(0.0, integrity_score - integrity_decay_rate)
+	integrity_breakdown["base_score"] = integrity_score
+	_update_integrity_display()
+	
+	# Mark as failed but let player continue until end of day
+	# game_failed_popup will handle showing the failure at end of day
+	if integrity_score <= 0.0 and not instant_death:
+		instant_death = true
+		print("GameManager: Integrity dropped to 0 - will fail at end of day")
 
 func _on_article_spawn_requested(article_data: Dictionary):
 	# Spawn article popup
@@ -352,8 +383,11 @@ func add_integrity_score(increment: float):
 	_update_integrity_display()
 
 func _recalculate_integrity():
-	# Base score
-	var base = 5.0
+	# Base score - use current base_score from breakdown if it's been decayed
+	var base = integrity_breakdown.get("base_score", 5.0)
+	# If integrity was already at 0 from decay, keep base at 0
+	if instant_death and integrity_score <= 0.0:
+		base = 0.0
 	
 	# Calculate bonuses and penalties
 	var analyzed_bonus = 0.0
@@ -381,7 +415,8 @@ func _recalculate_integrity():
 	integrity_score = base + analyzed_bonus + overlap_bonus + added_bonus - removed_penalty
 	integrity_score = clamp(integrity_score, 0.0, 10.0)
 
-	if integrity_score < 3.0:
+	# Only trigger instant death if not already set (from decay)
+	if integrity_score < 3.0 and not instant_death:
 		_trigger_instant_death()
 
 func _update_integrity_display():
@@ -420,7 +455,14 @@ func _evaluate_day():
 	current_article_popups.clear()
 	
 	# Recalculate final integrity with breakdown
+	# But preserve instant_death state if integrity was already at 0 from decay
+	var was_instant_death_from_decay = instant_death and integrity_score <= 0.0
 	_recalculate_integrity()
+	# If integrity was already at 0 from decay, ensure it stays at 0
+	# (don't let bonuses bring it back up)
+	if was_instant_death_from_decay:
+		integrity_score = 0.0
+		integrity_breakdown["base_score"] = 0.0
 	
 	emit_signal("day_complete", integrity_score)
 	print("Day Complete. Integrity: %.2f" % integrity_score)

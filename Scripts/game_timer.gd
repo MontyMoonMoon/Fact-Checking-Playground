@@ -45,9 +45,9 @@ func _process(delta):
 	emit_signal("timer_updated", time_text)
 	
 	# Debug logging every second
-	if int(time_remaining) != int(time_remaining + delta):
-		print("[TIMER DEBUG] Time remaining: %.1f seconds (%.2f:%.2d)" % [time_remaining, minutes, seconds])
-		print("[TIMER DEBUG] Timer running: %s, Label set: %s" % [is_running, timer_label != null])
+	#if int(time_remaining) != int(time_remaining + delta):
+		#print("[TIMER DEBUG] Time remaining: %.1f seconds (%.2f:%.2d)" % [time_remaining, minutes, seconds])
+		#print("[TIMER DEBUG] Timer running: %s, Label set: %s" % [is_running, timer_label != null])
 	
 	# Check if time is up
 	if time_remaining <= 0.0:
@@ -87,18 +87,17 @@ func set_timer_label(label: Label):
 	timer_label = label
 
 func _load_articles():
-	var file = FileAccess.open("res://dataset.json", FileAccess.READ)
-	if file:
-		var data = JSON.parse_string(file.get_as_text())
-		file.close()
-		
+	var json_manager = JSONManager.get_instance()
+	if json_manager:
+		articles_pool = json_manager.get_dataset_cases()
+		print("Loaded %d articles for game timer" % articles_pool.size())
+	else:
+		var data = JSONManager.load_json("res://dataset.json", {})
 		if typeof(data) == TYPE_DICTIONARY and data.has("cases"):
 			articles_pool = data["cases"].duplicate()
-			print("Loaded %d articles for game timer" % articles_pool.size())
+			print("Loaded %d articles for game timer (fallback)" % articles_pool.size())
 		else:
-			push_error("Invalid JSON format: missing 'cases' array")
-	else:
-		push_error("Could not open dataset.json")
+			articles_pool = []
 
 func _spawn_article():
 	if articles_pool.is_empty():

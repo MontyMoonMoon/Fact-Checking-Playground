@@ -70,14 +70,7 @@ func _load_email_news() -> void:
 		push_error("[Emails_controller] Email news file not found at %s" % file_path)
 		return
 	
-	var file = FileAccess.open(file_path, FileAccess.READ)
-	if not file:
-		push_error("[Emails_controller] Could not open email_news.json")
-		return
-	
-	var data = JSON.parse_string(file.get_as_text())
-	file.close()
-	
+	var data = JSONManager.load_json(file_path, {})
 	if typeof(data) == TYPE_DICTIONARY and data.has("emails"):
 		email_news_pool = data["emails"]
 		print("[Emails_controller] Loaded %d email news items" % email_news_pool.size())

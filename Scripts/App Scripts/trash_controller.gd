@@ -24,35 +24,23 @@ func _notification(what):
 func set_evidence_bank_ref(ref: Node):
 	evidence_bank_ref = ref
 
-func _load_trashed_infos():
-	var file_path = "user://trashed_infos.json"
-	if not FileAccess.file_exists(file_path):
-		trashed_infos = []
-		print("Trash Controller: No trashed_infos.json file found")
-		return
-	
-	var file = FileAccess.open(file_path, FileAccess.READ)
-	if not file:
-		trashed_infos = []
-		print("Trash Controller: Could not open trashed_infos.json for reading")
-		return
-	
-	var file_text = file.get_as_text()
-	file.close()
-	
-	if file_text.strip_edges().is_empty():
-		trashed_infos = []
-		print("Trash Controller: trashed_infos.json is empty")
-		return
-	
-	var data = JSON.parse_string(file_text)
-	
-	if typeof(data) == TYPE_ARRAY:
-		trashed_infos = data
-		print("Trash Controller: Loaded %d trashed items" % trashed_infos.size())
+func _load_trashed_infos(force_reload: bool = true):
+	var json_manager = JSONManager.get_instance()
+	if json_manager:
+		trashed_infos = json_manager.load_trashed_infos(force_reload)
+		print("Trash Controller: Loaded %d trashed items from JSONManager (force_reload=%s)" % [trashed_infos.size(), force_reload])
+		# Debug: print first item if exists
+		if trashed_infos.size() > 0:
+			var first = trashed_infos[0]
+			print("Trash Controller: First item - Title: %s, Has case_data: %s" % [
+				first.get("title", "No title"),
+				"yes" if first.has("case_data") else "no"
+			])
+		else:
+			print("Trash Controller: No trashed items found")
 	else:
-		trashed_infos = []
-		print("Trash Controller: Invalid data format in trashed_infos.json")
+		trashed_infos = JSONManager.load_json("user://trashed_infos.json", [])
+		print("Trash Controller: Loaded %d trashed items (fallback)" % trashed_infos.size())
 
 func _refresh_list():
 	if not list_container:

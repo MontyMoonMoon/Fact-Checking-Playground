@@ -113,50 +113,58 @@ func load_article(article_data: Dictionary):
 	
 	_display_article(case_data)
 
-func _load_dataset():
-	# Load from res://dataset.json
-	var file = FileAccess.open("res://dataset.json", FileAccess.READ)
+func add_article_to_pool(article_data: Dictionary):
+	"""Add article to the comparisons pool without switching to the app"""
+	# Reload dataset to ensure we have latest data
+	_load_dataset()
 	
-	if file:
-		var data = JSON.parse_string(file.get_as_text())
-		if typeof(data) == TYPE_DICTIONARY and data.has("cases"):
-			comparisons_data = data["cases"].duplicate()
-			print("AI Analysis: Loaded %d cases from dataset.json" % comparisons_data.size())
-		else:
-			push_error("Invalid JSON format: missing 'cases' array")
-		file.close()
+	# Check if article already exists
+	var article_text = article_data.get("article_text", "")
+	var exists = false
+	for case in comparisons_data:
+		if case.get("article_text", "") == article_text:
+			exists = true
+			break
+	
+	# Add if it doesn't exist
+	if not exists:
+		comparisons_data.append(article_data.duplicate(true))
+		print("AI Analysis: Added article to pool - %s" % article_text)
 	else:
-		push_error("Could not open dataset.json")
-	
-	# Also load additions from user://dataset_additions.json (articles added via emails)
-	var additions_path = "user://dataset_additions.json"
-	if FileAccess.file_exists(additions_path):
-		var additions_file = FileAccess.open(additions_path, FileAccess.READ)
-		if additions_file:
-			var file_text = additions_file.get_as_text()
-			additions_file.close()
+		print("AI Analysis: Article already in pool - %s" % article_text)
+
+func _load_dataset():
+	# Use JSONManager to get all cases (dataset + additions)
+	var json_manager = JSONManager.get_instance()
+	if json_manager:
+		comparisons_data = json_manager.get_all_cases(false)
+		print("AI Analysis: Loaded %d total cases (dataset + additions)" % comparisons_data.size())
+	else:
+		# Fallback: manual loading
+		var dataset = JSONManager.load_json("res://dataset.json", {})
+		if typeof(dataset) == TYPE_DICTIONARY and dataset.has("cases"):
+			comparisons_data = dataset["cases"].duplicate()
+		elif typeof(dataset) == TYPE_ARRAY:
+			comparisons_data = dataset
+		else:
+			comparisons_data = []
+		
+		# Load additions
+		var additions = JSONManager.load_json("user://dataset_additions.json", [])
+		if typeof(additions) == TYPE_ARRAY:
+			var existing_texts = {}
+			for case in comparisons_data:
+				var article_text = case.get("article_text", "")
+				if article_text != "":
+					existing_texts[article_text] = true
 			
-			if file_text.strip_edges().length() > 0:
-				var additions_data = JSON.parse_string(file_text)
-				if additions_data != null and typeof(additions_data) == TYPE_ARRAY:
-					# Merge additions, avoiding duplicates by article_text
-					var existing_texts = {}
-					for case in comparisons_data:
-						var article_text = case.get("article_text", "")
-						if article_text != "":
-							existing_texts[article_text] = true
-					
-					var added_count = 0
-					for addition in additions_data:
-						var article_text = addition.get("article_text", "")
-						if article_text != "" and not existing_texts.has(article_text):
-							comparisons_data.append(addition)
-							existing_texts[article_text] = true
-							added_count += 1
-					
-					if added_count > 0:
-						print("AI Analysis: Loaded %d additional cases from dataset_additions.json" % added_count)
-						print("AI Analysis: Total cases: %d" % comparisons_data.size())
+			for addition in additions:
+				var article_text = addition.get("article_text", "")
+				if article_text != "" and not existing_texts.has(article_text):
+					comparisons_data.append(addition)
+					existing_texts[article_text] = true
+		
+		print("AI Analysis: Loaded %d total cases (fallback)" % comparisons_data.size())
 
 func _display_article(entry: Dictionary):
 	# Clear previous selections and references
