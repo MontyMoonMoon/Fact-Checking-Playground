@@ -364,7 +364,7 @@ func add_high_overlap_comparison():
 	print("[INTEGRITY DEBUG] High overlap count BEFORE: %d" % high_overlap_comparisons)
 	
 	high_overlap_comparisons += 1
-	integrity_score = min(10.0, integrity_score + 1.0)
+	integrity_score = min(10.0, integrity_score + 0.8)  # Reduced from 1.0
 	
 	print("[INTEGRITY DEBUG] Integrity AFTER: %.2f" % integrity_score)
 	print("[INTEGRITY DEBUG] High overlap count AFTER: %d" % high_overlap_comparisons)
@@ -402,9 +402,9 @@ func _recalculate_integrity():
 		var avg_score = (sum_total / articles_analyzed.size()) * 10.0
 		analyzed_bonus = avg_score - base
 	
-	var overlap_bonus = high_overlap_comparisons * 1.0
-	var added_bonus = articles_added.size() * 0.3
-	var removed_penalty = articles_removed.size() * 0.5
+	var overlap_bonus = high_overlap_comparisons * 0.8  # Reduced from 1.0
+	var added_bonus = articles_added.size() * 0.25  # Reduced from 0.3
+	var removed_penalty = articles_removed.size() * 0.4  # Reduced from 0.5
 	
 	# Store breakdown
 	integrity_breakdown = {
@@ -459,6 +459,7 @@ func _evaluate_day():
 	
 	# Recalculate final integrity with breakdown
 	# But preserve instant_death state if integrity was already at 0 from decay
+	
 	var was_instant_death_from_decay = instant_death and integrity_score <= 0.0
 	_recalculate_integrity()
 	# If integrity was already at 0 from decay, ensure it stays at 0
@@ -495,8 +496,8 @@ func _show_integrity_breakdown_popup():
 		emit_signal("game_over", "Day Complete")
 		get_tree().paused = true
 		
-func get_current_act() -> int:
-	# Placeholder for act/phase progression
+func get_current_act() -> int: #USE FOR SCENE TRANSITION
+	# Placeholder for act/phase progression 
 	return 2
 
 func get_articles_analyzed_count() -> int:

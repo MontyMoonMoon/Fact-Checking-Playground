@@ -169,6 +169,24 @@ func _setup_game_systems():
 	api_starter.name = "APIStarter"
 	add_child(api_starter)
 	
+	# Connect phone apps to game systems
+	if phone:
+		await get_tree().process_frame  # Wait for phone apps to initialize
+		
+		# Find message app
+		var message_app = phone.find_child("MessageApp", true, false)
+		if message_app:
+			# Connect message app to notes app
+			var notes_app = phone.find_child("NotesApp", true, false)
+			if notes_app and message_app.has_method("set_notes_app_ref"):
+				message_app.set_notes_app_ref(notes_app)
+				print("[map_01] Message app connected to notes app")
+			
+			# Connect notes app to game manager
+			if notes_app and notes_app.has_method("set_game_manager"):
+				notes_app.set_game_manager(game_manager)
+				print("[map_01] Notes app connected to game manager")
+	
 	# Initialize Lyra (Enemy AI)
 	lyra = Lyra.new()
 	lyra.name = "Lyra"
@@ -188,6 +206,15 @@ func _setup_game_systems():
 				push_warning("[map_01] Lyra: Emails controller is null")
 		else:
 			push_warning("[map_01] Lyra: Laptop doesn't have get_emails_controller method")
+	
+	# Connect Lyra to message app
+	if phone:
+		await get_tree().process_frame
+		var message_app = phone.find_child("MessageApp", true, false)
+		if message_app and lyra:
+			lyra.set_message_app(message_app)
+			print("[map_01] Lyra: Message app connected")
+	
 	print("[map_01] Lyra AI initialized")
 	
 	# Start game after a short delay

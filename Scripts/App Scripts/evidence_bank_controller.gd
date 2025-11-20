@@ -135,7 +135,7 @@ func _load_collected_infos_fallback():
 		return
 	
 	# Load from dataset
-	var dataset = JSONManager.load_json("res://dataset.json", {})
+	var dataset = JSONManager.load_json("res://JSONs/dataset.json", {})
 	var all_cases = []
 	if typeof(dataset) == TYPE_DICTIONARY and dataset.has("cases"):
 		all_cases = dataset["cases"].duplicate()
@@ -494,6 +494,7 @@ func _save_to_dataset_json(case_data: Dictionary):
 	if json_manager:
 		if json_manager.add_to_dataset_additions(case_data):
 			print("Evidence Bank: Added case to dataset_additions.json - %s" % case_data.get("article_text", ""))
+			
 	else:
 		# Fallback: manual save
 		var additions = JSONManager.load_json("user://dataset_additions.json", [])

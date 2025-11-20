@@ -4,28 +4,39 @@ class_name JSONManager
 # Singleton for managing all JSON file operations
 # This centralizes all JSON loading/saving to reduce code duplication
 
-## Get JSONManager instance from scene tree
+# Get JSONManager instance from scene tree
+
 static func get_instance() -> JSONManager:
-	# Try to get from Master node
+	# get from Master node
 	var master = Engine.get_main_loop().root.get_node_or_null("Master")
 	if master:
+		
 		# Try accessing via property (Master has @export var json_manager)
+		
 		var json_mgr = master.get("json_manager")
 		if json_mgr:
 			return json_mgr as JSONManager
+			
 		# Try direct path
 		var json_manager = master.get_node_or_null("JSON Manager")
+		
 		if json_manager:
 			return json_manager as JSONManager
 	# Try direct root path
+	
 	return Engine.get_main_loop().root.get_node_or_null("Master/JSON Manager") as JSONManager
 
 # ---------- FILE PATHS ----------
-const DATASET_PATH = "res://dataset.json"
+const DATASET_PATH = "res://JSONs/dataset.json"
 const MAIL_TEXTS_PATH = "res://JSONs/mail_texts.json"
 const COLLECTED_INFOS_PATH = "user://collected_infos.json"
 const DATASET_ADDITIONS_PATH = "user://dataset_additions.json"
 const TRASHED_INFOS_PATH = "user://trashed_infos.json"
+const MESSAGES_PATH = "user://messages.json"
+const NOTES_PATH = "user://notes.json"
+# Initial/default data paths (read-only)
+const MESSAGES_INITIAL_PATH = "res://JSONs/messages.json"
+const NOTES_INITIAL_PATH = "res://JSONs/notes.json"
 
 # ---------- CACHED DATA ----------
 var mails: Dictionary = {}
@@ -33,19 +44,25 @@ var dataset_cache: Dictionary = {}
 var collected_infos_cache: Array = []
 var dataset_additions_cache: Array = []
 var trashed_infos_cache: Array = []
+var messages_cache: Array = []
+var notes_cache: Array = []
 
 # ---------- GENERIC JSON OPERATIONS ----------
 
-## Load JSON from file path (res:// or user://)
-## Returns the parsed data or null if failed
+# Load JSON from file path (res:// or user://)
+# Returns the parsed data or null if failed
 static func load_json(file_path: String, default_value = null):
+	
 	if not FileAccess.file_exists(file_path):
 		if default_value != null:
 			return default_value
+			
 		push_warning("JSONManager: File not found: %s" % file_path)
+		
 		return null
 	
 	var file = FileAccess.open(file_path, FileAccess.READ)
+	
 	if not file:
 		push_error("JSONManager: Could not open file for reading: %s" % file_path)
 		return default_value
@@ -65,10 +82,13 @@ static func load_json(file_path: String, default_value = null):
 	
 	return parsed
 
-## Save JSON to file path (user:// only, res:// is read-only)
-## Returns true if successful, false otherwise
+# Save JSON to file path (user:// only, res:// is read-only)
+# Returns true if successful, false otherwise
+
 static func save_json(file_path: String, data, indent: String = "\t") -> bool:
+	
 	# Only allow saving to user:// paths for safety
+	
 	if not file_path.begins_with("user://"):
 		push_error("JSONManager: Cannot save to non-user:// path: %s" % file_path)
 		return false
@@ -84,40 +104,45 @@ static func save_json(file_path: String, data, indent: String = "\t") -> bool:
 	
 	return true
 
-## Clear a JSON file by writing empty array
+# Clear a JSON file by writing empty array
 static func clear_json_file(file_path: String) -> bool:
 	return save_json(file_path, [])
 
-## Check if file exists
+# Check if file exists
 static func file_exists(file_path: String) -> bool:
 	return FileAccess.file_exists(file_path)
 
 # ---------- DATASET.JSON OPERATIONS ----------
 
-## Load dataset.json (res://dataset.json)
-## Returns dictionary with "cases" array or null
+# Load dataset.json (res://dataset.json)
+# Returns dictionary with "cases" array or null
 func load_dataset() -> Dictionary:
+	
 	if dataset_cache.is_empty():
 		var data = load_json(DATASET_PATH, {})
+		
 		if typeof(data) == TYPE_DICTIONARY:
 			dataset_cache = data
+			
 		elif typeof(data) == TYPE_ARRAY:
 			# Handle array format
 			dataset_cache = {"cases": data}
+			
 		else:
 			dataset_cache = {"cases": []}
 	
 	return dataset_cache
 
-## Get cases array from dataset
+# Get cases array from dataset
 func get_dataset_cases() -> Array:
 	var dataset = load_dataset()
 	if dataset.has("cases"):
 		return dataset["cases"].duplicate()
 	return []
 
-## Get a specific case by article_text
+# Get a specific case by article_text
 func get_case_by_article_text(article_text: String) -> Dictionary:
+	
 	var cases = get_dataset_cases()
 	for case in cases:
 		if case.get("article_text", "") == article_text:
@@ -126,7 +151,7 @@ func get_case_by_article_text(article_text: String) -> Dictionary:
 
 # ---------- MAIL_TEXTS.JSON OPERATIONS ----------
 
-## Load mail texts
+# Load mail texts
 func load_mails() -> void:
 	var data = load_json(MAIL_TEXTS_PATH, {})
 	if typeof(data) == TYPE_DICTIONARY:
@@ -134,7 +159,7 @@ func load_mails() -> void:
 	else:
 		mails = {}
 
-## Get mails dictionary
+# Get mails dictionary
 func get_mails() -> Dictionary:
 	if mails.is_empty():
 		load_mails()
@@ -142,7 +167,7 @@ func get_mails() -> Dictionary:
 
 # ---------- COLLECTED_INFOS.JSON OPERATIONS ----------
 
-## Load collected_infos.json
+# Load collected_infos.json
 func load_collected_infos() -> Array:
 	if collected_infos_cache.is_empty():
 		var data = load_json(COLLECTED_INFOS_PATH, [])
@@ -158,14 +183,14 @@ func save_collected_infos(data: Array) -> bool:
 	collected_infos_cache = data.duplicate(true)
 	return save_json(COLLECTED_INFOS_PATH, data)
 
-## Clear collected_infos.json
+# Clear collected_infos.json
 func clear_collected_infos() -> bool:
 	collected_infos_cache.clear()
 	return clear_json_file(COLLECTED_INFOS_PATH)
 
 # ---------- DATASET_ADDITIONS.JSON OPERATIONS ----------
 
-## Load dataset_additions.json
+# Load dataset_additions.json
 func load_dataset_additions() -> Array:
 	if dataset_additions_cache.is_empty():
 		var data = load_json(DATASET_ADDITIONS_PATH, [])
@@ -176,12 +201,12 @@ func load_dataset_additions() -> Array:
 	
 	return dataset_additions_cache.duplicate(true)
 
-## Save dataset_additions.json
+# Save dataset_additions.json
 func save_dataset_additions(data: Array) -> bool:
 	dataset_additions_cache = data.duplicate(true)
 	return save_json(DATASET_ADDITIONS_PATH, data)
 
-## Add a case to dataset_additions (checks for duplicates)
+# Add a case to dataset_additions (checks for duplicates)
 func add_to_dataset_additions(case_data: Dictionary) -> bool:
 	var additions = load_dataset_additions()
 	var article_text = case_data.get("article_text", "")
@@ -194,14 +219,14 @@ func add_to_dataset_additions(case_data: Dictionary) -> bool:
 	additions.append(case_data.duplicate(true))
 	return save_dataset_additions(additions)
 
-## Clear dataset_additions.json
+# Clear dataset_additions.json
 func clear_dataset_additions() -> bool:
 	dataset_additions_cache.clear()
 	return clear_json_file(DATASET_ADDITIONS_PATH)
 
 # ---------- TRASHED_INFOS.JSON OPERATIONS ----------
 
-## Load trashed_infos.json
+# Load trashed_infos.json
 func load_trashed_infos(force_reload: bool = false) -> Array:
 	if force_reload or trashed_infos_cache.is_empty():
 		var data = load_json(TRASHED_INFOS_PATH, [])
@@ -212,7 +237,7 @@ func load_trashed_infos(force_reload: bool = false) -> Array:
 	
 	return trashed_infos_cache.duplicate(true)
 
-## Save trashed_infos.json
+# Save trashed_infos.json
 func save_trashed_infos(data: Array) -> bool:
 	trashed_infos_cache = data.duplicate(true)
 	return save_json(TRASHED_INFOS_PATH, data)
@@ -224,7 +249,7 @@ func clear_trashed_infos() -> bool:
 
 # ---------- COMBINED OPERATIONS ----------
 
-## Get all cases (dataset + additions, excluding trashed)
+# Get all cases (dataset + additions, excluding trashed)
 func get_all_cases(exclude_trashed: bool = true) -> Array:
 	var all_cases = []
 	
@@ -269,21 +294,157 @@ func get_all_cases(exclude_trashed: bool = true) -> Array:
 	
 	return all_cases
 
-## Clear all game data files (for new game)
+# Clear all game data files (FOR RESET || NEW GAME)
+
 func clear_all_game_data() -> void:
 	clear_collected_infos()
 	clear_dataset_additions()
 	clear_trashed_infos()
+	clear_messages()
+	clear_notes()
 	print("JSONManager: Cleared all game data files")
 
-## Refresh all caches (useful after external changes)
+# ---------- MESSAGES.JSON OPERATIONS ----------
+
+# Load messages.json
+func load_messages() -> Array:
+	if messages_cache.is_empty():
+		# Check if user:// file exists, if not, initialize from res://
+		if not FileAccess.file_exists(MESSAGES_PATH):
+			print("JSONManager: user://messages.json doesn't exist, initializing from res://...")
+			_initialize_messages_from_res()
+		
+		var data = load_json(MESSAGES_PATH, [])
+		if typeof(data) == TYPE_ARRAY:
+			messages_cache = data
+			print("JSONManager: Loaded %d messages from user://messages.json" % messages_cache.size())
+		else:
+			messages_cache = []
+			push_warning("JSONManager: Failed to load messages.json or invalid format")
+	
+	return messages_cache.duplicate(true)
+
+func _initialize_messages_from_res() -> void:
+	"""Initialize messages.json from res:// if user:// doesn't exist"""
+	print("JSONManager: Attempting to initialize messages from res://...")
+	var initial_data = load_json(MESSAGES_INITIAL_PATH, [])
+	print("JSONManager: Loaded from res://: %d messages" % (initial_data.size() if typeof(initial_data) == TYPE_ARRAY else 0))
+	if typeof(initial_data) == TYPE_ARRAY and initial_data.size() > 0:
+		if save_json(MESSAGES_PATH, initial_data):
+			print("JSONManager: Successfully initialized messages.json from res:// (%d messages)" % initial_data.size())
+		else:
+			push_error("JSONManager: Failed to save messages.json to user://")
+	else:
+		push_warning("JSONManager: No initial messages found in res:// or invalid format")
+
+# Get all messages
+func get_all_messages() -> Array:
+	return load_messages()
+
+# Add a message
+func add_message(message_data: Dictionary) -> bool:
+	var messages = load_messages()
+	messages.append(message_data.duplicate(true))
+	messages_cache = messages
+	return save_json(MESSAGES_PATH, messages)
+
+# Clear messages.json
+func clear_messages() -> bool:
+	messages_cache.clear()
+	return clear_json_file(MESSAGES_PATH)
+
+# ---------- NOTES.JSON OPERATIONS ----------
+
+# Load notes.json
+func load_notes() -> Array:
+	if notes_cache.is_empty():
+		# Check if user:// file exists, if not, initialize from res://
+		if not FileAccess.file_exists(NOTES_PATH):
+			_initialize_notes_from_res()
+		
+		var data = load_json(NOTES_PATH, [])
+		if typeof(data) == TYPE_ARRAY:
+			notes_cache = data
+		else:
+			notes_cache = []
+	
+	return notes_cache.duplicate(true)
+
+func _initialize_notes_from_res() -> void:
+	"""Initialize notes.json from res:// if user:// doesn't exist"""
+	print("JSONManager: Attempting to initialize notes from res://...")
+	var initial_data = load_json(NOTES_INITIAL_PATH, [])
+	print("JSONManager: Loaded from res://: %d notes" % (initial_data.size() if typeof(initial_data) == TYPE_ARRAY else 0))
+	if typeof(initial_data) == TYPE_ARRAY and initial_data.size() > 0:
+		if save_json(NOTES_PATH, initial_data):
+			print("JSONManager: Successfully initialized notes.json from res:// (%d notes)" % initial_data.size())
+		else:
+			push_error("JSONManager: Failed to save notes.json to user://")
+	else:
+		push_warning("JSONManager: No initial notes found in res:// or invalid format")
+
+# Save notes.json
+func save_notes(notes_data: Array) -> bool:
+	notes_cache = notes_data.duplicate(true)
+	return save_json(NOTES_PATH, notes_data)
+
+# Add a note
+func add_note(note_data: Dictionary) -> bool:
+	var notes = load_notes()
+	notes.append(note_data.duplicate(true))
+	notes_cache = notes
+	return save_json(NOTES_PATH, notes)
+
+# Remove a note by ID
+func remove_note(note_id: String) -> bool:
+	var notes = load_notes()
+	var filtered = []
+	for note in notes:
+		if note.get("id", "") != note_id:
+			filtered.append(note)
+	notes_cache = filtered
+	return save_json(NOTES_PATH, filtered)
+
+# Clear notes.json
+func clear_notes() -> bool:
+	notes_cache.clear()
+	return clear_json_file(NOTES_PATH)
+
+# Refresh all caches (useful after external changes)
 func refresh_caches() -> void:
 	dataset_cache.clear()
 	collected_infos_cache.clear()
 	dataset_additions_cache.clear()
 	trashed_infos_cache.clear()
+	messages_cache.clear()
+	notes_cache.clear()
 	mails.clear()
 
 # ---------- GODOT CALLBACKS ----------
 func _ready():
 	load_mails()
+	# Initialize messages and notes from res:// if user:// files don't exist
+	# Only initialize if files are empty or don't exist
+	if not FileAccess.file_exists(MESSAGES_PATH):
+		print("JSONManager: messages.json doesn't exist, initializing...")
+		_initialize_messages_from_res()
+	else:
+		# Check if file is empty
+		var existing = load_json(MESSAGES_PATH, [])
+		if typeof(existing) == TYPE_ARRAY and existing.size() == 0:
+			print("JSONManager: messages.json exists but is empty, initializing...")
+			_initialize_messages_from_res()
+		else:
+			print("JSONManager: messages.json already exists with %d messages" % existing.size())
+	
+	if not FileAccess.file_exists(NOTES_PATH):
+		print("JSONManager: notes.json doesn't exist, initializing...")
+		_initialize_notes_from_res()
+	else:
+		# Check if file is empty
+		var existing = load_json(NOTES_PATH, [])
+		if typeof(existing) == TYPE_ARRAY and existing.size() == 0:
+			print("JSONManager: notes.json exists but is empty, initializing...")
+			_initialize_notes_from_res()
+		else:
+			print("JSONManager: notes.json already exists with %d notes" % existing.size())

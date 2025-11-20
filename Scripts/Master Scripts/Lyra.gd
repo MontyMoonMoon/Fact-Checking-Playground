@@ -9,6 +9,7 @@ var game_timer: GameTimer = null
 var game_manager: GameManager = null
 var emails_controller: Node = null
 var laptop: Node = null
+var message_app: Node = null  # Reference to message app for sending messages
 
 # Sabotage intensity (0.0 to 1.0, increases as time runs out)
 var intensity: float = 0.0
@@ -16,7 +17,7 @@ var base_aggression: float = 20.0  # Base chance to perform sabotage (0-100)
 var max_aggression: float = 80.0   # Max chance as time runs out
 
 # Timing
-var last_sabotage_time: float = 0.0
+var last_sabotage_time: float = -999.0  # Initialize to negative so first sabotage can happen
 var base_cooldown: float = 45.0    # Base cooldown between sabotages (seconds)
 var min_cooldown: float = 15.0     # Minimum cooldown when time is almost up
 
@@ -25,7 +26,11 @@ enum SabotageType {
 	SPAM_EMAILS,
 	TIME_DEDUCTION,
 	INTEGRITY_REDUCTION,
-	LAPTOP_CRASH
+	LAPTOP_CRASH,
+	MESSAGE_LYRA_TAUNT,
+	MESSAGE_THREAT,
+	MESSAGE_TRASH,
+	MESSAGE_TIP
 }
 
 # Spam email data
@@ -97,6 +102,13 @@ func set_emails_controller(controller: Node):
 func set_laptop(laptop_node: Node):
 	laptop = laptop_node
 
+func set_message_app(app: Node):
+	message_app = app
+	if message_app:
+		print("Lyra: Message app connected successfully")
+	else:
+		push_warning("Lyra: Message app is null!")
+
 func _update_intensity():
 	"""Calculate intensity based on time remaining (0.0 = start, 1.0 = almost out of time)"""
 	if not game_timer:
@@ -119,7 +131,11 @@ func _update_intensity():
 
 func _should_perform_sabotage() -> bool:
 	"""Check if it's time to perform a sabotage"""
-	var current_time = Time.get_unix_time_from_system()
+	# Use game time instead of system time for consistency
+	if not game_timer:
+		return false
+	
+	var current_time = game_timer.get_time_elapsed()
 	var time_since_last = current_time - last_sabotage_time
 	
 	# Calculate cooldown based on intensity (shorter cooldown as time runs out)
@@ -132,21 +148,35 @@ func _should_perform_sabotage() -> bool:
 	var current_aggression = lerp(base_aggression, max_aggression, intensity)
 	var roll = randf() * 100.0
 	
-	return roll <= current_aggression
+	var should_trigger = roll <= current_aggression
+	if should_trigger:
+		print("Lyra: Sabotage check passed (roll: %.2f <= aggression: %.2f, intensity: %.2f)" % [roll, current_aggression, intensity])
+	
+	return should_trigger
 
 func _perform_random_sabotage():
 	"""Perform a random sabotage action"""
-	var current_time = Time.get_unix_time_from_system()
-	last_sabotage_time = current_time
+	# Use game timer time for consistency
+	if game_timer:
+		last_sabotage_time = game_timer.get_time_elapsed()
+	else:
+		last_sabotage_time = Time.get_unix_time_from_system()
 	
 	# Weighted random selection based on intensity
-	# Early game: more spam emails
+	# Early game: more spam emails and messages
 	# Late game: more severe actions (time deduction, integrity reduction, crashes)
+	
+	#TWEAK ACCORDING TO DIFFICULTY
 	var weights = {
-		SabotageType.SPAM_EMAILS: lerp(40.0, 15.0, intensity),  # Decreases over time (reduced from 60)
-		SabotageType.TIME_DEDUCTION: lerp(20.0, 30.0, intensity),  # Increases
-		SabotageType.INTEGRITY_REDUCTION: lerp(25.0, 35.0, intensity),  # Increases
-		SabotageType.LAPTOP_CRASH: lerp(15.0, 20.0, intensity)  # Increases significantly
+		SabotageType.SPAM_EMAILS: lerp(20.0, 10.0, intensity),  # Decreases over time
+		SabotageType.TIME_DEDUCTION: lerp(40.0, 20.0, intensity),  # Increases
+		SabotageType.INTEGRITY_REDUCTION: lerp(30.0, 20.0, intensity),  # Increases
+		SabotageType.LAPTOP_CRASH: lerp(40.0, 12.0, intensity),  # Increases
+		
+		SabotageType.MESSAGE_LYRA_TAUNT: lerp(40.0, 12.0, intensity),  # More common early
+		SabotageType.MESSAGE_THREAT: lerp(15.0, 10.0, intensity),  # Slightly decreases
+		SabotageType.MESSAGE_TRASH: lerp(60.0, 5.0, intensity),  # Decreases (not too many)
+		SabotageType.MESSAGE_TIP: lerp(40.0, 10.0, intensity)  # Slightly increases
 	}
 	
 	# Select sabotage type
@@ -169,7 +199,11 @@ func _perform_random_sabotage():
 		SabotageType.SPAM_EMAILS: "SPAM_EMAILS",
 		SabotageType.TIME_DEDUCTION: "TIME_DEDUCTION",
 		SabotageType.INTEGRITY_REDUCTION: "INTEGRITY_REDUCTION",
-		SabotageType.LAPTOP_CRASH: "LAPTOP_CRASH"
+		SabotageType.LAPTOP_CRASH: "LAPTOP_CRASH",
+		SabotageType.MESSAGE_LYRA_TAUNT: "MESSAGE_LYRA_TAUNT",
+		SabotageType.MESSAGE_THREAT: "MESSAGE_THREAT",
+		SabotageType.MESSAGE_TRASH: "MESSAGE_TRASH",
+		SabotageType.MESSAGE_TIP: "MESSAGE_TIP"
 	}
 	print("Lyra: Executing sabotage - %s (intensity: %.2f)" % [type_names.get(selected_type, "UNKNOWN"), intensity])
 	
@@ -182,6 +216,14 @@ func _perform_random_sabotage():
 			_execute_integrity_reduction()
 		SabotageType.LAPTOP_CRASH:
 			_execute_laptop_crash()
+		SabotageType.MESSAGE_LYRA_TAUNT:
+			_execute_message_lyra_taunt()
+		SabotageType.MESSAGE_THREAT:
+			_execute_message_threat()
+		SabotageType.MESSAGE_TRASH:
+			_execute_message_trash()
+		SabotageType.MESSAGE_TIP:
+			_execute_message_tip()
 
 func _execute_spam_emails():
 	"""Spam useless emails to the player"""
@@ -297,7 +339,7 @@ func _end_crash_effects():
 	
 	# Restore laptop functionality
 	# The laptop's trigger_crash method handles recovery automatically via timer
-	# But we can also manually call recovery if needed
+	# can also manually call recovery if needed
 	if laptop.has_method("_on_crash_recover"):
 		laptop._on_crash_recover()
 	
@@ -306,3 +348,137 @@ func _end_crash_effects():
 		laptop.remove_glitch_effect()
 	
 	print("Lyra: Laptop crash effects ended - system restored")
+
+#Sabotage Message
+
+
+#used to circumnavigate excessive json usage
+var lyra_taunt_templates: Array = [
+	"Time's running out... tick tock!",
+	"You're not doing so well, are you?",
+	"Your integrity is slipping away...",
+	"Can't keep up? That's too bad.",
+	"Running out of time and options!",
+	"Your fact-checking skills need work.",
+	"Another mistake? How predictable.",
+	"The clock is your enemy now."
+]
+
+var threat_message_templates: Array = [
+	"Watch your back...",
+	"You're being watched.",
+	"Your reputation is at stake.",
+	"One wrong move and it's over.",
+	"Time is not on your side.",
+	"Your credibility is fading fast.",
+	"Be careful what you publish...",
+	"The truth will come out."
+]
+
+
+var trash_message_templates: Array = [
+	{"sender": "Deals4U", "content": "🎉 LIMITED TIME OFFER! Get 50% off on all products! Click now!"},
+	{"sender": "NewsLetter", "content": "Subscribe to our newsletter for daily updates and exclusive content!"},
+	{"sender": "WinPrize", "content": "🎁 You've won a prize! Claim it now before it expires!"},
+	{"sender": "ShopNow", "content": "New arrivals! Check out our latest collection with amazing discounts!"},
+	{"sender": "PromoAlert", "content": "Special promotion just for you! Don't miss out on these deals!"}
+]
+
+var tip_message_templates: Array = [
+	{"content": "Always verify sources from multiple reputable outlets before publishing.", "is_legit": true},
+	{"content": "Check the date of the article - old news can be misleading.", "is_legit": true},
+	{"content": "Look for author credentials and publication history.", "is_legit": true},
+	{"content": "Breaking news from anonymous sources is always 100% reliable.", "is_legit": false},
+	{"content": "If it sounds too good to be true, it probably is. But trust your gut!", "is_legit": false},
+	{"content": "Social media posts are as reliable as official news sources.", "is_legit": false},
+	{"content": "Cross-reference information with official government websites.", "is_legit": true},
+	{"content": "Be wary of articles with excessive emotional language.", "is_legit": true},
+	{"content": "If everyone is talking about it, it must be true!", "is_legit": false},
+	{"content": "Check for spelling and grammar errors - professional sources rarely have them.", "is_legit": true}
+]
+
+func _execute_message_lyra_taunt():
+	"""Send a taunting message from Lyra"""
+	if not message_app:
+		print("Lyra: ERROR - Cannot send message - message app not found!")
+		return
+	
+	var taunt = lyra_taunt_templates[randi() % lyra_taunt_templates.size()]
+	var message_data = {
+		"type": "lyra_taunt",
+		"sender": "Lyra",
+		"content": taunt,
+		"preview": taunt,
+		"timestamp": Time.get_unix_time_from_system()
+	}
+	
+	if message_app.has_method("add_message"):
+		message_app.add_message(message_data)
+		print("Lyra: Sent taunt message: %s" % taunt)
+	else:
+		print("Lyra: ERROR - message_app doesn't have add_message method!")
+
+func _execute_message_threat():
+	"""Send a random threat message"""
+	if not message_app:
+		print("Lyra: ERROR - Cannot send message - message app not found!")
+		return
+	
+	var threat = threat_message_templates[randi() % threat_message_templates.size()]
+	var message_data = {
+		"type": "threat",
+		"sender": "Unknown",
+		"content": threat,
+		"preview": threat,
+		"timestamp": Time.get_unix_time_from_system()
+	}
+	
+	if message_app.has_method("add_message"):
+		message_app.add_message(message_data)
+		print("Lyra: Sent threat message: %s" % threat)
+	else:
+		print("Lyra: ERROR - message_app doesn't have add_message method!")
+
+func _execute_message_trash():
+	"""Send a trash/promo message (not too many)"""
+	if not message_app:
+		print("Lyra: ERROR - Cannot send message - message app not found!")
+		return
+	
+	var trash = trash_message_templates[randi() % trash_message_templates.size()]
+	var message_data = {
+		"type": "trash",
+		"sender": trash.sender,
+		"content": trash.content,
+		"preview": trash.content,
+		"timestamp": Time.get_unix_time_from_system()
+	}
+	
+	if message_app.has_method("add_message"):
+		message_app.add_message(message_data)
+		print("Lyra: Sent trash message from %s" % trash.sender)
+	else:
+		print("Lyra: ERROR - message_app doesn't have add_message method!")
+
+func _execute_message_tip():
+	"""Send a tip message (some legit, some suspicious)"""
+	if not message_app:
+		print("Lyra: ERROR - Cannot send message - message app not found!")
+		return
+	
+	var tip = tip_message_templates[randi() % tip_message_templates.size()]
+	var message_data = {
+		"type": "tip",
+		"sender": "Info Source",
+		"content": tip.content,
+		"preview": tip.content,
+		"title": "Fact-Checking Tip",
+		"is_legit": tip.is_legit,
+		"timestamp": Time.get_unix_time_from_system()
+	}
+	
+	if message_app.has_method("add_message"):
+		message_app.add_message(message_data)
+		print("Lyra: Sent tip message (legit: %s): %s" % [tip.is_legit, tip.content])
+	else:
+		print("Lyra: ERROR - message_app doesn't have add_message method!")

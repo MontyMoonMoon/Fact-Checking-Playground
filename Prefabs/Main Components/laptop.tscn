@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://0tax7malsyxa"]
+[gd_scene load_steps=31 format=3 uid="uid://0tax7malsyxa"]
 
 [ext_resource type="Script" uid="uid://b78hmegyor2cd" path="res://Scripts/Main Component Scripts/laptop.gd" id="1_6yp3k"]
 [ext_resource type="Texture2D" uid="uid://dtbsh2rf8jbvb" path="res://Assets/PNGs/Main Components/Laptop.png" id="1_asa33"]
@@ -15,7 +15,7 @@
 [ext_resource type="Script" uid="uid://djgqfwtop0vle" path="res://Scripts/App Scripts/ai_analysis_controller.gd" id="13_aianalysis"]
 [ext_resource type="Script" uid="uid://dolxqses1eif1" path="res://Scripts/App Scripts/evidence_bank_controller.gd" id="14_evbank"]
 [ext_resource type="Script" uid="uid://dd4a86x7o7aqf" path="res://Scripts/App Scripts/article_publisher_controller.gd" id="15_articlepub"]
-[ext_resource type="Script" path="res://Scripts/App Scripts/trash_controller.gd" id="16_trash"]
+[ext_resource type="Script" uid="uid://c1i85gxc47mvd" path="res://Scripts/App Scripts/trash_controller.gd" id="16_trash"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4bp56"]
 texture = ExtResource("2_33gdn")

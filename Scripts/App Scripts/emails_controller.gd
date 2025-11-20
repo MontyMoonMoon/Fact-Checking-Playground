@@ -76,7 +76,7 @@ func spawn_emails() -> void:
 
 func _load_email_news() -> void:
 	"""Load email news from JSON file"""
-	var file_path = "res://email_news.json"
+	var file_path = "res://JSONs/email_news.json"
 	
 	if not FileAccess.file_exists(file_path):
 		push_error("[Emails_controller] Email news file not found at %s" % file_path)

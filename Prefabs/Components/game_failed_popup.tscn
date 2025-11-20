@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b3kx7naf8h3j5"]
 
-[ext_resource type="Script" path="res://Scripts/game_failed_popup.gd" id="1_failed"]
+[ext_resource type="Script" uid="uid://de5qxynrdud7e" path="res://Scripts/Master Scripts/game_failed_popup.gd" id="1_failed"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
 bg_color = Color(0.2, 0.2, 0.25, 0.95)

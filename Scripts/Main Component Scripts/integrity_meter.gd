@@ -10,7 +10,9 @@ func save_integrity() -> void:
 
 func update_integrity(score: float) -> void:
 	if integrity_meter:
+		
 		# Normalize score to 0-1 range (assuming 0-10 scale)
+		
 		var normalized = clamp(score / 10.0, 0.0, 1.0)
 		integrity_meter.value = normalized * 100.0  # VSlider uses 0-100
 		print("Integrity updated: %.2f (normalized: %.2f)" % [score, normalized])

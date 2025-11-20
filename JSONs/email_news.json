@@ -169,6 +169,200 @@
 		"stance": "Neutral",
 		"integrity_score": 0.73
 	  }
-	}
+	},
+	{
+  "sender": "Investigative Reporter",
+  "subject": "Leak: Celebrity Timeline Contains Gaps",
+  "content": "A leaked memo shows the celebrity's stated whereabouts contradict internal studio logs.",
+  "timestamp": "08:12",
+  "news_data": {
+	"article_text": "Internal studio logs conflict with the celebrity's public timeline. Several hours remain unaccounted for.",
+	"tip_text": "Tip: Ask the PR team for GPS records they claimed to have, though they denied holding any last week.",
+	"facts": [
+	  {"category": "Timeline", "value": "Missing 3-hour window", "source": "Documents"},
+	  {"category": "Statement Conflict", "value": "PR claimed GPS logs exist and don't exist", "source": "Tip"},
+	  {"category": "Source Reliability", "value": "Studio logs differ from televised interview", "source": "Article"}
+	],
+	"stance": "Skeptical",
+	"integrity_score": 0.69
+  }
+},
+{
+  "sender": "Field Correspondent",
+  "subject": "Protest Footage Pulled Abruptly",
+  "content": "Footage from last night's protest vanished from the internal server without explanation.",
+  "timestamp": "11:03",
+  "news_data": {
+	"article_text": "Protest footage recorded last night is missing despite claims it was archived twice.",
+	"tip_text": "Tip: Check with the editing team—two editors swear they never received the footage.",
+	"facts": [
+	  {"category": "Evidence", "value": "Archived footage missing", "source": "Article"},
+	  {"category": "Contradiction", "value": "Editors deny receiving archived file", "source": "Tip"},
+	  {"category": "External Pressure", "value": "Management requested 'priority celebrity coverage' minutes earlier", "source": "Article"}
+	],
+	"stance": "Neutral",
+	"integrity_score": 0.57
+  }
+},
+{
+  "sender": "Junior Reporter",
+  "subject": "Studio Denies Statement They Issued Yesterday",
+  "content": "The studio now denies issuing a statement that was emailed from their official address.",
+  "timestamp": "14:20",
+  "news_data": {
+	"article_text": "The studio refutes a press statement released under their registered domain less than 24 hours ago.",
+	"tip_text": "Tip: Cross-match the SMTP headers—they might reveal an internal conflict or cover-up.",
+	"facts": [
+	  {"category": "Digital Forensics", "value": "SMTP headers show internal server origin", "source": "Tip"},
+	  {"category": "Inconsistency", "value": "Studio denies authorship of statement", "source": "Article"},
+	  {"category": "PR Behavior", "value": "Unusual reversal after celebrity scandal escalated", "source": "Article"}
+	],
+	"stance": "Anti-PR",
+	"integrity_score": 0.81
+  }
+},
+
+{
+  "sender": "Junior Reporter",
+  "subject": "Studio Denies Statement They Issued Yesterday",
+  "content": "The studio now denies issuing a statement that was emailed from their official address.",
+  "timestamp": "14:20",
+  "news_data": {
+	"article_text": "The studio refutes a press statement released under their registered domain less than 24 hours ago.",
+	"tip_text": "Tip: Cross-match the SMTP headers—they might reveal an internal conflict or cover-up.",
+	"facts": [
+	  {"category": "Digital Forensics", "value": "SMTP headers show internal server origin", "source": "Tip"},
+	  {"category": "Inconsistency", "value": "Studio denies authorship of statement", "source": "Article"},
+	  {"category": "PR Behavior", "value": "Unusual reversal after celebrity scandal escalated", "source": "Article"}
+	],
+	"stance": "Anti-PR",
+	"integrity_score": 0.81
+  }
+},
+{
+  "sender": "Investigations Desk",
+  "subject": "Supply Shortage Report Marked 'Low Priority'",
+  "content": "A report on rising supply shortages was deprioritized despite urgent updates.",
+  "timestamp": "10:44",
+  "news_data": {
+	"article_text": "Supply shortages are worsening in several towns, yet internal directives marked the report as 'non-essential'.",
+	"tip_text": "Tip: Anonymously, two editors said they were told to 'stick to entertainment headlines'.",
+	"facts": [
+	  {"category": "Directive", "value": "Report marked non-essential", "source": "Documents"},
+	  {"category": "Internal Conflict", "value": "Editors instructed to avoid shortages coverage", "source": "Tip"},
+	  {"category": "Context", "value": "Shortages worsen as celebrity scandal coverage expands", "source": "Article"}
+	],
+	"stance": "Critical",
+	"integrity_score": 0.74
+  }
+},
+
+{
+  "sender": "Fact-Checking Intern",
+  "subject": "Timeline Mismatch: Interview Recorded After Broadcast",
+  "content": "The celebrity's interview appears to have been recorded after it aired.",
+  "timestamp": "16:07",
+  "news_data": {
+	"article_text": "Metadata from the interview suggests a recording time that is three hours after its broadcast.",
+	"tip_text": "Tip: Compare timestamp anomalies with earlier versions—the network claims 'metadata corruption'.",
+	"facts": [
+	  {"category": "Metadata", "value": "Recording timestamp post-broadcast", "source": "Article"},
+	  {"category": "Network Claim", "value": "Metadata corruption explanation", "source": "Tip"},
+	  {"category": "Logical Issue", "value": "Corrupted metadata cannot shift forward reliably", "source": "Tip"}
+	],
+	"stance": "Investigative",
+	"integrity_score": 0.79
+  }
+},
+
+{
+  "sender": "Night Editor",
+  "subject": "Celebrity Scandal Draft Replaced Automatically",
+  "content": "A fully written draft was replaced by a version lacking key evidence.",
+  "timestamp": "01:30",
+  "news_data": {
+	"article_text": "The revised version removes references to missing security footage and contradictory witness statements.",
+	"tip_text": "Tip: IT logs show the edit originated from an account that was inactive for six months.",
+	"facts": [
+	  {"category": "Evidence Removal", "value": "Security footage reference cut", "source": "Article"},
+	  {"category": "Anomaly", "value": "Edit from inactive account", "source": "Tip"},
+	  {"category": "Witness Issue", "value": "Missing witness contradictions", "source": "Article"}
+	],
+	"stance": "Concerned",
+	"integrity_score": 0.49
+  }
+},
+
+{
+  "sender": "Entertainment Desk",
+  "subject": "Studio Provides 'Exclusive' That Conflicts With Their Own Timeline",
+  "content": "The studio's exclusive footage contradicts their previously confirmed schedule.",
+  "timestamp": "12:21",
+  "news_data": {
+	"article_text": "The exclusive depicts the celebrity rehearsing during a time they were reportedly overseas.",
+	"tip_text": "Tip: Compare this with travel logs submitted last quarter for tax purposes.",
+	"facts": [
+	  {"category": "Scheduling", "value": "Rehearsal vs overseas claim", "source": "Article"},
+	  {"category": "Document Conflict", "value": "Travel logs contradict exclusive footage", "source": "Tip"},
+	  {"category": "Possible Motive", "value": "Studio benefits from scandal control", "source": "Article"}
+	],
+	"stance": "Suspicious",
+	"integrity_score": 0.71
+  }
+},
+
+{
+  "sender": "Data Analyst",
+  "subject": "Engagement Metrics Altered on Celebrity Story",
+  "content": "Engagement numbers appear inflated, not matching server logs.",
+  "timestamp": "17:45",
+  "news_data": {
+	"article_text": "Internal logs show only 200,000 views, yet the public metric claims over 1.8 million.",
+	"tip_text": "Tip: Verify if the discrepancy aligns with timing of removed protest videos.",
+	"facts": [
+	  {"category": "Analytics", "value": "1.6M view gap", "source": "Article"},
+	  {"category": "Suspicious Correlation", "value": "Gap aligns with protest video removals", "source": "Tip"},
+	  {"category": "Server Logs", "value": "Lower internal traffic count", "source": "Documents"}
+	],
+	"stance": "Neutral",
+	"integrity_score": 0.64
+  }
+},
+
+{
+  "sender": "PR Liaison",
+  "subject": "Studio Sends Embargoed Statement Already Published Elsewhere",
+  "content": "The 'exclusive' embargoed statement was already posted on another outlet hours earlier.",
+  "timestamp": "07:27",
+  "news_data": {
+	"article_text": "The material labeled embargoed is publicly visible with matching wording.",
+	"tip_text": "Tip: Check the article edit history—timestamps may reveal coordinated release.",
+	"facts": [
+	  {"category": "Embargo", "value": "Embargoed content already public", "source": "Article"},
+	  {"category": "Timing Conflict", "value": "Earlier publication contradicts exclusivity", "source": "Tip"},
+	  {"category": "PR Strategy", "value": "Possible narrative shaping effort", "source": "Article"}
+	],
+	"stance": "Neutral",
+	"integrity_score": 0.55
+  }
+},
+
+{
+  "sender": "Night Correspondent",
+  "subject": "Celebrity Statements Uploaded Before Filmed",
+  "content": "Statements appeared on the online portal two hours before their recording.",
+  "timestamp": "02:22",
+  "news_data": {
+	"article_text": "Portal logs show early upload times not matching studio recording claims.",
+	"tip_text": "Tip: Check CDN propagation logs—they show multiple revisions.",
+	"facts": [
+	  {"category": "Timing", "value": "Upload precedes recording", "source": "Article"},
+	  {"category": "Revision", "value": "Multiple versions before event", "source": "Tip"},
+	  {"category": "Studio Claim", "value": "Studio insists recording time accurate", "source": "Article"}
+	],
+	"stance": "Curious",
+	"integrity_score": 0.68
+  }
+}
   ]
 }

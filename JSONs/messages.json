@@ -1,0 +1,105 @@
+[
+	{
+		"type": "lyra_taunt",
+		"sender": "Lyra",
+		"content": "Time's running out... tick tock! Your fact-checking skills aren't keeping up with the pace.",
+		"preview": "Time's running out... tick tock!",
+		"timestamp": 0
+	},
+	{
+		"type": "lyra_taunt",
+		"sender": "Lyra",
+		"content": "Another mistake? How predictable. Your integrity is slipping away faster than you can verify sources.",
+		"preview": "Another mistake? How predictable.",
+		"timestamp": 0
+	},
+	{
+		"type": "threat",
+		"sender": "Unknown",
+		"content": "Watch your back... Your reputation as a fact-checker is being closely monitored. One wrong move and it's over.",
+		"preview": "Watch your back...",
+		"timestamp": 0
+	},
+	{
+		"type": "threat",
+		"sender": "Anonymous",
+		"content": "You're being watched. Every article you publish is being scrutinized. Be careful what you verify.",
+		"preview": "You're being watched.",
+		"timestamp": 0
+	},
+	{
+		"type": "trash",
+		"sender": "Deals4U",
+		"content": "🎉 LIMITED TIME OFFER! Get 50% off on all products! Click now before this exclusive deal expires!",
+		"preview": "🎉 LIMITED TIME OFFER! Get 50% off...",
+		"timestamp": 0
+	},
+	{
+		"type": "trash",
+		"sender": "NewsLetter Pro",
+		"content": "Subscribe to our premium newsletter for daily fact-checking tips and exclusive content! Only $9.99/month!",
+		"preview": "Subscribe to our premium newsletter...",
+		"timestamp": 0
+	},
+	{
+		"type": "trash",
+		"sender": "John Smith",
+		"content": "WHY DID YOU REDEEM THE GIFT CARD?!??!?",
+		"preview": "WHY DID YOU REDEEM IT?!?",
+		"timestamp": 0
+	},
+	{
+		"type": "tip",
+		"sender": "Info Source",
+		"content": "Always verify sources from multiple reputable outlets before publishing. Cross-reference information with official government websites and established news organizations.",
+		"preview": "Always verify sources from multiple reputable outlets...",
+		"title": "Fact-Checking Tip",
+		"is_legit": true,
+		"timestamp": 0
+	},
+	{
+		"type": "tip",
+		"sender": "Info Source",
+		"content": "Check the date of the article - old news can be misleading when presented as current events. Always verify publication dates and timestamps.",
+		"preview": "Check the date of the article - old news can be misleading...",
+		"title": "Fact-Checking Tip",
+		"is_legit": true,
+		"timestamp": 0
+	},
+	{
+		"type": "tip",
+		"sender": "Info Source",
+		"content": "Look for author credentials and publication history. Established journalists with verified backgrounds are more reliable than anonymous sources.",
+		"preview": "Look for author credentials and publication history...",
+		"title": "Fact-Checking Tip",
+		"is_legit": true,
+		"timestamp": 0
+	},
+	{
+		"type": "tip",
+		"sender": "Info Source",
+		"content": "Breaking news from anonymous sources is always 100% reliable. Trust your gut and publish immediately - speed matters more than verification!",
+		"preview": "Breaking news from anonymous sources is always 100% reliable...",
+		"title": "Fact-Checking Tip",
+		"is_legit": false,
+		"timestamp": 0
+	},
+	{
+		"type": "tip",
+		"sender": "Info Source",
+		"content": "If it sounds too good to be true, it probably is. But trust your gut! Sometimes the most unbelievable stories are the real ones.",
+		"preview": "If it sounds too good to be true, it probably is. But trust your gut!",
+		"title": "Fact-Checking Tip",
+		"is_legit": false,
+		"timestamp": 0
+	},
+	{
+		"type": "tip",
+		"sender": "Info Source",
+		"content": "Social media posts are as reliable as official news sources. If it's trending, it must be true!",
+		"preview": "Social media posts are as reliable as official news sources...",
+		"title": "Fact-Checking Tip",
+		"is_legit": false,
+		"timestamp": 0
+	}
+]

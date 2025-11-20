@@ -1,11 +1,11 @@
 [gd_scene load_steps=14 format=3 uid="uid://c3kbynasxfujb"]
 
-[ext_resource type="Texture2D" uid="uid://d1en2ix3knlvl" path="res://Assets/PNGs/ScreenBackground.png" id="1_03b3j"]
+[ext_resource type="Texture2D" uid="uid://dcscg1b2qiqa1" path="res://Assets/PNGs/ScreenBackground.png" id="1_03b3j"]
 [ext_resource type="Script" uid="uid://3j8048x61usr" path="res://Scripts/Scene Scripts/map_0.gd" id="1_rxa4l"]
-[ext_resource type="Texture2D" uid="uid://dplqirr6af7w2" path="res://Assets/PNGs/Logo.png" id="2_roy3c"]
-[ext_resource type="FontFile" uid="uid://bhqhtnkkcerbn" path="res://Assets/Fonts/BMmini.TTF" id="5_rxa4l"]
-[ext_resource type="Texture2D" uid="uid://dbatqj8wjl0dh" path="res://Assets/PNGs/UI/UI Assets.png" id="6_rxa4l"]
-[ext_resource type="Texture2D" uid="uid://cqokdudaapto1" path="res://Assets/PNGs/UI/mail.png" id="6_we6g2"]
+[ext_resource type="Texture2D" uid="uid://clb8di80d4gxo" path="res://Assets/PNGs/Logo.png" id="2_roy3c"]
+[ext_resource type="FontFile" uid="uid://das5tsujwto1j" path="res://Assets/Fonts/BMmini.TTF" id="5_rxa4l"]
+[ext_resource type="Texture2D" uid="uid://ca1ou32b8wtgu" path="res://Assets/PNGs/UI/UI Assets.png" id="6_rxa4l"]
+[ext_resource type="Texture2D" uid="uid://cfpt32ojjkcio" path="res://Assets/PNGs/UI/mail.png" id="6_we6g2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nj8rq"]
 bg_color = Color(0.6, 0.6, 0.6, 0)

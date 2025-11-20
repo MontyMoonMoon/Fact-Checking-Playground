@@ -378,7 +378,7 @@ func _on_http_request_request_completed(result: int, response_code: int, headers
 		
 		if is_fake:
 			# Penalize for publishing fake news
-			var fake_penalty = -2.0  # Significant penalty
+			var fake_penalty = -1.5  # Balanced penalty (reduced from -2.0)
 			integrity_increment = fake_penalty
 			print("Article Publisher: Published fake news! Applying penalty: %.2f" % fake_penalty)
 		
@@ -387,7 +387,9 @@ func _on_http_request_request_completed(result: int, response_code: int, headers
 			result_text += "Parts used: %d\n" % constructed_parts.size()
 			result_text += "Average semantic overlap: %.2f%%\n\n" % (avg_overlap * 100.0)
 			result_text += "[b]ML Analysis:[/b]\n"
-			result_text += "RF Score: %.2f | LogReg: %.2f | Avg: %.2f\n" % [rf, log, avg]
+			result_text += "[b]Random Forest Score:[/b] %.2f/10.0\n" % rf
+			result_text += "Logistic Regression: %.2f/10.0\n" % log
+			result_text += "Average Score: %.2f/10.0\n" % avg
 			result_text += "Verdict: %s\n\n" % verdict
 			
 			if is_fake:
@@ -442,18 +444,19 @@ func _on_http_request_request_completed(result: int, response_code: int, headers
 		push_error("Invalid response from ML API")
 
 func _calculate_integrity_increment(ml_avg_score: float, avg_overlap: float, num_parts: int) -> float:
-	var ml_bonus = (ml_avg_score / 10.0) * 2.0
+	# Balanced integrity calculation
+	var ml_bonus = (ml_avg_score / 10.0) * 1.5  # Reduced from 2.0 to 1.5
 	var overlap_bonus = 0.0
 	
 	if avg_overlap >= 0.9:
-		overlap_bonus = 1.5
+		overlap_bonus = 1.0  # Reduced from 1.5
 	elif avg_overlap >= 0.7:
-		overlap_bonus = 1.0
+		overlap_bonus = 0.7  # Reduced from 1.0
 	elif avg_overlap >= 0.5:
-		overlap_bonus = 0.5
+		overlap_bonus = 0.3  # Reduced from 0.5
 		
-	var parts_bonus = min(num_parts * 0.2, 0.8)
-	return min(ml_bonus + overlap_bonus + parts_bonus, 5.0)
+	var parts_bonus = min(num_parts * 0.15, 0.6)  # Reduced from 0.2/0.8
+	return min(ml_bonus + overlap_bonus + parts_bonus, 3.5)  # Reduced max from 5.0 to 3.5
 
 func set_game_manager(manager: Node):
 	game_manager = manager

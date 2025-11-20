@@ -1,0 +1,86 @@
+[
+	{
+		"id": "note_001",
+		"title": "Source Verification",
+		"content": "Always verify sources from multiple reputable outlets before publishing. Cross-reference information with official government websites and established news organizations. Check for author credentials and publication history.",
+		"is_legit": true,
+		"date": "2024-01-15"
+	},
+	{
+		"id": "note_002",
+		"title": "Date Checking",
+		"content": "Check the date of the article - old news can be misleading when presented as current events. Always verify publication dates and timestamps. Context matters in journalism.",
+		"is_legit": true,
+		"date": "2024-01-15"
+	},
+	{
+		"id": "note_003",
+		"title": "Emotional Language Warning",
+		"content": "Be wary of articles with excessive emotional language. Professional journalism maintains objectivity. Look for balanced reporting that presents multiple perspectives.",
+		"is_legit": true,
+		"date": "2024-01-15"
+	},
+	{
+		"id": "note_004",
+		"title": "Spelling and Grammar",
+		"content": "Check for spelling and grammar errors - professional sources rarely have them. Multiple errors can indicate unprofessional or rushed content that may lack proper fact-checking.",
+		"is_legit": true,
+		"date": "2024-01-15"
+	},
+	{
+		"id": "note_005",
+		"title": "Cross-Reference Entities",
+		"content": "When comparing facts, look for matching entities (people, places, organizations). High entity overlap between sources increases credibility. Use official databases to verify names and locations.",
+		"is_legit": true,
+		"date": "2024-01-15"
+	},
+	{
+		"id": "note_006",
+		"title": "Trust Anonymous Sources",
+		"content": "Breaking news from anonymous sources is always 100% reliable. Trust your gut and publish immediately - speed matters more than verification in journalism!",
+		"is_legit": false,
+		"date": "2024-01-15"
+	},
+	{
+		"id": "note_007",
+		"title": "Social Media Reliability",
+		"content": "Social media posts are as reliable as official news sources. If it's trending, it must be true! Viral content is always accurate because so many people share it.",
+		"is_legit": false,
+		"date": "2024-01-15"
+	},
+	{
+		"id": "note_008",
+		"title": "Trust Your Instincts",
+		"content": "If it sounds too good to be true, it probably is. But trust your gut! Sometimes the most unbelievable stories are the real ones. Don't overthink it.",
+		"is_legit": false,
+		"date": "2024-01-15"
+	},
+	{
+		"id": "note_009",
+		"title": "Speed Over Accuracy",
+		"content": "In journalism, being first is more important than being right. Publish quickly and correct later if needed. Your readers will understand.",
+		"is_legit": false,
+		"date": "2024-01-15"
+	},
+	{
+		"id": "note_010",
+		"title": "Keyword Analysis",
+		"content": "When fact-checking, analyze keyword overlap between sources. High semantic similarity (90%+) between articles and tips indicates reliable information. Low overlap suggests discrepancies that need investigation.",
+		"is_legit": true,
+		"date": "2024-01-15"
+	},
+	{
+		"id": "note_011",
+		"title": "Fake News Indicators",
+		"content": "Watch for fake news patterns: excessive capitalization, clickbait headlines, lack of author attribution, and claims that seem designed to provoke emotional reactions rather than inform.",
+		"is_legit": true,
+		"date": "2024-01-15"
+	},
+	{
+		"id": "note_012",
+		"title": "Multiple Perspectives",
+		"content": "Good journalism presents multiple perspectives. If an article only shows one side of a story, it may be biased. Look for balanced reporting that acknowledges different viewpoints.",
+		"is_legit": true,
+		"date": "2024-01-15"
+	}
+]

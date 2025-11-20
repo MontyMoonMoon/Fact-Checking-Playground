@@ -1,7 +1,7 @@
 extends RefCounted
 class_name NLPAnalyzer
 
-# Named Entity Recognition patterns
+# Named Entity Recognition patterns NLP1
 var person_patterns = [
 	"\\b[A-Z][a-z]+ [A-Z][a-z]+\\b",  # First Last
 	"\\b(?:Mr|Mrs|Ms|Dr|Prof)\\.? [A-Z][a-z]+\\b",  # Titles
@@ -25,6 +25,7 @@ var date_patterns = [
 	"\\b(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),? (?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}\\b"
 ]
 
+#Keyword Extraction NLP2
 # Fake news keyword patterns
 var fake_news_keywords = [
 	"breaking news exclusive",
@@ -121,6 +122,7 @@ static func analyze_text(text: String) -> AnalysisResult:
 	
 	return result
 
+#Text Classification NLP3
 func _extract_entities(text: String) -> Array:
 	var entities = []
 	var regex = RegEx.new()
@@ -354,3 +356,5 @@ static func _calculate_semantic_similarity(text_a: String, text_b: String) -> fl
 		return 0.0
 	
 	return float(intersection) / float(union)
+
+

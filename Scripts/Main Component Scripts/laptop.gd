@@ -127,6 +127,28 @@ func _on_trashbin_pressed() -> void:
 	set_text("Trash")
 	set_ui(true, 1)
 	set_app("trash")
+	# Refresh trash when opening - use call_deferred to ensure app is visible first
+	if trash_controller:
+		call_deferred("_refresh_trash_controller")
+	else:
+		print("Laptop: WARNING - trash_controller is null!")
+
+func _refresh_trash_controller():
+	"""Refresh trash controller after app is opened"""
+	if trash_controller:
+		# Ensure trash controller and its containers are visible
+		trash_controller.visible = true
+		# Force visibility on containers using direct property access
+		if trash_controller.scroll_area:
+			trash_controller.scroll_area.visible = true
+			trash_controller.scroll_area.mouse_filter = Control.MOUSE_FILTER_STOP
+		if trash_controller.content_container:
+			trash_controller.content_container.visible = true
+			trash_controller.content_container.mouse_filter = Control.MOUSE_FILTER_STOP
+		# Load and refresh
+		trash_controller._load_trashed_infos(true)
+		# Use call_deferred to ensure visibility has propagated
+		trash_controller.call_deferred("_refresh_list")
 
 func get_ai_analysis_controller() -> AIAnalysisController:
 	return ai_analysis_controller
@@ -272,21 +294,26 @@ func _ready() -> void:
 	set_evidence_bank_to_emails()
 	
 	print("Laptop: Controllers initialized")
+	
 	if evidence_bank_controller:
 		print("Laptop: Evidence bank controller found")
 	else:
 		push_warning("Laptop: Evidence bank controller is null!")
+		
 	if emails_controller:
 		print("Laptop: Emails controller found")
 	else:
 		push_warning("Laptop: Emails controller is null!")
+		
 	if article_publisher_controller:
 		print("Laptop: Article Publisher controller found")
 	else:
 		push_warning("Laptop: Article Publisher controller is null!")
 
+
 func set_time_label(label: Label):
 	time_label = label
+
 
 func update_time_display(time_text: String):
 	"""Update the time display on laptop to match the main timer"""

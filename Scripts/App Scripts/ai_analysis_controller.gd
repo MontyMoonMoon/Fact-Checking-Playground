@@ -141,7 +141,7 @@ func _load_dataset():
 		print("AI Analysis: Loaded %d total cases (dataset + additions)" % comparisons_data.size())
 	else:
 		# Fallback: manual loading
-		var dataset = JSONManager.load_json("res://dataset.json", {})
+		var dataset = JSONManager.load_json("res://JSONs/dataset.json", {})
 		if typeof(dataset) == TYPE_DICTIONARY and dataset.has("cases"):
 			comparisons_data = dataset["cases"].duplicate()
 		elif typeof(dataset) == TYPE_ARRAY:
@@ -225,8 +225,14 @@ func _display_article(entry: Dictionary):
 	
 	if article_label:
 		article_label.text = article_text
+		# Enable text wrapping to prevent overlap
+		article_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		article_label.clip_contents = true
 	if tip_label:
 		tip_label.text = tip_text
+		# Enable text wrapping to prevent overlap
+		tip_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		tip_label.clip_contents = true
 
 	# Separate facts by source
 	var article_facts: Array = []
@@ -564,8 +570,10 @@ func _on_analyze_pressed():
 
 func _send_article_for_analysis(article_text: String):
 	# Ensure http_request is available
+	
 	if not http_request:
 		# Try to get it manually if @onready failed
+		
 		http_request = get_node_or_null("HTTPRequest")
 		if not http_request:
 			push_error("HTTPRequest node not found!")
@@ -573,7 +581,7 @@ func _send_article_for_analysis(article_text: String):
 				result_label.text += "\n\n[color=red]HTTPRequest node not found![/color]"
 			return
 	
-	# Ensure we're not already processing a request
+	# checks if already processing request
 	if http_request.get_http_client_status() != HTTPClient.STATUS_DISCONNECTED:
 		print("HTTPRequest is busy, cancelling previous request...")
 		http_request.cancel_request()
@@ -634,7 +642,7 @@ func _on_http_request_request_completed(result: int, response_code: int, headers
 			result_label.text = existing_text + "\n\n[b]ML Analysis:[/b]\n" + \
 				"RF: %.2f | LogReg: %.2f | Avg: %.2f\nVerdict: %s" % [rf, log, avg, verdict]
 		
-		# Send results to game manager
+		# Send results to game manager || remove if unused
 		print("[AI ANALYSIS DEBUG] ===== ML Analysis Complete =====")
 		print("[AI ANALYSIS DEBUG] RF: %.2f, LogReg: %.2f, Avg: %.2f, Verdict: %s" % [rf, log, avg, verdict])
 		print("[AI ANALYSIS DEBUG] Game manager exists: %s" % (game_manager != null))
@@ -646,6 +654,7 @@ func _on_http_request_request_completed(result: int, response_code: int, headers
 			print("[AI ANALYSIS DEBUG] Normalized scores - RF: %.4f, LR: %.4f" % [rf_normalized, log_normalized])
 			game_manager.add_article_result(rf_normalized, log_normalized)
 			print("[AI ANALYSIS DEBUG] Results sent to GameManager")
+			
 		else:
 			push_warning("[AI ANALYSIS DEBUG] Game manager not available or missing add_article_result method!")
 		print("[AI ANALYSIS DEBUG] ==================================")

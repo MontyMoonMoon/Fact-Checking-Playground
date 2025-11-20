@@ -101,7 +101,7 @@ def analyze(article: Article):
     # Verdict threshold || changeable with accordance to the requirements
     # adjusted threshold for 7 for likeability
     
-    verdict = "Likely Real" if avg_score >= 7.0 else "Likely Fake"
+    verdict = "Likely Real" if avg_score >= 6.5 else "Likely Fake"
 
     return {
         "random_forest_score": round(rf_score, 3),

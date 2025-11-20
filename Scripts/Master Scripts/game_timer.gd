@@ -7,7 +7,7 @@ signal article_spawn_requested(article_data: Dictionary)
 signal timer_updated(time_text: String)
 
 # Timer settings
-@export var time_limit: float = 300.0  # 5 minutes in seconds
+@export var time_limit: float = 300.0  # 5 minutes in seconds || CHANGE IN ACCORDANCE TO USE
 @export var article_spawn_interval_min: float = 10.0  # Minimum time between articles
 @export var article_spawn_interval_max: float = 20.0  # Maximum time between articles
 
@@ -44,8 +44,10 @@ func _process(delta):
 	# Emit signal for other time displays (like laptop)
 	emit_signal("timer_updated", time_text)
 	
-	# Debug logging every second
+	# Debug logging every second || comment out if unused spams out crap ton of msg
+	
 	#if int(time_remaining) != int(time_remaining + delta):
+	
 		#print("[TIMER DEBUG] Time remaining: %.1f seconds (%.2f:%.2d)" % [time_remaining, minutes, seconds])
 		#print("[TIMER DEBUG] Timer running: %s, Label set: %s" % [is_running, timer_label != null])
 	
