@@ -1,0 +1,13 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://df6e0ld8c6ydr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ayirk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_no1ox"]
+bg_color = Color(0, 1, 1, 1)
+border_width_left = 15
+
+[resource]
+VScrollBar/styles/grabber = SubResource("StyleBoxFlat_ayirk")
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_ayirk")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_ayirk")
+VScrollBar/styles/scroll = SubResource("StyleBoxFlat_no1ox")

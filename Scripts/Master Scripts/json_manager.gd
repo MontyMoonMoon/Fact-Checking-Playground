@@ -34,6 +34,7 @@ const DATASET_ADDITIONS_PATH = "user://dataset_additions.json"
 const TRASHED_INFOS_PATH = "user://trashed_infos.json"
 const MESSAGES_PATH = "user://messages.json"
 const NOTES_PATH = "user://notes.json"
+const TODOS_PATH = "res://JSONs/todos_texts.json"
 # Initial/default data paths (read-only)
 const MESSAGES_INITIAL_PATH = "res://JSONs/messages.json"
 const NOTES_INITIAL_PATH = "res://JSONs/notes.json"
@@ -46,6 +47,7 @@ var dataset_additions_cache: Array = []
 var trashed_infos_cache: Array = []
 var messages_cache: Array = []
 var notes_cache: Array = []
+var todos_cache: Array = []
 
 # ---------- GENERIC JSON OPERATIONS ----------
 
@@ -348,10 +350,38 @@ func add_message(message_data: Dictionary) -> bool:
 	messages_cache = messages
 	return save_json(MESSAGES_PATH, messages)
 
+# Remove a message by matching data
+func remove_message(message_data: Dictionary) -> bool:
+	var messages = load_messages()
+	var filtered = []
+	var removed = false
+	
+	for msg in messages:
+		# Match by content and sender (unique enough identifier)
+		var msg_content = msg.get("content", "")
+		var msg_sender = msg.get("sender", "")
+		var data_content = message_data.get("content", "")
+		var data_sender = message_data.get("sender", "")
+		
+		if msg_content == data_content and msg_sender == data_sender:
+			removed = true
+			continue  # Skip this message
+		
+		filtered.append(msg)
+	
+	if removed:
+		messages_cache = filtered
+		return save_json(MESSAGES_PATH, filtered)
+	
+	return false
+
 # Clear messages.json
 func clear_messages() -> bool:
 	messages_cache.clear()
-	return clear_json_file(MESSAGES_PATH)
+	var result = clear_json_file(MESSAGES_PATH)
+	# Force refresh cache
+	messages_cache = []
+	return result
 
 # ---------- NOTES.JSON OPERATIONS ----------
 
@@ -410,6 +440,26 @@ func clear_notes() -> bool:
 	notes_cache.clear()
 	return clear_json_file(NOTES_PATH)
 
+# ---------- TODOS.JSON OPERATIONS ----------
+
+# Load todos from res://todos_texts.json (read-only game todos)
+func load_todos() -> Array:
+	if todos_cache.is_empty():
+		var data = load_json(TODOS_PATH, {})
+		if typeof(data) == TYPE_DICTIONARY and data.has("todos"):
+			todos_cache = data["todos"].duplicate(true)
+		elif typeof(data) == TYPE_ARRAY:
+			todos_cache = data.duplicate(true)
+		else:
+			todos_cache = []
+	
+	return todos_cache.duplicate(true)
+
+# Property accessor for todos (for compatibility with old code)
+var todos: Array:
+	get:
+		return load_todos()
+
 # Refresh all caches (useful after external changes)
 func refresh_caches() -> void:
 	dataset_cache.clear()
@@ -418,33 +468,36 @@ func refresh_caches() -> void:
 	trashed_infos_cache.clear()
 	messages_cache.clear()
 	notes_cache.clear()
+	todos_cache.clear()
 	mails.clear()
 
 # ---------- GODOT CALLBACKS ----------
 func _ready():
 	load_mails()
 	# Initialize messages and notes from res:// if user:// files don't exist
-	# Only initialize if files are empty or don't exist
+	# BUT: Skip auto-initialization if file explicitly exists as empty array (new game)
 	if not FileAccess.file_exists(MESSAGES_PATH):
 		print("JSONManager: messages.json doesn't exist, initializing...")
 		_initialize_messages_from_res()
 	else:
-		# Check if file is empty
+		# Check if file is empty - if it exists and is empty, assume it's intentional (new game)
+		# Don't auto-initialize, let the game handle empty messages
 		var existing = load_json(MESSAGES_PATH, [])
-		if typeof(existing) == TYPE_ARRAY and existing.size() == 0:
-			print("JSONManager: messages.json exists but is empty, initializing...")
-			_initialize_messages_from_res()
-		else:
-			print("JSONManager: messages.json already exists with %d messages" % existing.size())
+		if typeof(existing) == TYPE_ARRAY:
+			if existing.size() == 0:
+				print("JSONManager: messages.json exists but is empty (likely new game) - NOT auto-initializing")
+			else:
+				print("JSONManager: messages.json already exists with %d messages" % existing.size())
 	
 	if not FileAccess.file_exists(NOTES_PATH):
 		print("JSONManager: notes.json doesn't exist, initializing...")
 		_initialize_notes_from_res()
 	else:
-		# Check if file is empty
+		# Check if file is empty - if it exists and is empty, assume it's intentional (new game)
+		# Don't auto-initialize, let the game handle empty notes
 		var existing = load_json(NOTES_PATH, [])
-		if typeof(existing) == TYPE_ARRAY and existing.size() == 0:
-			print("JSONManager: notes.json exists but is empty, initializing...")
-			_initialize_notes_from_res()
-		else:
-			print("JSONManager: notes.json already exists with %d notes" % existing.size())
+		if typeof(existing) == TYPE_ARRAY:
+			if existing.size() == 0:
+				print("JSONManager: notes.json exists but is empty (likely new game) - NOT auto-initializing")
+			else:
+				print("JSONManager: notes.json already exists with %d notes" % existing.size())

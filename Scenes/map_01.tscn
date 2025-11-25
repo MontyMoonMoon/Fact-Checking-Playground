@@ -185,6 +185,7 @@ layout_mode = 2
 mouse_filter = 2
 
 [node name="Laptop" parent="Contents/ComponentsContainer/Laptop" instance=ExtResource("4_rct2e")]
+visible = false
 layout_mode = 1
 
 [node name="GameFailedPopup" parent="Contents" instance=ExtResource("7_546ff")]

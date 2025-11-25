@@ -109,6 +109,14 @@ func set_message_app(app: Node):
 	else:
 		push_warning("Lyra: Message app is null!")
 
+func reset_for_new_game():
+	"""Reset Lyra's state for a new game run"""
+	last_sabotage_time = -999.0
+	intensity = 0.0
+	crash_effects_active = false
+	crash_duration = 0.0
+	print("Lyra: Reset for new game")
+
 func _update_intensity():
 	"""Calculate intensity based on time remaining (0.0 = start, 1.0 = almost out of time)"""
 	if not game_timer:
@@ -167,8 +175,9 @@ func _perform_random_sabotage():
 	# Late game: more severe actions (time deduction, integrity reduction, crashes)
 	
 	#TWEAK ACCORDING TO DIFFICULTY
+	# INCREASED SPAM EMAIL WEIGHT TO MAKE IT MORE LIKELY
 	var weights = {
-		SabotageType.SPAM_EMAILS: lerp(20.0, 10.0, intensity),  # Decreases over time
+		SabotageType.SPAM_EMAILS: lerp(100.0, 50.0, intensity),  # High weight - spam emails should be common
 		SabotageType.TIME_DEDUCTION: lerp(40.0, 20.0, intensity),  # Increases
 		SabotageType.INTEGRITY_REDUCTION: lerp(30.0, 20.0, intensity),  # Increases
 		SabotageType.LAPTOP_CRASH: lerp(40.0, 12.0, intensity),  # Increases
@@ -240,20 +249,24 @@ func _execute_spam_emails():
 		# Create spam email
 		var template = spam_email_templates[randi() % spam_email_templates.size()]
 		var spam_email = {
+			"sender": template.from,  # Use "sender" field (email component expects this)
+			"from": template.from,  # Also include "from" for compatibility
 			"subject": template.subject,
-			"body": template.body,
-			"from": template.from,
-			"article_text": template.body,  # Useless content
-			"tip_text": "This is spam - ignore it.",
-			"facts": [],
-			"stance": "spam",
-			"integrity_score": 0.0
+			"content": template.body,
+			"timestamp": Time.get_datetime_string_from_system(),
+			"news_data": {
+				"article_text": template.body,  # Useless content
+				"tip_text": "This is spam - ignore it.",
+				"facts": [],
+				"stance": "spam",
+				"integrity_score": 0.0
+			}
 		}
 		
 		# Add spam email to emails controller
 		if emails_controller.has_method("add_spam_email"):
 			emails_controller.add_spam_email(spam_email)
-			print("Lyra: Added spam email %d/%d: %s" % [i+1, spam_count, spam_email.subject])
+			print("Lyra: Added spam email %d/%d: %s (sender: %s)" % [i+1, spam_count, spam_email.subject, spam_email.sender])
 		else:
 			print("Lyra: ERROR - emails_controller doesn't have add_spam_email method!")
 			# Fallback: try to add directly to email pool

@@ -1,100 +1,168 @@
-[gd_scene load_steps=3 format=3 uid="uid://c4a8in7hn6s1g"]
+[gd_scene load_steps=8 format=3 uid="uid://c4a8in7hn6s1g"]
 
-[ext_resource type="Script" path="res://Scripts/Component Scripts/email.gd" id="1_email"]
+[ext_resource type="Script" uid="uid://c7an4cce5tam1" path="res://Scripts/Component Scripts/email.gd" id="1_87vxb"]
+[ext_resource type="Texture2D" uid="uid://dwsjcb47v7jan" path="res://Assets/PNGs/UI/UI Assets.png" id="1_hahys"]
+[ext_resource type="FontFile" uid="uid://de2qiyybswcte" path="res://Assets/Fonts/windows-xp-tahoma.otf" id="2_vntg0"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s85t1"]
-bg_color = Color(0.7294118, 0.7294118, 0.73333335, 1)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hahys"]
+texture = ExtResource("1_hahys")
+region_rect = Rect2(480, 720, 515, 50)
 
-[node name="Email" type="MarginContainer"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vntg0"]
+texture = ExtResource("1_hahys")
+region_rect = Rect2(480, 776, 515, 50)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_87vxb"]
+texture = ExtResource("1_hahys")
+expand_margin_bottom = 3.0
+region_rect = Rect2(528, 832, 112, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0rlvq"]
+texture = ExtResource("1_hahys")
+region_rect = Rect2(528, 896, 112, 16)
+
+[node name="Email_Preview" type="Control" node_paths=PackedStringArray("sender", "subject", "timestamp")]
+custom_minimum_size = Vector2(1100, 140)
+layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -550.0
-offset_top = -56.0
+offset_top = -65.0
 offset_right = 550.0
-offset_bottom = 56.0
+offset_bottom = 50.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_email")
-
-[node name="Background Panel" type="Panel" parent="."]
-custom_minimum_size = Vector2(1100, 50)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_s85t1")
-
-[node name="TextsContainer" type="MarginContainer" parent="."]
-layout_mode = 2
-theme_override_constants/margin_left = 15
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 15
-
-[node name="Text" type="VBoxContainer" parent="TextsContainer"]
-layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 4
+script = ExtResource("1_87vxb")
+sender = NodePath("Button/TextsContainer/VBoxContainer/Sender_Info/Sender")
+subject = NodePath("Button/TextsContainer/VBoxContainer/Text/HBoxContainer/Subject")
+timestamp = NodePath("Button/TextsContainer/Time_Info/Timestamp")
 
-[node name="Sender_Info" type="HBoxContainer" parent="TextsContainer/Text"]
-layout_mode = 2
+[node name="Button" type="Button" parent="."]
+custom_minimum_size = Vector2(1100, 140)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxTexture_hahys")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_vntg0")
+theme_override_styles/hover = SubResource("StyleBoxTexture_vntg0")
 
-[node name="From" type="Label" parent="TextsContainer/Text/Sender_Info"]
+[node name="TextsContainer" type="MarginContainer" parent="Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 25
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Button/TextsContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_constants/separation = 17
+
+[node name="Sender_Info" type="HBoxContainer" parent="Button/TextsContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="From" type="Label" parent="Button/TextsContainer/VBoxContainer/Sender_Info"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_vntg0")
+theme_override_font_sizes/font_size = 32
 text = "From: "
 
-[node name="Sender" type="Label" parent="TextsContainer/Text/Sender_Info"]
+[node name="Sender" type="Label" parent="Button/TextsContainer/VBoxContainer/Sender_Info"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_vntg0")
+theme_override_font_sizes/font_size = 32
 
-[node name="Time_Info" type="HBoxContainer" parent="TextsContainer/Text"]
+[node name="Text" type="VBoxContainer" parent="Button/TextsContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_constants/separation = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Button/TextsContainer/VBoxContainer/Text"]
 layout_mode = 2
 
-[node name="Time" type="Label" parent="TextsContainer/Text/Time_Info"]
+[node name="Label" type="Label" parent="Button/TextsContainer/VBoxContainer/Text/HBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
-theme_override_font_sizes/font_size = 20
-text = "Time: "
-
-[node name="Timestamp" type="Label" parent="TextsContainer/Text/Time_Info"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
-theme_override_font_sizes/font_size = 20
-
-[node name="RichTextLabel" type="RichTextLabel" parent="TextsContainer/Text"]
-layout_mode = 2
-size_flags_vertical = 4
-theme_override_colors/default_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
-theme_override_font_sizes/normal_font_size = 20
-text = "\"New lead came in. Check your laptop immediately. Deadline: 16:00. Don't miss this one.\" "
-fit_content = true
-scroll_active = false
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_vntg0")
+theme_override_font_sizes/font_size = 32
+text = "Subject: "
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ButtonContainer" type="HBoxContainer" parent="TextsContainer/Text"]
+[node name="Subject" type="Label" parent="Button/TextsContainer/VBoxContainer/Text/HBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_vntg0")
+theme_override_font_sizes/font_size = 32
+text = "\"New assignment\""
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="AddButton" type="Button" parent="TextsContainer/Text/ButtonContainer"]
+[node name="Buttons" type="HBoxContainer" parent="Button/TextsContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
-theme_override_font_sizes/font_size = 16
-text = "Add to Evidence Bank"
+theme_override_constants/separation = 6
 
-[node name="DiscardButton" type="Button" parent="TextsContainer/Text/ButtonContainer"]
+[node name="Add" type="Button" parent="Button/TextsContainer/VBoxContainer/Buttons"]
+custom_minimum_size = Vector2(150, 36)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
-theme_override_font_sizes/font_size = 16
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_vntg0")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_87vxb")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_0rlvq")
+theme_override_styles/hover = SubResource("StyleBoxTexture_0rlvq")
+text = "  Add to Evidence Bank  "
+
+[node name="Discard" type="Button" parent="Button/TextsContainer/VBoxContainer/Buttons"]
+custom_minimum_size = Vector2(96, 36)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_vntg0")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_87vxb")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_0rlvq")
+theme_override_styles/hover = SubResource("StyleBoxTexture_0rlvq")
 text = "Discard"
+
+[node name="Time_Info" type="HBoxContainer" parent="Button/TextsContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="Timestamp" type="Label" parent="Button/TextsContainer/Time_Info"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_vntg0")
+theme_override_font_sizes/font_size = 32
+text = "09/12/ 10:00 AM"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Button/TextsContainer/VBoxContainer/Buttons/Add" to="." method="_on_add_pressed"]
+[connection signal="pressed" from="Button/TextsContainer/VBoxContainer/Buttons/Discard" to="." method="_on_discard_pressed"]

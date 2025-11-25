@@ -1,77 +1,99 @@
-extends MarginContainer
+extends Control
 
-# Node references
-@onready var sender_label: Label = $TextsContainer/Text/Sender_Info/Sender
-@onready var timestamp_label: Label = $TextsContainer/Text/Time_Info/Timestamp
-@onready var content_label: RichTextLabel = $TextsContainer/Text/RichTextLabel
-@onready var background_panel: Panel = get_node("Background Panel")
-@onready var button_container: HBoxContainer = $TextsContainer/Text/ButtonContainer
-@onready var add_button: Button = $TextsContainer/Text/ButtonContainer/AddButton
-@onready var discard_button: Button = $TextsContainer/Text/ButtonContainer/DiscardButton
+var master: Master
+var sound_manager: SoundManager
+var is_spam_email: bool = false
+
+@export_group("Texts")
+@export var sender: Label
+@export var subject: Label
+@export var timestamp: Label
 
 # Email data
 var email_data: Dictionary = {}
 var news_data: Dictionary = {}
+var mail_data: Dictionary = {}  # For compatibility with open_mail signal
 
 # References
 var evidence_bank_controller: EvidenceBankController = null
 var emails_controller: Node = null
 
 # Signals
+signal open_mail(mail_dict: Dictionary)
 signal email_added_to_evidence(news_data: Dictionary)
 signal email_discarded(email_instance: Node)
 
 # ---------- METHODS ----------
 func setup_email(data: Dictionary, ev_bank_controller: EvidenceBankController = null, emails_ctrl: Node = null) -> void:
-	"""Setup email with news data"""
+	"""Setup email with news data from JSON"""
+	if data.is_empty():
+		push_warning("[Email.setup_email] Received empty email data!")
+		return
+	
 	email_data = data
 	news_data = data.get("news_data", {})
+	mail_data = data  # For compatibility with open_mail signal
+	is_spam_email = email_data.get("is_spam", false)
 	evidence_bank_controller = ev_bank_controller
 	emails_controller = emails_ctrl
 	
-	# Use call_deferred to ensure nodes are ready
+	print("[Email.setup_email] Setting up email: %s" % data.get("subject", "Unknown"))
+	
+	# Update display - use call_deferred to ensure @export variables are assigned
 	call_deferred("_update_email_display")
-	_setup_interaction()
 
 func _update_email_display() -> void:
-	"""Update email display with data (called deferred to ensure nodes are ready)"""
+	"""Update email display with data"""
 	if email_data.is_empty():
+		push_warning("[Email._update_email_display] email_data is empty!")
 		return
 	
-	# Display email information
-	if sender_label:
-		sender_label.text = email_data.get("sender", "Unknown Sender")
+	# Display email information using @export variables
+	if sender:
+		var sender_text = email_data.get("sender", "Unknown Sender")
+		sender.text = sender_text
+		print("[Email] Updated sender: %s" % sender_text)
+	else:
+		push_warning("[Email] sender @export variable is null!")
 	
-	if timestamp_label:
-		timestamp_label.text = email_data.get("timestamp", "00:00")
+	if timestamp:
+		var timestamp_text = email_data.get("timestamp", "00:00")
+		timestamp.text = timestamp_text
+		print("[Email] Updated timestamp: %s" % timestamp_text)
+	else:
+		push_warning("[Email] timestamp @export variable is null!")
 	
-	if content_label:
-		var subject = email_data.get("subject", "")
-		var content = email_data.get("content", "")
-		content_label.text = "[b]%s[/b]\n\n%s" % [subject, content]
-		print("[Email] Updated content: %s" % subject)
+	if subject:
+		var subject_text = email_data.get("subject", "No Subject")
+		subject.text = subject_text
+		print("[Email] Updated subject: %s" % subject_text)
+	else:
+		push_warning("[Email] subject @export variable is null!")
 
-func _setup_interaction() -> void:
-	"""Setup button handlers for the email"""
-	# Use call_deferred to ensure nodes are ready
-	call_deferred("_connect_buttons")
+# ---------- BUTTON HANDLERS ----------
+func _on_button_pressed() -> void:
+	"""Open mail when email preview is clicked"""
+	if sound_manager:
+		sound_manager.play_sound("mouse_click")
+	if emails_controller and emails_controller.has_method("_on_mail_opened"):
+		emails_controller._on_mail_opened(mail_data)
+	else:
+		emit_signal("open_mail", mail_data)
 
-func _connect_buttons() -> void:
-	"""Connect button signals (called deferred)"""
-	if add_button and not add_button.pressed.is_connected(_add_to_evidence_bank):
-		add_button.pressed.connect(_add_to_evidence_bank)
-	
-	if discard_button and not discard_button.pressed.is_connected(_discard_email):
-		discard_button.pressed.connect(_discard_email)
-
-func _add_to_evidence_bank() -> void:
+func _on_add_pressed() -> void:
 	"""Add email's news data to evidence bank"""
+	if sound_manager:
+		sound_manager.play_sound("mouse_click")
+	
+	if is_spam_email and emails_controller and emails_controller.has_method("_on_spam_email_add_attempted"):
+		emails_controller._on_spam_email_add_attempted(email_data)
+	
 	if news_data.is_empty():
-		push_warning("Cannot add email: no news data")
+		push_warning("[Email] Cannot add email: no news_data found")
 		return
 	
 	if not evidence_bank_controller:
-		push_warning("Cannot add to evidence bank: controller not available")
+		push_warning("[Email] Cannot add to evidence bank: controller not available")
 		return
 	
 	print("[Email] Adding to evidence bank: %s" % news_data.get("article_text", "Unknown"))
@@ -80,8 +102,8 @@ func _add_to_evidence_bank() -> void:
 	var info = {
 		"title": "Email: " + email_data.get("subject", "Untitled"),
 		"content": _format_news_content(),
-		"case_data": news_data.duplicate(),
-		"email_data": email_data.duplicate()
+		"case_data": news_data.duplicate(true),
+		"email_data": email_data.duplicate(true)
 	}
 	
 	# Add to evidence bank's stored_infos
@@ -96,6 +118,20 @@ func _add_to_evidence_bank() -> void:
 	
 	# Remove email from the list
 	_discard_email()
+
+func _on_discard_pressed() -> void:
+	"""Discard/delete the email"""
+	if sound_manager:
+		sound_manager.play_sound("mouse_click")
+	_discard_email()
+
+func _discard_email() -> void:
+	"""Discard/delete the email"""
+	print("[Email] Discarding email: %s" % email_data.get("subject", "Unknown"))
+	emit_signal("email_discarded", self)
+	
+	# Remove from scene tree
+	queue_free()
 
 func _format_news_content() -> String:
 	"""Format news data as evidence bank content"""
@@ -118,21 +154,26 @@ func _format_news_content() -> String:
 	
 	return content
 
-func _discard_email() -> void:
-	"""Discard/delete the email"""
-	print("[Email] Discarding email: %s" % email_data.get("subject", "Unknown"))
-	emit_signal("email_discarded", self)
-	
-	# Remove from scene tree
-	queue_free()
-
 # ---------- GODOT CALLBACKS ----------
 func _ready() -> void:
-	# Enable BBCode if using RichTextLabel
-	if content_label:
-		content_label.bbcode_enabled = true
+	master = get_node("/root/Master")
+	
+	if master == null:
+		print("[Email._ready] Master is still null. Calling members from this object may cause issues.")
+		return
+	
+	if master.sound_manager:
+		sound_manager = master.sound_manager
+	
+	# Check if @export variables are assigned
+	if not sender:
+		push_warning("[Email._ready] sender @export variable is not assigned in scene!")
+	if not subject:
+		push_warning("[Email._ready] subject @export variable is not assigned in scene!")
+	if not timestamp:
+		push_warning("[Email._ready] timestamp @export variable is not assigned in scene!")
 	
 	# Update display if email_data is already set (setup_email was called before _ready)
 	if not email_data.is_empty():
-		_update_email_display()
-		_connect_buttons()
+		# Use call_deferred to ensure @export variables are ready
+		call_deferred("_update_email_display")

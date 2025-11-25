@@ -9,7 +9,7 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[node name="note_content" type="Control"]
+[node name="note_content" type="Control" node_paths=PackedStringArray("title", "date")]
 custom_minimum_size = Vector2(100, 70)
 layout_mode = 3
 anchors_preset = 8
@@ -24,6 +24,8 @@ offset_bottom = 36.5
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_g0ffl")
+title = NodePath("MarginContainer/Open/MarginContainer/Title")
+date = NodePath("MarginContainer/Open/MarginContainer/Date")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -44,6 +46,7 @@ custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_3o8b3")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_3o8b3")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3o8b3")

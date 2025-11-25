@@ -13,17 +13,20 @@ class_name Laptop
 @export var evidence_bank: MarginContainer
 @export var article_publisher: MarginContainer
 @export var trash: MarginContainer
+@export var trash_bin: MarginContainer
 @export var time_label: Label = null
 
 # ---------- VARIABLES & SIGNALS ----------
 var laptop_screen_in := false
-var emails_controller: Node = null
-var ai_analysis_controller: AIAnalysisController = null
+var emails_controller: MarginContainer = null
+var ai_analysis_controller: Node = null
 var evidence_bank_controller: EvidenceBankController = null
 var article_publisher_controller: ArticlePublisherController = null
 var trash_controller: TrashController = null
 var crash_glitch_effect: Node = null
 var is_crashed: bool = false
+var sound_manager: SoundManager = null
+var glitch_sound_player: AudioStreamPlayer = null
 signal laptop_toggled(is_open: bool)
 
 signal open_emails
@@ -51,6 +54,9 @@ func set_app(open: String) -> void:
 		article_publisher.visible = false
 	if trash:
 		trash.visible = false
+
+	if open.is_empty():
+		return
 
 	match open:
 		"emails":
@@ -89,12 +95,21 @@ func _on_exit_pressed() -> void:
 	set_ui(false, 1)
 	emit_signal("laptop_toggled", false)
 
+func _on_close_app_pressed() -> void:
+	"""Close the currently open app and return to laptop home screen"""
+	set_text("")
+	set_ui(false, 1)
+	set_app("")
+
 # ---------- LAPTOP: HOMESCREEN APPS ----------
 func _on_email_pressed() -> void:
 	set_text("Email")
 	set_ui(true, 1)
 	emit_signal("open_emails")
 	set_app("emails")
+	# Directly spawn emails when opened (similar to evidence bank refresh)
+	if emails_controller and emails_controller.has_method("spawn_emails"):
+		emails_controller.spawn_emails()
 
 func _on_ai_analysis_pressed() -> void:
 	set_text("AI Analysis")
@@ -122,42 +137,85 @@ func _on_article_publisher_pressed() -> void:
 	if article_publisher_controller:
 		article_publisher_controller.refresh_articles()
 
+# ---------- HELPER METHODS ----------
+func _try_cast_to_trash_controller(node: Node) -> TrashController:
+	"""Helper to attempt casting node to TrashController"""
+	if node is TrashController:
+		return node as TrashController
+	var as_trash = node as TrashController
+	if as_trash:
+		return as_trash
+	var script = node.get_script()
+	if script and script.resource_path.ends_with("trash_controller.gd"):
+		return node as TrashController
+	return null
+
+func _find_trash_node() -> Node:
+	"""Helper to find trash node via multiple search paths"""
+	var search_paths = [
+		"LaptopIn/Apps/Content/App_BG/Trash Controller",
+		null  # Will use trash_bin if path fails
+	]
+	
+	for path in search_paths:
+		var node = get_node_or_null(path) if path else trash_bin
+		if node:
+			return node
+	
+	var apps_container = get_node_or_null("LaptopIn/Apps/Content/App_BG")
+	if apps_container:
+		return apps_container.get_node_or_null("Trash Controller")
+	
+	return find_child("Trash Controller", true, false)
+
 func _on_trashbin_pressed() -> void:
 	"""Open trash app when trashbin button is pressed"""
 	set_text("Trash")
 	set_ui(true, 1)
 	set_app("trash")
-	# Refresh trash when opening - use call_deferred to ensure app is visible first
+	
+	if not trash_controller:
+		var trash_node = _find_trash_node()
+		if trash_node:
+			trash = trash_node
+			trash_bin = trash_node
+			trash_controller = _try_cast_to_trash_controller(trash_node)
+		else:
+			_initialize_trash_controller()
+	
 	if trash_controller:
+		_connect_trash_to_evidence_bank()
 		call_deferred("_refresh_trash_controller")
 	else:
-		print("Laptop: WARNING - trash_controller is null!")
+		push_warning("[Laptop._on_trashbin_pressed] trash_controller is null!")
+
+func _on_trash_bin_pressed() -> void:
+	"""Open trash app when trash bin button is pressed (FRONTUI method name)"""
+	_on_trashbin_pressed()
 
 func _refresh_trash_controller():
 	"""Refresh trash controller after app is opened"""
 	if trash_controller:
-		# Ensure trash controller and its containers are visible
+		# Ensure trash controller is visible
 		trash_controller.visible = true
-		# Force visibility on containers using direct property access
-		if trash_controller.scroll_area:
-			trash_controller.scroll_area.visible = true
-			trash_controller.scroll_area.mouse_filter = Control.MOUSE_FILTER_STOP
-		if trash_controller.content_container:
-			trash_controller.content_container.visible = true
-			trash_controller.content_container.mouse_filter = Control.MOUSE_FILTER_STOP
 		# Load and refresh
 		trash_controller._load_trashed_infos(true)
 		# Use call_deferred to ensure visibility has propagated
 		trash_controller.call_deferred("_refresh_list")
+	else:
+		push_warning("[Laptop._refresh_trash_controller] trash_controller is null!")
 
-func get_ai_analysis_controller() -> AIAnalysisController:
+func get_ai_analysis_controller() -> Node:
 	return ai_analysis_controller
 
 func get_evidence_bank_controller() -> EvidenceBankController:
 	return evidence_bank_controller
 
-func get_emails_controller() -> Node:
+func get_emails_controller() -> MarginContainer:
 	return emails_controller
+
+func get_trash_controller() -> TrashController:
+	return trash_controller
 
 func set_game_manager(manager: Node):
 	if ai_analysis_controller:
@@ -166,6 +224,8 @@ func set_game_manager(manager: Node):
 		evidence_bank_controller.set_game_manager(manager)
 	if article_publisher_controller:
 		article_publisher_controller.set_game_manager(manager)
+	if emails_controller and emails_controller.has_method("set_game_manager"):
+		emails_controller.set_game_manager(manager)
 
 func set_evidence_bank_to_emails():
 	"""Connect evidence bank controller to emails controller"""
@@ -214,12 +274,34 @@ func _set_crash_state(crashed: bool):
 		else:
 			laptop_screen.modulate = Color.WHITE
 
+func _ensure_sound_manager() -> void:
+	if sound_manager:
+		return
+	var master_node := get_node_or_null("/root/Master") as Master
+	if master_node and master_node.sound_manager:
+		sound_manager = master_node.sound_manager
+	if not sound_manager:
+		sound_manager = SoundManager.instance
+
+func _play_glitch_sound() -> void:
+	_ensure_sound_manager()
+	if sound_manager and (glitch_sound_player == null or not is_instance_valid(glitch_sound_player)):
+		glitch_sound_player = sound_manager.play_sound("Glitch1")
+
+func _stop_glitch_sound() -> void:
+	if glitch_sound_player and is_instance_valid(glitch_sound_player):
+		glitch_sound_player.stop()
+		glitch_sound_player.queue_free()
+	glitch_sound_player = null
+
 var glitch_tween: Tween = null
 
 func _add_glitch_effect():
 	"""Add visual glitch effect during crash"""
 	if not app_main:
 		return
+	
+	_play_glitch_sound()
 	
 	# Create a glitch effect using tween to flicker the screen
 	if glitch_tween:
@@ -244,71 +326,91 @@ func remove_glitch_effect():
 	if glitch_tween:
 		glitch_tween.kill()
 		glitch_tween = null
+	_stop_glitch_sound()
 	print("Laptop: Glitch effect removed")
 
 # ---------- GODOT CALLBACKS ----------
 func _ready() -> void:
+	_ensure_sound_manager()
 	set_ui(false, 0)
 	set_ui(false, 1)
 	
+	# Find time label if not assigned
+	if not time_label:
+		# Try direct path first
+		if has_node("LaptopIn/TaskBar/Panel/MarginContainer/Right/Time"):
+			time_label = get_node("LaptopIn/TaskBar/Panel/MarginContainer/Right/Time") as Label
+		# Fallback to searching
+		if not time_label:
+			var time_node = find_child("Time", true, false)
+			if time_node and time_node is Label:
+				time_label = time_node
+		if time_label:
+			print("[Laptop] Found time label: ", time_label.get_path())
+		else:
+			push_warning("[Laptop] Could not find time label!")
+	
 	# Get controller references
 	if emails:
+		# emails is MarginContainer, emails_controller is Node - direct assignment is fine
 		emails_controller = emails
+		print("[Laptop] Emails controller: ", emails_controller)
 	if ai_analysis:
-		ai_analysis_controller = ai_analysis as AIAnalysisController
+		ai_analysis_controller = ai_analysis
+		print("[Laptop] AI Analysis controller: ", ai_analysis_controller)
 	if evidence_bank:
 		evidence_bank_controller = evidence_bank as EvidenceBankController
+		print("[Laptop] Evidence Bank controller: ", evidence_bank_controller)
 	if article_publisher:
 		article_publisher_controller = article_publisher as ArticlePublisherController
-	if trash:
-		trash_controller = trash as TrashController
+		print("[Laptop] Article Publisher controller: ", article_publisher_controller)
+	# Try to find trash controller - use call_deferred to ensure node is ready
+	call_deferred("_initialize_trash_controller")
+
+func _initialize_trash_controller():
+	"""Initialize trash controller after scene tree is ready"""
+	var trash_node = _find_trash_node()
+	if not trash_node:
+		push_warning("[Laptop._initialize_trash_controller] Could not find trash node")
+		return
 	
-	# Connect controllers
+	trash = trash_node
+	trash_bin = trash_node
+	
+	var script = trash_node.get_script()
+	if not script:
+		var trash_script = load("res://Scripts/App Scripts/trash_controller.gd")
+		if trash_script:
+			trash_node.set_script(trash_script)
+	
+	trash_controller = _try_cast_to_trash_controller(trash_node)
+	
+	if trash_controller:
+		_connect_trash_to_evidence_bank()
+		call_deferred("_connect_trash_to_evidence_bank")
+	else:
+		push_warning("[Laptop._initialize_trash_controller] Failed to cast to TrashController")
+	
 	if ai_analysis_controller and evidence_bank_controller:
 		evidence_bank_controller.set_ai_analysis_ref(ai_analysis_controller)
-		# Also set laptop reference for app switching
 		if evidence_bank_controller.has_method("set_laptop_ref"):
 			evidence_bank_controller.set_laptop_ref(self)
+
+func _connect_trash_to_evidence_bank():
+	"""Helper to connect trash controller to evidence bank"""
+	if not trash_controller or not evidence_bank_controller:
+		return
 	
-	# Connect trash controller to evidence bank
-	if trash_controller and evidence_bank_controller:
+	if not trash_controller.evidence_bank_ref:
 		trash_controller.set_evidence_bank_ref(evidence_bank_controller)
-		if evidence_bank_controller.has_method("set_trash_controller_ref"):
-			evidence_bank_controller.set_trash_controller_ref(trash_controller)
-			print("Laptop: Connected trash controller to evidence bank")
-		else:
-			push_warning("Laptop: Evidence bank controller doesn't have set_trash_controller_ref method")
-	else:
-		if not trash_controller:
-			push_warning("Laptop: trash_controller is null!")
-		if not evidence_bank_controller:
-			push_warning("Laptop: evidence_bank_controller is null!")
+	if not evidence_bank_controller.trash_controller_ref:
+		evidence_bank_controller.set_trash_controller_ref(trash_controller)
 	
-	# Connect evidence bank to article publisher (so publisher updates when articles are added)
 	if evidence_bank_controller and article_publisher_controller:
 		if evidence_bank_controller.has_method("set_article_publisher_ref"):
 			evidence_bank_controller.set_article_publisher_ref(article_publisher_controller)
-			print("Laptop: Connected evidence bank to article publisher")
 	
-	# Connect evidence bank to emails controller
 	set_evidence_bank_to_emails()
-	
-	print("Laptop: Controllers initialized")
-	
-	if evidence_bank_controller:
-		print("Laptop: Evidence bank controller found")
-	else:
-		push_warning("Laptop: Evidence bank controller is null!")
-		
-	if emails_controller:
-		print("Laptop: Emails controller found")
-	else:
-		push_warning("Laptop: Emails controller is null!")
-		
-	if article_publisher_controller:
-		print("Laptop: Article Publisher controller found")
-	else:
-		push_warning("Laptop: Article Publisher controller is null!")
 
 
 func set_time_label(label: Label):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://0tax7malsyxa"]
+[gd_scene load_steps=48 format=3 uid="uid://0tax7malsyxa"]
 
 [ext_resource type="Script" uid="uid://b78hmegyor2cd" path="res://Scripts/Main Component Scripts/laptop.gd" id="1_6yp3k"]
 [ext_resource type="Texture2D" uid="uid://dtbsh2rf8jbvb" path="res://Assets/PNGs/Main Components/Laptop.png" id="1_asa33"]
@@ -8,26 +8,21 @@
 [ext_resource type="Texture2D" uid="uid://br7kdvsyng20v" path="res://Assets/PNGs/Apps/Laptop/Ethernet.png" id="6_uuvnn"]
 [ext_resource type="Texture2D" uid="uid://bph8ahg8s6qlc" path="res://Assets/PNGs/Apps/Laptop/Gmail.png" id="7_6qx5p"]
 [ext_resource type="Texture2D" uid="uid://bp0dj4y1ifdmn" path="res://Assets/PNGs/Apps/Laptop/EvidenceBank.png" id="8_cpu8m"]
+[ext_resource type="Texture2D" uid="uid://clvquf8p6xiw8" path="res://Assets/PNGs/Apps/Laptop/Trash.png" id="8_err50"]
 [ext_resource type="Texture2D" uid="uid://deaquh2w7n4nc" path="res://Assets/PNGs/Apps/Laptop/Patreon.png" id="8_mhrp6"]
 [ext_resource type="FontFile" uid="uid://de2qiyybswcte" path="res://Assets/Fonts/windows-xp-tahoma.otf" id="10_bbqqd"]
 [ext_resource type="Texture2D" uid="uid://ca1ou32b8wtgu" path="res://Assets/PNGs/UI/UI Assets.png" id="12_4bp56"]
 [ext_resource type="Script" uid="uid://ckiny1ihn76gb" path="res://Scripts/App Scripts/emails_controller.gd" id="12_j8xk1"]
-[ext_resource type="Script" uid="uid://djgqfwtop0vle" path="res://Scripts/App Scripts/ai_analysis_controller.gd" id="13_aianalysis"]
-[ext_resource type="Script" uid="uid://dolxqses1eif1" path="res://Scripts/App Scripts/evidence_bank_controller.gd" id="14_evbank"]
-[ext_resource type="Script" uid="uid://dd4a86x7o7aqf" path="res://Scripts/App Scripts/article_publisher_controller.gd" id="15_articlepub"]
-[ext_resource type="Script" uid="uid://c1i85gxc47mvd" path="res://Scripts/App Scripts/trash_controller.gd" id="16_trash"]
+[ext_resource type="Theme" uid="uid://df6e0ld8c6ydr" path="res://Assets/Default.tres" id="15_7fn0r"]
+[ext_resource type="Script" uid="uid://djgqfwtop0vle" path="res://Scripts/App Scripts/ai_analysis_controller.gd" id="15_yrng6"]
+[ext_resource type="Script" uid="uid://dolxqses1eif1" path="res://Scripts/App Scripts/evidence_bank_controller.gd" id="16_7fn0r"]
+[ext_resource type="Texture2D" uid="uid://b2nnm3wr22e5x" path="res://Assets/PNGs/UI/PublishingPaper.png" id="17_25n6i"]
+[ext_resource type="Script" uid="uid://dd4a86x7o7aqf" path="res://Scripts/App Scripts/article_publisher_controller.gd" id="17_dy1pc"]
+[ext_resource type="Script" uid="uid://c1i85gxc47mvd" path="res://Scripts/App Scripts/trash_controller.gd" id="18_trash"]
+[ext_resource type="FontFile" uid="uid://oluhvxue80kf" path="res://Assets/Fonts/MyDearestBit.ttf" id="19_31dmt"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4bp56"]
 texture = ExtResource("2_33gdn")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6yp3k"]
-bg_color = Color(0.259294, 0.259294, 0.259294, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_c8npv"]
-texture = ExtResource("5_jqnag")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c8npv"]
-bg_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cpu8m"]
 texture = ExtResource("7_6qx5p")
@@ -38,21 +33,86 @@ texture = ExtResource("8_mhrp6")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mhrp6"]
 texture = ExtResource("8_cpu8m")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_article"]
-bg_color = Color(0.15, 0.15, 0.2, 0.9)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.3, 0.3, 0.4, 1)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kv31q"]
+texture = ExtResource("8_err50")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tip"]
-bg_color = Color(0.15, 0.2, 0.25, 0.9)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_c8npv"]
+texture = ExtResource("5_jqnag")
+region_rect = Rect2(0, 0, 28, 28)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dy1pc"]
+texture = ExtResource("5_jqnag")
+region_rect = Rect2(56, 0, 28, 28)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_31dmt"]
+texture = ExtResource("5_jqnag")
+region_rect = Rect2(28, 0, 28, 28)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4bp56"]
+bg_color = Color(1, 1, 1, 0)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.3, 0.4, 0.5, 1)
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_err50"]
+bg_color = Color(0.8156863, 0.8156863, 0.8156863, 1)
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yrng6"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7fn0r"]
+bg_color = Color(0.8156863, 0.8156863, 0.8156863, 1)
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sp5ai"]
+texture = ExtResource("12_4bp56")
+region_rect = Rect2(384, 560, 48, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5s20p"]
+texture = ExtResource("12_4bp56")
+region_rect = Rect2(384, 624, 48, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yh2f4"]
+texture = ExtResource("12_4bp56")
+region_rect = Rect2(384, 592, 48, 16)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_25n6i"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dy1pc"]
+bg_color = Color(0.8156863, 0.8156863, 0.8156863, 1)
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_31dmt"]
+bg_color = Color(0.92156863, 0.9254902, 0.94509804, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_sp5ai"]
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sp5ai"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5s20p"]
+bg_color = Color(0.5294118, 0.5294118, 0.5294118, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_31dmt"]
+font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_j8xk1"]
 texture = ExtResource("12_4bp56")
@@ -74,7 +134,7 @@ region_rect = Rect2(963, 179, 26, 26)
 texture = ExtResource("12_4bp56")
 region_rect = Rect2(963, 243, 26, 26)
 
-[node name="Laptop" type="Control" node_paths=PackedStringArray("laptop_screen", "home_screen", "app_main", "app_name", "emails", "ai_analysis", "evidence_bank", "article_publisher", "trash")]
+[node name="Laptop" type="Control" node_paths=PackedStringArray("laptop_screen", "home_screen", "app_main", "app_name", "emails", "ai_analysis", "evidence_bank", "article_publisher", "trash_bin")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -90,8 +150,8 @@ app_name = NodePath("LaptopIn/Apps/Content/App_BG/AppName Container/Name")
 emails = NodePath("LaptopIn/Apps/Content/App_BG/Emails Controller")
 ai_analysis = NodePath("LaptopIn/Apps/Content/App_BG/AI Analysis Controller")
 evidence_bank = NodePath("LaptopIn/Apps/Content/App_BG/Evidence Bank Controller")
-article_publisher = NodePath("LaptopIn/Apps/Content/App_BG/Article Publisher Controller")
-trash = NodePath("LaptopIn/Apps/Content/App_BG/Trash Controller")
+article_publisher = NodePath("LaptopIn/Apps/Content/App_BG/Article Publisher")
+trash_bin = NodePath("LaptopIn/Apps/Content/App_BG/Trash Controller")
 
 [node name="LaptopOut" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -156,7 +216,6 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="HomeScreen" type="NinePatchRect" parent="LaptopIn"]
-visible = false
 custom_minimum_size = Vector2(0, 569)
 layout_mode = 1
 anchors_preset = 15
@@ -165,66 +224,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_jukb7")
-
-[node name="TaskBar" type="MarginContainer" parent="LaptopIn/HomeScreen"]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="Panel" type="Panel" parent="LaptopIn/HomeScreen/TaskBar"]
-custom_minimum_size = Vector2(0, 55)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_6yp3k")
-
-[node name="MarginContainer" type="MarginContainer" parent="LaptopIn/HomeScreen/TaskBar/Panel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_right = 25
-
-[node name="Left" type="HBoxContainer" parent="LaptopIn/HomeScreen/TaskBar/Panel/MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 4
-
-[node name="Exit" type="Button" parent="LaptopIn/HomeScreen/TaskBar/Panel/MarginContainer/Left"]
-custom_minimum_size = Vector2(31.2, 36.4)
-layout_mode = 2
-focus_mode = 0
-theme_override_styles/normal = SubResource("StyleBoxTexture_c8npv")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_c8npv")
-theme_override_styles/hover = SubResource("StyleBoxTexture_c8npv")
-
-[node name="Right" type="HBoxContainer" parent="LaptopIn/HomeScreen/TaskBar/Panel/MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-theme_override_constants/separation = 20
-
-[node name="Ethernet" type="NinePatchRect" parent="LaptopIn/HomeScreen/TaskBar/Panel/MarginContainer/Right"]
-custom_minimum_size = Vector2(44, 36)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = ExtResource("6_uuvnn")
-
-[node name="Panel" type="Panel" parent="LaptopIn/HomeScreen/TaskBar/Panel/MarginContainer/Right"]
-custom_minimum_size = Vector2(3, 35)
-layout_mode = 2
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_c8npv")
-
-[node name="Time" type="Label" parent="LaptopIn/HomeScreen/TaskBar/Panel/MarginContainer/Right"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "00:00 "
 
 [node name="HomeScreen" type="MarginContainer" parent="LaptopIn/HomeScreen"]
 layout_mode = 1
@@ -287,21 +286,6 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 focus_mode = 0
-theme_override_styles/normal = SubResource("StyleBoxTexture_mhrp6")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_mhrp6")
-theme_override_styles/hover = SubResource("StyleBoxTexture_mhrp6")
-
-[node name="Files" type="HBoxContainer" parent="LaptopIn/HomeScreen/HomeScreen/DesktopIcons/Icons"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/separation = 20
-
-[node name="File" type="Button" parent="LaptopIn/HomeScreen/HomeScreen/DesktopIcons/Icons/Files"]
-custom_minimum_size = Vector2(72, 72)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-focus_mode = 0
 
 [node name="Trash" type="HBoxContainer" parent="LaptopIn/HomeScreen/HomeScreen/DesktopIcons"]
 layout_mode = 2
@@ -315,6 +299,70 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_kv31q")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_kv31q")
+theme_override_styles/hover = SubResource("StyleBoxTexture_kv31q")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_kv31q")
+
+[node name="TaskBar" type="MarginContainer" parent="LaptopIn"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -55.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Panel" type="NinePatchRect" parent="LaptopIn/TaskBar"]
+custom_minimum_size = Vector2(0, 55)
+layout_mode = 2
+texture = ExtResource("12_4bp56")
+region_rect = Rect2(16, 992, 384, 26)
+
+[node name="MarginContainer" type="MarginContainer" parent="LaptopIn/TaskBar/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 3
+
+[node name="Left" type="HBoxContainer" parent="LaptopIn/TaskBar/Panel/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="Exit" type="Button" parent="LaptopIn/TaskBar/Panel/MarginContainer/Left"]
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_c8npv")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_dy1pc")
+theme_override_styles/hover = SubResource("StyleBoxTexture_dy1pc")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_31dmt")
+
+[node name="Right" type="HBoxContainer" parent="LaptopIn/TaskBar/Panel/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/separation = 38
+
+[node name="Ethernet" type="NinePatchRect" parent="LaptopIn/TaskBar/Panel/MarginContainer/Right"]
+custom_minimum_size = Vector2(44, 36)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("6_uuvnn")
+
+[node name="Time" type="Label" parent="LaptopIn/TaskBar/Panel/MarginContainer/Right"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+text = "00:00 AM/PM"
 
 [node name="Apps" type="MarginContainer" parent="LaptopIn"]
 layout_mode = 1
@@ -323,6 +371,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_constants/margin_bottom = 55
 
 [node name="Content" type="MarginContainer" parent="LaptopIn/Apps"]
@@ -350,7 +399,8 @@ theme_override_fonts/font = ExtResource("10_bbqqd")
 theme_override_font_sizes/font_size = 32
 text = "App Name "
 
-[node name="Emails Controller" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG" node_paths=PackedStringArray("laptop", "mails_container", "mails_content")]
+[node name="Emails Controller" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG" node_paths=PackedStringArray("laptop", "container", "mails_container", "mails_content")]
+visible = false
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -359,428 +409,1124 @@ anchor_bottom = 1.0
 offset_top = -546.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_constants/margin_left = 25
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 5
 script = ExtResource("12_j8xk1")
 laptop = NodePath("../../../../..")
+container = NodePath(".")
 mails_container = NodePath("ScrollableArea")
 mails_content = NodePath("ScrollableArea/EmailsContent")
 
 [node name="ScrollableArea" type="ScrollContainer" parent="LaptopIn/Apps/Content/App_BG/Emails Controller"]
-custom_minimum_size = Vector2(0, 527)
+custom_minimum_size = Vector2(0, 525)
 layout_mode = 2
 size_flags_vertical = 0
+theme = ExtResource("15_7fn0r")
 horizontal_scroll_mode = 0
 
 [node name="EmailsContent" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Emails Controller/ScrollableArea"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
+theme_override_constants/separation = 10
+
+[node name="AI Analysis Controller" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG" node_paths=PackedStringArray("laptop", "article_content", "article_facts_container", "tips_content", "tips_facts_container", "stance", "integrity", "result_note", "article_classification", "tip_classification", "keyword_overlap")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 47.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 20
+script = ExtResource("15_yrng6")
+laptop = NodePath("../../../../..")
+article_content = NodePath("ScrollContainer/TextsContainer/Article-Tips/Article/TextContainer/ScrollContainer/TextVbox/ArticleContent")
+article_facts_container = NodePath("ScrollContainer/TextsContainer/Article-Tips/Article/TextContainer/Article-Facts")
+tips_content = NodePath("ScrollContainer/TextsContainer/Article-Tips/Tips/TextContainer/ScrollContainer/TextVbox/TipsContent")
+tips_facts_container = NodePath("ScrollContainer/TextsContainer/Article-Tips/Tips/TextContainer/Tips-Facts")
+stance = NodePath("ScrollContainer/TextsContainer/Results Container/Results/MarginContainer/Contents/Stance/Stance")
+integrity = NodePath("ScrollContainer/TextsContainer/Results Container/Results/MarginContainer/Contents/Integrity/Integrity")
+result_note = NodePath("ScrollContainer/TextsContainer/Results Container/Results/MarginContainer/Contents/Note")
+article_classification = NodePath("ScrollContainer/TextsContainer/Results Container/RightSide/VBoxContainer/Analysis/Content/VBoxContainer/Contents/ArtClass/ArtClass")
+tip_classification = NodePath("ScrollContainer/TextsContainer/Results Container/RightSide/VBoxContainer/Analysis/Content/VBoxContainer/Contents/TipClass/TipClass")
+keyword_overlap = NodePath("ScrollContainer/TextsContainer/Results Container/RightSide/VBoxContainer/Keyword/Content/VBoxContainer/HBoxContainer/Keyword")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller"]
+custom_minimum_size = Vector2(0, 465)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TextsContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer"]
+layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="Seperator" type="Control" parent="LaptopIn/Apps/Content/App_BG/Emails Controller/ScrollableArea/EmailsContent"]
+[node name="Control" type="Control" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer"]
 layout_mode = 2
 
-[node name="AI Analysis Controller" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG"]
-visible = false
+[node name="Article-Tips" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Article" type="Panel" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Article-Tips"]
+custom_minimum_size = Vector2(540, 270)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_4bp56")
+
+[node name="Name" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Article-Tips/Article"]
 layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
+anchors_preset = 10
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -478.0
 grow_horizontal = 2
-grow_vertical = 0
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 10
-script = ExtResource("13_aianalysis")
+theme_override_constants/margin_left = 35
+theme_override_constants/margin_top = -14
 
-[node name="HTTPRequest" type="HTTPRequest" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller"]
-
-[node name="ScrollableArea" type="ScrollContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller"]
-custom_minimum_size = Vector2(0, 455)
+[node name="Label" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Article-Tips/Article/Name"]
 layout_mode = 2
-horizontal_scroll_mode = 0
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_err50")
+text = "Article"
 
-[node name="ContentContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-theme_override_constants/separation = 15
-
-[node name="PapersContainer" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer"]
-custom_minimum_size = Vector2(0, 300)
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="ArticlePanel" type="Panel" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/PapersContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_article")
-
-[node name="ArticleVBox" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/PapersContainer/ArticlePanel"]
+[node name="TextContainer" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Article-Tips/Article"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 10
-
-[node name="ArticleLabel" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/PapersContainer/ArticlePanel/ArticleVBox"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("10_bbqqd")
-theme_override_font_sizes/font_size = 16
-text = "ARTICLE"
-
-[node name="ArticleText" type="RichTextLabel" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/PapersContainer/ArticlePanel/ArticleVBox"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_colors/default_color = Color(1, 1, 1, 1)
-bbcode_enabled = true
-text = "Article text will appear here"
-
-[node name="ArticleFactsLabel" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/PapersContainer/ArticlePanel/ArticleVBox"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("10_bbqqd")
-theme_override_font_sizes/font_size = 14
-text = "Facts:"
-
-[node name="ArticleFactsContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/PapersContainer/ArticlePanel/ArticleVBox"]
-custom_minimum_size = Vector2(0, 120)
-layout_mode = 2
-theme_override_constants/separation = 5
-
-[node name="TipPanel" type="Panel" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/PapersContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_tip")
-
-[node name="TipVBox" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/PapersContainer/TipPanel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 10
-
-[node name="TipLabel" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/PapersContainer/TipPanel/TipVBox"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.8, 0.9, 1, 1)
-theme_override_fonts/font = ExtResource("10_bbqqd")
-theme_override_font_sizes/font_size = 16
-text = "TIP"
-
-[node name="TipText" type="RichTextLabel" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/PapersContainer/TipPanel/TipVBox"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_colors/default_color = Color(0.8, 0.9, 1, 1)
-bbcode_enabled = true
-text = "Tip text will appear here"
-
-[node name="TipFactsLabel" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/PapersContainer/TipPanel/TipVBox"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.8, 0.9, 1, 1)
-theme_override_fonts/font = ExtResource("10_bbqqd")
-theme_override_font_sizes/font_size = 14
-text = "Facts:"
-
-[node name="TipFactsContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/PapersContainer/TipPanel/TipVBox"]
-custom_minimum_size = Vector2(0, 120)
-layout_mode = 2
-theme_override_constants/separation = 5
-
-[node name="ResultSection" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer"]
-layout_mode = 2
-theme_override_constants/separation = 5
-
-[node name="ResultLabel" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/ResultSection"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("10_bbqqd")
-theme_override_font_sizes/font_size = 14
-text = "Results:"
-
-[node name="ResultText" type="RichTextLabel" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/ResultSection"]
-custom_minimum_size = Vector2(0, 80)
-layout_mode = 2
-theme_override_colors/default_color = Color(1, 1, 1, 1)
-bbcode_enabled = true
-text = "Select two facts to compare or click Analyze..."
-
-[node name="ButtonSection" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="PrevButton" type="Button" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/ButtonSection"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("10_bbqqd")
-theme_override_font_sizes/font_size = 12
-text = "Previous"
-
-[node name="AnalyzeButton" type="Button" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/ButtonSection"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("10_bbqqd")
-theme_override_font_sizes/font_size = 12
-text = "Analyze"
-
-[node name="NextButton" type="Button" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollableArea/ContentContainer/ButtonSection"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("10_bbqqd")
-theme_override_font_sizes/font_size = 12
-text = "Next"
-
-[node name="Evidence Bank Controller" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG"]
-visible = false
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -478.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_top = 10
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 35
 theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 10
-script = ExtResource("14_evbank")
+theme_override_constants/margin_bottom = 3
 
-[node name="ScrollableArea" type="ScrollContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller"]
-custom_minimum_size = Vector2(0, 455)
-layout_mode = 2
-horizontal_scroll_mode = 0
-
-[node name="ContentContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollableArea"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-theme_override_constants/separation = 15
-
-[node name="InfoListSection" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollableArea/ContentContainer"]
-layout_mode = 2
-theme_override_constants/separation = 5
-
-[node name="InfoListLabel" type="Label" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollableArea/ContentContainer/InfoListSection"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("10_bbqqd")
-theme_override_font_sizes/font_size = 14
-text = "Evidence List:"
-
-[node name="InfoListContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollableArea/ContentContainer/InfoListSection"]
-layout_mode = 2
-size_flags_vertical = 0
-theme_override_constants/separation = 5
-
-[node name="SelectedSection" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollableArea/ContentContainer"]
-layout_mode = 2
-theme_override_constants/separation = 5
-
-[node name="SelectedLabel" type="Label" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollableArea/ContentContainer/SelectedSection"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("10_bbqqd")
-theme_override_font_sizes/font_size = 14
-text = "Selected Evidence:"
-
-[node name="TitleLabel" type="Label" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollableArea/ContentContainer/SelectedSection"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("10_bbqqd")
-theme_override_font_sizes/font_size = 12
-text = "No selection"
-
-[node name="ContentLabel" type="RichTextLabel" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollableArea/ContentContainer/SelectedSection"]
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-theme_override_colors/default_color = Color(1, 1, 1, 1)
-bbcode_enabled = true
-text = "Select an item from the list to view details."
-
-[node name="ButtonSection" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollableArea/ContentContainer"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="AddButton" type="Button" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollableArea/ContentContainer/ButtonSection"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("10_bbqqd")
-theme_override_font_sizes/font_size = 12
-text = "Add to Analysis"
-
-[node name="TrashButton" type="Button" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollableArea/ContentContainer/ButtonSection"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("10_bbqqd")
-theme_override_font_sizes/font_size = 12
-text = "Trash"
-
-[node name="RefreshButton" type="Button" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollableArea/ContentContainer/ButtonSection"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("10_bbqqd")
-theme_override_font_sizes/font_size = 12
-text = "Refresh"
-
-[node name="Article Publisher Controller" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG"]
-visible = false
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -478.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 10
-script = ExtResource("15_articlepub")
-
-[node name="HTTPRequest" type="HTTPRequest" parent="LaptopIn/Apps/Content/App_BG/Article Publisher Controller"]
-
-[node name="ScrollableArea" type="ScrollContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher Controller"]
-custom_minimum_size = Vector2(0, 455)
-layout_mode = 2
-horizontal_scroll_mode = 0
-
-[node name="ContentContainer" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher Controller/ScrollableArea"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-theme_override_constants/separation = 15
-
-[node name="LeftPanel" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher Controller/ScrollableArea/ContentContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-theme_override_constants/separation = 10
-
-[node name="ArticlesLabel" type="Label" parent="LaptopIn/Apps/Content/App_BG/Article Publisher Controller/ScrollableArea/ContentContainer/LeftPanel"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("10_bbqqd")
-theme_override_font_sizes/font_size = 14
-text = "Available Articles:"
-
-[node name="ArticlesListContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher Controller/ScrollableArea/ContentContainer/LeftPanel"]
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 2
-size_flags_vertical = 0
-theme_override_constants/separation = 5
-
-[node name="RightPanel" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher Controller/ScrollableArea/ContentContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-theme_override_constants/separation = 10
-
-[node name="ConstructionLabel" type="Label" parent="LaptopIn/Apps/Content/App_BG/Article Publisher Controller/ScrollableArea/ContentContainer/RightPanel"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("10_bbqqd")
-theme_override_font_sizes/font_size = 14
-text = "Construction Area (Max 4 parts):"
-
-[node name="ConstructionArea" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher Controller/ScrollableArea/ContentContainer/RightPanel"]
-custom_minimum_size = Vector2(300, 200)
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 10
-
-[node name="ButtonSection" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher Controller/ScrollableArea/ContentContainer/RightPanel"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="PublishButton" type="Button" parent="LaptopIn/Apps/Content/App_BG/Article Publisher Controller/ScrollableArea/ContentContainer/RightPanel/ButtonSection"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("10_bbqqd")
-theme_override_font_sizes/font_size = 12
-text = "Publish Article"
-
-[node name="ClearButton" type="Button" parent="LaptopIn/Apps/Content/App_BG/Article Publisher Controller/ScrollableArea/ContentContainer/RightPanel/ButtonSection"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("10_bbqqd")
-theme_override_font_sizes/font_size = 12
-text = "Clear"
-
-[node name="ResultSection" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher Controller/ScrollableArea/ContentContainer/RightPanel"]
-layout_mode = 2
-theme_override_constants/separation = 5
-
-[node name="ResultLabel" type="RichTextLabel" parent="LaptopIn/Apps/Content/App_BG/Article Publisher Controller/ScrollableArea/ContentContainer/RightPanel/ResultSection"]
+[node name="ScrollContainer" type="ScrollContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Article-Tips/Article/TextContainer"]
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
-theme_override_colors/default_color = Color(1, 1, 1, 1)
-bbcode_enabled = true
-text = "Click articles on the left to add parts to your article."
-
-[node name="Trash Controller" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG"]
-visible = false
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -478.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 15
-theme_override_constants/margin_bottom = 10
-script = ExtResource("16_trash")
-
-[node name="ScrollableArea" type="ScrollContainer" parent="LaptopIn/Apps/Content/App_BG/Trash Controller"]
-custom_minimum_size = Vector2(0, 455)
-layout_mode = 2
-horizontal_scroll_mode = 0
-
-[node name="ContentContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Trash Controller/ScrollableArea"]
-layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 0
+theme = ExtResource("15_7fn0r")
+
+[node name="TextVbox" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Article-Tips/Article/TextContainer/ScrollContainer"]
+layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="TitleLabel" type="Label" parent="LaptopIn/Apps/Content/App_BG/Trash Controller/ScrollableArea/ContentContainer"]
+[node name="ArticleContent" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Article-Tips/Article/TextContainer/ScrollContainer/TextVbox"]
+custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
-size_flags_horizontal = 4
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("10_bbqqd")
-theme_override_font_sizes/font_size = 24
-text = "TRASHED ARTICLES"
-horizontal_alignment = 1
+theme_override_font_sizes/font_size = 32
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+autowrap_mode = 3
 
-[node name="ListContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Trash Controller/ScrollableArea/ContentContainer"]
+[node name="Control" type="Control" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Article-Tips/Article/TextContainer/ScrollContainer/TextVbox"]
 layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 10
 
-[node name="ScrollContainer" type="ScrollContainer" parent="LaptopIn/Apps/Content/App_BG/Trash Controller/ScrollableArea/ContentContainer/ListContainer"]
+[node name="Article-Facts" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Article-Tips/Article/TextContainer"]
 layout_mode = 2
-size_flags_vertical = 3
-
-[node name="VBoxContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Trash Controller/ScrollableArea/ContentContainer/ListContainer/ScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
+size_flags_vertical = 8
 theme_override_constants/separation = 8
 
-[node name="ButtonSection" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Trash Controller/ScrollableArea/ContentContainer"]
+[node name="Label" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Article-Tips/Article/TextContainer/Article-Facts"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+text = "Facts:"
+
+[node name="Control" type="Control" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Article-Tips/Article/TextContainer/Article-Facts"]
+layout_mode = 2
+
+[node name="Tips" type="Panel" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Article-Tips"]
+custom_minimum_size = Vector2(540, 270)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4bp56")
+
+[node name="Name" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Article-Tips/Tips"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 35
+theme_override_constants/margin_top = -14
+
+[node name="Label" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Article-Tips/Tips/Name"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_err50")
+text = "Tip"
+
+[node name="TextContainer" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Article-Tips/Tips"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 35
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Article-Tips/Tips/TextContainer"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("15_7fn0r")
+
+[node name="TextVbox" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Article-Tips/Tips/TextContainer/ScrollContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="TipsContent" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Article-Tips/Tips/TextContainer/ScrollContainer/TextVbox"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+autowrap_mode = 3
+
+[node name="Control" type="Control" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Article-Tips/Tips/TextContainer/ScrollContainer/TextVbox"]
+layout_mode = 2
+
+[node name="Tips-Facts" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Article-Tips/Tips/TextContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Article-Tips/Tips/TextContainer/Tips-Facts"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+text = "Facts:"
+
+[node name="Control" type="Control" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Article-Tips/Tips/TextContainer/Tips-Facts"]
+layout_mode = 2
+size_flags_vertical = 8
+size_flags_stretch_ratio = 1.1
+
+[node name="Results Container" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer"]
+layout_mode = 2
+
+[node name="Results" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="Panel" type="Panel" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/Results"]
+custom_minimum_size = Vector2(670, 150)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_yrng6")
+
+[node name="Name" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/Results/Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 35
+theme_override_constants/margin_top = -14
+
+[node name="Label" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/Results/Panel/Name"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_7fn0r")
+text = "Results"
+
+[node name="MarginContainer" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/Results"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 5
+
+[node name="Contents" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/Results/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Label" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/Results/MarginContainer/Contents"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2509804, 0.2509804, 0.2509804, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+text = "Click one fact from each side to compare them"
+
+[node name="Stance" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/Results/MarginContainer/Contents"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/Results/MarginContainer/Contents/Stance"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+text = "Stance:"
+
+[node name="Stance" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/Results/MarginContainer/Contents/Stance"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+text = "Pro-Goverment"
+
+[node name="Integrity" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/Results/MarginContainer/Contents"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/Results/MarginContainer/Contents/Integrity"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+text = "Integrity:"
+
+[node name="Integrity" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/Results/MarginContainer/Contents/Integrity"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+text = "0.62"
+
+[node name="Note" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/Results/MarginContainer/Contents"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.972549, 0.67058825, 0.1254902, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+text = "Facts show significant differences. Verify sources"
+
+[node name="RightSide" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/RightSide"]
+layout_mode = 2
+
+[node name="Analysis" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/RightSide/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_constants/separation = 10
-alignment = 1
+size_flags_vertical = 0
 
-[node name="RestoreAllButton" type="Button" parent="LaptopIn/Apps/Content/App_BG/Trash Controller/ScrollableArea/ContentContainer/ButtonSection"]
+[node name="Panel" type="Panel" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/RightSide/VBoxContainer/Analysis"]
+custom_minimum_size = Vector2(425, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_yrng6")
+
+[node name="Name" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/RightSide/VBoxContainer/Analysis/Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 35
+theme_override_constants/margin_top = -14
+
+[node name="Label" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/RightSide/VBoxContainer/Analysis/Panel/Name"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_7fn0r")
+text = "Article Level Analysis"
+
+[node name="Content" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/RightSide/VBoxContainer/Analysis"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/RightSide/VBoxContainer/Analysis/Content"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Contents" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/RightSide/VBoxContainer/Analysis/Content/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="ArtClass" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/RightSide/VBoxContainer/Analysis/Content/VBoxContainer/Contents"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/RightSide/VBoxContainer/Analysis/Content/VBoxContainer/Contents/ArtClass"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+text = "Article Classification: "
+
+[node name="ArtClass" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/RightSide/VBoxContainer/Analysis/Content/VBoxContainer/Contents/ArtClass"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+text = "Unverified (50%)"
+
+[node name="TipClass" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/RightSide/VBoxContainer/Analysis/Content/VBoxContainer/Contents"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/RightSide/VBoxContainer/Analysis/Content/VBoxContainer/Contents/TipClass"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+text = "Tip Classification: "
+
+[node name="TipClass" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/RightSide/VBoxContainer/Analysis/Content/VBoxContainer/Contents/TipClass"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+text = "Unverified (50%)"
+
+[node name="Keyword" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/RightSide/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="Panel" type="Panel" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/RightSide/VBoxContainer/Keyword"]
+custom_minimum_size = Vector2(425, 20)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_yrng6")
+
+[node name="Content" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/RightSide/VBoxContainer/Keyword"]
+layout_mode = 2
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/RightSide/VBoxContainer/Keyword/Content"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/RightSide/VBoxContainer/Keyword/Content/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/RightSide/VBoxContainer/Keyword/Content/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+text = "Keyword Overlap: "
+
+[node name="Keyword" type="Label" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/ScrollContainer/TextsContainer/Results Container/RightSide/VBoxContainer/Keyword/Content/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+text = " 0% - Low similarity"
+
+[node name="LeftButtons" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_constants/separation = 10
+
+[node name="Prev" type="Button" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/LeftButtons"]
+custom_minimum_size = Vector2(110, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_sp5ai")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5s20p")
+theme_override_styles/hover = SubResource("StyleBoxTexture_5s20p")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_yh2f4")
+text = "Previous"
+
+[node name="Next" type="Button" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/LeftButtons"]
+custom_minimum_size = Vector2(110, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_sp5ai")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5s20p")
+theme_override_styles/hover = SubResource("StyleBoxTexture_5s20p")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_yh2f4")
+text = "Next"
+
+[node name="RightButtons" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller"]
 layout_mode = 2
 size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="Analyze" type="Button" parent="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/RightButtons"]
+custom_minimum_size = Vector2(110, 40)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("10_bbqqd")
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_sp5ai")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5s20p")
+theme_override_styles/hover = SubResource("StyleBoxTexture_5s20p")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_yh2f4")
+text = "Analyze"
+
+[node name="Evidence Bank Controller" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG" node_paths=PackedStringArray("laptop", "evidence_list_container", "selected_evidence_content", "article", "tip", "facts_vbox_container", "integrity_score")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 20
+script = ExtResource("16_7fn0r")
+laptop = NodePath("../../../../..")
+evidence_list_container = NodePath("ScrollContainer/TextsContainer/Texts/Evidence List/TextsContainer/Contents")
+selected_evidence_content = NodePath("ScrollContainer/TextsContainer/Texts/Selected Evidence/TextsContainer")
+article = NodePath("ScrollContainer/TextsContainer/Texts/Selected Evidence/TextsContainer/Contents/Article/Article")
+tip = NodePath("ScrollContainer/TextsContainer/Texts/Selected Evidence/TextsContainer/Contents/Tip/Tip")
+facts_vbox_container = NodePath("ScrollContainer/TextsContainer/Texts/Selected Evidence/TextsContainer/Contents/Facts")
+integrity_score = NodePath("ScrollContainer/TextsContainer/Texts/Selected Evidence/TextsContainer/Contents/IS/IS")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller"]
+custom_minimum_size = Vector2(0, 455)
+layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("15_7fn0r")
+
+[node name="TextsContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Texts" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Panel" type="Panel" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer/Texts"]
+layout_mode = 2
+
+[node name="Evidence List" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer/Texts"]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer/Texts/Evidence List"]
+custom_minimum_size = Vector2(1090, 130)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_yrng6")
+
+[node name="Name" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer/Texts/Evidence List/Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 35
+theme_override_constants/margin_top = -14
+
+[node name="Label" type="Label" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer/Texts/Evidence List/Panel/Name"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_7fn0r")
+text = "Evidence List"
+
+[node name="TextsContainer" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer/Texts/Evidence List"]
+custom_minimum_size = Vector2(250, 30)
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 25
+
+[node name="Contents" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer/Texts/Evidence List/TextsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Selected Evidence" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer/Texts"]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer/Texts/Selected Evidence"]
+custom_minimum_size = Vector2(1090, 130)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_25n6i")
+
+[node name="Name" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer/Texts/Selected Evidence/Panel"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 35
+theme_override_constants/margin_top = -14
+
+[node name="Label" type="Label" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer/Texts/Selected Evidence/Panel/Name"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_dy1pc")
+text = "Selected Evidence"
+
+[node name="TextsContainer" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer/Texts/Selected Evidence"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 25
+
+[node name="Contents" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer/Texts/Selected Evidence/TextsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Article" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer/Texts/Selected Evidence/TextsContainer/Contents"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer/Texts/Selected Evidence/TextsContainer/Contents/Article"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+text = "Article: "
+
+[node name="Article" type="Label" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer/Texts/Selected Evidence/TextsContainer/Contents/Article"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+
+[node name="Tip" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer/Texts/Selected Evidence/TextsContainer/Contents"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer/Texts/Selected Evidence/TextsContainer/Contents/Tip"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+text = "Tip:"
+
+[node name="Tip" type="Label" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer/Texts/Selected Evidence/TextsContainer/Contents/Tip"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+
+[node name="Facts" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer/Texts/Selected Evidence/TextsContainer/Contents"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer/Texts/Selected Evidence/TextsContainer/Contents/Facts"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+text = "Facts:"
+
+[node name="IS" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer/Texts/Selected Evidence/TextsContainer/Contents"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer/Texts/Selected Evidence/TextsContainer/Contents/IS"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+text = "Integrity Score:"
+
+[node name="IS" type="Label" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/ScrollContainer/TextsContainer/Texts/Selected Evidence/TextsContainer/Contents/IS"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+
+[node name="LeftButtons" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_constants/separation = 10
+
+[node name="Add" type="Button" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/LeftButtons"]
+custom_minimum_size = Vector2(110, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_sp5ai")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5s20p")
+theme_override_styles/hover = SubResource("StyleBoxTexture_5s20p")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_yh2f4")
+text = "Add"
+
+[node name="Trash" type="Button" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/LeftButtons"]
+custom_minimum_size = Vector2(110, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_sp5ai")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5s20p")
+theme_override_styles/hover = SubResource("StyleBoxTexture_5s20p")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_yh2f4")
+text = "Trash"
+
+[node name="RightButtons" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="Refresh" type="Button" parent="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/RightButtons"]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_sp5ai")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5s20p")
+theme_override_styles/hover = SubResource("StyleBoxTexture_5s20p")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_yh2f4")
+text = "Refresh"
+
+[node name="Article Publisher" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG" node_paths=PackedStringArray("laptop", "avail_art_container", "article_parts_container", "article_part1", "article_part1_label", "article_part2", "article_part2_label", "article_part3", "article_part3_label", "article_part4", "article_part4_label")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 20
+script = ExtResource("17_dy1pc")
+laptop = NodePath("../../../../..")
+avail_art_container = NodePath("TextsContainer/HBoxContainer/Available Articles/Available Articles/Container/ScrollContainer/VBoxContainer")
+article_parts_container = NodePath("TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content")
+article_part1 = NodePath("TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/Part1")
+article_part1_label = NodePath("TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/Part1/VBoxContainer/Headline1")
+article_part2 = NodePath("TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/Part2")
+article_part2_label = NodePath("TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/Part2/VBoxContainer/Headline2")
+article_part3 = NodePath("TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/HBoxContainer/Part3")
+article_part3_label = NodePath("TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/HBoxContainer/Part3/VBoxContainer/Headline3")
+article_part4 = NodePath("TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/HBoxContainer/Part4")
+article_part4_label = NodePath("TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/HBoxContainer/Part4/VBoxContainer/Headline4")
+
+[node name="TextsContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 10
+
+[node name="Control" type="Control" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Available Articles" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Available Articles" type="Panel" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Available Articles"]
+custom_minimum_size = Vector2(500, 445)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_4bp56")
+
+[node name="Name" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Available Articles/Available Articles"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 35
+theme_override_constants/margin_top = -14
+
+[node name="Label" type="Label" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Available Articles/Available Articles/Name"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_err50")
+text = "Available Articles"
+
+[node name="Container" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Available Articles/Available Articles"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 6
+
+[node name="ScrollContainer" type="ScrollContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Available Articles/Available Articles/Container"]
+custom_minimum_size = Vector2(480, 435)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme = ExtResource("15_7fn0r")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Available Articles/Available Articles/Container/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 7
+
+[node name="Control" type="Control" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Available Articles/Available Articles/Container/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Art1" type="Button" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Available Articles/Available Articles/Container/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(460, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 0
+autowrap_mode = 3
+
+[node name="Art2" type="Button" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Available Articles/Available Articles/Container/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(460, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 0
+autowrap_mode = 3
+
+[node name="Art3" type="Button" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Available Articles/Available Articles/Container/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(460, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 0
+autowrap_mode = 3
+
+[node name="Art4" type="Button" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Available Articles/Available Articles/Container/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(460, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 0
+autowrap_mode = 3
+
+[node name="Publish" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="File Editor" type="Panel" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish"]
+custom_minimum_size = Vector2(585, 445)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_4bp56")
+
+[node name="Container" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 30
+
+[node name="ScrollContainer" type="ScrollContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container"]
+custom_minimum_size = Vector2(550, 440)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme = ExtResource("15_7fn0r")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer"]
+layout_mode = 2
+
+[node name="Sep1" type="Control" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+
+[node name="Paper" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 7
+
+[node name="Content" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper"]
+layout_mode = 2
+
+[node name="Back Panel" type="Panel" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content"]
+custom_minimum_size = Vector2(500, 450)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_31dmt")
+
+[node name="Container" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content"]
+custom_minimum_size = Vector2(220, 30)
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container"]
+layout_mode = 2
+
+[node name="Header" type="NinePatchRect" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer"]
+custom_minimum_size = Vector2(500, 94)
+layout_mode = 2
+texture = ExtResource("17_25n6i")
+
+[node name="Control" type="Control" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer"]
+layout_mode = 2
+
+[node name="Part1" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/Part1"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 14
+
+[node name="Headline1" type="Label" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/Part1/VBoxContainer"]
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("19_31dmt")
+theme_override_font_sizes/font_size = 32
+text = "HEADLINE HERE"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/Part1/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="NinePatchRect" type="NinePatchRect" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/Part1/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(480, 70)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("12_4bp56")
+region_rect = Rect2(321, 1120, 607, 70)
+
+[node name="Part2" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 5
+
+[node name="VBoxContainer" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/Part2"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 5
+
+[node name="Headline2" type="Label" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/Part2/VBoxContainer"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("19_31dmt")
+theme_override_font_sizes/font_size = 32
+text = "HEADLINE HERE"
+label_settings = SubResource("LabelSettings_sp5ai")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Panel" type="Panel" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/Part2/VBoxContainer"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_sp5ai")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/Part2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="NinePatchRect" type="NinePatchRect" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/Part2/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(240, 77)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("12_4bp56")
+region_rect = Rect2(528, 1008, 192, 70)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Part3" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/HBoxContainer/Part3"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Image" type="Panel" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/HBoxContainer/Part3/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5s20p")
+
+[node name="Control" type="Control" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/HBoxContainer/Part3/VBoxContainer"]
+layout_mode = 2
+
+[node name="Headline3" type="Label" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/HBoxContainer/Part3/VBoxContainer"]
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("19_31dmt")
+theme_override_font_sizes/font_size = 32
+text = "HEADLINE HERE"
+label_settings = SubResource("LabelSettings_31dmt")
+autowrap_mode = 3
+
+[node name="NinePatchRect" type="NinePatchRect" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/HBoxContainer/Part3/VBoxContainer"]
+custom_minimum_size = Vector2(193, 77)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("12_4bp56")
+region_rect = Rect2(751, 928, 193, 77)
+
+[node name="Part4" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/HBoxContainer/Part4"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Image" type="Panel" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/HBoxContainer/Part4/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5s20p")
+
+[node name="Control" type="Control" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/HBoxContainer/Part4/VBoxContainer"]
+layout_mode = 2
+
+[node name="Headline4" type="Label" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/HBoxContainer/Part4/VBoxContainer"]
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("19_31dmt")
+theme_override_font_sizes/font_size = 32
+text = "HEADLINE HERE"
+label_settings = SubResource("LabelSettings_31dmt")
+autowrap_mode = 3
+
+[node name="NinePatchRect" type="NinePatchRect" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer/Paper/Content/Container/VBoxContainer/HBoxContainer/Part4/VBoxContainer"]
+custom_minimum_size = Vector2(193, 77)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("12_4bp56")
+region_rect = Rect2(751, 928, 193, 77)
+
+[node name="Sep2" type="Control" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/TextsContainer/HBoxContainer/Publish/File Editor/Container/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+
+[node name="RightButtons" type="HBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Article Publisher"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_constants/separation = 10
+
+[node name="Clear" type="Button" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/RightButtons"]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_sp5ai")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5s20p")
+theme_override_styles/hover = SubResource("StyleBoxTexture_5s20p")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_yh2f4")
+text = "Clear
+"
+
+[node name="Publish" type="Button" parent="LaptopIn/Apps/Content/App_BG/Article Publisher/RightButtons"]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_sp5ai")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5s20p")
+theme_override_styles/hover = SubResource("StyleBoxTexture_5s20p")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_yh2f4")
+text = "Publish
+"
+
+[node name="Trash Controller" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 20
+script = ExtResource("18_trash")
+
+[node name="TextsContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Trash Controller"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Texts" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Trash Controller/TextsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Trash" type="Panel" parent="LaptopIn/Apps/Content/App_BG/Trash Controller/TextsContainer/Texts"]
+custom_minimum_size = Vector2(540, 450)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_4bp56")
+
+[node name="TrashContainer" type="MarginContainer" parent="LaptopIn/Apps/Content/App_BG/Trash Controller/TextsContainer/Texts/Trash"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="LaptopIn/Apps/Content/App_BG/Trash Controller/TextsContainer/Texts/Trash/TrashContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LaptopIn/Apps/Content/App_BG/Trash Controller/TextsContainer/Texts/Trash/TrashContainer/ScrollContainer"]
+layout_mode = 2
+
+[node name="Restore" type="Button" parent="LaptopIn/Apps/Content/App_BG/Trash Controller"]
+custom_minimum_size = Vector2(130, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("10_bbqqd")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_sp5ai")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5s20p")
+theme_override_styles/hover = SubResource("StyleBoxTexture_5s20p")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_yh2f4")
 text = "Restore All"
 
 [node name="Buttons" type="MarginContainer" parent="LaptopIn/Apps/Content"]
@@ -806,7 +1552,7 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_err50")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_yrng6")
 disabled = true
 
-[node name="Exit" type="Button" parent="LaptopIn/Apps/Content/Buttons/ButtonContainer"]
+[node name="Close_app" type="Button" parent="LaptopIn/Apps/Content/Buttons/ButtonContainer"]
 custom_minimum_size = Vector2(30, 31)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -816,10 +1562,18 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_25n6i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_25n6i")
 
 [connection signal="pressed" from="LaptopOut/NinePatchRect/MarginContainer/VBoxContainer/Screen" to="." method="_on_screen_pressed"]
-[connection signal="pressed" from="LaptopIn/HomeScreen/TaskBar/Panel/MarginContainer/Left/Exit" to="." method="_on_exit_pressed"]
 [connection signal="pressed" from="LaptopIn/HomeScreen/HomeScreen/DesktopIcons/Icons/App/Email" to="." method="_on_email_pressed"]
 [connection signal="pressed" from="LaptopIn/HomeScreen/HomeScreen/DesktopIcons/Icons/App/AI Analysis" to="." method="_on_ai_analysis_pressed"]
 [connection signal="pressed" from="LaptopIn/HomeScreen/HomeScreen/DesktopIcons/Icons/App/Evidence Bank" to="." method="_on_evidence_bank_pressed"]
 [connection signal="pressed" from="LaptopIn/HomeScreen/HomeScreen/DesktopIcons/Icons/App/Article Publisher" to="." method="_on_article_publisher_pressed"]
-[connection signal="pressed" from="LaptopIn/HomeScreen/HomeScreen/DesktopIcons/Trash/TrashBin" to="." method="_on_trashbin_pressed"]
-[connection signal="pressed" from="LaptopIn/Apps/Content/Buttons/ButtonContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="LaptopIn/HomeScreen/HomeScreen/DesktopIcons/Trash/TrashBin" to="." method="_on_trash_bin_pressed"]
+[connection signal="pressed" from="LaptopIn/TaskBar/Panel/MarginContainer/Left/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/LeftButtons/Prev" to="LaptopIn/Apps/Content/App_BG/AI Analysis Controller" method="_on_prev_pressed"]
+[connection signal="pressed" from="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/LeftButtons/Next" to="LaptopIn/Apps/Content/App_BG/AI Analysis Controller" method="_on_next_pressed"]
+[connection signal="pressed" from="LaptopIn/Apps/Content/App_BG/AI Analysis Controller/RightButtons/Analyze" to="LaptopIn/Apps/Content/App_BG/AI Analysis Controller" method="_on_analyze_pressed"]
+[connection signal="pressed" from="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/LeftButtons/Add" to="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller" method="_on_add_pressed"]
+[connection signal="pressed" from="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/LeftButtons/Trash" to="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller" method="_on_trash_pressed"]
+[connection signal="pressed" from="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller/RightButtons/Refresh" to="LaptopIn/Apps/Content/App_BG/Evidence Bank Controller" method="_on_refresh_pressed"]
+[connection signal="pressed" from="LaptopIn/Apps/Content/App_BG/Article Publisher/RightButtons/Clear" to="LaptopIn/Apps/Content/App_BG/Article Publisher" method="_on_clear_pressed"]
+[connection signal="pressed" from="LaptopIn/Apps/Content/App_BG/Article Publisher/RightButtons/Publish" to="LaptopIn/Apps/Content/App_BG/Article Publisher" method="_on_publish_pressed"]
+[connection signal="pressed" from="LaptopIn/Apps/Content/Buttons/ButtonContainer/Close_app" to="." method="_on_close_app_pressed"]

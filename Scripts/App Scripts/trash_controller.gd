@@ -1,55 +1,77 @@
 extends MarginContainer
 class_name TrashController
 
-@onready var scroll_area: ScrollContainer = $ScrollableArea
-@onready var content_container: VBoxContainer = $ScrollableArea/ContentContainer
-@onready var list_container: VBoxContainer = $ScrollableArea/ContentContainer/ListContainer/ScrollContainer/VBoxContainer
-@onready var restore_all_button: Button = $ScrollableArea/ContentContainer/ButtonSection/RestoreAllButton
+var master: Master
+var sound_manager: SoundManager
+
+@export var laptop: Control
+
+@export_group("Trash Container")
+@export var trash_container: MarginContainer
+@export var trash_list_container: VBoxContainer
+@export var restore_button: Button
 
 var trashed_infos: Array = []
 var evidence_bank_ref: Node = null
 
 func _ready():
+	master = get_node("/root/Master")
+	
+	if master == null:
+		print("[Trash_controller._ready] Master is still null. Calling members from this object may cause issues.")
+		return
+	
+	if master.sound_manager:
+		sound_manager = master.sound_manager
+	
+	# Find trash list container - FRONTUI structure: TextsContainer/Texts/Trash/TrashContainer/ScrollContainer/VBoxContainer
+	if not trash_list_container:
+		trash_list_container = get_node_or_null("TextsContainer/Texts/Trash/TrashContainer/ScrollContainer/VBoxContainer")
+	
+	# Find restore button
+	if not restore_button:
+		restore_button = get_node_or_null("Restore")
+	
+	# Connect restore button
+	if restore_button:
+		restore_button.pressed.connect(_on_restore_pressed)
+	
 	visible = false
-	# Set mouse filter to ignore when hidden so it doesn't block interaction
-	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	# Also ensure parent containers are hidden
-	if scroll_area:
-		scroll_area.visible = false
-		scroll_area.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	if content_container:
-		content_container.visible = false
-		content_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	if restore_all_button:
-		restore_all_button.pressed.connect(_on_restore_all_pressed)
 	# Don't refresh list on startup - wait until app is opened
 	_load_trashed_infos()
+
+func reset_for_new_game() -> void:
+	"""Reset trash for new game - clear all trashed items"""
+	var json_manager = JSONManager.get_instance()
+	if json_manager:
+		json_manager.clear_trashed_infos()
+		print("[Trash Controller] Cleared trashed items via JSONManager")
+	else:
+		# Fallback: clear file directly
+		var file = FileAccess.open("user://trashed_infos.json", FileAccess.WRITE)
+		if file:
+			file.store_string("[]")
+			file.close()
+			print("[Trash Controller] Cleared trashed items (fallback)")
+	
+	trashed_infos.clear()
+	
+	# Clear UI
+	if trash_list_container:
+		for child in trash_list_container.get_children():
+			child.queue_free()
+	
+	print("[Trash Controller] Reset for new game - all trashed items cleared")
 
 func _notification(what):
 	if what == NOTIFICATION_VISIBILITY_CHANGED:
 		if visible:
 			print("Trash Controller: Visibility changed to visible, refreshing...")
-			# Enable mouse input when visible
-			mouse_filter = Control.MOUSE_FILTER_STOP
-			# CRITICAL: Make sure all containers are visible when parent becomes visible
-			if scroll_area:
-				scroll_area.visible = true
-				scroll_area.mouse_filter = Control.MOUSE_FILTER_STOP
-			if content_container:
-				content_container.visible = true
-				content_container.mouse_filter = Control.MOUSE_FILTER_STOP
 			# Load and refresh after a frame to ensure visibility propagates
 			_load_trashed_infos(true)
-			call_deferred("_refresh_list")  # Use call_deferred instead of await
+			call_deferred("_refresh_list")
 		else:
-			# Ensure everything is hidden and doesn't block mouse input when hidden
-			mouse_filter = Control.MOUSE_FILTER_IGNORE
-			if scroll_area:
-				scroll_area.visible = false
-				scroll_area.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			if content_container:
-				content_container.visible = false
-				content_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			pass
 
 func set_evidence_bank_ref(ref: Node):
 	evidence_bank_ref = ref
@@ -73,62 +95,40 @@ func _load_trashed_infos(force_reload: bool = true):
 		print("Trash Controller: Loaded %d trashed items (fallback)" % trashed_infos.size())
 
 func _refresh_list():
+	"""Refresh the trash list display"""
 	# Ensure we're visible before trying to refresh
 	if not visible:
 		print("Trash Controller: WARNING - _refresh_list called while hidden!")
 		return
 	
-	# Try to find list_container if not already set
-	if not list_container:
-		# Try multiple possible paths
-		list_container = get_node_or_null("ScrollableArea/ContentContainer/ListContainer/ScrollContainer/VBoxContainer")
-		if not list_container:
-			list_container = get_node_or_null("ScrollableArea/ContentContainer/VBoxContainer/ListContainer/ScrollContainer/VBoxContainer")
-		if not list_container:
-			# Try finding by searching - find the deepest VBoxContainer in ScrollContainer
-			var scroll_area_node = get_node_or_null("ScrollableArea")
-			if scroll_area_node:
-				var scroll_containers = []
-				_find_scroll_containers(scroll_area_node, scroll_containers)
-				for scroll in scroll_containers:
-					for child in scroll.get_children():
-						if child is VBoxContainer:
-							list_container = child
-							break
-					if list_container:
-						break
-		if not list_container:
-			print("Trash Controller: ERROR - list_container not found! Attempting to create...")
-			# Try to create a fallback container
-			if scroll_area:
-				var content = scroll_area.get_node_or_null("ContentContainer")
-				if content:
-					var list_node = VBoxContainer.new()
-					list_node.name = "ListContainer"
-					content.add_child(list_node)
-					var scroll = ScrollContainer.new()
-					list_node.add_child(scroll)
-					list_container = VBoxContainer.new()
-					scroll.add_child(list_container)
-					print("Trash Controller: Created fallback list_container")
-			if not list_container:
-				print("Trash Controller: CRITICAL - Could not create list_container!")
-				return
+	# Try to find trash_list_container if not already set
+	if not trash_list_container:
+		# Try FRONTUI structure path
+		trash_list_container = get_node_or_null("TextsContainer/Texts/Trash/TrashContainer/ScrollContainer/VBoxContainer")
+		
+		# If still not found, try old structure path
+		if not trash_list_container:
+			trash_list_container = get_node_or_null("ScrollableArea/ContentContainer/ListContainer/ScrollContainer/VBoxContainer")
+		
+		if not trash_list_container:
+			print("Trash Controller: ERROR - trash_list_container not found!")
+			return
 	
-	# Ensure list_container and its parents are visible
-	if list_container:
-		list_container.visible = true
+	# Ensure container is visible
+	if trash_list_container:
+		trash_list_container.visible = true
 		# Make sure parent containers are visible too
-		var parent = list_container.get_parent()
+		var parent = trash_list_container.get_parent()
 		var depth = 0
-		while parent and depth < 5:  # Limit depth to avoid infinite loops
-			parent.visible = true
-			parent.mouse_filter = Control.MOUSE_FILTER_STOP
+		while parent and depth < 10:  # Limit depth to avoid infinite loops
+			if parent is Control:
+				parent.visible = true
+				parent.mouse_filter = Control.MOUSE_FILTER_STOP
 			parent = parent.get_parent()
 			depth += 1
 	
 	# Clear existing children
-	for child in list_container.get_children():
+	for child in trash_list_container.get_children():
 		child.queue_free()
 	
 	print("Trash Controller: Refreshing list with %d items" % trashed_infos.size())
@@ -137,8 +137,8 @@ func _refresh_list():
 		var empty = Label.new()
 		empty.text = "Trash is empty."
 		empty.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		empty.add_theme_color_override("font_color", Color.WHITE)
-		list_container.add_child(empty)
+		empty.add_theme_color_override("font_color", Color.BLACK)
+		trash_list_container.add_child(empty)
 		print("Trash Controller: Displaying empty message")
 		return
 	
@@ -151,44 +151,39 @@ func _refresh_list():
 		
 		var item_title = info.get("title", "Untitled")
 		
-		var hbox = HBoxContainer.new()
-		hbox.add_theme_constant_override("separation", 8)
-		hbox.visible = true
-		
+		# Create label directly (no individual restore button - use "Restore All" button instead)
 		var label = Label.new()
 		label.text = item_title
 		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		label.add_theme_color_override("font_color", Color.WHITE)
+		label.add_theme_color_override("font_color", Color.BLACK)
 		label.visible = true
-		hbox.add_child(label)
+		label.custom_minimum_size = Vector2(0, 30)  # Ensure minimum height
 		
-		var restore_button = Button.new()
-		restore_button.text = "Restore"
-		restore_button.custom_minimum_size = Vector2(100, 30)
-		restore_button.visible = true
-		restore_button.pressed.connect(_on_restore_pressed.bind(info))
-		hbox.add_child(restore_button)
+		# Ensure trash_list_container expands properly for layout
+		trash_list_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		trash_list_container.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		
-		list_container.add_child(hbox)
-		print("Trash Controller: Successfully added item %d: %s (container visible: %s)" % [i, item_title, list_container.visible])
+		trash_list_container.add_child(label)
+		print("Trash Controller: Successfully added item %d: %s (no individual restore button - use Restore All)" % [i, item_title])
 
-func _find_scroll_containers(node: Node, result: Array):
-	"""Recursively find all ScrollContainer nodes"""
-	if node is ScrollContainer:
-		result.append(node)
-	for child in node.get_children():
-		_find_scroll_containers(child, result)
-
-func _on_restore_pressed(info: Dictionary):
+func _on_restore_item_pressed(info: Dictionary):
+	"""Restore a single item from trash"""
+	if sound_manager:
+		sound_manager.play_sound("mouse_click")
+	
 	if evidence_bank_ref and evidence_bank_ref.has_method("restore_from_trash"):
 		evidence_bank_ref.restore_from_trash(info)
 		_load_trashed_infos()
 		_refresh_list()
 
-func _on_restore_all_pressed():
+func _on_restore_pressed():
+	"""Restore all items from trash"""
+	if sound_manager:
+		sound_manager.play_sound("mouse_click")
+	
 	if evidence_bank_ref and evidence_bank_ref.has_method("restore_all_from_trash"):
 		evidence_bank_ref.restore_all_from_trash()
 		_load_trashed_infos()
 		_refresh_list()
-

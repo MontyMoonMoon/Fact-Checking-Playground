@@ -8,10 +8,17 @@ class_name GameFailedPopup
 var game_failed_state: bool = false
 
 func _ready():
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	if close_button:
 		close_button.pressed.connect(_on_close_pressed)
+		close_button.process_mode = Node.PROCESS_MODE_ALWAYS
 	if breakdown_label:
 		breakdown_label.bbcode_enabled = true
+	
+	# Ensure popup and its children process when paused
+	var popup_container = get_node_or_null("PopupContainer")
+	if popup_container:
+		popup_container.process_mode = Node.PROCESS_MODE_ALWAYS
 
 func show_breakdown(breakdown: Dictionary, stats: Dictionary):
 	game_failed_state = stats.get("final_score", 0.0) < 6.0
@@ -60,6 +67,10 @@ func show_breakdown(breakdown: Dictionary, stats: Dictionary):
 	# Update button
 	if close_button:
 		close_button.text = "End Game" if game_failed_state else "Close"
+		close_button.process_mode = Node.PROCESS_MODE_ALWAYS
+	
+	# Ensure popup processes when paused
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	
 	# Show popup and ensure proper sizing
 	visible = true
@@ -114,14 +125,30 @@ func _ensure_popup_size():
 	var popup_container = get_node_or_null("PopupContainer")
 	if popup_container:
 		popup_container.visible = true
+		popup_container.process_mode = Node.PROCESS_MODE_ALWAYS
+		popup_container.mouse_filter = Control.MOUSE_FILTER_STOP
 		# Ensure proper size - set offsets for centered container
 		popup_container.set_anchors_preset(Control.PRESET_CENTER)
 		popup_container.offset_left = -400
 		popup_container.offset_top = -250
 		popup_container.offset_right = 400
 		popup_container.offset_bottom = 250
+		
+		# Ensure all children process when paused
+		_set_process_mode_recursive(popup_container, Node.PROCESS_MODE_ALWAYS)
 	
 	if breakdown_label:
 		var breakdown_container = breakdown_label.get_parent()
 		if breakdown_container:
 			breakdown_container.visible = true
+	
+	# Ensure button is clickable
+	if close_button:
+		close_button.process_mode = Node.PROCESS_MODE_ALWAYS
+		close_button.mouse_filter = Control.MOUSE_FILTER_STOP
+
+func _set_process_mode_recursive(node: Node, mode: Node.ProcessMode):
+	"""Set process mode recursively for node and all children"""
+	node.process_mode = mode
+	for child in node.get_children():
+		_set_process_mode_recursive(child, mode)

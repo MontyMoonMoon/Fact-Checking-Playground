@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://v35wsa4ym7hx"]
 
 [ext_resource type="Script" uid="uid://ck84d2nlo7v2d" path="res://Scripts/Component Scripts/error_message.gd" id="1_cm0hd"]
-[ext_resource type="Texture2D" uid="uid://dbatqj8wjl0dh" path="res://Assets/PNGs/UI/UI Assets.png" id="2_2la5w"]
+[ext_resource type="Texture2D" uid="uid://dwsjcb47v7jan" path="res://Assets/PNGs/UI/UI Assets.png" id="2_2la5w"]
 [ext_resource type="FontFile" uid="uid://de2qiyybswcte" path="res://Assets/Fonts/windows-xp-tahoma.otf" id="3_cm0hd"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0cmhb"]

@@ -14,10 +14,10 @@ var looping_sounds: Dictionary[String, AudioStreamPlayer] = {}
 
 # ---------- PLAY SOUND: ONE SHOT ----------
 ## Usage: SoundManager.instance.play_sound("mouse_click")
-func play_sound(sound_name: String):
+func play_sound(sound_name: String) -> AudioStreamPlayer:
 	if not sound_effects.has(sound_name):
 		push_warning("Sound '%s' not found in sound_effects" % sound_name)
-		return
+		return null
 	
 	var player := AudioStreamPlayer.new()
 	player.stream = sound_effects[sound_name]
@@ -25,6 +25,7 @@ func play_sound(sound_name: String):
 	add_child(player)
 	player.play()
 	player.finished.connect(func(): player.queue_free())
+	return player
 
 # ---------- PLAY SOUND: LOOPING ----------
 ## Usage: SoundManager.instance.play_loop("bgm_menu")
@@ -70,4 +71,9 @@ func _get_adjusted_volume(sound_name: String, is_music: bool) -> float:
 	return base_volume * master * (music_v if is_music else sfx_v)
 # ------------ GODOT CALLBACKS ----------
 func _ready():
+	SoundManager.instance = self
 	print("[SoundManager] Instance set and sounds loaded!")
+
+func _exit_tree() -> void:
+	if SoundManager.instance == self:
+		SoundManager.instance = null

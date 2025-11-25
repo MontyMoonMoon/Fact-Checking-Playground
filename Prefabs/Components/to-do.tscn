@@ -1,0 +1,50 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqwkmuuxgi1ax"]
+
+[ext_resource type="Script" uid="uid://bxfskk8talqex" path="res://Scripts/Component Scripts/to_do.gd" id="1_fqdji"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b806f"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[node name="To-do" type="Control" node_paths=PackedStringArray("check_box", "input_line")]
+custom_minimum_size = Vector2(210, 35)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fqdji")
+check_box = NodePath("MarginContainer/HBoxContainer/CheckBox")
+input_line = NodePath("MarginContainer/HBoxContainer/LineEdit")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 157.0
+offset_bottom = 20.0
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="CheckBox" type="CheckBox" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+theme_override_colors/font_disabled_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_uneditable_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+theme_override_colors/font_placeholder_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_b806f")
+theme_override_styles/read_only = SubResource("StyleBoxFlat_b806f")
+theme_override_styles/focus = SubResource("StyleBoxFlat_b806f")
+placeholder_text = "Enter task..."

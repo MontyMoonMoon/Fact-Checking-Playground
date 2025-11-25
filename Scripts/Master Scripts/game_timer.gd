@@ -7,7 +7,7 @@ signal article_spawn_requested(article_data: Dictionary)
 signal timer_updated(time_text: String)
 
 # Timer settings
-@export var time_limit: float = 300.0  # 5 minutes in seconds || CHANGE IN ACCORDANCE TO USE
+@export var time_limit: float = 500.0  # 5 minutes in seconds || CHANGE IN ACCORDANCE TO USE
 @export var article_spawn_interval_min: float = 10.0  # Minimum time between articles
 @export var article_spawn_interval_max: float = 20.0  # Maximum time between articles
 
@@ -68,6 +68,19 @@ func start_timer():
 	time_remaining = time_limit
 	next_spawn_time = randf_range(article_spawn_interval_min, article_spawn_interval_max)
 	
+	# Reload articles pool to ensure it's not empty (especially after saves/loads)
+	if articles_pool.is_empty() or (articles_pool.size() == 0 and not used_articles.is_empty()):
+		_load_articles()
+		# If pool is still empty after reload, reset from used articles
+		if articles_pool.is_empty() and not used_articles.is_empty():
+			articles_pool = used_articles.duplicate()
+			used_articles.clear()
+			print("[GameTimer] Reset article pool from used articles: %d articles" % articles_pool.size())
+	
+	# Ensure next_spawn_time is valid
+	if next_spawn_time <= 0.0:
+		next_spawn_time = randf_range(article_spawn_interval_min, article_spawn_interval_max)
+	
 	# Emit initial time update
 	var minutes = int(time_remaining) / 60
 	var seconds = int(time_remaining) % 60
@@ -78,6 +91,8 @@ func start_timer():
 	else:
 		print("[TIMER DEBUG] WARNING: Timer label is null!")
 	emit_signal("timer_updated", time_text)
+	
+	print("[GameTimer] Timer started: %d seconds remaining, %d articles in pool, next spawn in %.1f seconds" % [time_limit, articles_pool.size(), next_spawn_time])
 	
 	#print("[TIMER DEBUG] Game timer started: %d seconds, is_running: %s, process_mode: %d" % [time_limit, is_running, process_mode])
 

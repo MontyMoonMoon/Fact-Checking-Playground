@@ -1,0 +1,218 @@
+[gd_scene load_steps=5 format=3 uid="uid://crebwcceb18nl"]
+
+[ext_resource type="Texture2D" uid="uid://ctr0sx6nwpx62" path="res://Assets/PNGs/UI/BlankNewspaper_New.png" id="1_xmk6m"]
+[ext_resource type="FontFile" uid="uid://oluhvxue80kf" path="res://Assets/Fonts/MyDearestBit.ttf" id="2_1ls7x"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xmk6m"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rj6oc"]
+bg_color = Color(1, 1, 1, 1)
+
+[node name="Day End Panel" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Content" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -110.0
+offset_top = -15.0
+offset_right = 110.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="NinePatchRect" parent="Content"]
+custom_minimum_size = Vector2(350, 400)
+layout_mode = 2
+texture = ExtResource("1_xmk6m")
+
+[node name="TextsContainer" type="MarginContainer" parent="Content"]
+custom_minimum_size = Vector2(250, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 25
+
+[node name="Contents" type="VBoxContainer" parent="Content/TextsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="MainText" type="VBoxContainer" parent="Content/TextsContainer/Contents"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 10
+
+[node name="Header" type="Label" parent="Content/TextsContainer/Contents/MainText"]
+custom_minimum_size = Vector2(270, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.50980395, 0.48235294, 0.42352942, 1)
+theme_override_fonts/font = ExtResource("2_1ls7x")
+theme_override_font_sizes/font_size = 24
+text = "DAY COMPLETE"
+horizontal_alignment = 1
+vertical_alignment = 2
+autowrap_mode = 3
+
+[node name="Panel" type="Panel" parent="Content/TextsContainer/Contents/MainText"]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xmk6m")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Content/TextsContainer/Contents/MainText"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 94
+
+[node name="Label" type="Label" parent="Content/TextsContainer/Contents/MainText/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.48235294, 0.42352942, 1)
+theme_override_fonts/font = ExtResource("2_1ls7x")
+text = "Article  1"
+
+[node name="Label2" type="Label" parent="Content/TextsContainer/Contents/MainText/HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0.50980395, 0.48235294, 0.42352942, 1)
+theme_override_fonts/font = ExtResource("2_1ls7x")
+text = "+ 0.0"
+horizontal_alignment = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Content/TextsContainer/Contents/MainText"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 94
+
+[node name="Label" type="Label" parent="Content/TextsContainer/Contents/MainText/HBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.48235294, 0.42352942, 1)
+theme_override_fonts/font = ExtResource("2_1ls7x")
+text = "Article  1"
+
+[node name="Label2" type="Label" parent="Content/TextsContainer/Contents/MainText/HBoxContainer2"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0.50980395, 0.48235294, 0.42352942, 1)
+theme_override_fonts/font = ExtResource("2_1ls7x")
+text = "+ 0.0"
+horizontal_alignment = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Content/TextsContainer/Contents/MainText"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 94
+
+[node name="Label" type="Label" parent="Content/TextsContainer/Contents/MainText/HBoxContainer3"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.48235294, 0.42352942, 1)
+theme_override_fonts/font = ExtResource("2_1ls7x")
+text = "Article  1"
+
+[node name="Label2" type="Label" parent="Content/TextsContainer/Contents/MainText/HBoxContainer3"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0.50980395, 0.48235294, 0.42352942, 1)
+theme_override_fonts/font = ExtResource("2_1ls7x")
+text = "+ 0.0"
+horizontal_alignment = 2
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="Content/TextsContainer/Contents/MainText"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 94
+
+[node name="Label" type="Label" parent="Content/TextsContainer/Contents/MainText/HBoxContainer4"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.48235294, 0.42352942, 1)
+theme_override_fonts/font = ExtResource("2_1ls7x")
+text = "Article  1"
+
+[node name="Label2" type="Label" parent="Content/TextsContainer/Contents/MainText/HBoxContainer4"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0.50980395, 0.48235294, 0.42352942, 1)
+theme_override_fonts/font = ExtResource("2_1ls7x")
+text = "+ 0.0"
+horizontal_alignment = 2
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="Content/TextsContainer/Contents/MainText"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 94
+
+[node name="Label" type="Label" parent="Content/TextsContainer/Contents/MainText/HBoxContainer5"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.50980395, 0.48235294, 0.42352942, 1)
+theme_override_fonts/font = ExtResource("2_1ls7x")
+text = "Article  1"
+
+[node name="Label2" type="Label" parent="Content/TextsContainer/Contents/MainText/HBoxContainer5"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0.50980395, 0.48235294, 0.42352942, 1)
+theme_override_fonts/font = ExtResource("2_1ls7x")
+text = "+ 0.0"
+horizontal_alignment = 2
+
+[node name="Total" type="VBoxContainer" parent="Content/TextsContainer/Contents"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 15
+
+[node name="Panel" type="Panel" parent="Content/TextsContainer/Contents/Total"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rj6oc")
+
+[node name="Texts" type="HBoxContainer" parent="Content/TextsContainer/Contents/Total"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Label" type="Label" parent="Content/TextsContainer/Contents/Total/Texts"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.50980395, 0.48235294, 0.42352942, 1)
+theme_override_fonts/font = ExtResource("2_1ls7x")
+theme_override_font_sizes/font_size = 16
+text = "TOTAL: "
+vertical_alignment = 2
+autowrap_mode = 3
+
+[node name="Total" type="Label" parent="Content/TextsContainer/Contents/Total/Texts"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.50980395, 0.48235294, 0.42352942, 1)
+theme_override_fonts/font = ExtResource("2_1ls7x")
+theme_override_font_sizes/font_size = 16
+text = "0.0"
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Next" type="Button" parent="Content/TextsContainer"]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8

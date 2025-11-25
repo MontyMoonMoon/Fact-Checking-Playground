@@ -8,6 +8,7 @@ var receiver_name: String = ""
 
 @export_group("Mail Texts")
 @export var receiver: Label
+@export var sender: Label
 @export var subject: Label
 @export var main_text: Label
 
@@ -21,10 +22,32 @@ func load_mail(mail_dict: Dictionary) -> void:
 	if receiver_name != "":
 		receiver.text = receiver_name
 	else:
-		receiver.text = master.data_manager.player_name  
+		# Get master if not already set
+		if not master:
+			master = get_node("/root/Master")
+		
+		# Get player name from master or DataManager
+		if master and master.has_method("get_data_manager"):
+			var dm = master.get_data_manager()
+			if dm and dm.player_name:
+				receiver.text = dm.player_name
+		elif master and "data_manager" in master:
+			var dm = master.data_manager
+			if dm and dm.player_name:
+				receiver.text = dm.player_name
+		elif master and "player_name" in master:
+			receiver.text = master.player_name
+		else:
+			# Fallback to DataManager static method
+			receiver.text = DataManager.player_name if DataManager.player_name else "Player"
 		
 	subject.text = mail_dict.get("subject", "")
 	main_text.text = mail_dict.get("main_text", "")
+	
+	# Set sender (from)
+	if sender:
+		var sender_text = mail_dict.get("sender", mail_dict.get("from", "Unknown Sender"))
+		sender.text = sender_text
 
 # ---------- BUTTONS ----------
 func _on_show_confirm() -> void:

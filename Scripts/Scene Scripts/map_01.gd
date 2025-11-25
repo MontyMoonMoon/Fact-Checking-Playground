@@ -32,6 +32,7 @@ var laptop_open := false
 var game_manager: GameManager = null
 var game_timer: GameTimer = null
 var lyra: Lyra = null
+var game_failed_popup: GameFailedPopup = null
 
 # ---------- UI VISIBILITY ----------
 func set_ui(visibility: bool, target: int) -> void:
@@ -99,14 +100,33 @@ func _ready() -> void:
 	
 	if laptop:
 		laptop.connect("laptop_toggled", Callable(self, "_on_laptop_toggled"))
+		# Ensure laptop is visible (it should be visible by default)
+		laptop.visible = true
+		print("[map_01._ready] Laptop is visible: %s" % laptop.visible)
+	else:
+		push_warning("[map_01._ready] Laptop is null! Check scene setup.")
 	
 	# Default UI on load
 	_on_phone_closed(false)
+	
+	# Find GameFailedPopup
+	_find_game_failed_popup()
 	
 	# Initialize game systems
 	_setup_game_systems()
 
 func _setup_game_systems():
+	# Check if this is a new game or loading a save
+	# If DataManager was just loaded via continue, it's a loaded save
+	# Otherwise, it's a new game
+	var is_new_game = _is_new_game()
+	print("[map_01] Detected game type: %s" % ("NEW GAME" if is_new_game else "LOADED SAVE"))
+	
+	# Files should already be cleared by map_0 for new games
+	# But clear again here as a safety measure
+	if is_new_game:
+		_clear_all_game_data_files()
+	
 	# Create GameManager
 	game_manager = GameManager.new()
 	game_manager.name = "GameManager"
@@ -176,11 +196,28 @@ func _setup_game_systems():
 		# Find message app
 		var message_app = phone.find_child("MessageApp", true, false)
 		if message_app:
-			# Connect message app to notes app
+			# Connect message app to notes app (deprecated, but keep for compatibility)
 			var notes_app = phone.find_child("NotesApp", true, false)
 			if notes_app and message_app.has_method("set_notes_app_ref"):
 				message_app.set_notes_app_ref(notes_app)
 				print("[map_01] Message app connected to notes app")
+			
+			# Connect message app to todo section (for saving tips)
+			var todo_section = phone.find_child("TodoSection", true, false)
+			if not todo_section:
+				todo_section = phone.find_child("Todo Section", true, false)
+			if not todo_section:
+				# Try finding it as a child of notes app
+				if notes_app:
+					todo_section = notes_app.find_child("TodoSection", true, false)
+					if not todo_section:
+						todo_section = notes_app.find_child("Todo Section", true, false)
+			
+			if todo_section and message_app.has_method("set_todo_section_ref"):
+				message_app.set_todo_section_ref(todo_section)
+				print("[map_01] Message app connected to todo section: %s" % todo_section.name)
+			else:
+				push_warning("[map_01] Could not find todo section for message app!")
 			
 			# Connect notes app to game manager
 			if notes_app and notes_app.has_method("set_game_manager"):
@@ -217,7 +254,40 @@ func _setup_game_systems():
 	
 	print("[map_01] Lyra AI initialized")
 	
-	# Start game after a short delay
+	# Only reset systems for NEW games
+	if is_new_game:
+		print("[map_01] Resetting all systems for NEW GAME...")
+		
+		# Reset controllers (files already cleared by map_0)
+		if lyra and lyra.has_method("reset_for_new_game"):
+			lyra.reset_for_new_game()
+		
+		if laptop:
+			var emails_ctrl = laptop.get_emails_controller()
+			if emails_ctrl and emails_ctrl.has_method("reset_for_new_game"):
+				emails_ctrl.reset_for_new_game()
+			
+			# Access AI analysis controller directly from laptop's ai_analysis property
+			if laptop.ai_analysis and laptop.ai_analysis.has_method("reset_for_new_game"):
+				laptop.ai_analysis.reset_for_new_game()
+			
+			var evidence_bank_ctrl = laptop.get_evidence_bank_controller()
+			if evidence_bank_ctrl and evidence_bank_ctrl.has_method("reset_for_new_game"):
+				evidence_bank_ctrl.reset_for_new_game()
+			
+			var trash_ctrl = laptop.get_trash_controller()
+			if trash_ctrl and trash_ctrl.has_method("reset_for_new_game"):
+				trash_ctrl.reset_for_new_game()
+		
+		if phone:
+			await get_tree().process_frame
+			var message_app = phone.find_child("MessageApp", true, false)
+			if message_app and message_app.has_method("reset_for_new_game"):
+				message_app.reset_for_new_game()
+	else:
+		print("[map_01] LOADED SAVE - preserving game state")
+	
+	# Start game after a short delay (works for both new and loaded games)
 	await get_tree().create_timer(1.0).timeout
 	game_manager.start_game()
 	
@@ -237,17 +307,143 @@ func _on_timer_updated(time_text: String):
 			# print("[TIMER DEBUG] WARNING: Laptop doesn't have update_time_display method!")
 			pass
 
+func _clear_all_game_data_files() -> void:
+	"""Clear ALL game data files for a fresh new game start"""
+	print("[map_01] Clearing ALL game data files for new game...")
+	
+	var dir = DirAccess.open("user://")
+	if not dir:
+		push_warning("[map_01] Failed to open user:// directory for clearing files")
+		return
+	
+	# List of all game data files to clear
+	var files_to_clear = [
+		"collected_infos.json",
+		"messages.json",
+		"published_articles.json",
+		"dataset_additions.json",
+		"trashed_infos.json",
+		"todos_texts.json"
+	]
+	
+	for file_name in files_to_clear:
+		if dir.file_exists(file_name):
+			var error = dir.remove(file_name)
+			if error == OK:
+				print("[map_01] Cleared: %s" % file_name)
+			else:
+				push_warning("[map_01] Failed to clear %s: error %d" % [file_name, error])
+		else:
+			print("[map_01] File doesn't exist (skipping): %s" % file_name)
+	
+	# Also clear JSONManager caches
+	var json_manager = JSONManager.get_instance()
+	if json_manager:
+		# Clear all caches
+		if json_manager.has_method("clear_collected_infos"):
+			json_manager.clear_collected_infos()
+		json_manager.messages_cache = []
+		json_manager.collected_infos_cache = []
+		print("[map_01] Cleared JSONManager caches")
+	
+	print("[map_01] All game data files cleared for new game")
+
+func _is_new_game() -> bool:
+	"""Detect if this is a new game vs loading a save"""
+	# Heuristic: Check if this looks like a new game based on save data
+	# New game characteristics:
+	# - Integrity is at default (100) or near it
+	# - Current act is 1
+	# - No evidence collected yet
+	
+	if FileAccess.file_exists("user://save_data.json"):
+		var file = FileAccess.open("user://save_data.json", FileAccess.READ)
+		if file:
+			var json_text = file.get_as_text()
+			file.close()
+			var parsed = JSON.parse_string(json_text)
+			if typeof(parsed) == TYPE_DICTIONARY:
+				var player_dict = parsed.get("player_data", {})
+				var integrity = player_dict.get("integrity", 100)
+				var current_act = player_dict.get("current_act", 1)
+				
+				# Check for collected evidence (if exists, it's not a new game)
+				var has_evidence = FileAccess.file_exists("user://collected_infos.json")
+				if has_evidence:
+					var evidence_file = FileAccess.open("user://collected_infos.json", FileAccess.READ)
+					if evidence_file:
+						var evidence_text = evidence_file.get_as_text()
+						evidence_file.close()
+						var evidence_data = JSON.parse_string(evidence_text)
+						if typeof(evidence_data) == TYPE_ARRAY and evidence_data.size() > 0:
+							print("[map_01._is_new_game] Detected LOADED SAVE (has %d collected items)" % evidence_data.size())
+							return false
+				
+				# Check integrity - if significantly lower than 100, it's a loaded save
+				if integrity < 95:
+					print("[map_01._is_new_game] Detected LOADED SAVE (integrity: %.1f)" % integrity)
+					return false
+				
+				# Check if there are messages saved (if many messages, it's a loaded save)
+				if FileAccess.file_exists("user://messages.json"):
+					var messages_file = FileAccess.open("user://messages.json", FileAccess.READ)
+					if messages_file:
+						var messages_text = messages_file.get_as_text()
+						messages_file.close()
+						var messages_data = JSON.parse_string(messages_text)
+						if typeof(messages_data) == TYPE_ARRAY:
+							var initial_count = 5  # Expected initial message count
+							if messages_data.size() > initial_count + 5:  # Allow some margin
+								print("[map_01._is_new_game] Detected LOADED SAVE (%d messages, expected ~%d)" % [messages_data.size(), initial_count])
+								return false
+	
+	# Default to new game if we can't determine otherwise
+	print("[map_01._is_new_game] Detected NEW GAME (default)")
+	return true
+
+func _find_game_failed_popup():
+	"""Find GameFailedPopup in the scene"""
+	var contents = get_node_or_null("Contents")
+	if contents:
+		game_failed_popup = contents.get_node_or_null("GameFailedPopup")
+	
+	if not game_failed_popup:
+		game_failed_popup = find_child("GameFailedPopup", true, false)
+	
+	if game_failed_popup:
+		print("[map_01] GameFailedPopup found")
+		game_failed_popup.visible = false
+	else:
+		push_warning("[map_01] GameFailedPopup not found!")
+
 func _on_integrity_changed(new_score: float):
 	print("Integrity changed to: %.2f" % new_score)
 
 func _on_day_complete(final_score: float):
 	print("Day complete! Final integrity: %.2f" % final_score)
-	# You can show a completion screen here
+	
+	if not game_failed_popup:
+		_find_game_failed_popup()
+	
+	if game_failed_popup and game_manager:
+		var breakdown = game_manager.integrity_breakdown
+		var stats = {"final_score": final_score}
+		game_failed_popup.show_breakdown(breakdown, stats)
+		get_tree().paused = true
+		print("[map_01] Showing day complete popup")
 
 func _on_game_over(reason: String):
 	print("Game Over: %s" % reason)
-	# You can show a game over screen here
-	get_tree().paused = true
+	
+	if not game_failed_popup:
+		_find_game_failed_popup()
+	
+	if game_failed_popup and game_manager:
+		var breakdown = game_manager.integrity_breakdown
+		var stats = {"final_score": game_manager.integrity_score}
+		game_failed_popup.show_breakdown(breakdown, stats)
+		get_tree().paused = true
+		print("[map_01] Showing game over popup")
 	
 func _process(_delta: float) -> void:
 	if laptop_open:

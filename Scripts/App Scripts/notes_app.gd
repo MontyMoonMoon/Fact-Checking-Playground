@@ -31,13 +31,29 @@ var viewed_note_ids: Array = []  # Track which notes have been viewed for integr
 func _on_open_notes_app() -> void:
 	#master.sound_manager.play_sound("phone_click")
 	spawn_notes()  # Refresh notes when opening
-	set_ui(true, 0)
-	set_ui(true, 1)
-	set_ui(true, 2)
+	set_ui(true, 0)  # Show bottom bar
+	# Notes section is now enabled
+	set_ui(true, 1)  # notes_app
+	set_ui(true, 2)  # notes_preview
+	print("[Notes_app._on_open_notes_app] Notes app opened")
 
 func spawn_notes() -> void:
 	"""Load and display notes from JSON"""
+	# Get notes_scroll_container from notes_preview if not directly assigned
+	if not notes_scroll_container:
+		if notes_preview:
+			notes_scroll_container = notes_preview.get_node_or_null("NotesContainer/Scrollable/Container/NotesContainer")
+		# If still not found, try finding the Notes Preview node
+		if not notes_scroll_container:
+			var notes_preview_node = get_node_or_null("Notes Preview")
+			if notes_preview_node:
+				notes_scroll_container = notes_preview_node.get_node_or_null("NotesContainer/Scrollable/Container/NotesContainer")
+	
 	# Clear existing notes
+	if not notes_scroll_container:
+		push_warning("[Notes_app] notes_scroll_container is null! Cannot spawn notes.")
+		return
+	
 	for child in notes_scroll_container.get_children():
 		child.queue_free()
 	
@@ -175,12 +191,18 @@ func set_game_manager(manager: Node) -> void:
 # -------- UI HANDLER ----------
 func set_ui(visibility: bool, target: int) -> void:
 	match target:
-		0: bottom_bar.visible = visibility
-		# Notes section
-		1: notes_app.visible = visibility
-		2: notes_preview.visible = visibility
-		3: notes_content.visible = visibility
-		# To-do section
+		0: 
+			if bottom_bar:
+				bottom_bar.visible = visibility
+		1: 
+			if notes_app:
+				notes_app.visible = visibility
+		2: 
+			if notes_preview:
+				notes_preview.visible = visibility
+		3: 
+			if notes_content:
+				notes_content.visible = visibility
 
 # ---------- BUTTONS: NOTES  ----------
 func _on_notes_main_pressed() -> void:
@@ -188,6 +210,14 @@ func _on_notes_main_pressed() -> void:
 	set_ui(false, 1)
 	set_ui(false, 2)
 	set_ui(false, 3)
+	# Hide app_container to show phone main menu again
+	if phone and phone.app_container:
+		phone.app_container.visible = false
+	elif phone:
+		# Try to find app_container directly via node path
+		var app_container = phone.get_node_or_null("PhoneContainer/MainPhone/AppContainers")
+		if app_container:
+			app_container.visible = false
 
 func _on_new_note_pressed() -> void:
 	master.sound_manager.play_sound("phone_click")
@@ -219,4 +249,43 @@ func _ready() -> void:
 	else:
 		push_warning("[Notes_app.ready] Phone is kinda missing...")
 	
+	# Hide new note creation elements
+	_hide_new_note_elements()
+	
 	spawn_notes()
+
+func _hide_new_note_elements() -> void:
+	"""Hide the new note button and UI elements"""
+	# Hide the "New_note" button in Notes Preview TopBar
+	var new_note_button = get_node_or_null("Notes Preview/TopBar/HBoxContainer/New_note")
+	if new_note_button:
+		new_note_button.visible = false
+		print("[Notes_app] Hid New_note button")
+	else:
+		# Try alternative path
+		new_note_button = find_child("New_note", true, false)
+		if new_note_button:
+			new_note_button.visible = false
+			print("[Notes_app] Hid New_note button (found via search)")
+	
+	# Ensure "New Note" container is hidden
+	var new_note_container = get_node_or_null("New Note")
+	if new_note_container:
+		new_note_container.visible = false
+		print("[Notes_app] Hid New Note container")
+	else:
+		new_note_container = find_child("New Note", true, false)
+		if new_note_container:
+			new_note_container.visible = false
+			print("[Notes_app] Hid New Note container (found via search)")
+	
+	# Hide "Note Content" container (contains NewNoteContainer)
+	var note_content = get_node_or_null("Note Content")
+	if note_content:
+		note_content.visible = false
+		print("[Notes_app] Hid Note Content container")
+	else:
+		note_content = find_child("Note Content", true, false)
+		if note_content:
+			note_content.visible = false
+			print("[Notes_app] Hid Note Content container (found via search)")

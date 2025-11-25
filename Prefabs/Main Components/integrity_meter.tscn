@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://0er4ikvu0igi"]
 
 [ext_resource type="Script" uid="uid://cvnloe0rt5ubl" path="res://Scripts/Main Component Scripts/integrity_meter.gd" id="1_h18f2"]
-[ext_resource type="Texture2D" uid="uid://b3igogdb67wnr" path="res://Assets/PNGs/Main Components/IntegrityMeter.png" id="2_5u6gd"]
-[ext_resource type="Texture2D" uid="uid://pneqbxmr62yh" path="res://Assets/PNGs/Main Components/IntegrityMeterPointer.png" id="2_an6fg"]
+[ext_resource type="Texture2D" uid="uid://di7v7d6w5joes" path="res://Assets/PNGs/Main Components/IntegrityMeter.png" id="2_5u6gd"]
+[ext_resource type="Texture2D" uid="uid://cr5t5fl0mbews" path="res://Assets/PNGs/Main Components/IntegrityMeterPointer.png" id="2_an6fg"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_an6fg"]
 texture = ExtResource("2_5u6gd")
