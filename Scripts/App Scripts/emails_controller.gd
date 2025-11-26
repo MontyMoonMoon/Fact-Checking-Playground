@@ -25,6 +25,7 @@ var _spawned_emails: Array = []
 
 const SPAM_EVIDENCE_PENALTY := -3.0
 const SPAM_GLITCH_DURATION := 2.5
+const SPAM_GLITCH_CHANCE := 0.1  # 10% chance to trigger glitch effect
 
 func _on_open_emails() -> void:
 	if not visible:
@@ -240,6 +241,7 @@ func _on_mail_opened(mail_dict: Dictionary) -> void:
 		return
 	
 	if mail_dict.get("is_spam", false):
+		_apply_spam_evidence_penalty()
 		_trigger_spam_email_glitch()
 	
 	var mail_instance = mail_prefab.instantiate()
@@ -249,6 +251,10 @@ func _on_mail_opened(mail_dict: Dictionary) -> void:
 		mail_instance.load_mail(_prepare_mail_data(mail_dict))
 
 func _trigger_spam_email_glitch() -> void:
+	# Random chance to trigger glitch effect
+	if randf() > SPAM_GLITCH_CHANCE:
+		return  # No glitch this time
+	
 	if laptop:
 		if laptop.has_method("trigger_crash"):
 			laptop.trigger_crash(SPAM_GLITCH_DURATION)

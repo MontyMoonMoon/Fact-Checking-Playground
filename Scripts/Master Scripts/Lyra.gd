@@ -234,6 +234,23 @@ func _perform_random_sabotage():
 		SabotageType.MESSAGE_TIP:
 			_execute_message_tip()
 
+func _send_sabotage_message(hint_text: String):
+	"""Helper function to send a message hinting at what was sabotaged"""
+	if not message_app:
+		return
+	
+	var message_data = {
+		"type": "lyra_taunt",
+		"sender": "Lyra",
+		"content": hint_text,
+		"preview": hint_text,
+		"timestamp": Time.get_unix_time_from_system()
+	}
+	
+	if message_app.has_method("add_message"):
+		message_app.add_message(message_data)
+		print("Lyra: Sent sabotage hint: %s" % hint_text)
+
 func _execute_spam_emails():
 	"""Spam useless emails to the player"""
 	if not emails_controller:
@@ -274,6 +291,15 @@ func _execute_spam_emails():
 				emails_controller.email_news_pool.append(spam_email)
 				print("Lyra: Added spam email via fallback method")
 	
+	# Send taunt message with hint
+	var hint_messages = [
+		"Check your inbox... you might find some surprises cluttering it.",
+		"Your email seems to be getting quite full. How distracting!",
+		"Hope you don't mind a few extra messages in your inbox.",
+		"Your inbox might be a bit messier now. Good luck sorting through it!"
+	]
+	_send_sabotage_message(hint_messages[randi() % hint_messages.size()])
+	
 	print("Lyra: Sent %d spam emails total" % spam_count)
 
 func _execute_time_deduction():
@@ -287,6 +313,15 @@ func _execute_time_deduction():
 	
 	var current_time = game_timer.get_time_remaining()
 	game_timer.time_remaining = max(0.0, current_time - time_deduction)
+	
+	# Send taunt message with hint
+	var hint_messages = [
+		"Time flies when you're having fun... or when someone's stealing it from you.",
+		"Did you notice your clock running a bit faster? How strange!",
+		"Every second counts, doesn't it? Especially the ones that just... disappeared.",
+		"Tick tock... seems like time is moving differently for you now."
+	]
+	_send_sabotage_message(hint_messages[randi() % hint_messages.size()])
 	
 	print("Lyra: Deducted %.1f seconds from timer (intensity: %.2f)" % [time_deduction, intensity])
 
@@ -305,6 +340,15 @@ func _execute_integrity_reduction():
 		print("Lyra: Reduced integrity by %.2f (intensity: %.2f)" % [integrity_loss, intensity])
 	else:
 		print("Lyra: Cannot reduce integrity - game manager missing method")
+	
+	# Send taunt message with hint
+	var hint_messages = [
+		"Your reputation seems to be taking a hit. How unfortunate!",
+		"People are starting to question your credibility. Wonder why?",
+		"Your integrity score looks a bit lower. Must be all those mistakes piling up.",
+		"Trust is fragile, isn't it? One wrong move and it all crumbles."
+	]
+	_send_sabotage_message(hint_messages[randi() % hint_messages.size()])
 
 func _execute_laptop_crash():
 	"""Cause laptop to crash or hang"""
@@ -326,6 +370,15 @@ func _execute_laptop_crash():
 		print("Lyra: WARNING - Laptop doesn't have trigger_crash method, using fallback")
 		# Fallback: freeze laptop UI
 		_start_crash_effects()
+	
+	# Send taunt message with hint
+	var hint_messages = [
+		"Oops! Looks like your laptop is having some technical difficulties. How inconvenient!",
+		"System glitches can be so annoying, especially when you're in a hurry.",
+		"Your laptop seems to be freezing up. Technology can be so unreliable!",
+		"Hope you saved your work... your system appears to be unresponsive."
+	]
+	_send_sabotage_message(hint_messages[randi() % hint_messages.size()])
 
 func _start_crash_effects():
 	"""Start visual/functional crash effects"""

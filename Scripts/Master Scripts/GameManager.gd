@@ -314,7 +314,7 @@ func add_high_overlap_comparison():
 	_update_integrity_display()
 
 func add_integrity_score(increment: float):
-	integrity_score = min(10.0, integrity_score + increment)
+	integrity_score = clamp(integrity_score + increment, 0.0, 10.0)
 	_update_integrity_display()
 
 func _recalculate_integrity():

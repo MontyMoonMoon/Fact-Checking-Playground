@@ -1,368 +1,871 @@
 {
   "emails": [
 	{
-	  "sender": "News Desk",
-	  "subject": "Breaking: Government Announces New Economic Policies",
-	  "content": "The government has announced a new series of economic policies aimed at stabilizing the market. Officials claim these measures will benefit all citizens.",
-	  "timestamp": "14:30",
+	  "sender": "Entertainment Desk",
+	  "subject": "Breaking: Celebrity Scandal Rocks Entertainment Industry",
+	  "content": "A beloved celebrity faces serious allegations that have sent shockwaves through the entertainment world. The story is dominating headlines across all major outlets.",
+	  "timestamp": "09:15",
 	  "news_data": {
-		"article_text": "The government has announced a new series of economic policies aimed at stabilizing the market. Officials claim these measures will benefit all citizens.",
-		"tip_text": "Tip: Independent analysts suggest these policies may favor certain industries over others.",
+		"article_text": "A beloved celebrity faces serious allegations that have sent shockwaves through the entertainment world. The story is dominating headlines across all major outlets.",
+		"tip_text": "Tip: Other newsrooms are rushing to publish without full verification. Cross-check all claims with original sources.",
 		"facts": [
-		  {"category": "Announcement", "value": "New Economic Policies", "source": "Article"},
-		  {"category": "Claim", "value": "Will benefit all citizens", "source": "Article"},
-		  {"category": "Analysis", "value": "May favor certain industries", "source": "Tip"}
+		  {"category": "Event", "value": "Celebrity scandal breaks", "source": "Article"},
+		  {"category": "Media Response", "value": "Story dominating headlines", "source": "Article"},
+		  {"category": "Verification", "value": "Other outlets rushing without verification", "source": "Tip"}
 		],
-		"stance": "Pro-Government",
-		"integrity_score": 0.68
+		"stance": "Neutral",
+		"integrity_score": 0.65
 	  }
 	},
 	{
 	  "sender": "Investigative Reporter",
-	  "subject": "Leak: Internal Documents Reveal Budget Allocation",
-	  "content": "Internal documents leaked to our office reveal unexpected budget allocations. The documents show significant funds diverted to unknown projects.",
-	  "timestamp": "09:15",
+	  "subject": "Timeline Gaps in Celebrity's Account",
+	  "content": "The celebrity's public statement contains a 4-hour gap that doesn't match their claimed schedule. Studio logs show conflicting information.",
+	  "timestamp": "10:30",
 	  "news_data": {
-		"article_text": "Internal documents leaked to our office reveal unexpected budget allocations. The documents show significant funds diverted to unknown projects.",
-		"tip_text": "Tip: Cross-reference with public financial reports to verify the discrepancies.",
+		"article_text": "The celebrity's public statement contains a 4-hour gap that doesn't match their claimed schedule. Studio logs show conflicting information.",
+		"tip_text": "Tip: Request security footage from the studio—they initially agreed but now claim it's 'unavailable'.",
 		"facts": [
-		  {"category": "Documents", "value": "Internal budget documents", "source": "Article"},
-		  {"category": "Finding", "value": "Funds diverted to unknown projects", "source": "Article"},
-		  {"category": "Verification", "value": "Cross-reference with public reports", "source": "Tip"}
+		  {"category": "Timeline", "value": "4-hour gap in account", "source": "Article"},
+		  {"category": "Conflict", "value": "Studio logs contradict statement", "source": "Article"},
+		  {"category": "Evidence", "value": "Security footage now unavailable", "source": "Tip"}
 		],
-		"stance": "Anti-Government",
-		"integrity_score": 0.82
+		"stance": "Skeptical",
+		"integrity_score": 0.72
 	  }
 	},
 	{
-	  "sender": "Local News",
-	  "subject": "Community Center Opens in Downtown Area",
-	  "content": "A new community center has opened in the downtown area, providing services to local residents. The facility was funded through public-private partnership.",
-	  "timestamp": "11:45",
+	  "sender": "PR Liaison",
+	  "subject": "Studio Releases Coordinated Statement",
+	  "content": "The celebrity's studio has released a carefully worded statement denying all allegations. Multiple outlets received identical wording simultaneously.",
+	  "timestamp": "11:00",
 	  "news_data": {
-		"article_text": "A new community center has opened in the downtown area, providing services to local residents. The facility was funded through public-private partnership.",
-		"tip_text": "Tip: The opening ceremony was delayed twice, raising questions about the partnership transparency.",
+		"article_text": "The celebrity's studio has released a carefully worded statement denying all allegations. Multiple outlets received identical wording simultaneously.",
+		"tip_text": "Tip: Check timestamps—all statements arrived within 2 minutes, suggesting coordinated PR strategy.",
 		"facts": [
-		  {"category": "Event", "value": "Community center opened", "source": "Article"},
-		  {"category": "Funding", "value": "Public-private partnership", "source": "Article"},
-		  {"category": "Timeline", "value": "Opening delayed twice", "source": "Tip"}
+		  {"category": "Statement", "value": "Studio denies all allegations", "source": "Article"},
+		  {"category": "Distribution", "value": "Identical wording to multiple outlets", "source": "Article"},
+		  {"category": "Timing", "value": "All statements within 2 minutes", "source": "Tip"}
 		],
 		"stance": "Neutral",
-		"integrity_score": 0.75
+		"integrity_score": 0.58
 	  }
 	},
 	{
-	  "sender": "Business Journal",
-	  "subject": "Major Corporation Relocates Headquarters",
-	  "content": "TechCorp Industries announced it will relocate its headquarters to the neighboring region, citing better infrastructure and tax incentives.",
-	  "timestamp": "13:20",
+	  "sender": "Field Correspondent",
+	  "subject": "Protest Coverage Removed from Schedule",
+	  "content": "Scheduled coverage of downtown protests was pulled without explanation. The slot was filled with celebrity scandal updates instead.",
+	  "timestamp": "12:15",
 	  "news_data": {
-		"article_text": "TechCorp Industries announced it will relocate its headquarters to the neighboring region, citing better infrastructure and tax incentives.",
-		"tip_text": "Tip: Sources indicate the relocation decision was made after closed-door negotiations with regional officials.",
+		"article_text": "Scheduled coverage of downtown protests was pulled without explanation. The slot was filled with celebrity scandal updates instead.",
+		"tip_text": "Tip: Management email shows directive to 'prioritize entertainment news' came 30 minutes before the change.",
 		"facts": [
-		  {"category": "Company", "value": "TechCorp Industries", "source": "Article"},
-		  {"category": "Reason", "value": "Better infrastructure and tax incentives", "source": "Article"},
-		  {"category": "Process", "value": "Closed-door negotiations with officials", "source": "Tip"}
+		  {"category": "Event", "value": "Protest coverage removed", "source": "Article"},
+		  {"category": "Replacement", "value": "Celebrity scandal coverage added", "source": "Article"},
+		  {"category": "Directive", "value": "Management ordered entertainment priority", "source": "Tip"}
+		],
+		"stance": "Critical",
+		"integrity_score": 0.76
+	  }
+	},
+	{
+	  "sender": "Supply Chain Reporter",
+	  "subject": "Supply Shortage Report Buried",
+	  "content": "A critical report on worsening supply shortages in three regions was moved to page 8, while celebrity news fills the front page.",
+	  "timestamp": "13:45",
+	  "news_data": {
+		"article_text": "A critical report on worsening supply shortages in three regions was moved to page 8, while celebrity news fills the front page.",
+		"tip_text": "Tip: Editors were told the shortage story 'lacks public interest' despite urgent updates from field reporters.",
+		"facts": [
+		  {"category": "Issue", "value": "Supply shortages worsening", "source": "Article"},
+		  {"category": "Placement", "value": "Moved to page 8", "source": "Article"},
+		  {"category": "Editorial Decision", "value": "Deemed lacking public interest", "source": "Tip"}
+		],
+		"stance": "Critical",
+		"integrity_score": 0.81
+	  }
+	},
+	{
+	  "sender": "Fact-Checking Desk",
+	  "subject": "Missing Evidence in Celebrity Story",
+	  "content": "Key evidence mentioned in initial reports is now missing. Witness statements and security logs referenced earlier cannot be located.",
+	  "timestamp": "14:20",
+	  "news_data": {
+		"article_text": "Key evidence mentioned in initial reports is now missing. Witness statements and security logs referenced earlier cannot be located.",
+		"tip_text": "Tip: Archive logs show the files were accessed and deleted by an account with admin privileges last night.",
+		"facts": [
+		  {"category": "Evidence", "value": "Witness statements missing", "source": "Article"},
+		  {"category": "Documents", "value": "Security logs cannot be located", "source": "Article"},
+		  {"category": "Access", "value": "Files deleted by admin account", "source": "Tip"}
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.78
+	  }
+	},
+	{
+	  "sender": "Entertainment Editor",
+	  "subject": "Celebrity Interview Scheduled Last Minute",
+	  "content": "An exclusive interview with the celebrity was scheduled with only 2 hours notice. The interview was pre-recorded but presented as live.",
+	  "timestamp": "15:00",
+	  "news_data": {
+		"article_text": "An exclusive interview with the celebrity was scheduled with only 2 hours notice. The interview was pre-recorded but presented as live.",
+		"tip_text": "Tip: Metadata shows the recording was made yesterday, contradicting the 'live' broadcast claim.",
+		"facts": [
+		  {"category": "Scheduling", "value": "Interview scheduled 2 hours prior", "source": "Article"},
+		  {"category": "Presentation", "value": "Pre-recorded but shown as live", "source": "Article"},
+		  {"category": "Metadata", "value": "Recording from yesterday", "source": "Tip"}
 		],
 		"stance": "Neutral",
-		"integrity_score": 0.71
+		"integrity_score": 0.63
 	  }
 	},
 	{
-	  "sender": "Public Health Office",
-	  "subject": "Health Initiative Launched Across Regions",
-	  "content": "A comprehensive health initiative has been launched across multiple regions. The program aims to improve healthcare access for underserved communities.",
-	  "timestamp": "10:00",
+	  "sender": "Night Editor",
+	  "subject": "Draft Article Modified Without Author Approval",
+	  "content": "A fully fact-checked article about the celebrity scandal was modified overnight. Key contradictions and timeline issues were removed.",
+	  "timestamp": "02:30",
 	  "news_data": {
-		"article_text": "A comprehensive health initiative has been launched across multiple regions. The program aims to improve healthcare access for underserved communities.",
-		"tip_text": "Tip: Some regions report they have not received the promised resources, creating disparities in implementation.",
+		"article_text": "A fully fact-checked article about the celebrity scandal was modified overnight. Key contradictions and timeline issues were removed.",
+		"tip_text": "Tip: Version control shows edits from an account that hasn't been active in months. The author wasn't notified.",
 		"facts": [
-		  {"category": "Program", "value": "Health initiative launched", "source": "Article"},
-		  {"category": "Goal", "value": "Improve healthcare access for underserved", "source": "Article"},
-		  {"category": "Issue", "value": "Some regions missing promised resources", "source": "Tip"}
+		  {"category": "Modification", "value": "Article changed overnight", "source": "Article"},
+		  {"category": "Removed Content", "value": "Contradictions and timeline issues cut", "source": "Article"},
+		  {"category": "Anomaly", "value": "Edit from inactive account", "source": "Tip"}
 		],
-		"stance": "Pro-Government",
-		"integrity_score": 0.64
+		"stance": "Concerned",
+		"integrity_score": 0.51
 	  }
 	},
 	{
-	  "sender": "Whistleblower Network",
-	  "subject": "Allegations of Misconduct Surface",
-	  "content": "Anonymous sources have come forward with allegations of misconduct in public office. Documents supporting these claims have been submitted for review.",
-	  "timestamp": "15:50",
+	  "sender": "Data Analyst",
+	  "subject": "Celebrity Story Engagement Artificially Inflated",
+	  "content": "Analytics show the celebrity story has suspicious engagement patterns. Views spike at exact intervals, suggesting manipulation.",
+	  "timestamp": "16:30",
 	  "news_data": {
-		"article_text": "Anonymous sources have come forward with allegations of misconduct in public office. Documents supporting these claims have been submitted for review.",
-		"tip_text": "Tip: Verify the authenticity of the documents and cross-check with official records before publishing.",
+		"article_text": "Analytics show the celebrity story has suspicious engagement patterns. Views spike at exact intervals, suggesting manipulation.",
+		"tip_text": "Tip: Server logs show lower actual traffic. The discrepancy matches when protest coverage was removed.",
 		"facts": [
-		  {"category": "Source", "value": "Anonymous sources", "source": "Article"},
-		  {"category": "Allegation", "value": "Misconduct in public office", "source": "Article"},
-		  {"category": "Verification", "value": "Need to verify document authenticity", "source": "Tip"}
+		  {"category": "Analytics", "value": "Suspicious engagement patterns", "source": "Article"},
+		  {"category": "Pattern", "value": "Views spike at exact intervals", "source": "Article"},
+		  {"category": "Correlation", "value": "Matches protest coverage removal", "source": "Tip"}
 		],
-		"stance": "Anti-Government",
+		"stance": "Neutral",
+		"integrity_score": 0.67
+	  }
+	},
+	{
+	  "sender": "Junior Reporter",
+	  "subject": "Studio Statement Contradicts Previous Claims",
+	  "content": "The studio's latest statement contradicts what they told us yesterday. They now deny having GPS records they previously confirmed existed.",
+	  "timestamp": "17:00",
+	  "news_data": {
+		"article_text": "The studio's latest statement contradicts what they told us yesterday. They now deny having GPS records they previously confirmed existed.",
+		"tip_text": "Tip: Check email archives—yesterday's correspondence clearly shows them offering the GPS data.",
+		"facts": [
+		  {"category": "Contradiction", "value": "Studio denies GPS records", "source": "Article"},
+		  {"category": "Previous Claim", "value": "Studio confirmed GPS records yesterday", "source": "Article"},
+		  {"category": "Evidence", "value": "Email shows GPS data offer", "source": "Tip"}
+		],
+		"stance": "Skeptical",
+		"integrity_score": 0.74
+	  }
+	},
+	{
+	  "sender": "Investigations Desk",
+	  "subject": "Witness Statements Don't Match Timeline",
+	  "content": "Three witness statements about the celebrity's whereabouts contain conflicting times. None align with the studio's official timeline.",
+	  "timestamp": "18:15",
+	  "news_data": {
+		"article_text": "Three witness statements about the celebrity's whereabouts contain conflicting times. None align with the studio's official timeline.",
+		"tip_text": "Tip: One witness recanted their statement after receiving a call from an unknown number.",
+		"facts": [
+		  {"category": "Witnesses", "value": "Three conflicting statements", "source": "Article"},
+		  {"category": "Timeline", "value": "None match studio timeline", "source": "Article"},
+		  {"category": "Pressure", "value": "One witness recanted after call", "source": "Tip"}
+		],
+		"stance": "Investigative",
 		"integrity_score": 0.79
 	  }
 	},
 	{
-	  "sender": "Education Board",
-	  "subject": "New Curriculum Standards Approved",
-	  "content": "The education board has approved new curriculum standards for public schools. The changes will be implemented starting next academic year.",
-	  "timestamp": "08:30",
+	  "sender": "Entertainment Desk",
+	  "subject": "Celebrity's Alibi Verified by Studio",
+	  "content": "The studio has provided documentation proving the celebrity was at a charity event during the alleged incident. Multiple sources confirm attendance.",
+	  "timestamp": "19:00",
 	  "news_data": {
-		"article_text": "The education board has approved new curriculum standards for public schools. The changes will be implemented starting next academic year.",
-		"tip_text": "Tip: Teachers' unions were not consulted in the decision-making process, raising concerns about implementation feasibility.",
+		"article_text": "The studio has provided documentation proving the celebrity was at a charity event during the alleged incident. Multiple sources confirm attendance.",
+		"tip_text": "Tip: Verify the charity event actually occurred—some attendees claim it was cancelled last minute.",
 		"facts": [
-		  {"category": "Decision", "value": "New curriculum standards approved", "source": "Article"},
-		  {"category": "Timeline", "value": "Implementation next academic year", "source": "Article"},
-		  {"category": "Stakeholder", "value": "Teachers' unions not consulted", "source": "Tip"}
+		  {"category": "Alibi", "value": "Celebrity at charity event", "source": "Article"},
+		  {"category": "Documentation", "value": "Studio provided proof", "source": "Article"},
+		  {"category": "Verification", "value": "Event may have been cancelled", "source": "Tip"}
 		],
-		"stance": "Pro-Government",
-		"integrity_score": 0.66
+		"stance": "Pro-Celebrity",
+		"integrity_score": 0.55
 	  }
 	},
 	{
-	  "sender": "Environment Watch",
-	  "subject": "Pollution Levels Drop in Industrial Zone",
-	  "content": "Environmental monitoring shows a significant drop in pollution levels in the industrial zone. Officials attribute this to new regulations and cleaner technologies.",
-	  "timestamp": "12:15",
+	  "sender": "Field Correspondent",
+	  "subject": "Protest Organizers Report Media Blackout",
+	  "content": "Protest organizers claim major outlets are ignoring their event. They've documented multiple requests for coverage that went unanswered.",
+	  "timestamp": "20:30",
 	  "news_data": {
-		"article_text": "Environmental monitoring shows a significant drop in pollution levels in the industrial zone. Officials attribute this to new regulations and cleaner technologies.",
-		"tip_text": "Tip: Independent environmental groups report conflicting data and question the monitoring methodology.",
+		"article_text": "Protest organizers claim major outlets are ignoring their event. They've documented multiple requests for coverage that went unanswered.",
+		"tip_text": "Tip: Our newsroom received three coverage requests this week. All were marked 'low priority' by management.",
 		"facts": [
-		  {"category": "Measurement", "value": "Pollution levels dropped", "source": "Article"},
-		  {"category": "Attribution", "value": "New regulations and cleaner technologies", "source": "Article"},
-		  {"category": "Dispute", "value": "Conflicting data from independent groups", "source": "Tip"}
+		  {"category": "Claim", "value": "Media ignoring protests", "source": "Article"},
+		  {"category": "Documentation", "value": "Multiple unanswered requests", "source": "Article"},
+		  {"category": "Internal", "value": "Requests marked low priority", "source": "Tip"}
 		],
-		"stance": "Pro-Government",
-		"integrity_score": 0.59
+		"stance": "Critical",
+		"integrity_score": 0.82
 	  }
 	},
 	{
-	  "sender": "Citizen Journalist",
-	  "subject": "Public Protest Planned for Next Week",
-	  "content": "Organizers have announced a public protest scheduled for next week. The demonstration is in response to recent policy changes affecting working conditions.",
-	  "timestamp": "16:45",
+	  "sender": "Supply Chain Reporter",
+	  "subject": "Supply Shortages Worsening in Multiple Regions",
+	  "content": "Supply shortages have reached critical levels in five regions. Local officials are requesting emergency assistance but receiving no response.",
+	  "timestamp": "21:00",
 	  "news_data": {
-		"article_text": "Organizers have announced a public protest scheduled for next week. The demonstration is in response to recent policy changes affecting working conditions.",
-		"tip_text": "Tip: Verify the organizers' credentials and check if proper permits were obtained for the demonstration.",
+		"article_text": "Supply shortages have reached critical levels in five regions. Local officials are requesting emergency assistance but receiving no response.",
+		"tip_text": "Tip: Emergency requests were sent three days ago. No coverage has been approved despite urgency.",
 		"facts": [
-		  {"category": "Event", "value": "Public protest planned", "source": "Article"},
-		  {"category": "Reason", "value": "Policy changes affecting working conditions", "source": "Article"},
-		  {"category": "Verification", "value": "Check permits and organizer credentials", "source": "Tip"}
+		  {"category": "Crisis", "value": "Shortages critical in five regions", "source": "Article"},
+		  {"category": "Response", "value": "Officials requesting emergency aid", "source": "Article"},
+		  {"category": "Coverage", "value": "No coverage approved for 3 days", "source": "Tip"}
 		],
-		"stance": "Anti-Government",
+		"stance": "Critical",
+		"integrity_score": 0.85
+	  }
+	},
+	{
+	  "sender": "PR Liaison",
+	  "subject": "Multiple Outlets Receive Identical Talking Points",
+	  "content": "Several newsrooms received identical talking points about the celebrity scandal from different PR firms. The wording matches exactly.",
+	  "timestamp": "22:15",
+	  "news_data": {
+		"article_text": "Several newsrooms received identical talking points about the celebrity scandal from different PR firms. The wording matches exactly.",
+		"tip_text": "Tip: The PR firms share a parent company. This suggests coordinated narrative control across outlets.",
+		"facts": [
+		  {"category": "Distribution", "value": "Identical talking points to multiple outlets", "source": "Article"},
+		  {"category": "Source", "value": "Different PR firms sent same content", "source": "Article"},
+		  {"category": "Connection", "value": "PR firms share parent company", "source": "Tip"}
+		],
+		"stance": "Suspicious",
+		"integrity_score": 0.71
+	  }
+	},
+	{
+	  "sender": "Fact-Checking Intern",
+	  "subject": "Security Footage Timestamp Anomaly",
+	  "content": "The security footage provided by the studio shows timestamps that don't match the building's clock system. The discrepancy is exactly 3 hours.",
+	  "timestamp": "08:00",
+	  "news_data": {
+		"article_text": "The security footage provided by the studio shows timestamps that don't match the building's clock system. The discrepancy is exactly 3 hours.",
+		"tip_text": "Tip: Building maintenance logs show the clock was never adjusted. The footage may have been edited.",
+		"facts": [
+		  {"category": "Anomaly", "value": "3-hour timestamp discrepancy", "source": "Article"},
+		  {"category": "System", "value": "Building clock never adjusted", "source": "Tip"},
+		  {"category": "Possibility", "value": "Footage may be edited", "source": "Tip"}
+		],
+		"stance": "Investigative",
 		"integrity_score": 0.77
 	  }
 	},
 	{
-	  "sender": "Sports News",
-	  "subject": "National Team Wins Championship",
-	  "content": "The national team has won the international championship, bringing pride to the nation. The victory is being celebrated across the country.",
-	  "timestamp": "19:00",
+	  "sender": "Entertainment Editor",
+	  "subject": "Celebrity's Charity Work Highlighted",
+	  "content": "The celebrity has a long history of charity work and community service. Multiple organizations have vouched for their character.",
+	  "timestamp": "09:30",
 	  "news_data": {
-		"article_text": "The national team has won the international championship, bringing pride to the nation. The victory is being celebrated across the country.",
-		"tip_text": "Tip: Some players have raised concerns about funding disparities and lack of support during training.",
+		"article_text": "The celebrity has a long history of charity work and community service. Multiple organizations have vouched for their character.",
+		"tip_text": "Tip: Two of the organizations mentioned have financial ties to the celebrity's studio.",
 		"facts": [
-		  {"category": "Achievement", "value": "National team won championship", "source": "Article"},
-		  {"category": "Impact", "value": "Celebrated across the country", "source": "Article"},
-		  {"category": "Issue", "value": "Players concerned about funding and support", "source": "Tip"}
+		  {"category": "Character", "value": "Long charity history", "source": "Article"},
+		  {"category": "Support", "value": "Organizations vouch for character", "source": "Article"},
+		  {"category": "Conflict", "value": "Some organizations tied to studio", "source": "Tip"}
+		],
+		"stance": "Pro-Celebrity",
+		"integrity_score": 0.62
+	  }
+	},
+	{
+	  "sender": "Night Editor",
+	  "subject": "Editorial Meeting Notes Show Pressure",
+	  "content": "Notes from yesterday's editorial meeting show management pushing for 'positive celebrity coverage' and 'reduced focus on negative stories'.",
+	  "timestamp": "03:00",
+	  "news_data": {
+		"article_text": "Notes from yesterday's editorial meeting show management pushing for 'positive celebrity coverage' and 'reduced focus on negative stories'.",
+		"tip_text": "Tip: The meeting occurred hours after the scandal broke. Several editors expressed concerns that were dismissed.",
+		"facts": [
+		  {"category": "Directive", "value": "Push positive celebrity coverage", "source": "Article"},
+		  {"category": "Instruction", "value": "Reduce negative story focus", "source": "Article"},
+		  {"category": "Timing", "value": "Meeting after scandal broke", "source": "Tip"}
+		],
+		"stance": "Concerned",
+		"integrity_score": 0.68
+	  }
+	},
+	{
+	  "sender": "Data Analyst",
+	  "subject": "Traffic Diverted from Important Stories",
+	  "content": "Analytics show traffic to supply shortage and protest coverage dropped 80% after celebrity scandal coverage began. The timing is suspicious.",
+	  "timestamp": "10:00",
+	  "news_data": {
+		"article_text": "Analytics show traffic to supply shortage and protest coverage dropped 80% after celebrity scandal coverage began. The timing is suspicious.",
+		"tip_text": "Tip: Internal promotion of celebrity stories increased 300% while other stories received no promotion.",
+		"facts": [
+		  {"category": "Traffic", "value": "80% drop in important stories", "source": "Article"},
+		  {"category": "Timing", "value": "Drop coincides with scandal coverage", "source": "Article"},
+		  {"category": "Promotion", "value": "Celebrity stories promoted 300% more", "source": "Tip"}
 		],
 		"stance": "Neutral",
 		"integrity_score": 0.73
 	  }
 	},
 	{
-  "sender": "Investigative Reporter",
-  "subject": "Leak: Celebrity Timeline Contains Gaps",
-  "content": "A leaked memo shows the celebrity's stated whereabouts contradict internal studio logs.",
-  "timestamp": "08:12",
-  "news_data": {
-	"article_text": "Internal studio logs conflict with the celebrity's public timeline. Several hours remain unaccounted for.",
-	"tip_text": "Tip: Ask the PR team for GPS records they claimed to have, though they denied holding any last week.",
-	"facts": [
-	  {"category": "Timeline", "value": "Missing 3-hour window", "source": "Documents"},
-	  {"category": "Statement Conflict", "value": "PR claimed GPS logs exist and don't exist", "source": "Tip"},
-	  {"category": "Source Reliability", "value": "Studio logs differ from televised interview", "source": "Article"}
-	],
-	"stance": "Skeptical",
-	"integrity_score": 0.69
-  }
-},
-{
-  "sender": "Field Correspondent",
-  "subject": "Protest Footage Pulled Abruptly",
-  "content": "Footage from last night's protest vanished from the internal server without explanation.",
-  "timestamp": "11:03",
-  "news_data": {
-	"article_text": "Protest footage recorded last night is missing despite claims it was archived twice.",
-	"tip_text": "Tip: Check with the editing team—two editors swear they never received the footage.",
-	"facts": [
-	  {"category": "Evidence", "value": "Archived footage missing", "source": "Article"},
-	  {"category": "Contradiction", "value": "Editors deny receiving archived file", "source": "Tip"},
-	  {"category": "External Pressure", "value": "Management requested 'priority celebrity coverage' minutes earlier", "source": "Article"}
-	],
-	"stance": "Neutral",
-	"integrity_score": 0.57
-  }
-},
-{
-  "sender": "Junior Reporter",
-  "subject": "Studio Denies Statement They Issued Yesterday",
-  "content": "The studio now denies issuing a statement that was emailed from their official address.",
-  "timestamp": "14:20",
-  "news_data": {
-	"article_text": "The studio refutes a press statement released under their registered domain less than 24 hours ago.",
-	"tip_text": "Tip: Cross-match the SMTP headers—they might reveal an internal conflict or cover-up.",
-	"facts": [
-	  {"category": "Digital Forensics", "value": "SMTP headers show internal server origin", "source": "Tip"},
-	  {"category": "Inconsistency", "value": "Studio denies authorship of statement", "source": "Article"},
-	  {"category": "PR Behavior", "value": "Unusual reversal after celebrity scandal escalated", "source": "Article"}
-	],
-	"stance": "Anti-PR",
-	"integrity_score": 0.81
-  }
-},
-
-{
-  "sender": "Junior Reporter",
-  "subject": "Studio Denies Statement They Issued Yesterday",
-  "content": "The studio now denies issuing a statement that was emailed from their official address.",
-  "timestamp": "14:20",
-  "news_data": {
-	"article_text": "The studio refutes a press statement released under their registered domain less than 24 hours ago.",
-	"tip_text": "Tip: Cross-match the SMTP headers—they might reveal an internal conflict or cover-up.",
-	"facts": [
-	  {"category": "Digital Forensics", "value": "SMTP headers show internal server origin", "source": "Tip"},
-	  {"category": "Inconsistency", "value": "Studio denies authorship of statement", "source": "Article"},
-	  {"category": "PR Behavior", "value": "Unusual reversal after celebrity scandal escalated", "source": "Article"}
-	],
-	"stance": "Anti-PR",
-	"integrity_score": 0.81
-  }
-},
-{
-  "sender": "Investigations Desk",
-  "subject": "Supply Shortage Report Marked 'Low Priority'",
-  "content": "A report on rising supply shortages was deprioritized despite urgent updates.",
-  "timestamp": "10:44",
-  "news_data": {
-	"article_text": "Supply shortages are worsening in several towns, yet internal directives marked the report as 'non-essential'.",
-	"tip_text": "Tip: Anonymously, two editors said they were told to 'stick to entertainment headlines'.",
-	"facts": [
-	  {"category": "Directive", "value": "Report marked non-essential", "source": "Documents"},
-	  {"category": "Internal Conflict", "value": "Editors instructed to avoid shortages coverage", "source": "Tip"},
-	  {"category": "Context", "value": "Shortages worsen as celebrity scandal coverage expands", "source": "Article"}
-	],
-	"stance": "Critical",
-	"integrity_score": 0.74
-  }
-},
-
-{
-  "sender": "Fact-Checking Intern",
-  "subject": "Timeline Mismatch: Interview Recorded After Broadcast",
-  "content": "The celebrity's interview appears to have been recorded after it aired.",
-  "timestamp": "16:07",
-  "news_data": {
-	"article_text": "Metadata from the interview suggests a recording time that is three hours after its broadcast.",
-	"tip_text": "Tip: Compare timestamp anomalies with earlier versions—the network claims 'metadata corruption'.",
-	"facts": [
-	  {"category": "Metadata", "value": "Recording timestamp post-broadcast", "source": "Article"},
-	  {"category": "Network Claim", "value": "Metadata corruption explanation", "source": "Tip"},
-	  {"category": "Logical Issue", "value": "Corrupted metadata cannot shift forward reliably", "source": "Tip"}
-	],
-	"stance": "Investigative",
-	"integrity_score": 0.79
-  }
-},
-
-{
-  "sender": "Night Editor",
-  "subject": "Celebrity Scandal Draft Replaced Automatically",
-  "content": "A fully written draft was replaced by a version lacking key evidence.",
-  "timestamp": "01:30",
-  "news_data": {
-	"article_text": "The revised version removes references to missing security footage and contradictory witness statements.",
-	"tip_text": "Tip: IT logs show the edit originated from an account that was inactive for six months.",
-	"facts": [
-	  {"category": "Evidence Removal", "value": "Security footage reference cut", "source": "Article"},
-	  {"category": "Anomaly", "value": "Edit from inactive account", "source": "Tip"},
-	  {"category": "Witness Issue", "value": "Missing witness contradictions", "source": "Article"}
-	],
-	"stance": "Concerned",
-	"integrity_score": 0.49
-  }
-},
-
-{
-  "sender": "Entertainment Desk",
-  "subject": "Studio Provides 'Exclusive' That Conflicts With Their Own Timeline",
-  "content": "The studio's exclusive footage contradicts their previously confirmed schedule.",
-  "timestamp": "12:21",
-  "news_data": {
-	"article_text": "The exclusive depicts the celebrity rehearsing during a time they were reportedly overseas.",
-	"tip_text": "Tip: Compare this with travel logs submitted last quarter for tax purposes.",
-	"facts": [
-	  {"category": "Scheduling", "value": "Rehearsal vs overseas claim", "source": "Article"},
-	  {"category": "Document Conflict", "value": "Travel logs contradict exclusive footage", "source": "Tip"},
-	  {"category": "Possible Motive", "value": "Studio benefits from scandal control", "source": "Article"}
-	],
-	"stance": "Suspicious",
-	"integrity_score": 0.71
-  }
-},
-
-{
-  "sender": "Data Analyst",
-  "subject": "Engagement Metrics Altered on Celebrity Story",
-  "content": "Engagement numbers appear inflated, not matching server logs.",
-  "timestamp": "17:45",
-  "news_data": {
-	"article_text": "Internal logs show only 200,000 views, yet the public metric claims over 1.8 million.",
-	"tip_text": "Tip: Verify if the discrepancy aligns with timing of removed protest videos.",
-	"facts": [
-	  {"category": "Analytics", "value": "1.6M view gap", "source": "Article"},
-	  {"category": "Suspicious Correlation", "value": "Gap aligns with protest video removals", "source": "Tip"},
-	  {"category": "Server Logs", "value": "Lower internal traffic count", "source": "Documents"}
-	],
-	"stance": "Neutral",
-	"integrity_score": 0.64
-  }
-},
-
-{
-  "sender": "PR Liaison",
-  "subject": "Studio Sends Embargoed Statement Already Published Elsewhere",
-  "content": "The 'exclusive' embargoed statement was already posted on another outlet hours earlier.",
-  "timestamp": "07:27",
-  "news_data": {
-	"article_text": "The material labeled embargoed is publicly visible with matching wording.",
-	"tip_text": "Tip: Check the article edit history—timestamps may reveal coordinated release.",
-	"facts": [
-	  {"category": "Embargo", "value": "Embargoed content already public", "source": "Article"},
-	  {"category": "Timing Conflict", "value": "Earlier publication contradicts exclusivity", "source": "Tip"},
-	  {"category": "PR Strategy", "value": "Possible narrative shaping effort", "source": "Article"}
-	],
-	"stance": "Neutral",
-	"integrity_score": 0.55
-  }
-},
-
-{
-  "sender": "Night Correspondent",
-  "subject": "Celebrity Statements Uploaded Before Filmed",
-  "content": "Statements appeared on the online portal two hours before their recording.",
-  "timestamp": "02:22",
-  "news_data": {
-	"article_text": "Portal logs show early upload times not matching studio recording claims.",
-	"tip_text": "Tip: Check CDN propagation logs—they show multiple revisions.",
-	"facts": [
-	  {"category": "Timing", "value": "Upload precedes recording", "source": "Article"},
-	  {"category": "Revision", "value": "Multiple versions before event", "source": "Tip"},
-	  {"category": "Studio Claim", "value": "Studio insists recording time accurate", "source": "Article"}
-	],
-	"stance": "Curious",
-	"integrity_score": 0.68
-  }
-}
+	  "sender": "Investigative Reporter",
+	  "subject": "Studio's Timeline Doesn't Add Up",
+	  "content": "The studio's official timeline has the celebrity in three different locations at the same time. Mathematical impossibility suggests fabrication.",
+	  "timestamp": "11:15",
+	  "news_data": {
+		"article_text": "The studio's official timeline has the celebrity in three different locations at the same time. Mathematical impossibility suggests fabrication.",
+		"tip_text": "Tip: Cross-reference with flight records and hotel bookings—they don't support any of the three locations.",
+		"facts": [
+		  {"category": "Impossibility", "value": "Three locations simultaneously", "source": "Article"},
+		  {"category": "Evidence", "value": "Flight records don't match", "source": "Tip"},
+		  {"category": "Documents", "value": "Hotel bookings contradict timeline", "source": "Tip"}
+		],
+		"stance": "Skeptical",
+		"integrity_score": 0.80
+	  }
+	},
+	{
+	  "sender": "Entertainment Desk",
+	  "subject": "Celebrity's Public Statement Released",
+	  "content": "The celebrity has released a heartfelt public statement denying all allegations and asking for privacy during this difficult time.",
+	  "timestamp": "12:00",
+	  "news_data": {
+		"article_text": "The celebrity has released a heartfelt public statement denying all allegations and asking for privacy during this difficult time.",
+		"tip_text": "Tip: The statement was written by a PR firm, not the celebrity. Compare with their previous public statements for style differences.",
+		"facts": [
+		  {"category": "Statement", "value": "Celebrity denies allegations", "source": "Article"},
+		  {"category": "Tone", "value": "Asks for privacy", "source": "Article"},
+		  {"category": "Authorship", "value": "Written by PR firm", "source": "Tip"}
+		],
+		"stance": "Neutral",
+		"integrity_score": 0.60
+	  }
+	},
+	{
+	  "sender": "Field Correspondent",
+	  "subject": "Protest Coverage Request Denied Again",
+	  "content": "Another request to cover the ongoing protests was denied. Management cited 'lack of newsworthy developments' despite 500+ attendees.",
+	  "timestamp": "13:30",
+	  "news_data": {
+		"article_text": "Another request to cover the ongoing protests was denied. Management cited 'lack of newsworthy developments' despite 500+ attendees.",
+		"tip_text": "Tip: The same management approved three celebrity story updates today, each with fewer developments than the protest.",
+		"facts": [
+		  {"category": "Decision", "value": "Protest coverage denied", "source": "Article"},
+		  {"category": "Reason", "value": "Lack of newsworthy developments", "source": "Article"},
+		  {"category": "Contradiction", "value": "Celebrity stories approved with less news", "source": "Tip"}
+		],
+		"stance": "Critical",
+		"integrity_score": 0.79
+	  }
+	},
+	{
+	  "sender": "Supply Chain Reporter",
+	  "subject": "Emergency Supplies Running Out",
+	  "content": "Emergency supplies in affected regions are running critically low. Local authorities are warning of potential crisis if help doesn't arrive soon.",
+	  "timestamp": "14:45",
+	  "news_data": {
+		"article_text": "Emergency supplies in affected regions are running critically low. Local authorities are warning of potential crisis if help doesn't arrive soon.",
+		"tip_text": "Tip: This story was submitted three days ago but keeps getting pushed back. Check why it's not being published.",
+		"facts": [
+		  {"category": "Crisis", "value": "Supplies running critically low", "source": "Article"},
+		  {"category": "Warning", "value": "Authorities warn of potential crisis", "source": "Article"},
+		  {"category": "Delay", "value": "Story delayed for 3 days", "source": "Tip"}
+		],
+		"stance": "Critical",
+		"integrity_score": 0.84
+	  }
+	},
+	{
+	  "sender": "PR Liaison",
+	  "subject": "Embargoed Material Already Published",
+	  "content": "Material labeled 'exclusive embargo' was already published by another outlet hours before we received it. The studio claims this was a mistake.",
+	  "timestamp": "15:20",
+	  "news_data": {
+		"article_text": "Material labeled 'exclusive embargo' was already published by another outlet hours before we received it. The studio claims this was a mistake.",
+		"tip_text": "Tip: Check publication timestamps—they're identical across outlets, suggesting coordinated release despite embargo claims.",
+		"facts": [
+		  {"category": "Embargo", "value": "Material labeled exclusive", "source": "Article"},
+		  {"category": "Conflict", "value": "Already published elsewhere", "source": "Article"},
+		  {"category": "Timing", "value": "Identical timestamps suggest coordination", "source": "Tip"}
+		],
+		"stance": "Neutral",
+		"integrity_score": 0.56
+	  }
+	},
+	{
+	  "sender": "Fact-Checking Desk",
+	  "subject": "Witness Recants Statement After Pressure",
+	  "content": "A key witness has recanted their statement about the celebrity's whereabouts. They cited 'personal reasons' but sources indicate external pressure.",
+	  "timestamp": "16:00",
+	  "news_data": {
+		"article_text": "A key witness has recanted their statement about the celebrity's whereabouts. They cited 'personal reasons' but sources indicate external pressure.",
+		"tip_text": "Tip: The witness received multiple calls from unknown numbers before recanting. Phone records might reveal the source.",
+		"facts": [
+		  {"category": "Witness", "value": "Key witness recanted statement", "source": "Article"},
+		  {"category": "Reason", "value": "Cited personal reasons", "source": "Article"},
+		  {"category": "Pressure", "value": "Calls from unknown numbers before recanting", "source": "Tip"}
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.75
+	  }
+	},
+	{
+	  "sender": "Entertainment Editor",
+	  "subject": "Celebrity's Past Good Deeds Surface",
+	  "content": "Supporters are highlighting the celebrity's extensive history of philanthropy and positive impact on communities. Many are defending their character.",
+	  "timestamp": "17:30",
+	  "news_data": {
+		"article_text": "Supporters are highlighting the celebrity's extensive history of philanthropy and positive impact on communities. Many are defending their character.",
+		"tip_text": "Tip: Many of these 'supporters' are verified PR accounts. Check their posting history for coordinated messaging.",
+		"facts": [
+		  {"category": "Support", "value": "Celebrity has philanthropy history", "source": "Article"},
+		  {"category": "Defense", "value": "Many defending character", "source": "Article"},
+		  {"category": "Source", "value": "Many supporters are PR accounts", "source": "Tip"}
+		],
+		"stance": "Pro-Celebrity",
+		"integrity_score": 0.59
+	  }
+	},
+	{
+	  "sender": "Night Editor",
+	  "subject": "Article Headlines Changed Without Notice",
+	  "content": "Headlines for three articles about the celebrity scandal were changed overnight. The new versions are more favorable to the celebrity.",
+	  "timestamp": "04:00",
+	  "news_data": {
+		"article_text": "Headlines for three articles about the celebrity scandal were changed overnight. The new versions are more favorable to the celebrity.",
+		"tip_text": "Tip: Version history shows changes from an editor who wasn't assigned to these stories. No approval was requested.",
+		"facts": [
+		  {"category": "Change", "value": "Headlines changed overnight", "source": "Article"},
+		  {"category": "Tone", "value": "New versions more favorable", "source": "Article"},
+		  {"category": "Process", "value": "Changes from unassigned editor", "source": "Tip"}
+		],
+		"stance": "Concerned",
+		"integrity_score": 0.64
+	  }
+	},
+	{
+	  "sender": "Data Analyst",
+	  "subject": "Social Media Engagement Patterns Suspicious",
+	  "content": "Social media engagement on celebrity scandal posts shows identical patterns across multiple accounts. Bot activity is likely involved.",
+	  "timestamp": "18:00",
+	  "news_data": {
+		"article_text": "Social media engagement on celebrity scandal posts shows identical patterns across multiple accounts. Bot activity is likely involved.",
+		"tip_text": "Tip: The bot accounts started appearing right after the scandal broke. They all promote the same narrative.",
+		"facts": [
+		  {"category": "Pattern", "value": "Identical engagement patterns", "source": "Article"},
+		  {"category": "Activity", "value": "Bot activity likely", "source": "Article"},
+		  {"category": "Timing", "value": "Bots appeared after scandal", "source": "Tip"}
+		],
+		"stance": "Neutral",
+		"integrity_score": 0.70
+	  }
+	},
+	{
+	  "sender": "Investigative Reporter",
+	  "subject": "Studio Refuses to Release Phone Records",
+	  "content": "The studio has refused requests to release phone records that could verify the celebrity's timeline. They claim privacy concerns.",
+	  "timestamp": "19:15",
+	  "news_data": {
+		"article_text": "The studio has refused requests to release phone records that could verify the celebrity's timeline. They claim privacy concerns.",
+		"tip_text": "Tip: The studio previously released phone records for a different case. Their refusal here is inconsistent.",
+		"facts": [
+		  {"category": "Refusal", "value": "Studio won't release phone records", "source": "Article"},
+		  {"category": "Reason", "value": "Cites privacy concerns", "source": "Article"},
+		  {"category": "Inconsistency", "value": "Studio released records before", "source": "Tip"}
+		],
+		"stance": "Skeptical",
+		"integrity_score": 0.76
+	  }
+	},
+	{
+	  "sender": "Entertainment Desk",
+	  "subject": "Celebrity's Team Provides Character Witnesses",
+	  "content": "The celebrity's team has provided multiple character witnesses who attest to their good character and professionalism.",
+	  "timestamp": "20:00",
+	  "news_data": {
+		"article_text": "The celebrity's team has provided multiple character witnesses who attest to their good character and professionalism.",
+		"tip_text": "Tip: All character witnesses are current or former employees of the celebrity's studio. Check for financial incentives.",
+		"facts": [
+		  {"category": "Witnesses", "value": "Multiple character witnesses provided", "source": "Article"},
+		  {"category": "Testimony", "value": "Attest to good character", "source": "Article"},
+		  {"category": "Connection", "value": "All witnesses work for studio", "source": "Tip"}
+		],
+		"stance": "Pro-Celebrity",
+		"integrity_score": 0.61
+	  }
+	},
+	{
+	  "sender": "Field Correspondent",
+	  "subject": "Protest Coverage Completely Absent",
+	  "content": "Despite ongoing protests with 1000+ participants, no major outlet has provided coverage. Organizers are documenting the media blackout.",
+	  "timestamp": "21:30",
+	  "news_data": {
+		"article_text": "Despite ongoing protests with 1000+ participants, no major outlet has provided coverage. Organizers are documenting the media blackout.",
+		"tip_text": "Tip: Our newsroom has received 12 coverage requests this week. All were denied or marked 'not newsworthy'.",
+		"facts": [
+		  {"category": "Event", "value": "Protests with 1000+ participants", "source": "Article"},
+		  {"category": "Coverage", "value": "No major outlet coverage", "source": "Article"},
+		  {"category": "Internal", "value": "12 requests denied this week", "source": "Tip"}
+		],
+		"stance": "Critical",
+		"integrity_score": 0.83
+	  }
+	},
+	{
+	  "sender": "Supply Chain Reporter",
+	  "subject": "Regions Declare Emergency Over Shortages",
+	  "content": "Three regions have declared states of emergency due to critical supply shortages. Federal response has been slow and inadequate.",
+	  "timestamp": "22:00",
+	  "news_data": {
+		"article_text": "Three regions have declared states of emergency due to critical supply shortages. Federal response has been slow and inadequate.",
+		"tip_text": "Tip: This story was ready to publish five days ago but keeps getting delayed. Check editorial priorities.",
+		"facts": [
+		  {"category": "Crisis", "value": "Three regions declare emergency", "source": "Article"},
+		  {"category": "Response", "value": "Federal response slow", "source": "Article"},
+		  {"category": "Delay", "value": "Story delayed 5 days", "source": "Tip"}
+		],
+		"stance": "Critical",
+		"integrity_score": 0.86
+	  }
+	},
+	{
+	  "sender": "PR Liaison",
+	  "subject": "Coordinated Media Blitz Begins",
+	  "content": "Multiple outlets are simultaneously publishing positive stories about the celebrity's charity work and community contributions.",
+	  "timestamp": "23:15",
+	  "news_data": {
+		"article_text": "Multiple outlets are simultaneously publishing positive stories about the celebrity's charity work and community contributions.",
+		"tip_text": "Tip: All stories use similar wording and structure. This appears to be a coordinated PR campaign.",
+		"facts": [
+		  {"category": "Timing", "value": "Multiple outlets publish simultaneously", "source": "Article"},
+		  {"category": "Content", "value": "Positive charity stories", "source": "Article"},
+		  {"category": "Pattern", "value": "Similar wording suggests coordination", "source": "Tip"}
+		],
+		"stance": "Neutral",
+		"integrity_score": 0.57
+	  }
+	},
+	{
+	  "sender": "Fact-Checking Desk",
+	  "subject": "Evidence Chain of Custody Broken",
+	  "content": "Key evidence in the celebrity case shows gaps in chain of custody. Documents were accessed by unauthorized personnel.",
+	  "timestamp": "08:30",
+	  "news_data": {
+		"article_text": "Key evidence in the celebrity case shows gaps in chain of custody. Documents were accessed by unauthorized personnel.",
+		"tip_text": "Tip: Access logs show documents were copied to external drives. The originals may have been tampered with.",
+		"facts": [
+		  {"category": "Chain", "value": "Gaps in custody chain", "source": "Article"},
+		  {"category": "Access", "value": "Unauthorized personnel accessed documents", "source": "Article"},
+		  {"category": "Risk", "value": "Documents copied to external drives", "source": "Tip"}
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.78
+	  }
+	},
+	{
+	  "sender": "Entertainment Editor",
+	  "subject": "Celebrity's Legal Team Issues Statement",
+	  "content": "The celebrity's legal team has issued a strong statement threatening legal action against outlets publishing 'false and defamatory' claims.",
+	  "timestamp": "09:45",
+	  "news_data": {
+		"article_text": "The celebrity's legal team has issued a strong statement threatening legal action against outlets publishing 'false and defamatory' claims.",
+		"tip_text": "Tip: The legal team represents the studio, not just the celebrity. This suggests coordinated defense strategy.",
+		"facts": [
+		  {"category": "Threat", "value": "Legal action threatened", "source": "Article"},
+		  {"category": "Claim", "value": "Allegations called false and defamatory", "source": "Article"},
+		  {"category": "Connection", "value": "Legal team represents studio too", "source": "Tip"}
+		],
+		"stance": "Neutral",
+		"integrity_score": 0.64
+	  }
+	},
+	{
+	  "sender": "Night Editor",
+	  "subject": "Editorial Guidelines Changed Overnight",
+	  "content": "New editorial guidelines were posted overnight requiring 'extra verification' for stories that could damage public figures' reputations.",
+	  "timestamp": "05:00",
+	  "news_data": {
+		"article_text": "New editorial guidelines were posted overnight requiring 'extra verification' for stories that could damage public figures' reputations.",
+		"tip_text": "Tip: These guidelines weren't discussed in any editorial meeting. They appeared right after the scandal broke.",
+		"facts": [
+		  {"category": "Guidelines", "value": "New verification requirements", "source": "Article"},
+		  {"category": "Scope", "value": "Applies to public figure stories", "source": "Article"},
+		  {"category": "Process", "value": "Guidelines not discussed in meetings", "source": "Tip"}
+		],
+		"stance": "Concerned",
+		"integrity_score": 0.69
+	  }
+	},
+	{
+	  "sender": "Data Analyst",
+	  "subject": "Celebrity Stories Receive Disproportionate Promotion",
+	  "content": "Celebrity scandal stories are receiving 10x more internal promotion than other news. Analytics show artificial traffic inflation.",
+	  "timestamp": "10:30",
+	  "news_data": {
+		"article_text": "Celebrity scandal stories are receiving 10x more internal promotion than other news. Analytics show artificial traffic inflation.",
+		"tip_text": "Tip: The promotion budget for celebrity stories increased 500% while important news received budget cuts.",
+		"facts": [
+		  {"category": "Promotion", "value": "10x more promotion for celebrity stories", "source": "Article"},
+		  {"category": "Traffic", "value": "Analytics show artificial inflation", "source": "Article"},
+		  {"category": "Budget", "value": "Celebrity promotion up 500%", "source": "Tip"}
+		],
+		"stance": "Neutral",
+		"integrity_score": 0.72
+	  }
+	},
+	{
+	  "sender": "Investigative Reporter",
+	  "subject": "Studio's Financial Records Show Payments",
+	  "content": "Financial records show the studio made large payments to several witnesses shortly before they changed their statements.",
+	  "timestamp": "11:45",
+	  "news_data": {
+		"article_text": "Financial records show the studio made large payments to several witnesses shortly before they changed their statements.",
+		"tip_text": "Tip: The payments were labeled as 'consulting fees' but the witnesses have no consulting history with the studio.",
+		"facts": [
+		  {"category": "Payments", "value": "Studio paid witnesses", "source": "Article"},
+		  {"category": "Timing", "value": "Payments before statement changes", "source": "Article"},
+		  {"category": "Label", "value": "Labeled as consulting fees", "source": "Tip"}
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.81
+	  }
+	},
+	{
+	  "sender": "Entertainment Desk",
+	  "subject": "Celebrity's Supporters Rally Online",
+	  "content": "Thousands of supporters are rallying online to defend the celebrity, sharing positive stories and questioning the allegations.",
+	  "timestamp": "12:30",
+	  "news_data": {
+		"article_text": "Thousands of supporters are rallying online to defend the celebrity, sharing positive stories and questioning the allegations.",
+		"tip_text": "Tip: Analysis shows many accounts are newly created or have coordinated posting patterns. Verify organic support.",
+		"facts": [
+		  {"category": "Support", "value": "Thousands defending celebrity", "source": "Article"},
+		  {"category": "Activity", "value": "Sharing positive stories", "source": "Article"},
+		  {"category": "Verification", "value": "Many accounts are new or coordinated", "source": "Tip"}
+		],
+		"stance": "Pro-Celebrity",
+		"integrity_score": 0.58
+	  }
+	},
+	{
+	  "sender": "Field Correspondent",
+	  "subject": "Protest Coverage Requests Ignored",
+	  "content": "All requests to cover the protests have been ignored or denied. Organizers are now documenting what they call a 'media conspiracy'.",
+	  "timestamp": "13:45",
+	  "news_data": {
+		"article_text": "All requests to cover the protests have been ignored or denied. Organizers are now documenting what they call a 'media conspiracy'.",
+		"tip_text": "Tip: Management has a standing order to 'prioritize entertainment content' over social issues. This was implemented last week.",
+		"facts": [
+		  {"category": "Response", "value": "All coverage requests denied", "source": "Article"},
+		  {"category": "Claim", "value": "Organizers call it conspiracy", "source": "Article"},
+		  {"category": "Policy", "value": "Standing order to prioritize entertainment", "source": "Tip"}
+		],
+		"stance": "Critical",
+		"integrity_score": 0.80
+	  }
+	},
+	{
+	  "sender": "Supply Chain Reporter",
+	  "subject": "Shortage Crisis Reaches Breaking Point",
+	  "content": "The supply shortage crisis has reached a breaking point with hospitals and emergency services reporting critical shortages.",
+	  "timestamp": "14:15",
+	  "news_data": {
+		"article_text": "The supply shortage crisis has reached a breaking point with hospitals and emergency services reporting critical shortages.",
+		"tip_text": "Tip: This story has been ready for a week. Each day it's delayed, the crisis worsens. Check why it's not being published.",
+		"facts": [
+		  {"category": "Crisis", "value": "Shortages at breaking point", "source": "Article"},
+		  {"category": "Impact", "value": "Hospitals and emergency services affected", "source": "Article"},
+		  {"category": "Delay", "value": "Story delayed for a week", "source": "Tip"}
+		],
+		"stance": "Critical",
+		"integrity_score": 0.87
+	  }
+	},
+	{
+	  "sender": "PR Liaison",
+	  "subject": "Studio Offers Exclusive Interview",
+	  "content": "The studio is offering an exclusive interview with the celebrity, but only if we agree to certain editorial conditions and preview questions.",
+	  "timestamp": "15:00",
+	  "news_data": {
+		"article_text": "The studio is offering an exclusive interview with the celebrity, but only if we agree to certain editorial conditions and preview questions.",
+		"tip_text": "Tip: The conditions include not asking about timeline discrepancies or missing evidence. This violates journalistic ethics.",
+		"facts": [
+		  {"category": "Offer", "value": "Exclusive interview offered", "source": "Article"},
+		  {"category": "Condition", "value": "Editorial conditions required", "source": "Article"},
+		  {"category": "Restriction", "value": "Cannot ask about timeline or evidence", "source": "Tip"}
+		],
+		"stance": "Neutral",
+		"integrity_score": 0.66
+	  }
+	},
+	{
+	  "sender": "Fact-Checking Desk",
+	  "subject": "Multiple Sources Contradict Studio Timeline",
+	  "content": "Five independent sources have provided information that contradicts the studio's official timeline. None of the sources have financial ties to the case.",
+	  "timestamp": "16:30",
+	  "news_data": {
+		"article_text": "Five independent sources have provided information that contradicts the studio's official timeline. None of the sources have financial ties to the case.",
+		"tip_text": "Tip: All five sources are willing to go on record, but the studio has threatened legal action against them.",
+		"facts": [
+		  {"category": "Sources", "value": "Five independent sources contradict timeline", "source": "Article"},
+		  {"category": "Independence", "value": "No financial ties to case", "source": "Article"},
+		  {"category": "Pressure", "value": "Studio threatened sources legally", "source": "Tip"}
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.79
+	  }
+	},
+	{
+	  "sender": "Entertainment Editor",
+	  "subject": "Celebrity's Career Achievements Highlighted",
+	  "content": "Supporters are emphasizing the celebrity's long and successful career, pointing to numerous awards and positive industry relationships.",
+	  "timestamp": "17:00",
+	  "news_data": {
+		"article_text": "Supporters are emphasizing the celebrity's long and successful career, pointing to numerous awards and positive industry relationships.",
+		"tip_text": "Tip: Many of the 'supporters' posting these messages are verified PR accounts with ties to the studio's marketing department.",
+		"facts": [
+		  {"category": "Defense", "value": "Career achievements highlighted", "source": "Article"},
+		  {"category": "Evidence", "value": "Awards and industry relationships cited", "source": "Article"},
+		  {"category": "Source", "value": "Many supporters are PR accounts", "source": "Tip"}
+		],
+		"stance": "Pro-Celebrity",
+		"integrity_score": 0.60
+	  }
+	},
+	{
+	  "sender": "Night Editor",
+	  "subject": "Article Approval Process Changed",
+	  "content": "The article approval process was changed to require management sign-off on any story that could 'negatively impact public figures'.",
+	  "timestamp": "06:00",
+	  "news_data": {
+		"article_text": "The article approval process was changed to require management sign-off on any story that could 'negatively impact public figures'.",
+		"tip_text": "Tip: This change was implemented without discussion and applies retroactively to stories already in progress.",
+		"facts": [
+		  {"category": "Change", "value": "Approval process modified", "source": "Article"},
+		  {"category": "Requirement", "value": "Management sign-off needed", "source": "Article"},
+		  {"category": "Scope", "value": "Applies retroactively", "source": "Tip"}
+		],
+		"stance": "Concerned",
+		"integrity_score": 0.70
+	  }
+	},
+	{
+	  "sender": "Data Analyst",
+	  "subject": "Traffic Patterns Show Artificial Spikes",
+	  "content": "Traffic patterns for celebrity stories show artificial spikes at exact intervals. This suggests automated promotion or bot activity.",
+	  "timestamp": "18:15",
+	  "news_data": {
+		"article_text": "Traffic patterns for celebrity stories show artificial spikes at exact intervals. This suggests automated promotion or bot activity.",
+		"tip_text": "Tip: The spikes coincide with when important news stories were scheduled to be promoted but weren't.",
+		"facts": [
+		  {"category": "Pattern", "value": "Artificial spikes at intervals", "source": "Article"},
+		  {"category": "Likely Cause", "value": "Automated promotion or bots", "source": "Article"},
+		  {"category": "Timing", "value": "Spikes match missed promotions", "source": "Tip"}
+		],
+		"stance": "Neutral",
+		"integrity_score": 0.71
+	  }
+	},
+	{
+	  "sender": "Investigative Reporter",
+	  "subject": "Studio's Evidence Chain Shows Gaps",
+	  "content": "The studio's provided evidence shows significant gaps in documentation. Key timestamps and locations cannot be verified independently.",
+	  "timestamp": "19:30",
+	  "news_data": {
+		"article_text": "The studio's provided evidence shows significant gaps in documentation. Key timestamps and locations cannot be verified independently.",
+		"tip_text": "Tip: When asked for verification, the studio provided different documents that contradict their original evidence.",
+		"facts": [
+		  {"category": "Gaps", "value": "Significant documentation gaps", "source": "Article"},
+		  {"category": "Verification", "value": "Cannot verify independently", "source": "Article"},
+		  {"category": "Contradiction", "value": "New documents contradict originals", "source": "Tip"}
+		],
+		"stance": "Skeptical",
+		"integrity_score": 0.77
+	  }
+	},
+	{
+	  "sender": "Entertainment Desk",
+	  "subject": "Celebrity's Team Releases Supportive Statements",
+	  "content": "The celebrity's team has released statements from industry colleagues praising their character and questioning the timing of allegations.",
+	  "timestamp": "20:45",
+	  "news_data": {
+		"article_text": "The celebrity's team has released statements from industry colleagues praising their character and questioning the timing of allegations.",
+		"tip_text": "Tip: Many of these colleagues have upcoming projects with the celebrity's studio. Check for financial incentives.",
+		"facts": [
+		  {"category": "Support", "value": "Industry colleagues defend celebrity", "source": "Article"},
+		  {"category": "Question", "value": "Colleagues question timing", "source": "Article"},
+		  {"category": "Connection", "value": "Many have studio projects", "source": "Tip"}
+		],
+		"stance": "Pro-Celebrity",
+		"integrity_score": 0.61
+	  }
+	},
+	{
+	  "sender": "Field Correspondent",
+	  "subject": "Protest Organizers Document Media Silence",
+	  "content": "Protest organizers have compiled a detailed report documenting how major media outlets have completely ignored their ongoing demonstrations.",
+	  "timestamp": "21:15",
+	  "news_data": {
+		"article_text": "Protest organizers have compiled a detailed report documenting how major media outlets have completely ignored their ongoing demonstrations.",
+		"tip_text": "Tip: The report shows our newsroom received 20+ coverage requests, all denied. Compare with celebrity story approvals.",
+		"facts": [
+		  {"category": "Documentation", "value": "Report on media silence", "source": "Article"},
+		  {"category": "Finding", "value": "Major outlets ignoring protests", "source": "Article"},
+		  {"category": "Internal", "value": "20+ requests denied", "source": "Tip"}
+		],
+		"stance": "Critical",
+		"integrity_score": 0.84
+	  }
+	},
+	{
+	  "sender": "Supply Chain Reporter",
+	  "subject": "Emergency Declared in Five Regions",
+	  "content": "Five regions have now declared states of emergency due to supply shortages. The crisis is escalating with no media coverage.",
+	  "timestamp": "22:30",
+	  "news_data": {
+		"article_text": "Five regions have now declared states of emergency due to supply shortages. The crisis is escalating with no media coverage.",
+		"tip_text": "Tip: This is the most urgent story we have, yet it keeps getting delayed. Check editorial priorities and management directives.",
+		"facts": [
+		  {"category": "Crisis", "value": "Five regions in emergency", "source": "Article"},
+		  {"category": "Escalation", "value": "Crisis worsening", "source": "Article"},
+		  {"category": "Coverage", "value": "No media coverage despite urgency", "source": "Tip"}
+		],
+		"stance": "Critical",
+		"integrity_score": 0.88
+	  }
+	},
+	{
+	  "sender": "PR Liaison",
+	  "subject": "Coordinated Narrative Control Evident",
+	  "content": "Analysis of recent coverage shows a coordinated narrative control effort. Multiple outlets are using identical framing and talking points.",
+	  "timestamp": "23:45",
+	  "news_data": {
+		"article_text": "Analysis of recent coverage shows a coordinated narrative control effort. Multiple outlets are using identical framing and talking points.",
+		"tip_text": "Tip: The coordination extends beyond just the celebrity story—it's affecting how other news is being covered or ignored.",
+		"facts": [
+		  {"category": "Pattern", "value": "Coordinated narrative control", "source": "Article"},
+		  {"category": "Evidence", "value": "Identical framing across outlets", "source": "Article"},
+		  {"category": "Scope", "value": "Affects other news coverage", "source": "Tip"}
+		],
+		"stance": "Suspicious",
+		"integrity_score": 0.73
+	  }
+	}
   ]
 }

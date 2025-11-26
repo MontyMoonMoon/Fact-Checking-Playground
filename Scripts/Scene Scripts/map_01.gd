@@ -136,8 +136,8 @@ func _setup_game_systems():
 	game_timer = GameTimer.new()
 	game_timer.name = "GameTimer"
 	game_timer.time_limit = 300.0  # 5 minutes (300 seconds)
-	game_timer.article_spawn_interval_min = 15.0
-	game_timer.article_spawn_interval_max = 25.0
+	game_timer.article_spawn_interval_min = 35.0
+	game_timer.article_spawn_interval_max = 35.0
 	add_child(game_timer)
 	
 	# Connect timer to manager
