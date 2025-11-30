@@ -7,7 +7,7 @@ signal game_over(reason: String)
 
 var game_timer: GameTimer = null
 var integrity_meter: Node = null
-var game_failed_popup: Node = null
+var day_end_panel: DayEndPanel = null
 var article_popup_scene: PackedScene = null
 
 var integrity_score: float = 5.0
@@ -19,6 +19,20 @@ var articles_added: Array = []
 var articles_removed: Array = []
 var high_overlap_comparisons: int = 0
 
+# Integrity tracking by category
+var integrity_increments: Dictionary = {
+	"correct_ai_analysis": 0.0,
+	"correct_messages": 0.0,
+	"correct_articles_published": 0.0
+}
+
+var integrity_decrements: Dictionary = {
+	"spam_emails": 0.0,
+	"incorrect_ai_analysis": 0.0,
+	"incorrect_articles_published": 0.0,
+	"decay": 0.0
+}
+
 var day_over: bool = false
 var instant_death: bool = false
 
@@ -28,6 +42,10 @@ var current_article_popups: Array = []
 var integrity_decay_timer: Timer = null
 var integrity_decay_rate: float = 0.1  # Lose 0.1 integrity every 30 seconds
 var integrity_decay_interval: float = 30.0  # Decay every 30 seconds
+
+# Debug key state tracking
+var _o_key_pressed_last_frame: bool = false
+var _i_key_pressed_last_frame: bool = false
 
 func _ready():
 	print("GameManager initialized")
@@ -44,57 +62,78 @@ func _ready():
 	# Wait a frame to ensure scene is fully loaded
 	await get_tree().process_frame
 	
-	# Find GameFailedPopup - try multiple methods
-	_find_and_hide_game_failed_popup()
+	# Find DayEndPanel - try multiple methods
+	_find_and_hide_day_end_panel()
 	
 	# Timer will be set by scene
 	# AI Analysis Controller is now integrated into laptop, no need to load scene
 
-func _find_and_hide_game_failed_popup():
-	"""Find GameFailedPopup using multiple search methods"""
+func _find_and_hide_day_end_panel():
+	"""Find DayEndPanel using multiple search methods"""
 	var parent = get_parent()
 	if not parent:
 		push_error("GameManager has no parent node!")
 		return
 	
+	var found_node: Node = null
+	
 	# Method 1: Direct sibling lookup
-	game_failed_popup = parent.get_node_or_null("GameFailedPopup")
+	found_node = parent.get_node_or_null("Day End Panel")
+	if not found_node:
+		found_node = parent.get_node_or_null("DayEndPanel")
 	
 	# Method 2: Search all siblings
-	if not game_failed_popup:
+	if not found_node:
 		for child in parent.get_children():
-			if child.name == "GameFailedPopup":
-				game_failed_popup = child
+			if child.name == "Day End Panel" or child.name == "DayEndPanel":
+				found_node = child
 				break
 	
 	# Method 3: Recursive search from parent
-	if not game_failed_popup:
-		game_failed_popup = parent.find_child("GameFailedPopup", true, false)
+	if not found_node:
+		found_node = parent.find_child("Day End Panel", true, false)
+		if not found_node:
+			found_node = parent.find_child("DayEndPanel", true, false)
 	
 	# Method 4: Search by class name
-	if not game_failed_popup:
+	if not found_node:
 		for child in parent.get_children():
-			if child is GameFailedPopup:
-				game_failed_popup = child
+			if child is DayEndPanel:
+				found_node = child
 				break
 	
 	# Method 5: Search entire scene tree
-	if not game_failed_popup:
+	if not found_node:
 		var scene_root = get_tree().current_scene
 		if scene_root:
-			game_failed_popup = scene_root.find_child("GameFailedPopup", true, false)
+			found_node = scene_root.find_child("Day End Panel", true, false)
+			if not found_node:
+				found_node = scene_root.find_child("DayEndPanel", true, false)
 	
-	if game_failed_popup:
-		game_failed_popup.visible = false
-		# Force hide immediately to prevent it showing on start
-		game_failed_popup.hide()
-		print("GameFailedPopup found and hidden successfully")
+	# Cast to DayEndPanel if found
+	if found_node:
+		if found_node is DayEndPanel:
+			day_end_panel = found_node as DayEndPanel
+		else:
+			# Try to get the script instance
+			var script = found_node.get_script()
+			if script and script.resource_path.ends_with("day_end_panel.gd"):
+				day_end_panel = found_node as DayEndPanel
+			else:
+				push_warning("Found node but it's not a DayEndPanel! Type: %s" % str(found_node.get_class()))
+				return
+		
+		if day_end_panel:
+			day_end_panel.visible = false
+			# Force hide immediately to prevent it showing on start
+			day_end_panel.hide()
+			print("DayEndPanel found and hidden successfully")
 	else:
 		# Debug: Print all children of parent
 		var children_names = []
 		for child in parent.get_children():
 			children_names.append(child.name)
-		push_error("GameFailedPopup NOT FOUND. Parent: " + str(parent.name) + " | Children: " + str(children_names))
+		push_warning("DayEndPanel NOT FOUND. Parent: " + str(parent.name) + " | Children: " + str(children_names))
 
 func _process(delta):
 	if day_over:
@@ -103,6 +142,24 @@ func _process(delta):
 	# Check if timer is up
 	if game_timer and game_timer.is_running and game_timer.get_time_remaining() <= 0:
 		_evaluate_day()
+	
+	# Debug: Increment integrity score on 'O' press
+	var o_key_pressed = Input.is_key_pressed(KEY_O)
+	if o_key_pressed and not _o_key_pressed_last_frame:
+		integrity_score = min(10.0, integrity_score + 1.0)
+		integrity_breakdown["base_score"] = integrity_score
+		_update_integrity_display()
+		print("[GameManager DEBUG] Integrity score incremented by 1.0. New score: %.2f" % integrity_score)
+	_o_key_pressed_last_frame = o_key_pressed
+	
+	# Debug: Decrement integrity score on 'I' press
+	var i_key_pressed = Input.is_key_pressed(KEY_I)
+	if i_key_pressed and not _i_key_pressed_last_frame:
+		integrity_score = max(0.0, integrity_score - 1.0)
+		integrity_breakdown["base_score"] = integrity_score
+		_update_integrity_display()
+		print("[GameManager DEBUG] Integrity score decremented by 1.0. New score: %.2f" % integrity_score)
+	_i_key_pressed_last_frame = i_key_pressed
 
 func set_game_timer(timer: GameTimer):
 	game_timer = timer
@@ -130,6 +187,19 @@ func start_game():
 		"high_overlap_bonus": 0.0,
 		"articles_added_bonus": 0.0,
 		"articles_removed_penalty": 0.0
+	}
+	
+	# Reset integrity tracking
+	integrity_increments = {
+		"correct_ai_analysis": 0.0,
+		"correct_messages": 0.0,
+		"correct_articles_published": 0.0
+	}
+	integrity_decrements = {
+		"spam_emails": 0.0,
+		"incorrect_ai_analysis": 0.0,
+		"incorrect_articles_published": 0.0,
+		"decay": 0.0
 	}
 	
 	# Reset and restart integrity decay timer
@@ -185,6 +255,9 @@ func _evaluate_day():
 		integrity_decay_timer.stop()
 		print("GameManager: Integrity decay timer stopped (day over)")
 	
+	# Recalculate integrity to ensure breakdown is up to date
+	_recalculate_integrity()
+	
 	if instant_death:
 		emit_signal("game_over", "Integrity dropped to 0")
 		return
@@ -203,7 +276,9 @@ func _on_integrity_decay():
 		return  # Don't decay if day is over
 	
 	var old_score = integrity_score
-	integrity_score = max(0.0, integrity_score - integrity_decay_rate)
+	var decay_loss = integrity_decay_rate
+	integrity_score = max(0.0, integrity_score - decay_loss)
+	integrity_decrements["decay"] += decay_loss
 	integrity_breakdown["base_score"] = integrity_score
 	_update_integrity_display()
 	
@@ -305,16 +380,48 @@ func _find_node_with_method(node: Node, method_name: String) -> Node:
 func add_article_result(rf_score: float, lr_score: float):
 	var avg_score = (rf_score + lr_score) / 2.0
 	articles_analyzed.append(avg_score)
+	# Track correct AI analysis increment (positive analysis results)
+	if avg_score > 0.5:  # Consider > 0.5 as correct/positive
+		var increment = avg_score * 0.5  # Scale the increment
+		integrity_increments["correct_ai_analysis"] += increment
 	_recalculate_integrity()
 	_update_integrity_display()
 
 func add_high_overlap_comparison():
 	high_overlap_comparisons += 1
-	integrity_score = min(10.0, integrity_score + 0.8)
+	var bonus = 0.8
+	integrity_score = min(10.0, integrity_score + bonus)
+	integrity_increments["correct_ai_analysis"] += bonus
 	_update_integrity_display()
 
-func add_integrity_score(increment: float):
-	integrity_score = clamp(integrity_score + increment, 0.0, 10.0)
+func add_integrity_score(increment: float, source: String = "unknown"):
+	"""Add integrity score with optional source tracking"""
+	if increment > 0:
+		integrity_score = min(10.0, integrity_score + increment)
+		# Track increments by source
+		match source:
+			"correct_ai_analysis":
+				integrity_increments["correct_ai_analysis"] += increment
+			"correct_messages":
+				integrity_increments["correct_messages"] += increment
+			"correct_articles_published":
+				integrity_increments["correct_articles_published"] += increment
+	elif increment < 0:
+		var loss = abs(increment)
+		integrity_score = max(0.0, integrity_score + increment)  # increment is negative
+		# Track decrements by source
+		match source:
+			"spam_emails":
+				integrity_decrements["spam_emails"] += loss
+			"incorrect_ai_analysis":
+				integrity_decrements["incorrect_ai_analysis"] += loss
+			"incorrect_articles_published":
+				integrity_decrements["incorrect_articles_published"] += loss
+			"decay":
+				integrity_decrements["decay"] += loss
+	else:
+		# increment is 0, no change
+		return
 	_update_integrity_display()
 
 func _recalculate_integrity():
@@ -338,5 +445,7 @@ func _recalculate_integrity():
 		"articles_analyzed_bonus": analyzed_bonus,
 		"high_overlap_bonus": overlap_bonus,
 		"articles_added_bonus": added_bonus,
-		"articles_removed_penalty": removed_penalty
+		"articles_removed_penalty": removed_penalty,
+		"integrity_increments": integrity_increments.duplicate(),
+		"integrity_decrements": integrity_decrements.duplicate()
 	}

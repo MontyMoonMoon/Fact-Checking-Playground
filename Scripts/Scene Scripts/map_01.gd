@@ -1,7 +1,6 @@
 extends CanvasLayer
 
 var master: Master
-#var sound_manager: SoundManager
 
 @export var main_container: MarginContainer
 
@@ -19,20 +18,23 @@ var master: Master
 @export_group("Laptop")
 @export var laptop: Laptop
 
+var is_paused: bool = false
+
 # ---------- PREFABS ----------
 @onready var settings: PackedScene = preload("res://Prefabs/Components/settings.tscn")
 
 # ---------- VARIABLES ----------
-var settings_instance: Control = null 
+var settings_instance: Control = null
+var input_blocked := false
+var settings_open := false
 var phone_open := false
-var input_blocked: bool = false
 var laptop_open := false
 
 # ---------- GAME SYSTEMS ----------
 var game_manager: GameManager = null
 var game_timer: GameTimer = null
 var lyra: Lyra = null
-var game_failed_popup: GameFailedPopup = null
+var day_end_panel: DayEndPanel = null
 
 # ---------- UI VISIBILITY ----------
 func set_ui(visibility: bool, target: int) -> void:
@@ -44,52 +46,122 @@ func set_ui(visibility: bool, target: int) -> void:
 
 # ---------- SETTINGS TOGGLE ----------
 func _on_settings_pressed() -> void:
+	if settings_open:
+		_on_settings_closed()
+		return
+	
+	if phone_open or laptop_open:
+		return
+		
 	master.sound_manager.play_sound("mouse_click")
+	
+	# Pause the game automatically when settings opens
+	if not is_paused:
+		toggle_pause()
+	
 	if settings_instance == null or not is_instance_valid(settings_instance):
 		settings_instance = settings.instantiate()
 		settings_instance.master = master
+		
+		master.sound_manager.play_sound("ui_click")
+		
+		settings_instance.connect("settings_closed", Callable(self, "_on_settings_closed"))
+		
 		# Pass game timer and manager references
 		if settings_instance.has_method("set_game_timer"):
 			settings_instance.set_game_timer(game_timer)
 		if settings_instance.has_method("set_game_manager"):
 			settings_instance.set_game_manager(game_manager)
+			
 		main_container.add_child(settings_instance)
 		settings_instance.set_anchors_preset(Control.PRESET_FULL_RECT)
-		settings_button.toggle_mode = true
 		
-		input_blocked = true;
-	else:
-		settings_instance.queue_free()
-		settings_instance = null
-		settings_button.toggle_mode = false
-		
-		input_blocked = false;
+	settings_button.toggle_mode = true
+	settings_open = true
 
-# ---------- PHONE ----------
+func _on_settings_closed() -> void:
+	if settings_instance and is_instance_valid(settings_instance):
+		settings_instance.queue_free()
+	settings_instance = null
+	settings_button.toggle_mode = false
+	settings_open = false
+	
+	# Resume the game automatically when settings closes
+	if is_paused:
+		toggle_pause()
+
+func toggle_pause() -> void:
+	is_paused = !is_paused
+	
+	# Pause/unpause the game tree
+	get_tree().paused = is_paused
+	
+	# Pause/unpause the timer
+	if game_timer:
+		if is_paused:
+			game_timer.pause_timer()
+		else:
+			game_timer.resume_timer()
+
+# ---------- PHONE TOGGLE ----------
 func _on_phone_button_pressed() -> void:
+	if phone_open:
+		_on_phone_closed()
+		return
+
+	if laptop_open or settings_open:
+		return
+
 	master.sound_manager.play_sound("ui_click")
-		
-	phone_open = true
-	input_blocked = true;
 	set_ui(false, 1)
 	set_ui(true, 2)
+	phone_open = true
 
 func _on_phone_closed(play_sound := true) -> void:
-	if play_sound == true:
+	if play_sound:
 		master.sound_manager.play_sound("ui_click")
-		
-	phone_open = false
-	input_blocked = false;
+
 	set_ui(true, 1)
 	set_ui(false, 2)
+	phone_open = false
+	
+# ---------- LAPTOP TOGGLE ----------
+func _on_laptop_toggled() -> void:
+	if laptop.laptop_screen_in:
+		# Opening laptop
+		if phone_open or settings_open:
+			laptop._on_exit_pressed()
+			return
+		laptop_open = true
+	else:
+		laptop_open = false
 
-# ---------- LAPTOP ----------
-func _on_laptop_toggled(is_open: bool) -> void:
-	laptop_open = is_open
+# ---------- TOGGLE MANAGER ---------
+func toggle_component(active_component: int) -> void:
+	match active_component:
+		1:
+			_on_settings_pressed()
+		2:
+			_on_phone_button_pressed()
+		3:
+			if laptop_open:
+				_on_laptop_toggled()  
+			else:
+				if phone_open or settings_open:
+					return
+				laptop._on_screen_pressed()
 
 # ----------- GODOT CALLBACKS ----------
 func _ready() -> void:
 	master = get_node("/root/Master")
+	
+	# Save current map when scene loads - detect from scene file path
+	var scene_path = get_tree().current_scene.scene_file_path
+	var scene_name = scene_path.get_file().get_basename() if scene_path else "map_01"
+	if scene_name in ["map_01", "map_02", "map_03"]:
+		DataManager.current_map = scene_name
+		DataManager.save_data()
+		print("[%s._ready] Saved current_map: %s" % [scene_name, scene_name])
 	
 	if master == null:
 		print("[WARN: map_1._ready] Master is still null. Calling members from this object may cause issues.")
@@ -100,6 +172,7 @@ func _ready() -> void:
 	
 	if laptop:
 		laptop.connect("laptop_toggled", Callable(self, "_on_laptop_toggled"))
+		
 		# Ensure laptop is visible (it should be visible by default)
 		laptop.visible = true
 		print("[map_01._ready] Laptop is visible: %s" % laptop.visible)
@@ -109,11 +182,12 @@ func _ready() -> void:
 	# Default UI on load
 	_on_phone_closed(false)
 	
-	# Find GameFailedPopup
-	_find_game_failed_popup()
+	# Find DayEndPanel
+	_find_day_end_panel()
 	
 	# Initialize game systems
 	_setup_game_systems()
+
 
 func _setup_game_systems():
 	# Check if this is a new game or loading a save
@@ -136,8 +210,8 @@ func _setup_game_systems():
 	game_timer = GameTimer.new()
 	game_timer.name = "GameTimer"
 	game_timer.time_limit = 300.0  # 5 minutes (300 seconds)
-	game_timer.article_spawn_interval_min = 35.0
-	game_timer.article_spawn_interval_max = 35.0
+	game_timer.article_spawn_interval_min = 15.0
+	game_timer.article_spawn_interval_max = 25.0
 	add_child(game_timer)
 	
 	# Connect timer to manager
@@ -203,15 +277,13 @@ func _setup_game_systems():
 				print("[map_01] Message app connected to notes app")
 			
 			# Connect message app to todo section (for saving tips)
-			var todo_section = phone.find_child("TodoSection", true, false)
-			if not todo_section:
-				todo_section = phone.find_child("Todo Section", true, false)
+			var todo_section = phone.find_child("To-do", true, false)
 			if not todo_section:
 				# Try finding it as a child of notes app
 				if notes_app:
-					todo_section = notes_app.find_child("TodoSection", true, false)
+					todo_section = notes_app.find_child("To-do", true, false)
 					if not todo_section:
-						todo_section = notes_app.find_child("Todo Section", true, false)
+						todo_section = notes_app.find_child("To-do", true, false)
 			
 			if todo_section and message_app.has_method("set_todo_section_ref"):
 				message_app.set_todo_section_ref(todo_section)
@@ -401,20 +473,71 @@ func _is_new_game() -> bool:
 	print("[map_01._is_new_game] Detected NEW GAME (default)")
 	return true
 
-func _find_game_failed_popup():
-	"""Find GameFailedPopup in the scene"""
+func _find_day_end_panel():
+	"""Find DayEndPanel in the scene"""
+	var found_node: Node = null
+	
+	# Method 1: Direct path from Contents
 	var contents = get_node_or_null("Contents")
 	if contents:
-		game_failed_popup = contents.get_node_or_null("GameFailedPopup")
+		found_node = contents.get_node_or_null("Day End Panel")
+		if not found_node:
+			found_node = contents.get_node_or_null("DayEndPanel")
 	
-	if not game_failed_popup:
-		game_failed_popup = find_child("GameFailedPopup", true, false)
+	# Method 2: Search by class name from scene root
+	if not found_node:
+		var scene_root = get_tree().current_scene
+		if scene_root:
+			for child in scene_root.get_children():
+				if child is DayEndPanel:
+					found_node = child
+					break
 	
-	if game_failed_popup:
-		print("[map_01] GameFailedPopup found")
-		game_failed_popup.visible = false
+	# Method 3: Recursive search
+	if not found_node:
+		found_node = find_child("Day End Panel", true, false)
+		if not found_node:
+			found_node = find_child("DayEndPanel", true, false)
+	
+	# Method 4: Search from Contents recursively
+	if not found_node and contents:
+		found_node = contents.find_child("Day End Panel", true, false)
+		if not found_node:
+			found_node = contents.find_child("DayEndPanel", true, false)
+	
+	# Cast to DayEndPanel if found
+	if found_node:
+		# Try multiple casting methods
+		if found_node is DayEndPanel:
+			day_end_panel = found_node as DayEndPanel
+		else:
+			# Check if it has the DayEndPanel script
+			var script = found_node.get_script()
+			if script:
+				var script_path = script.resource_path if script.resource_path else ""
+				if script_path.ends_with("day_end_panel.gd"):
+					# Force cast - the node should be a DayEndPanel even if type check fails
+					day_end_panel = found_node as DayEndPanel
+				else:
+					# Try to find the script in the node's children or check by name
+					if found_node.name == "Day End Panel" or found_node.name == "DayEndPanel":
+						# Assume it's the right node and cast anyway
+						day_end_panel = found_node as DayEndPanel
+		
+		if day_end_panel:
+			print("[map_01] DayEndPanel found at: %s" % day_end_panel.get_path())
+			day_end_panel.visible = false
+		else:
+			push_warning("[map_01] Found node but couldn't cast to DayEndPanel! Type: %s, Name: %s" % [str(found_node.get_class()), found_node.name])
 	else:
-		push_warning("[map_01] GameFailedPopup not found!")
+		# Debug: Print available children
+		if contents:
+			var children_names = []
+			for child in contents.get_children():
+				children_names.append(child.name)
+			push_warning("[map_01] DayEndPanel not found! Contents children: %s" % str(children_names))
+		else:
+			push_warning("[map_01] DayEndPanel not found! Contents node is null!")
 
 func _on_integrity_changed(new_score: float):
 	print("Integrity changed to: %.2f" % new_score)
@@ -422,45 +545,67 @@ func _on_integrity_changed(new_score: float):
 func _on_day_complete(final_score: float):
 	print("Day complete! Final integrity: %.2f" % final_score)
 	
-	if not game_failed_popup:
-		_find_game_failed_popup()
+	if not day_end_panel:
+		_find_day_end_panel()
 	
-	if game_failed_popup and game_manager:
-		var breakdown = game_manager.integrity_breakdown
+	# If still not found, try one more time with direct access
+	if not day_end_panel:
+		var contents = get_node_or_null("Contents")
+		if contents:
+			var found = contents.get_node_or_null("Day End Panel")
+			if found:
+				# Force cast since we know it should be DayEndPanel
+				day_end_panel = found as DayEndPanel
+				print("[map_01] DayEndPanel found on day complete at: %s" % day_end_panel.get_path())
+	
+	if day_end_panel and game_manager:
+		# Ensure breakdown includes tracked increments and decrements
+		var breakdown = game_manager.integrity_breakdown.duplicate(true)
+		
+		# Add integrity increments and decrements if not already present
+		if not breakdown.has("integrity_increments"):
+			breakdown["integrity_increments"] = game_manager.integrity_increments.duplicate()
+		if not breakdown.has("integrity_decrements"):
+			breakdown["integrity_decrements"] = game_manager.integrity_decrements.duplicate()
+		
 		var stats = {"final_score": final_score}
-		game_failed_popup.show_breakdown(breakdown, stats)
+		day_end_panel.show_breakdown(breakdown, stats)
 		get_tree().paused = true
 		print("[map_01] Showing day complete popup")
 
 func _on_game_over(reason: String):
 	print("Game Over: %s" % reason)
 	
-	if not game_failed_popup:
-		_find_game_failed_popup()
+	if not day_end_panel:
+		_find_day_end_panel()
 	
-	if game_failed_popup and game_manager:
-		var breakdown = game_manager.integrity_breakdown
+	if day_end_panel and game_manager:
+		# Ensure breakdown includes tracked increments and decrements
+		var breakdown = game_manager.integrity_breakdown.duplicate(true)
+		
+		# Add integrity increments and decrements if not already present
+		if not breakdown.has("integrity_increments"):
+			breakdown["integrity_increments"] = game_manager.integrity_increments.duplicate()
+		if not breakdown.has("integrity_decrements"):
+			breakdown["integrity_decrements"] = game_manager.integrity_decrements.duplicate()
+		
 		var stats = {"final_score": game_manager.integrity_score}
-		game_failed_popup.show_breakdown(breakdown, stats)
+		day_end_panel.show_breakdown(breakdown, stats)
 		get_tree().paused = true
 		print("[map_01] Showing game over popup")
 	
+var _p_key_pressed_last_frame: bool = false
+
 func _process(_delta: float) -> void:
-	if laptop_open:
-		return
-	
-	if input_blocked:
-		if phone_open and Input.is_action_just_pressed("phone"):
-			_on_phone_closed()
-		elif settings_instance and Input.is_action_just_pressed("settings"):
-			_on_settings_pressed()
-		return
-
 	if Input.is_action_just_pressed("settings"):
-		_on_settings_pressed()
-
+		toggle_component(1)
+	
 	if Input.is_action_just_pressed("phone"):
-		if phone_open:
-			_on_phone_closed()
-		else:
-			_on_phone_button_pressed()
+		toggle_component(2)
+	
+	# Debug: Press P to reduce 30 seconds from timer
+	var p_key_pressed = Input.is_key_pressed(KEY_P)
+	if p_key_pressed and not _p_key_pressed_last_frame:
+		if game_timer:
+			game_timer.reduce_time(30.0)
+	_p_key_pressed_last_frame = p_key_pressed

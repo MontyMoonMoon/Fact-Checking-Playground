@@ -142,7 +142,9 @@ func _refresh_list():
 		print("Trash Controller: Displaying empty message")
 		return
 	
-	# Display each trashed item
+	# Display each trashed item using trash.tscn component
+	var trash_prefab = preload("res://Prefabs/Components/trash.tscn")
+	
 	for i in range(trashed_infos.size()):
 		var info = trashed_infos[i]
 		if not info or typeof(info) != TYPE_DICTIONARY:
@@ -151,22 +153,31 @@ func _refresh_list():
 		
 		var item_title = info.get("title", "Untitled")
 		
-		# Create label directly (no individual restore button - use "Restore All" button instead)
-		var label = Label.new()
-		label.text = item_title
-		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		label.add_theme_color_override("font_color", Color.BLACK)
-		label.visible = true
-		label.custom_minimum_size = Vector2(0, 30)  # Ensure minimum height
+		# Create trash component instance instead of plain label
+		var trash_instance = trash_prefab.instantiate()
+		if trash_instance and trash_instance.has_method("_set_text"):
+			trash_instance._set_text(item_title)
+		elif trash_instance:
+			# Fallback: try to set text via display_text export
+			var display_text_node = trash_instance.get_node_or_null("Content/TextContent/VBoxContainer/Label")
+			if display_text_node and display_text_node is Label:
+				display_text_node.text = item_title
+		
+		# Ensure trash component fits properly and adheres to container
+		trash_instance.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		trash_instance.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		# Remove any vertical offset to adhere to container
+		var content_node = trash_instance.get_node_or_null("Content")
+		if content_node:
+			content_node.offset_top = 0.0
+			content_node.offset_bottom = 60.0
 		
 		# Ensure trash_list_container expands properly for layout
 		trash_list_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		trash_list_container.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		
-		trash_list_container.add_child(label)
-		print("Trash Controller: Successfully added item %d: %s (no individual restore button - use Restore All)" % [i, item_title])
+		trash_list_container.add_child(trash_instance)
+		print("Trash Controller: Successfully added item %d: %s (using trash.tscn component)" % [i, item_title])
 
 func _on_restore_item_pressed(info: Dictionary):
 	"""Restore a single item from trash"""

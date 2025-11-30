@@ -1,5 +1,5 @@
 {
-  "emails": [
+  "map_01": [
 	{
 	  "sender": "Entertainment Desk",
 	  "subject": "Breaking: Celebrity Scandal Rocks Entertainment Industry",
@@ -9,9 +9,21 @@
 		"article_text": "A beloved celebrity faces serious allegations that have sent shockwaves through the entertainment world. The story is dominating headlines across all major outlets.",
 		"tip_text": "Tip: Other newsrooms are rushing to publish without full verification. Cross-check all claims with original sources.",
 		"facts": [
-		  {"category": "Event", "value": "Celebrity scandal breaks", "source": "Article"},
-		  {"category": "Media Response", "value": "Story dominating headlines", "source": "Article"},
-		  {"category": "Verification", "value": "Other outlets rushing without verification", "source": "Tip"}
+		  {
+			"category": "Event",
+			"value": "Celebrity scandal breaks",
+			"source": "Article"
+		  },
+		  {
+			"category": "Media Response",
+			"value": "Story dominating headlines",
+			"source": "Article"
+		  },
+		  {
+			"category": "Verification",
+			"value": "Other outlets rushing without verification",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Neutral",
 		"integrity_score": 0.65
@@ -26,9 +38,21 @@
 		"article_text": "The celebrity's public statement contains a 4-hour gap that doesn't match their claimed schedule. Studio logs show conflicting information.",
 		"tip_text": "Tip: Request security footage from the studio—they initially agreed but now claim it's 'unavailable'.",
 		"facts": [
-		  {"category": "Timeline", "value": "4-hour gap in account", "source": "Article"},
-		  {"category": "Conflict", "value": "Studio logs contradict statement", "source": "Article"},
-		  {"category": "Evidence", "value": "Security footage now unavailable", "source": "Tip"}
+		  {
+			"category": "Timeline",
+			"value": "4-hour gap in account",
+			"source": "Article"
+		  },
+		  {
+			"category": "Conflict",
+			"value": "Studio logs contradict statement",
+			"source": "Article"
+		  },
+		  {
+			"category": "Evidence",
+			"value": "Security footage now unavailable",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Skeptical",
 		"integrity_score": 0.72
@@ -43,9 +67,21 @@
 		"article_text": "The celebrity's studio has released a carefully worded statement denying all allegations. Multiple outlets received identical wording simultaneously.",
 		"tip_text": "Tip: Check timestamps—all statements arrived within 2 minutes, suggesting coordinated PR strategy.",
 		"facts": [
-		  {"category": "Statement", "value": "Studio denies all allegations", "source": "Article"},
-		  {"category": "Distribution", "value": "Identical wording to multiple outlets", "source": "Article"},
-		  {"category": "Timing", "value": "All statements within 2 minutes", "source": "Tip"}
+		  {
+			"category": "Statement",
+			"value": "Studio denies all allegations",
+			"source": "Article"
+		  },
+		  {
+			"category": "Distribution",
+			"value": "Identical wording to multiple outlets",
+			"source": "Article"
+		  },
+		  {
+			"category": "Timing",
+			"value": "All statements within 2 minutes",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Neutral",
 		"integrity_score": 0.58
@@ -60,9 +96,21 @@
 		"article_text": "Scheduled coverage of downtown protests was pulled without explanation. The slot was filled with celebrity scandal updates instead.",
 		"tip_text": "Tip: Management email shows directive to 'prioritize entertainment news' came 30 minutes before the change.",
 		"facts": [
-		  {"category": "Event", "value": "Protest coverage removed", "source": "Article"},
-		  {"category": "Replacement", "value": "Celebrity scandal coverage added", "source": "Article"},
-		  {"category": "Directive", "value": "Management ordered entertainment priority", "source": "Tip"}
+		  {
+			"category": "Event",
+			"value": "Protest coverage removed",
+			"source": "Article"
+		  },
+		  {
+			"category": "Replacement",
+			"value": "Celebrity scandal coverage added",
+			"source": "Article"
+		  },
+		  {
+			"category": "Directive",
+			"value": "Management ordered entertainment priority",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Critical",
 		"integrity_score": 0.76
@@ -77,9 +125,21 @@
 		"article_text": "A critical report on worsening supply shortages in three regions was moved to page 8, while celebrity news fills the front page.",
 		"tip_text": "Tip: Editors were told the shortage story 'lacks public interest' despite urgent updates from field reporters.",
 		"facts": [
-		  {"category": "Issue", "value": "Supply shortages worsening", "source": "Article"},
-		  {"category": "Placement", "value": "Moved to page 8", "source": "Article"},
-		  {"category": "Editorial Decision", "value": "Deemed lacking public interest", "source": "Tip"}
+		  {
+			"category": "Issue",
+			"value": "Supply shortages worsening",
+			"source": "Article"
+		  },
+		  {
+			"category": "Placement",
+			"value": "Moved to page 8",
+			"source": "Article"
+		  },
+		  {
+			"category": "Editorial Decision",
+			"value": "Deemed lacking public interest",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Critical",
 		"integrity_score": 0.81
@@ -94,9 +154,21 @@
 		"article_text": "Key evidence mentioned in initial reports is now missing. Witness statements and security logs referenced earlier cannot be located.",
 		"tip_text": "Tip: Archive logs show the files were accessed and deleted by an account with admin privileges last night.",
 		"facts": [
-		  {"category": "Evidence", "value": "Witness statements missing", "source": "Article"},
-		  {"category": "Documents", "value": "Security logs cannot be located", "source": "Article"},
-		  {"category": "Access", "value": "Files deleted by admin account", "source": "Tip"}
+		  {
+			"category": "Evidence",
+			"value": "Witness statements missing",
+			"source": "Article"
+		  },
+		  {
+			"category": "Documents",
+			"value": "Security logs cannot be located",
+			"source": "Article"
+		  },
+		  {
+			"category": "Access",
+			"value": "Files deleted by admin account",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Investigative",
 		"integrity_score": 0.78
@@ -111,9 +183,21 @@
 		"article_text": "An exclusive interview with the celebrity was scheduled with only 2 hours notice. The interview was pre-recorded but presented as live.",
 		"tip_text": "Tip: Metadata shows the recording was made yesterday, contradicting the 'live' broadcast claim.",
 		"facts": [
-		  {"category": "Scheduling", "value": "Interview scheduled 2 hours prior", "source": "Article"},
-		  {"category": "Presentation", "value": "Pre-recorded but shown as live", "source": "Article"},
-		  {"category": "Metadata", "value": "Recording from yesterday", "source": "Tip"}
+		  {
+			"category": "Scheduling",
+			"value": "Interview scheduled 2 hours prior",
+			"source": "Article"
+		  },
+		  {
+			"category": "Presentation",
+			"value": "Pre-recorded but shown as live",
+			"source": "Article"
+		  },
+		  {
+			"category": "Metadata",
+			"value": "Recording from yesterday",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Neutral",
 		"integrity_score": 0.63
@@ -128,9 +212,21 @@
 		"article_text": "A fully fact-checked article about the celebrity scandal was modified overnight. Key contradictions and timeline issues were removed.",
 		"tip_text": "Tip: Version control shows edits from an account that hasn't been active in months. The author wasn't notified.",
 		"facts": [
-		  {"category": "Modification", "value": "Article changed overnight", "source": "Article"},
-		  {"category": "Removed Content", "value": "Contradictions and timeline issues cut", "source": "Article"},
-		  {"category": "Anomaly", "value": "Edit from inactive account", "source": "Tip"}
+		  {
+			"category": "Modification",
+			"value": "Article changed overnight",
+			"source": "Article"
+		  },
+		  {
+			"category": "Removed Content",
+			"value": "Contradictions and timeline issues cut",
+			"source": "Article"
+		  },
+		  {
+			"category": "Anomaly",
+			"value": "Edit from inactive account",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Concerned",
 		"integrity_score": 0.51
@@ -145,9 +241,21 @@
 		"article_text": "Analytics show the celebrity story has suspicious engagement patterns. Views spike at exact intervals, suggesting manipulation.",
 		"tip_text": "Tip: Server logs show lower actual traffic. The discrepancy matches when protest coverage was removed.",
 		"facts": [
-		  {"category": "Analytics", "value": "Suspicious engagement patterns", "source": "Article"},
-		  {"category": "Pattern", "value": "Views spike at exact intervals", "source": "Article"},
-		  {"category": "Correlation", "value": "Matches protest coverage removal", "source": "Tip"}
+		  {
+			"category": "Analytics",
+			"value": "Suspicious engagement patterns",
+			"source": "Article"
+		  },
+		  {
+			"category": "Pattern",
+			"value": "Views spike at exact intervals",
+			"source": "Article"
+		  },
+		  {
+			"category": "Correlation",
+			"value": "Matches protest coverage removal",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Neutral",
 		"integrity_score": 0.67
@@ -162,9 +270,21 @@
 		"article_text": "The studio's latest statement contradicts what they told us yesterday. They now deny having GPS records they previously confirmed existed.",
 		"tip_text": "Tip: Check email archives—yesterday's correspondence clearly shows them offering the GPS data.",
 		"facts": [
-		  {"category": "Contradiction", "value": "Studio denies GPS records", "source": "Article"},
-		  {"category": "Previous Claim", "value": "Studio confirmed GPS records yesterday", "source": "Article"},
-		  {"category": "Evidence", "value": "Email shows GPS data offer", "source": "Tip"}
+		  {
+			"category": "Contradiction",
+			"value": "Studio denies GPS records",
+			"source": "Article"
+		  },
+		  {
+			"category": "Previous Claim",
+			"value": "Studio confirmed GPS records yesterday",
+			"source": "Article"
+		  },
+		  {
+			"category": "Evidence",
+			"value": "Email shows GPS data offer",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Skeptical",
 		"integrity_score": 0.74
@@ -179,9 +299,21 @@
 		"article_text": "Three witness statements about the celebrity's whereabouts contain conflicting times. None align with the studio's official timeline.",
 		"tip_text": "Tip: One witness recanted their statement after receiving a call from an unknown number.",
 		"facts": [
-		  {"category": "Witnesses", "value": "Three conflicting statements", "source": "Article"},
-		  {"category": "Timeline", "value": "None match studio timeline", "source": "Article"},
-		  {"category": "Pressure", "value": "One witness recanted after call", "source": "Tip"}
+		  {
+			"category": "Witnesses",
+			"value": "Three conflicting statements",
+			"source": "Article"
+		  },
+		  {
+			"category": "Timeline",
+			"value": "None match studio timeline",
+			"source": "Article"
+		  },
+		  {
+			"category": "Pressure",
+			"value": "One witness recanted after call",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Investigative",
 		"integrity_score": 0.79
@@ -196,9 +328,21 @@
 		"article_text": "The studio has provided documentation proving the celebrity was at a charity event during the alleged incident. Multiple sources confirm attendance.",
 		"tip_text": "Tip: Verify the charity event actually occurred—some attendees claim it was cancelled last minute.",
 		"facts": [
-		  {"category": "Alibi", "value": "Celebrity at charity event", "source": "Article"},
-		  {"category": "Documentation", "value": "Studio provided proof", "source": "Article"},
-		  {"category": "Verification", "value": "Event may have been cancelled", "source": "Tip"}
+		  {
+			"category": "Alibi",
+			"value": "Celebrity at charity event",
+			"source": "Article"
+		  },
+		  {
+			"category": "Documentation",
+			"value": "Studio provided proof",
+			"source": "Article"
+		  },
+		  {
+			"category": "Verification",
+			"value": "Event may have been cancelled",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Pro-Celebrity",
 		"integrity_score": 0.55
@@ -213,9 +357,21 @@
 		"article_text": "Protest organizers claim major outlets are ignoring their event. They've documented multiple requests for coverage that went unanswered.",
 		"tip_text": "Tip: Our newsroom received three coverage requests this week. All were marked 'low priority' by management.",
 		"facts": [
-		  {"category": "Claim", "value": "Media ignoring protests", "source": "Article"},
-		  {"category": "Documentation", "value": "Multiple unanswered requests", "source": "Article"},
-		  {"category": "Internal", "value": "Requests marked low priority", "source": "Tip"}
+		  {
+			"category": "Claim",
+			"value": "Media ignoring protests",
+			"source": "Article"
+		  },
+		  {
+			"category": "Documentation",
+			"value": "Multiple unanswered requests",
+			"source": "Article"
+		  },
+		  {
+			"category": "Internal",
+			"value": "Requests marked low priority",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Critical",
 		"integrity_score": 0.82
@@ -230,9 +386,21 @@
 		"article_text": "Supply shortages have reached critical levels in five regions. Local officials are requesting emergency assistance but receiving no response.",
 		"tip_text": "Tip: Emergency requests were sent three days ago. No coverage has been approved despite urgency.",
 		"facts": [
-		  {"category": "Crisis", "value": "Shortages critical in five regions", "source": "Article"},
-		  {"category": "Response", "value": "Officials requesting emergency aid", "source": "Article"},
-		  {"category": "Coverage", "value": "No coverage approved for 3 days", "source": "Tip"}
+		  {
+			"category": "Crisis",
+			"value": "Shortages critical in five regions",
+			"source": "Article"
+		  },
+		  {
+			"category": "Response",
+			"value": "Officials requesting emergency aid",
+			"source": "Article"
+		  },
+		  {
+			"category": "Coverage",
+			"value": "No coverage approved for 3 days",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Critical",
 		"integrity_score": 0.85
@@ -247,9 +415,21 @@
 		"article_text": "Several newsrooms received identical talking points about the celebrity scandal from different PR firms. The wording matches exactly.",
 		"tip_text": "Tip: The PR firms share a parent company. This suggests coordinated narrative control across outlets.",
 		"facts": [
-		  {"category": "Distribution", "value": "Identical talking points to multiple outlets", "source": "Article"},
-		  {"category": "Source", "value": "Different PR firms sent same content", "source": "Article"},
-		  {"category": "Connection", "value": "PR firms share parent company", "source": "Tip"}
+		  {
+			"category": "Distribution",
+			"value": "Identical talking points to multiple outlets",
+			"source": "Article"
+		  },
+		  {
+			"category": "Source",
+			"value": "Different PR firms sent same content",
+			"source": "Article"
+		  },
+		  {
+			"category": "Connection",
+			"value": "PR firms share parent company",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Suspicious",
 		"integrity_score": 0.71
@@ -264,9 +444,21 @@
 		"article_text": "The security footage provided by the studio shows timestamps that don't match the building's clock system. The discrepancy is exactly 3 hours.",
 		"tip_text": "Tip: Building maintenance logs show the clock was never adjusted. The footage may have been edited.",
 		"facts": [
-		  {"category": "Anomaly", "value": "3-hour timestamp discrepancy", "source": "Article"},
-		  {"category": "System", "value": "Building clock never adjusted", "source": "Tip"},
-		  {"category": "Possibility", "value": "Footage may be edited", "source": "Tip"}
+		  {
+			"category": "Anomaly",
+			"value": "3-hour timestamp discrepancy",
+			"source": "Article"
+		  },
+		  {
+			"category": "System",
+			"value": "Building clock never adjusted",
+			"source": "Tip"
+		  },
+		  {
+			"category": "Possibility",
+			"value": "Footage may be edited",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Investigative",
 		"integrity_score": 0.77
@@ -281,9 +473,21 @@
 		"article_text": "The celebrity has a long history of charity work and community service. Multiple organizations have vouched for their character.",
 		"tip_text": "Tip: Two of the organizations mentioned have financial ties to the celebrity's studio.",
 		"facts": [
-		  {"category": "Character", "value": "Long charity history", "source": "Article"},
-		  {"category": "Support", "value": "Organizations vouch for character", "source": "Article"},
-		  {"category": "Conflict", "value": "Some organizations tied to studio", "source": "Tip"}
+		  {
+			"category": "Character",
+			"value": "Long charity history",
+			"source": "Article"
+		  },
+		  {
+			"category": "Support",
+			"value": "Organizations vouch for character",
+			"source": "Article"
+		  },
+		  {
+			"category": "Conflict",
+			"value": "Some organizations tied to studio",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Pro-Celebrity",
 		"integrity_score": 0.62
@@ -298,9 +502,21 @@
 		"article_text": "Notes from yesterday's editorial meeting show management pushing for 'positive celebrity coverage' and 'reduced focus on negative stories'.",
 		"tip_text": "Tip: The meeting occurred hours after the scandal broke. Several editors expressed concerns that were dismissed.",
 		"facts": [
-		  {"category": "Directive", "value": "Push positive celebrity coverage", "source": "Article"},
-		  {"category": "Instruction", "value": "Reduce negative story focus", "source": "Article"},
-		  {"category": "Timing", "value": "Meeting after scandal broke", "source": "Tip"}
+		  {
+			"category": "Directive",
+			"value": "Push positive celebrity coverage",
+			"source": "Article"
+		  },
+		  {
+			"category": "Instruction",
+			"value": "Reduce negative story focus",
+			"source": "Article"
+		  },
+		  {
+			"category": "Timing",
+			"value": "Meeting after scandal broke",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Concerned",
 		"integrity_score": 0.68
@@ -315,9 +531,21 @@
 		"article_text": "Analytics show traffic to supply shortage and protest coverage dropped 80% after celebrity scandal coverage began. The timing is suspicious.",
 		"tip_text": "Tip: Internal promotion of celebrity stories increased 300% while other stories received no promotion.",
 		"facts": [
-		  {"category": "Traffic", "value": "80% drop in important stories", "source": "Article"},
-		  {"category": "Timing", "value": "Drop coincides with scandal coverage", "source": "Article"},
-		  {"category": "Promotion", "value": "Celebrity stories promoted 300% more", "source": "Tip"}
+		  {
+			"category": "Traffic",
+			"value": "80% drop in important stories",
+			"source": "Article"
+		  },
+		  {
+			"category": "Timing",
+			"value": "Drop coincides with scandal coverage",
+			"source": "Article"
+		  },
+		  {
+			"category": "Promotion",
+			"value": "Celebrity stories promoted 300% more",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Neutral",
 		"integrity_score": 0.73
@@ -332,12 +560,24 @@
 		"article_text": "The studio's official timeline has the celebrity in three different locations at the same time. Mathematical impossibility suggests fabrication.",
 		"tip_text": "Tip: Cross-reference with flight records and hotel bookings—they don't support any of the three locations.",
 		"facts": [
-		  {"category": "Impossibility", "value": "Three locations simultaneously", "source": "Article"},
-		  {"category": "Evidence", "value": "Flight records don't match", "source": "Tip"},
-		  {"category": "Documents", "value": "Hotel bookings contradict timeline", "source": "Tip"}
+		  {
+			"category": "Impossibility",
+			"value": "Three locations simultaneously",
+			"source": "Article"
+		  },
+		  {
+			"category": "Evidence",
+			"value": "Flight records don't match",
+			"source": "Tip"
+		  },
+		  {
+			"category": "Documents",
+			"value": "Hotel bookings contradict timeline",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Skeptical",
-		"integrity_score": 0.80
+		"integrity_score": 0.8
 	  }
 	},
 	{
@@ -349,12 +589,24 @@
 		"article_text": "The celebrity has released a heartfelt public statement denying all allegations and asking for privacy during this difficult time.",
 		"tip_text": "Tip: The statement was written by a PR firm, not the celebrity. Compare with their previous public statements for style differences.",
 		"facts": [
-		  {"category": "Statement", "value": "Celebrity denies allegations", "source": "Article"},
-		  {"category": "Tone", "value": "Asks for privacy", "source": "Article"},
-		  {"category": "Authorship", "value": "Written by PR firm", "source": "Tip"}
+		  {
+			"category": "Statement",
+			"value": "Celebrity denies allegations",
+			"source": "Article"
+		  },
+		  {
+			"category": "Tone",
+			"value": "Asks for privacy",
+			"source": "Article"
+		  },
+		  {
+			"category": "Authorship",
+			"value": "Written by PR firm",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Neutral",
-		"integrity_score": 0.60
+		"integrity_score": 0.6
 	  }
 	},
 	{
@@ -366,9 +618,21 @@
 		"article_text": "Another request to cover the ongoing protests was denied. Management cited 'lack of newsworthy developments' despite 500+ attendees.",
 		"tip_text": "Tip: The same management approved three celebrity story updates today, each with fewer developments than the protest.",
 		"facts": [
-		  {"category": "Decision", "value": "Protest coverage denied", "source": "Article"},
-		  {"category": "Reason", "value": "Lack of newsworthy developments", "source": "Article"},
-		  {"category": "Contradiction", "value": "Celebrity stories approved with less news", "source": "Tip"}
+		  {
+			"category": "Decision",
+			"value": "Protest coverage denied",
+			"source": "Article"
+		  },
+		  {
+			"category": "Reason",
+			"value": "Lack of newsworthy developments",
+			"source": "Article"
+		  },
+		  {
+			"category": "Contradiction",
+			"value": "Celebrity stories approved with less news",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Critical",
 		"integrity_score": 0.79
@@ -383,9 +647,21 @@
 		"article_text": "Emergency supplies in affected regions are running critically low. Local authorities are warning of potential crisis if help doesn't arrive soon.",
 		"tip_text": "Tip: This story was submitted three days ago but keeps getting pushed back. Check why it's not being published.",
 		"facts": [
-		  {"category": "Crisis", "value": "Supplies running critically low", "source": "Article"},
-		  {"category": "Warning", "value": "Authorities warn of potential crisis", "source": "Article"},
-		  {"category": "Delay", "value": "Story delayed for 3 days", "source": "Tip"}
+		  {
+			"category": "Crisis",
+			"value": "Supplies running critically low",
+			"source": "Article"
+		  },
+		  {
+			"category": "Warning",
+			"value": "Authorities warn of potential crisis",
+			"source": "Article"
+		  },
+		  {
+			"category": "Delay",
+			"value": "Story delayed for 3 days",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Critical",
 		"integrity_score": 0.84
@@ -400,9 +676,21 @@
 		"article_text": "Material labeled 'exclusive embargo' was already published by another outlet hours before we received it. The studio claims this was a mistake.",
 		"tip_text": "Tip: Check publication timestamps—they're identical across outlets, suggesting coordinated release despite embargo claims.",
 		"facts": [
-		  {"category": "Embargo", "value": "Material labeled exclusive", "source": "Article"},
-		  {"category": "Conflict", "value": "Already published elsewhere", "source": "Article"},
-		  {"category": "Timing", "value": "Identical timestamps suggest coordination", "source": "Tip"}
+		  {
+			"category": "Embargo",
+			"value": "Material labeled exclusive",
+			"source": "Article"
+		  },
+		  {
+			"category": "Conflict",
+			"value": "Already published elsewhere",
+			"source": "Article"
+		  },
+		  {
+			"category": "Timing",
+			"value": "Identical timestamps suggest coordination",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Neutral",
 		"integrity_score": 0.56
@@ -417,9 +705,21 @@
 		"article_text": "A key witness has recanted their statement about the celebrity's whereabouts. They cited 'personal reasons' but sources indicate external pressure.",
 		"tip_text": "Tip: The witness received multiple calls from unknown numbers before recanting. Phone records might reveal the source.",
 		"facts": [
-		  {"category": "Witness", "value": "Key witness recanted statement", "source": "Article"},
-		  {"category": "Reason", "value": "Cited personal reasons", "source": "Article"},
-		  {"category": "Pressure", "value": "Calls from unknown numbers before recanting", "source": "Tip"}
+		  {
+			"category": "Witness",
+			"value": "Key witness recanted statement",
+			"source": "Article"
+		  },
+		  {
+			"category": "Reason",
+			"value": "Cited personal reasons",
+			"source": "Article"
+		  },
+		  {
+			"category": "Pressure",
+			"value": "Calls from unknown numbers before recanting",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Investigative",
 		"integrity_score": 0.75
@@ -434,9 +734,21 @@
 		"article_text": "Supporters are highlighting the celebrity's extensive history of philanthropy and positive impact on communities. Many are defending their character.",
 		"tip_text": "Tip: Many of these 'supporters' are verified PR accounts. Check their posting history for coordinated messaging.",
 		"facts": [
-		  {"category": "Support", "value": "Celebrity has philanthropy history", "source": "Article"},
-		  {"category": "Defense", "value": "Many defending character", "source": "Article"},
-		  {"category": "Source", "value": "Many supporters are PR accounts", "source": "Tip"}
+		  {
+			"category": "Support",
+			"value": "Celebrity has philanthropy history",
+			"source": "Article"
+		  },
+		  {
+			"category": "Defense",
+			"value": "Many defending character",
+			"source": "Article"
+		  },
+		  {
+			"category": "Source",
+			"value": "Many supporters are PR accounts",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Pro-Celebrity",
 		"integrity_score": 0.59
@@ -451,9 +763,21 @@
 		"article_text": "Headlines for three articles about the celebrity scandal were changed overnight. The new versions are more favorable to the celebrity.",
 		"tip_text": "Tip: Version history shows changes from an editor who wasn't assigned to these stories. No approval was requested.",
 		"facts": [
-		  {"category": "Change", "value": "Headlines changed overnight", "source": "Article"},
-		  {"category": "Tone", "value": "New versions more favorable", "source": "Article"},
-		  {"category": "Process", "value": "Changes from unassigned editor", "source": "Tip"}
+		  {
+			"category": "Change",
+			"value": "Headlines changed overnight",
+			"source": "Article"
+		  },
+		  {
+			"category": "Tone",
+			"value": "New versions more favorable",
+			"source": "Article"
+		  },
+		  {
+			"category": "Process",
+			"value": "Changes from unassigned editor",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Concerned",
 		"integrity_score": 0.64
@@ -468,12 +792,24 @@
 		"article_text": "Social media engagement on celebrity scandal posts shows identical patterns across multiple accounts. Bot activity is likely involved.",
 		"tip_text": "Tip: The bot accounts started appearing right after the scandal broke. They all promote the same narrative.",
 		"facts": [
-		  {"category": "Pattern", "value": "Identical engagement patterns", "source": "Article"},
-		  {"category": "Activity", "value": "Bot activity likely", "source": "Article"},
-		  {"category": "Timing", "value": "Bots appeared after scandal", "source": "Tip"}
+		  {
+			"category": "Pattern",
+			"value": "Identical engagement patterns",
+			"source": "Article"
+		  },
+		  {
+			"category": "Activity",
+			"value": "Bot activity likely",
+			"source": "Article"
+		  },
+		  {
+			"category": "Timing",
+			"value": "Bots appeared after scandal",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Neutral",
-		"integrity_score": 0.70
+		"integrity_score": 0.7
 	  }
 	},
 	{
@@ -485,9 +821,21 @@
 		"article_text": "The studio has refused requests to release phone records that could verify the celebrity's timeline. They claim privacy concerns.",
 		"tip_text": "Tip: The studio previously released phone records for a different case. Their refusal here is inconsistent.",
 		"facts": [
-		  {"category": "Refusal", "value": "Studio won't release phone records", "source": "Article"},
-		  {"category": "Reason", "value": "Cites privacy concerns", "source": "Article"},
-		  {"category": "Inconsistency", "value": "Studio released records before", "source": "Tip"}
+		  {
+			"category": "Refusal",
+			"value": "Studio won't release phone records",
+			"source": "Article"
+		  },
+		  {
+			"category": "Reason",
+			"value": "Cites privacy concerns",
+			"source": "Article"
+		  },
+		  {
+			"category": "Inconsistency",
+			"value": "Studio released records before",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Skeptical",
 		"integrity_score": 0.76
@@ -502,9 +850,21 @@
 		"article_text": "The celebrity's team has provided multiple character witnesses who attest to their good character and professionalism.",
 		"tip_text": "Tip: All character witnesses are current or former employees of the celebrity's studio. Check for financial incentives.",
 		"facts": [
-		  {"category": "Witnesses", "value": "Multiple character witnesses provided", "source": "Article"},
-		  {"category": "Testimony", "value": "Attest to good character", "source": "Article"},
-		  {"category": "Connection", "value": "All witnesses work for studio", "source": "Tip"}
+		  {
+			"category": "Witnesses",
+			"value": "Multiple character witnesses provided",
+			"source": "Article"
+		  },
+		  {
+			"category": "Testimony",
+			"value": "Attest to good character",
+			"source": "Article"
+		  },
+		  {
+			"category": "Connection",
+			"value": "All witnesses work for studio",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Pro-Celebrity",
 		"integrity_score": 0.61
@@ -519,9 +879,21 @@
 		"article_text": "Despite ongoing protests with 1000+ participants, no major outlet has provided coverage. Organizers are documenting the media blackout.",
 		"tip_text": "Tip: Our newsroom has received 12 coverage requests this week. All were denied or marked 'not newsworthy'.",
 		"facts": [
-		  {"category": "Event", "value": "Protests with 1000+ participants", "source": "Article"},
-		  {"category": "Coverage", "value": "No major outlet coverage", "source": "Article"},
-		  {"category": "Internal", "value": "12 requests denied this week", "source": "Tip"}
+		  {
+			"category": "Event",
+			"value": "Protests with 1000+ participants",
+			"source": "Article"
+		  },
+		  {
+			"category": "Coverage",
+			"value": "No major outlet coverage",
+			"source": "Article"
+		  },
+		  {
+			"category": "Internal",
+			"value": "12 requests denied this week",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Critical",
 		"integrity_score": 0.83
@@ -536,9 +908,21 @@
 		"article_text": "Three regions have declared states of emergency due to critical supply shortages. Federal response has been slow and inadequate.",
 		"tip_text": "Tip: This story was ready to publish five days ago but keeps getting delayed. Check editorial priorities.",
 		"facts": [
-		  {"category": "Crisis", "value": "Three regions declare emergency", "source": "Article"},
-		  {"category": "Response", "value": "Federal response slow", "source": "Article"},
-		  {"category": "Delay", "value": "Story delayed 5 days", "source": "Tip"}
+		  {
+			"category": "Crisis",
+			"value": "Three regions declare emergency",
+			"source": "Article"
+		  },
+		  {
+			"category": "Response",
+			"value": "Federal response slow",
+			"source": "Article"
+		  },
+		  {
+			"category": "Delay",
+			"value": "Story delayed 5 days",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Critical",
 		"integrity_score": 0.86
@@ -553,9 +937,21 @@
 		"article_text": "Multiple outlets are simultaneously publishing positive stories about the celebrity's charity work and community contributions.",
 		"tip_text": "Tip: All stories use similar wording and structure. This appears to be a coordinated PR campaign.",
 		"facts": [
-		  {"category": "Timing", "value": "Multiple outlets publish simultaneously", "source": "Article"},
-		  {"category": "Content", "value": "Positive charity stories", "source": "Article"},
-		  {"category": "Pattern", "value": "Similar wording suggests coordination", "source": "Tip"}
+		  {
+			"category": "Timing",
+			"value": "Multiple outlets publish simultaneously",
+			"source": "Article"
+		  },
+		  {
+			"category": "Content",
+			"value": "Positive charity stories",
+			"source": "Article"
+		  },
+		  {
+			"category": "Pattern",
+			"value": "Similar wording suggests coordination",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Neutral",
 		"integrity_score": 0.57
@@ -570,9 +966,21 @@
 		"article_text": "Key evidence in the celebrity case shows gaps in chain of custody. Documents were accessed by unauthorized personnel.",
 		"tip_text": "Tip: Access logs show documents were copied to external drives. The originals may have been tampered with.",
 		"facts": [
-		  {"category": "Chain", "value": "Gaps in custody chain", "source": "Article"},
-		  {"category": "Access", "value": "Unauthorized personnel accessed documents", "source": "Article"},
-		  {"category": "Risk", "value": "Documents copied to external drives", "source": "Tip"}
+		  {
+			"category": "Chain",
+			"value": "Gaps in custody chain",
+			"source": "Article"
+		  },
+		  {
+			"category": "Access",
+			"value": "Unauthorized personnel accessed documents",
+			"source": "Article"
+		  },
+		  {
+			"category": "Risk",
+			"value": "Documents copied to external drives",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Investigative",
 		"integrity_score": 0.78
@@ -587,9 +995,21 @@
 		"article_text": "The celebrity's legal team has issued a strong statement threatening legal action against outlets publishing 'false and defamatory' claims.",
 		"tip_text": "Tip: The legal team represents the studio, not just the celebrity. This suggests coordinated defense strategy.",
 		"facts": [
-		  {"category": "Threat", "value": "Legal action threatened", "source": "Article"},
-		  {"category": "Claim", "value": "Allegations called false and defamatory", "source": "Article"},
-		  {"category": "Connection", "value": "Legal team represents studio too", "source": "Tip"}
+		  {
+			"category": "Threat",
+			"value": "Legal action threatened",
+			"source": "Article"
+		  },
+		  {
+			"category": "Claim",
+			"value": "Allegations called false and defamatory",
+			"source": "Article"
+		  },
+		  {
+			"category": "Connection",
+			"value": "Legal team represents studio too",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Neutral",
 		"integrity_score": 0.64
@@ -604,9 +1024,21 @@
 		"article_text": "New editorial guidelines were posted overnight requiring 'extra verification' for stories that could damage public figures' reputations.",
 		"tip_text": "Tip: These guidelines weren't discussed in any editorial meeting. They appeared right after the scandal broke.",
 		"facts": [
-		  {"category": "Guidelines", "value": "New verification requirements", "source": "Article"},
-		  {"category": "Scope", "value": "Applies to public figure stories", "source": "Article"},
-		  {"category": "Process", "value": "Guidelines not discussed in meetings", "source": "Tip"}
+		  {
+			"category": "Guidelines",
+			"value": "New verification requirements",
+			"source": "Article"
+		  },
+		  {
+			"category": "Scope",
+			"value": "Applies to public figure stories",
+			"source": "Article"
+		  },
+		  {
+			"category": "Process",
+			"value": "Guidelines not discussed in meetings",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Concerned",
 		"integrity_score": 0.69
@@ -621,9 +1053,21 @@
 		"article_text": "Celebrity scandal stories are receiving 10x more internal promotion than other news. Analytics show artificial traffic inflation.",
 		"tip_text": "Tip: The promotion budget for celebrity stories increased 500% while important news received budget cuts.",
 		"facts": [
-		  {"category": "Promotion", "value": "10x more promotion for celebrity stories", "source": "Article"},
-		  {"category": "Traffic", "value": "Analytics show artificial inflation", "source": "Article"},
-		  {"category": "Budget", "value": "Celebrity promotion up 500%", "source": "Tip"}
+		  {
+			"category": "Promotion",
+			"value": "10x more promotion for celebrity stories",
+			"source": "Article"
+		  },
+		  {
+			"category": "Traffic",
+			"value": "Analytics show artificial inflation",
+			"source": "Article"
+		  },
+		  {
+			"category": "Budget",
+			"value": "Celebrity promotion up 500%",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Neutral",
 		"integrity_score": 0.72
@@ -638,9 +1082,21 @@
 		"article_text": "Financial records show the studio made large payments to several witnesses shortly before they changed their statements.",
 		"tip_text": "Tip: The payments were labeled as 'consulting fees' but the witnesses have no consulting history with the studio.",
 		"facts": [
-		  {"category": "Payments", "value": "Studio paid witnesses", "source": "Article"},
-		  {"category": "Timing", "value": "Payments before statement changes", "source": "Article"},
-		  {"category": "Label", "value": "Labeled as consulting fees", "source": "Tip"}
+		  {
+			"category": "Payments",
+			"value": "Studio paid witnesses",
+			"source": "Article"
+		  },
+		  {
+			"category": "Timing",
+			"value": "Payments before statement changes",
+			"source": "Article"
+		  },
+		  {
+			"category": "Label",
+			"value": "Labeled as consulting fees",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Investigative",
 		"integrity_score": 0.81
@@ -655,9 +1111,21 @@
 		"article_text": "Thousands of supporters are rallying online to defend the celebrity, sharing positive stories and questioning the allegations.",
 		"tip_text": "Tip: Analysis shows many accounts are newly created or have coordinated posting patterns. Verify organic support.",
 		"facts": [
-		  {"category": "Support", "value": "Thousands defending celebrity", "source": "Article"},
-		  {"category": "Activity", "value": "Sharing positive stories", "source": "Article"},
-		  {"category": "Verification", "value": "Many accounts are new or coordinated", "source": "Tip"}
+		  {
+			"category": "Support",
+			"value": "Thousands defending celebrity",
+			"source": "Article"
+		  },
+		  {
+			"category": "Activity",
+			"value": "Sharing positive stories",
+			"source": "Article"
+		  },
+		  {
+			"category": "Verification",
+			"value": "Many accounts are new or coordinated",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Pro-Celebrity",
 		"integrity_score": 0.58
@@ -672,12 +1140,24 @@
 		"article_text": "All requests to cover the protests have been ignored or denied. Organizers are now documenting what they call a 'media conspiracy'.",
 		"tip_text": "Tip: Management has a standing order to 'prioritize entertainment content' over social issues. This was implemented last week.",
 		"facts": [
-		  {"category": "Response", "value": "All coverage requests denied", "source": "Article"},
-		  {"category": "Claim", "value": "Organizers call it conspiracy", "source": "Article"},
-		  {"category": "Policy", "value": "Standing order to prioritize entertainment", "source": "Tip"}
+		  {
+			"category": "Response",
+			"value": "All coverage requests denied",
+			"source": "Article"
+		  },
+		  {
+			"category": "Claim",
+			"value": "Organizers call it conspiracy",
+			"source": "Article"
+		  },
+		  {
+			"category": "Policy",
+			"value": "Standing order to prioritize entertainment",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Critical",
-		"integrity_score": 0.80
+		"integrity_score": 0.8
 	  }
 	},
 	{
@@ -689,9 +1169,21 @@
 		"article_text": "The supply shortage crisis has reached a breaking point with hospitals and emergency services reporting critical shortages.",
 		"tip_text": "Tip: This story has been ready for a week. Each day it's delayed, the crisis worsens. Check why it's not being published.",
 		"facts": [
-		  {"category": "Crisis", "value": "Shortages at breaking point", "source": "Article"},
-		  {"category": "Impact", "value": "Hospitals and emergency services affected", "source": "Article"},
-		  {"category": "Delay", "value": "Story delayed for a week", "source": "Tip"}
+		  {
+			"category": "Crisis",
+			"value": "Shortages at breaking point",
+			"source": "Article"
+		  },
+		  {
+			"category": "Impact",
+			"value": "Hospitals and emergency services affected",
+			"source": "Article"
+		  },
+		  {
+			"category": "Delay",
+			"value": "Story delayed for a week",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Critical",
 		"integrity_score": 0.87
@@ -706,9 +1198,21 @@
 		"article_text": "The studio is offering an exclusive interview with the celebrity, but only if we agree to certain editorial conditions and preview questions.",
 		"tip_text": "Tip: The conditions include not asking about timeline discrepancies or missing evidence. This violates journalistic ethics.",
 		"facts": [
-		  {"category": "Offer", "value": "Exclusive interview offered", "source": "Article"},
-		  {"category": "Condition", "value": "Editorial conditions required", "source": "Article"},
-		  {"category": "Restriction", "value": "Cannot ask about timeline or evidence", "source": "Tip"}
+		  {
+			"category": "Offer",
+			"value": "Exclusive interview offered",
+			"source": "Article"
+		  },
+		  {
+			"category": "Condition",
+			"value": "Editorial conditions required",
+			"source": "Article"
+		  },
+		  {
+			"category": "Restriction",
+			"value": "Cannot ask about timeline or evidence",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Neutral",
 		"integrity_score": 0.66
@@ -723,9 +1227,21 @@
 		"article_text": "Five independent sources have provided information that contradicts the studio's official timeline. None of the sources have financial ties to the case.",
 		"tip_text": "Tip: All five sources are willing to go on record, but the studio has threatened legal action against them.",
 		"facts": [
-		  {"category": "Sources", "value": "Five independent sources contradict timeline", "source": "Article"},
-		  {"category": "Independence", "value": "No financial ties to case", "source": "Article"},
-		  {"category": "Pressure", "value": "Studio threatened sources legally", "source": "Tip"}
+		  {
+			"category": "Sources",
+			"value": "Five independent sources contradict timeline",
+			"source": "Article"
+		  },
+		  {
+			"category": "Independence",
+			"value": "No financial ties to case",
+			"source": "Article"
+		  },
+		  {
+			"category": "Pressure",
+			"value": "Studio threatened sources legally",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Investigative",
 		"integrity_score": 0.79
@@ -740,12 +1256,24 @@
 		"article_text": "Supporters are emphasizing the celebrity's long and successful career, pointing to numerous awards and positive industry relationships.",
 		"tip_text": "Tip: Many of the 'supporters' posting these messages are verified PR accounts with ties to the studio's marketing department.",
 		"facts": [
-		  {"category": "Defense", "value": "Career achievements highlighted", "source": "Article"},
-		  {"category": "Evidence", "value": "Awards and industry relationships cited", "source": "Article"},
-		  {"category": "Source", "value": "Many supporters are PR accounts", "source": "Tip"}
+		  {
+			"category": "Defense",
+			"value": "Career achievements highlighted",
+			"source": "Article"
+		  },
+		  {
+			"category": "Evidence",
+			"value": "Awards and industry relationships cited",
+			"source": "Article"
+		  },
+		  {
+			"category": "Source",
+			"value": "Many supporters are PR accounts",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Pro-Celebrity",
-		"integrity_score": 0.60
+		"integrity_score": 0.6
 	  }
 	},
 	{
@@ -757,12 +1285,24 @@
 		"article_text": "The article approval process was changed to require management sign-off on any story that could 'negatively impact public figures'.",
 		"tip_text": "Tip: This change was implemented without discussion and applies retroactively to stories already in progress.",
 		"facts": [
-		  {"category": "Change", "value": "Approval process modified", "source": "Article"},
-		  {"category": "Requirement", "value": "Management sign-off needed", "source": "Article"},
-		  {"category": "Scope", "value": "Applies retroactively", "source": "Tip"}
+		  {
+			"category": "Change",
+			"value": "Approval process modified",
+			"source": "Article"
+		  },
+		  {
+			"category": "Requirement",
+			"value": "Management sign-off needed",
+			"source": "Article"
+		  },
+		  {
+			"category": "Scope",
+			"value": "Applies retroactively",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Concerned",
-		"integrity_score": 0.70
+		"integrity_score": 0.7
 	  }
 	},
 	{
@@ -774,9 +1314,21 @@
 		"article_text": "Traffic patterns for celebrity stories show artificial spikes at exact intervals. This suggests automated promotion or bot activity.",
 		"tip_text": "Tip: The spikes coincide with when important news stories were scheduled to be promoted but weren't.",
 		"facts": [
-		  {"category": "Pattern", "value": "Artificial spikes at intervals", "source": "Article"},
-		  {"category": "Likely Cause", "value": "Automated promotion or bots", "source": "Article"},
-		  {"category": "Timing", "value": "Spikes match missed promotions", "source": "Tip"}
+		  {
+			"category": "Pattern",
+			"value": "Artificial spikes at intervals",
+			"source": "Article"
+		  },
+		  {
+			"category": "Likely Cause",
+			"value": "Automated promotion or bots",
+			"source": "Article"
+		  },
+		  {
+			"category": "Timing",
+			"value": "Spikes match missed promotions",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Neutral",
 		"integrity_score": 0.71
@@ -791,9 +1343,21 @@
 		"article_text": "The studio's provided evidence shows significant gaps in documentation. Key timestamps and locations cannot be verified independently.",
 		"tip_text": "Tip: When asked for verification, the studio provided different documents that contradict their original evidence.",
 		"facts": [
-		  {"category": "Gaps", "value": "Significant documentation gaps", "source": "Article"},
-		  {"category": "Verification", "value": "Cannot verify independently", "source": "Article"},
-		  {"category": "Contradiction", "value": "New documents contradict originals", "source": "Tip"}
+		  {
+			"category": "Gaps",
+			"value": "Significant documentation gaps",
+			"source": "Article"
+		  },
+		  {
+			"category": "Verification",
+			"value": "Cannot verify independently",
+			"source": "Article"
+		  },
+		  {
+			"category": "Contradiction",
+			"value": "New documents contradict originals",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Skeptical",
 		"integrity_score": 0.77
@@ -808,9 +1372,21 @@
 		"article_text": "The celebrity's team has released statements from industry colleagues praising their character and questioning the timing of allegations.",
 		"tip_text": "Tip: Many of these colleagues have upcoming projects with the celebrity's studio. Check for financial incentives.",
 		"facts": [
-		  {"category": "Support", "value": "Industry colleagues defend celebrity", "source": "Article"},
-		  {"category": "Question", "value": "Colleagues question timing", "source": "Article"},
-		  {"category": "Connection", "value": "Many have studio projects", "source": "Tip"}
+		  {
+			"category": "Support",
+			"value": "Industry colleagues defend celebrity",
+			"source": "Article"
+		  },
+		  {
+			"category": "Question",
+			"value": "Colleagues question timing",
+			"source": "Article"
+		  },
+		  {
+			"category": "Connection",
+			"value": "Many have studio projects",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Pro-Celebrity",
 		"integrity_score": 0.61
@@ -825,9 +1401,21 @@
 		"article_text": "Protest organizers have compiled a detailed report documenting how major media outlets have completely ignored their ongoing demonstrations.",
 		"tip_text": "Tip: The report shows our newsroom received 20+ coverage requests, all denied. Compare with celebrity story approvals.",
 		"facts": [
-		  {"category": "Documentation", "value": "Report on media silence", "source": "Article"},
-		  {"category": "Finding", "value": "Major outlets ignoring protests", "source": "Article"},
-		  {"category": "Internal", "value": "20+ requests denied", "source": "Tip"}
+		  {
+			"category": "Documentation",
+			"value": "Report on media silence",
+			"source": "Article"
+		  },
+		  {
+			"category": "Finding",
+			"value": "Major outlets ignoring protests",
+			"source": "Article"
+		  },
+		  {
+			"category": "Internal",
+			"value": "20+ requests denied",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Critical",
 		"integrity_score": 0.84
@@ -842,9 +1430,21 @@
 		"article_text": "Five regions have now declared states of emergency due to supply shortages. The crisis is escalating with no media coverage.",
 		"tip_text": "Tip: This is the most urgent story we have, yet it keeps getting delayed. Check editorial priorities and management directives.",
 		"facts": [
-		  {"category": "Crisis", "value": "Five regions in emergency", "source": "Article"},
-		  {"category": "Escalation", "value": "Crisis worsening", "source": "Article"},
-		  {"category": "Coverage", "value": "No media coverage despite urgency", "source": "Tip"}
+		  {
+			"category": "Crisis",
+			"value": "Five regions in emergency",
+			"source": "Article"
+		  },
+		  {
+			"category": "Escalation",
+			"value": "Crisis worsening",
+			"source": "Article"
+		  },
+		  {
+			"category": "Coverage",
+			"value": "No media coverage despite urgency",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Critical",
 		"integrity_score": 0.88
@@ -859,12 +1459,2348 @@
 		"article_text": "Analysis of recent coverage shows a coordinated narrative control effort. Multiple outlets are using identical framing and talking points.",
 		"tip_text": "Tip: The coordination extends beyond just the celebrity story—it's affecting how other news is being covered or ignored.",
 		"facts": [
-		  {"category": "Pattern", "value": "Coordinated narrative control", "source": "Article"},
-		  {"category": "Evidence", "value": "Identical framing across outlets", "source": "Article"},
-		  {"category": "Scope", "value": "Affects other news coverage", "source": "Tip"}
+		  {
+			"category": "Pattern",
+			"value": "Coordinated narrative control",
+			"source": "Article"
+		  },
+		  {
+			"category": "Evidence",
+			"value": "Identical framing across outlets",
+			"source": "Article"
+		  },
+		  {
+			"category": "Scope",
+			"value": "Affects other news coverage",
+			"source": "Tip"
+		  }
 		],
 		"stance": "Suspicious",
 		"integrity_score": 0.73
+	  }
+	}
+  ],
+  "map_02": [
+	{
+	  "sender": "Information Ministry Liaison",
+	  "subject": "Political Story Requires Pre-Approval",
+	  "content": "Your article on Senate proceedings has been flagged for review. The Information Ministry requires approval before publication. Please submit the draft for clearance.",
+	  "timestamp": "9:15",
+	  "news_data": {
+		"article_text": "Your article on Senate proceedings has been flagged for review. The Information Ministry requires approval before publication. Please submit the draft for clearance.",
+		"tip_text": "Tip: This is the third article this week requiring 'pre-approval'. Previous submissions were delayed for days.",
+		"facts": [
+		  {
+			"category": "Requirement",
+			"value": "Pre-approval needed for political stories",
+			"source": "Article"
+		  },
+		  {
+			"category": "Process",
+			"value": "Information Ministry review required",
+			"source": "Article"
+		  },
+		  {
+			"category": "Pattern",
+			"value": "Third article flagged this week",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Neutral",
+		"integrity_score": 0.65
+	  }
+	},
+	{
+	  "sender": "Information Ministry",
+	  "subject": "Article Requires Additional Verification",
+	  "content": "Your submitted article requires additional verification from official sources. Please provide contact information for all sources mentioned in the piece.",
+	  "timestamp": "10:18",
+	  "news_data": {
+		"article_text": "Your submitted article requires additional verification from official sources. Please provide contact information for all sources mentioned in the piece.",
+		"tip_text": "Tip: This request violates journalistic protection of sources. They're asking us to expose confidential contacts.",
+		"facts": [
+		  {
+			"category": "Request",
+			"value": "Additional verification required",
+			"source": "Article"
+		  },
+		  {
+			"category": "Requirement",
+			"value": "Must provide source contact information",
+			"source": "Article"
+		  },
+		  {
+			"category": "Ethics",
+			"value": "Violates source protection",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Critical",
+		"integrity_score": 0.73
+	  }
+	},
+	{
+	  "sender": "Senior Editor",
+	  "subject": "Information Ministry Rejects Article",
+	  "content": "The Information Ministry has rejected our article on the Senate debate. They cited 'incomplete information' and requested we wait for official statements.",
+	  "timestamp": "11:21",
+	  "news_data": {
+		"article_text": "The Information Ministry has rejected our article on the Senate debate. They cited 'incomplete information' and requested we wait for official statements.",
+		"tip_text": "Tip: The article was fully fact-checked. The rejection came hours after SyndiNet published a similar story with different framing.",
+		"facts": [
+		  {
+			"category": "Rejection",
+			"value": "Information Ministry rejected article",
+			"source": "Article"
+		  },
+		  {
+			"category": "Reason",
+			"value": "Cited incomplete information",
+			"source": "Article"
+		  },
+		  {
+			"category": "Timing",
+			"value": "Rejection after SyndiNet publication",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Concerned",
+		"integrity_score": 0.68
+	  }
+	},
+	{
+	  "sender": "Investigative Reporter",
+	  "subject": "Leaked Senate Files Surface",
+	  "content": "Anonymous sources have leaked Senate files showing potential corruption. Some documents appear authentic, others may be forged. SyndiNet is rushing to publish their version.",
+	  "timestamp": "12:24",
+	  "news_data": {
+		"article_text": "Anonymous sources have leaked Senate files showing potential corruption. Some documents appear authentic, others may be forged. SyndiNet is rushing to publish their version.",
+		"tip_text": "Tip: The leaked files arrived from an encrypted source. Cross-reference with official records to verify authenticity.",
+		"facts": [
+		  {
+			"category": "Leak",
+			"value": "Senate files leaked anonymously",
+			"source": "Article"
+		  },
+		  {
+			"category": "Authenticity",
+			"value": "Some files may be forged",
+			"source": "Article"
+		  },
+		  {
+			"category": "Competition",
+			"value": "SyndiNet rushing to publish",
+			"source": "Article"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.75
+	  }
+	},
+	{
+	  "sender": "Document Analyst",
+	  "subject": "Senate Files Show Inconsistencies",
+	  "content": "Analysis of leaked Senate files reveals inconsistencies in formatting and metadata. Some documents appear authentic, others show signs of tampering or forgery.",
+	  "timestamp": "13:27",
+	  "news_data": {
+		"article_text": "Analysis of leaked Senate files reveals inconsistencies in formatting and metadata. Some documents appear authentic, others show signs of tampering or forgery.",
+		"tip_text": "Tip: The forged documents focus on specific senators. The authentic ones point to different individuals. This suggests selective manipulation.",
+		"facts": [
+		  {
+			"category": "Analysis",
+			"value": "Files show inconsistencies",
+			"source": "Article"
+		  },
+		  {
+			"category": "Authenticity",
+			"value": "Some authentic, some forged",
+			"source": "Article"
+		  },
+		  {
+			"category": "Pattern",
+			"value": "Forged documents target specific senators",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.76
+	  }
+	},
+	{
+	  "sender": "Whistleblower Contact",
+	  "subject": "More Files Coming - Stay Safe",
+	  "content": "Additional Senate files will be sent soon. Be careful—they're watching. Some files are real, some are traps. Verify everything before publishing.",
+	  "timestamp": "14:30",
+	  "news_data": {
+		"article_text": "Additional Senate files will be sent soon. Be careful—they're watching. Some files are real, some are traps. Verify everything before publishing.",
+		"tip_text": "Tip: This contact has been reliable before, but the warning about traps is new. Proceed with extreme caution.",
+		"facts": [
+		  {
+			"category": "Promise",
+			"value": "More files coming",
+			"source": "Article"
+		  },
+		  {
+			"category": "Warning",
+			"value": "They're watching",
+			"source": "Article"
+		  },
+		  {
+			"category": "Caution",
+			"value": "Some files may be traps",
+			"source": "Article"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.77
+	  }
+	},
+	{
+	  "sender": "SyndiNet Monitor",
+	  "subject": "SyndiNet Publishes Twisted Version",
+	  "content": "SyndiNet has published a heavily edited version of the Senate leak story. They've removed key context and added speculation that contradicts our findings.",
+	  "timestamp": "15:33",
+	  "news_data": {
+		"article_text": "SyndiNet has published a heavily edited version of the Senate leak story. They've removed key context and added speculation that contradicts our findings.",
+		"tip_text": "Tip: Their version appeared within hours of receiving the leaks. Compare timestamps—they may have had advance access.",
+		"facts": [
+		  {
+			"category": "Publication",
+			"value": "SyndiNet published edited version",
+			"source": "Article"
+		  },
+		  {
+			"category": "Changes",
+			"value": "Removed context, added speculation",
+			"source": "Article"
+		  },
+		  {
+			"category": "Timing",
+			"value": "Published within hours of leak",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Critical",
+		"integrity_score": 0.72
+	  }
+	},
+	{
+	  "sender": "Competitive Intelligence",
+	  "subject": "SyndiNet Gets Leaks First",
+	  "content": "SyndiNet consistently receives leaked documents before we do. Their articles on Senate corruption appeared 6 hours before our sources received the same files.",
+	  "timestamp": "16:36",
+	  "news_data": {
+		"article_text": "SyndiNet consistently receives leaked documents before we do. Their articles on Senate corruption appeared 6 hours before our sources received the same files.",
+		"tip_text": "Tip: This pattern suggests they have inside connections or are being fed information to control the narrative.",
+		"facts": [
+		  {
+			"category": "Pattern",
+			"value": "SyndiNet gets leaks first",
+			"source": "Article"
+		  },
+		  {
+			"category": "Timing",
+			"value": "6 hours ahead of our sources",
+			"source": "Article"
+		  },
+		  {
+			"category": "Implication",
+			"value": "Possible inside connections",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Suspicious",
+		"integrity_score": 0.74
+	  }
+	},
+	{
+	  "sender": "Field Correspondent",
+	  "subject": "Source Vanished After Contact",
+	  "content": "A key source who provided information about Senate corruption has stopped responding. Their phone is disconnected and their office claims they're 'unavailable'.",
+	  "timestamp": "17:39",
+	  "news_data": {
+		"article_text": "A key source who provided information about Senate corruption has stopped responding. Their phone is disconnected and their office claims they're 'unavailable'.",
+		"tip_text": "Tip: The source contacted us three days ago. They mentioned being 'watched' before going silent.",
+		"facts": [
+		  {
+			"category": "Source",
+			"value": "Key source stopped responding",
+			"source": "Article"
+		  },
+		  {
+			"category": "Status",
+			"value": "Phone disconnected, office claims unavailable",
+			"source": "Article"
+		  },
+		  {
+			"category": "Warning",
+			"value": "Source mentioned being watched",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.78
+	  }
+	},
+	{
+	  "sender": "Investigative Reporter",
+	  "subject": "Multiple Sources Going Silent",
+	  "content": "Three sources working on the Senate corruption story have stopped responding. All mentioned feeling unsafe before disappearing. This is concerning.",
+	  "timestamp": "18:42",
+	  "news_data": {
+		"article_text": "Three sources working on the Senate corruption story have stopped responding. All mentioned feeling unsafe before disappearing. This is concerning.",
+		"tip_text": "Tip: The sources vanished within 48 hours of each other. All were working on different aspects of the same story.",
+		"facts": [
+		  {
+			"category": "Disappearance",
+			"value": "Three sources went silent",
+			"source": "Article"
+		  },
+		  {
+			"category": "Warning",
+			"value": "All mentioned feeling unsafe",
+			"source": "Article"
+		  },
+		  {
+			"category": "Timing",
+			"value": "All vanished within 48 hours",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.8
+	  }
+	},
+	{
+	  "sender": "Political Desk",
+	  "subject": "Staged Debate Evidence Found",
+	  "content": "Evidence suggests recent Senate debates were staged. Transcripts show pre-written responses and coordinated talking points that don't match the supposed spontaneity.",
+	  "timestamp": "19:45",
+	  "news_data": {
+		"article_text": "Evidence suggests recent Senate debates were staged. Transcripts show pre-written responses and coordinated talking points that don't match the supposed spontaneity.",
+		"tip_text": "Tip: The transcripts were leaked separately from the corruption files. Cross-reference to see if they're connected.",
+		"facts": [
+		  {
+			"category": "Evidence",
+			"value": "Debates appear staged",
+			"source": "Article"
+		  },
+		  {
+			"category": "Details",
+			"value": "Pre-written responses found",
+			"source": "Article"
+		  },
+		  {
+			"category": "Connection",
+			"value": "Transcripts leaked separately",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.79
+	  }
+	},
+	{
+	  "sender": "Parliamentary Reporter",
+	  "subject": "Senate Debate Scripts Discovered",
+	  "content": "Leaked documents reveal Senate debate scripts prepared in advance. Senators appear to be following predetermined talking points rather than engaging in genuine discussion.",
+	  "timestamp": "20:48",
+	  "news_data": {
+		"article_text": "Leaked documents reveal Senate debate scripts prepared in advance. Senators appear to be following predetermined talking points rather than engaging in genuine discussion.",
+		"tip_text": "Tip: The scripts match word-for-word with what was said during the debates. This proves the debates were orchestrated.",
+		"facts": [
+		  {
+			"category": "Discovery",
+			"value": "Debate scripts found",
+			"source": "Article"
+		  },
+		  {
+			"category": "Evidence",
+			"value": "Predetermined talking points",
+			"source": "Article"
+		  },
+		  {
+			"category": "Proof",
+			"value": "Scripts match debates word-for-word",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.81
+	  }
+	},
+	{
+	  "sender": "Newsroom Security",
+	  "subject": "Access Restrictions Implemented",
+	  "content": "New security protocols restrict access to sensitive files. Political stories now require multiple approvals and cannot be accessed after hours.",
+	  "timestamp": "21:51",
+	  "news_data": {
+		"article_text": "New security protocols restrict access to sensitive files. Political stories now require multiple approvals and cannot be accessed after hours.",
+		"tip_text": "Tip: These restrictions were implemented the day after the Senate leaks surfaced. Coincidence?",
+		"facts": [
+		  {
+			"category": "Restriction",
+			"value": "New security protocols implemented",
+			"source": "Article"
+		  },
+		  {
+			"category": "Requirement",
+			"value": "Multiple approvals needed for political stories",
+			"source": "Article"
+		  },
+		  {
+			"category": "Timing",
+			"value": "Restrictions after Senate leaks",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Concerned",
+		"integrity_score": 0.7
+	  }
+	},
+	{
+	  "sender": "IT Department",
+	  "subject": "Political Files Require Special Access",
+	  "content": "Political story files now require special access credentials. Only approved editors can view or modify articles related to government or Senate matters.",
+	  "timestamp": "22:54",
+	  "news_data": {
+		"article_text": "Political story files now require special access credentials. Only approved editors can view or modify articles related to government or Senate matters.",
+		"tip_text": "Tip: The 'approved editors' list was created by management, not the editorial board. Several senior reporters were excluded.",
+		"facts": [
+		  {
+			"category": "Requirement",
+			"value": "Special access needed for political files",
+			"source": "Article"
+		  },
+		  {
+			"category": "Restriction",
+			"value": "Only approved editors can access",
+			"source": "Article"
+		  },
+		  {
+			"category": "Process",
+			"value": "List created by management, not editorial board",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Concerned",
+		"integrity_score": 0.71
+	  }
+	},
+	{
+	  "sender": "Senior Reporter",
+	  "subject": "Newsroom Trust Fading",
+	  "content": "Internal trust in the newsroom is eroding. Sources are becoming reluctant to share information, and editors are second-guessing each other's decisions.",
+	  "timestamp": "23:57",
+	  "news_data": {
+		"article_text": "Internal trust in the newsroom is eroding. Sources are becoming reluctant to share information, and editors are second-guessing each other's decisions.",
+		"tip_text": "Tip: This started after the Information Ministry began requiring pre-approval. People are afraid of being exposed.",
+		"facts": [
+		  {
+			"category": "Issue",
+			"value": "Newsroom trust eroding",
+			"source": "Article"
+		  },
+		  {
+			"category": "Symptom",
+			"value": "Sources reluctant to share",
+			"source": "Article"
+		  },
+		  {
+			"category": "Cause",
+			"value": "Started after pre-approval requirement",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Concerned",
+		"integrity_score": 0.69
+	  }
+	},
+	{
+	  "sender": "Editorial Board",
+	  "subject": "Editorial Independence Under Threat",
+	  "content": "The editorial board is concerned about increasing government interference. Information Ministry requirements are compromising our ability to report independently.",
+	  "timestamp": "9:15",
+	  "news_data": {
+		"article_text": "The editorial board is concerned about increasing government interference. Information Ministry requirements are compromising our ability to report independently.",
+		"tip_text": "Tip: Several board members have expressed willingness to resign if the situation worsens. This could be a breaking point.",
+		"facts": [
+		  {
+			"category": "Concern",
+			"value": "Government interference increasing",
+			"source": "Article"
+		  },
+		  {
+			"category": "Impact",
+			"value": "Compromising independent reporting",
+			"source": "Article"
+		  },
+		  {
+			"category": "Risk",
+			"value": "Board members considering resignation",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Critical",
+		"integrity_score": 0.75
+	  }
+	},
+	{
+	  "sender": "Information Ministry Liaison",
+	  "subject": "Political Story Requires Pre-Approval",
+	  "content": "Your article on Senate proceedings has been flagged for review. The Information Ministry requires approval before publication. Please submit the draft for clearance.",
+	  "timestamp": "10:18",
+	  "news_data": {
+		"article_text": "Your article on Senate proceedings has been flagged for review. The Information Ministry requires approval before publication. Please submit the draft for clearance.",
+		"tip_text": "Tip: This is the third article this week requiring 'pre-approval'. Previous submissions were delayed for days.",
+		"facts": [
+		  {
+			"category": "Requirement",
+			"value": "Pre-approval needed for political stories",
+			"source": "Article"
+		  },
+		  {
+			"category": "Process",
+			"value": "Information Ministry review required",
+			"source": "Article"
+		  },
+		  {
+			"category": "Pattern",
+			"value": "Third article flagged this week",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Neutral",
+		"integrity_score": 0.65
+	  }
+	},
+	{
+	  "sender": "Information Ministry",
+	  "subject": "Article Requires Additional Verification",
+	  "content": "Your submitted article requires additional verification from official sources. Please provide contact information for all sources mentioned in the piece.",
+	  "timestamp": "11:21",
+	  "news_data": {
+		"article_text": "Your submitted article requires additional verification from official sources. Please provide contact information for all sources mentioned in the piece.",
+		"tip_text": "Tip: This request violates journalistic protection of sources. They're asking us to expose confidential contacts.",
+		"facts": [
+		  {
+			"category": "Request",
+			"value": "Additional verification required",
+			"source": "Article"
+		  },
+		  {
+			"category": "Requirement",
+			"value": "Must provide source contact information",
+			"source": "Article"
+		  },
+		  {
+			"category": "Ethics",
+			"value": "Violates source protection",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Critical",
+		"integrity_score": 0.73
+	  }
+	},
+	{
+	  "sender": "Senior Editor",
+	  "subject": "Information Ministry Rejects Article",
+	  "content": "The Information Ministry has rejected our article on the Senate debate. They cited 'incomplete information' and requested we wait for official statements.",
+	  "timestamp": "12:24",
+	  "news_data": {
+		"article_text": "The Information Ministry has rejected our article on the Senate debate. They cited 'incomplete information' and requested we wait for official statements.",
+		"tip_text": "Tip: The article was fully fact-checked. The rejection came hours after SyndiNet published a similar story with different framing.",
+		"facts": [
+		  {
+			"category": "Rejection",
+			"value": "Information Ministry rejected article",
+			"source": "Article"
+		  },
+		  {
+			"category": "Reason",
+			"value": "Cited incomplete information",
+			"source": "Article"
+		  },
+		  {
+			"category": "Timing",
+			"value": "Rejection after SyndiNet publication",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Concerned",
+		"integrity_score": 0.68
+	  }
+	},
+	{
+	  "sender": "Investigative Reporter",
+	  "subject": "Leaked Senate Files Surface",
+	  "content": "Anonymous sources have leaked Senate files showing potential corruption. Some documents appear authentic, others may be forged. SyndiNet is rushing to publish their version.",
+	  "timestamp": "13:27",
+	  "news_data": {
+		"article_text": "Anonymous sources have leaked Senate files showing potential corruption. Some documents appear authentic, others may be forged. SyndiNet is rushing to publish their version.",
+		"tip_text": "Tip: The leaked files arrived from an encrypted source. Cross-reference with official records to verify authenticity.",
+		"facts": [
+		  {
+			"category": "Leak",
+			"value": "Senate files leaked anonymously",
+			"source": "Article"
+		  },
+		  {
+			"category": "Authenticity",
+			"value": "Some files may be forged",
+			"source": "Article"
+		  },
+		  {
+			"category": "Competition",
+			"value": "SyndiNet rushing to publish",
+			"source": "Article"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.75
+	  }
+	},
+	{
+	  "sender": "Document Analyst",
+	  "subject": "Senate Files Show Inconsistencies",
+	  "content": "Analysis of leaked Senate files reveals inconsistencies in formatting and metadata. Some documents appear authentic, others show signs of tampering or forgery.",
+	  "timestamp": "14:30",
+	  "news_data": {
+		"article_text": "Analysis of leaked Senate files reveals inconsistencies in formatting and metadata. Some documents appear authentic, others show signs of tampering or forgery.",
+		"tip_text": "Tip: The forged documents focus on specific senators. The authentic ones point to different individuals. This suggests selective manipulation.",
+		"facts": [
+		  {
+			"category": "Analysis",
+			"value": "Files show inconsistencies",
+			"source": "Article"
+		  },
+		  {
+			"category": "Authenticity",
+			"value": "Some authentic, some forged",
+			"source": "Article"
+		  },
+		  {
+			"category": "Pattern",
+			"value": "Forged documents target specific senators",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.76
+	  }
+	},
+	{
+	  "sender": "Whistleblower Contact",
+	  "subject": "More Files Coming - Stay Safe",
+	  "content": "Additional Senate files will be sent soon. Be careful—they're watching. Some files are real, some are traps. Verify everything before publishing.",
+	  "timestamp": "15:33",
+	  "news_data": {
+		"article_text": "Additional Senate files will be sent soon. Be careful—they're watching. Some files are real, some are traps. Verify everything before publishing.",
+		"tip_text": "Tip: This contact has been reliable before, but the warning about traps is new. Proceed with extreme caution.",
+		"facts": [
+		  {
+			"category": "Promise",
+			"value": "More files coming",
+			"source": "Article"
+		  },
+		  {
+			"category": "Warning",
+			"value": "They're watching",
+			"source": "Article"
+		  },
+		  {
+			"category": "Caution",
+			"value": "Some files may be traps",
+			"source": "Article"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.77
+	  }
+	},
+	{
+	  "sender": "SyndiNet Monitor",
+	  "subject": "SyndiNet Publishes Twisted Version",
+	  "content": "SyndiNet has published a heavily edited version of the Senate leak story. They've removed key context and added speculation that contradicts our findings.",
+	  "timestamp": "16:36",
+	  "news_data": {
+		"article_text": "SyndiNet has published a heavily edited version of the Senate leak story. They've removed key context and added speculation that contradicts our findings.",
+		"tip_text": "Tip: Their version appeared within hours of receiving the leaks. Compare timestamps—they may have had advance access.",
+		"facts": [
+		  {
+			"category": "Publication",
+			"value": "SyndiNet published edited version",
+			"source": "Article"
+		  },
+		  {
+			"category": "Changes",
+			"value": "Removed context, added speculation",
+			"source": "Article"
+		  },
+		  {
+			"category": "Timing",
+			"value": "Published within hours of leak",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Critical",
+		"integrity_score": 0.72
+	  }
+	},
+	{
+	  "sender": "Competitive Intelligence",
+	  "subject": "SyndiNet Gets Leaks First",
+	  "content": "SyndiNet consistently receives leaked documents before we do. Their articles on Senate corruption appeared 6 hours before our sources received the same files.",
+	  "timestamp": "17:39",
+	  "news_data": {
+		"article_text": "SyndiNet consistently receives leaked documents before we do. Their articles on Senate corruption appeared 6 hours before our sources received the same files.",
+		"tip_text": "Tip: This pattern suggests they have inside connections or are being fed information to control the narrative.",
+		"facts": [
+		  {
+			"category": "Pattern",
+			"value": "SyndiNet gets leaks first",
+			"source": "Article"
+		  },
+		  {
+			"category": "Timing",
+			"value": "6 hours ahead of our sources",
+			"source": "Article"
+		  },
+		  {
+			"category": "Implication",
+			"value": "Possible inside connections",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Suspicious",
+		"integrity_score": 0.74
+	  }
+	},
+	{
+	  "sender": "Field Correspondent",
+	  "subject": "Source Vanished After Contact",
+	  "content": "A key source who provided information about Senate corruption has stopped responding. Their phone is disconnected and their office claims they're 'unavailable'.",
+	  "timestamp": "18:42",
+	  "news_data": {
+		"article_text": "A key source who provided information about Senate corruption has stopped responding. Their phone is disconnected and their office claims they're 'unavailable'.",
+		"tip_text": "Tip: The source contacted us three days ago. They mentioned being 'watched' before going silent.",
+		"facts": [
+		  {
+			"category": "Source",
+			"value": "Key source stopped responding",
+			"source": "Article"
+		  },
+		  {
+			"category": "Status",
+			"value": "Phone disconnected, office claims unavailable",
+			"source": "Article"
+		  },
+		  {
+			"category": "Warning",
+			"value": "Source mentioned being watched",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.78
+	  }
+	},
+	{
+	  "sender": "Investigative Reporter",
+	  "subject": "Multiple Sources Going Silent",
+	  "content": "Three sources working on the Senate corruption story have stopped responding. All mentioned feeling unsafe before disappearing. This is concerning.",
+	  "timestamp": "19:45",
+	  "news_data": {
+		"article_text": "Three sources working on the Senate corruption story have stopped responding. All mentioned feeling unsafe before disappearing. This is concerning.",
+		"tip_text": "Tip: The sources vanished within 48 hours of each other. All were working on different aspects of the same story.",
+		"facts": [
+		  {
+			"category": "Disappearance",
+			"value": "Three sources went silent",
+			"source": "Article"
+		  },
+		  {
+			"category": "Warning",
+			"value": "All mentioned feeling unsafe",
+			"source": "Article"
+		  },
+		  {
+			"category": "Timing",
+			"value": "All vanished within 48 hours",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.8
+	  }
+	},
+	{
+	  "sender": "Political Desk",
+	  "subject": "Staged Debate Evidence Found",
+	  "content": "Evidence suggests recent Senate debates were staged. Transcripts show pre-written responses and coordinated talking points that don't match the supposed spontaneity.",
+	  "timestamp": "20:48",
+	  "news_data": {
+		"article_text": "Evidence suggests recent Senate debates were staged. Transcripts show pre-written responses and coordinated talking points that don't match the supposed spontaneity.",
+		"tip_text": "Tip: The transcripts were leaked separately from the corruption files. Cross-reference to see if they're connected.",
+		"facts": [
+		  {
+			"category": "Evidence",
+			"value": "Debates appear staged",
+			"source": "Article"
+		  },
+		  {
+			"category": "Details",
+			"value": "Pre-written responses found",
+			"source": "Article"
+		  },
+		  {
+			"category": "Connection",
+			"value": "Transcripts leaked separately",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.79
+	  }
+	},
+	{
+	  "sender": "Parliamentary Reporter",
+	  "subject": "Senate Debate Scripts Discovered",
+	  "content": "Leaked documents reveal Senate debate scripts prepared in advance. Senators appear to be following predetermined talking points rather than engaging in genuine discussion.",
+	  "timestamp": "21:51",
+	  "news_data": {
+		"article_text": "Leaked documents reveal Senate debate scripts prepared in advance. Senators appear to be following predetermined talking points rather than engaging in genuine discussion.",
+		"tip_text": "Tip: The scripts match word-for-word with what was said during the debates. This proves the debates were orchestrated.",
+		"facts": [
+		  {
+			"category": "Discovery",
+			"value": "Debate scripts found",
+			"source": "Article"
+		  },
+		  {
+			"category": "Evidence",
+			"value": "Predetermined talking points",
+			"source": "Article"
+		  },
+		  {
+			"category": "Proof",
+			"value": "Scripts match debates word-for-word",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.81
+	  }
+	},
+	{
+	  "sender": "Newsroom Security",
+	  "subject": "Access Restrictions Implemented",
+	  "content": "New security protocols restrict access to sensitive files. Political stories now require multiple approvals and cannot be accessed after hours.",
+	  "timestamp": "22:54",
+	  "news_data": {
+		"article_text": "New security protocols restrict access to sensitive files. Political stories now require multiple approvals and cannot be accessed after hours.",
+		"tip_text": "Tip: These restrictions were implemented the day after the Senate leaks surfaced. Coincidence?",
+		"facts": [
+		  {
+			"category": "Restriction",
+			"value": "New security protocols implemented",
+			"source": "Article"
+		  },
+		  {
+			"category": "Requirement",
+			"value": "Multiple approvals needed for political stories",
+			"source": "Article"
+		  },
+		  {
+			"category": "Timing",
+			"value": "Restrictions after Senate leaks",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Concerned",
+		"integrity_score": 0.7
+	  }
+	},
+	{
+	  "sender": "IT Department",
+	  "subject": "Political Files Require Special Access",
+	  "content": "Political story files now require special access credentials. Only approved editors can view or modify articles related to government or Senate matters.",
+	  "timestamp": "23:57",
+	  "news_data": {
+		"article_text": "Political story files now require special access credentials. Only approved editors can view or modify articles related to government or Senate matters.",
+		"tip_text": "Tip: The 'approved editors' list was created by management, not the editorial board. Several senior reporters were excluded.",
+		"facts": [
+		  {
+			"category": "Requirement",
+			"value": "Special access needed for political files",
+			"source": "Article"
+		  },
+		  {
+			"category": "Restriction",
+			"value": "Only approved editors can access",
+			"source": "Article"
+		  },
+		  {
+			"category": "Process",
+			"value": "List created by management, not editorial board",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Concerned",
+		"integrity_score": 0.71
+	  }
+	},
+	{
+	  "sender": "Senior Reporter",
+	  "subject": "Newsroom Trust Fading",
+	  "content": "Internal trust in the newsroom is eroding. Sources are becoming reluctant to share information, and editors are second-guessing each other's decisions.",
+	  "timestamp": "9:15",
+	  "news_data": {
+		"article_text": "Internal trust in the newsroom is eroding. Sources are becoming reluctant to share information, and editors are second-guessing each other's decisions.",
+		"tip_text": "Tip: This started after the Information Ministry began requiring pre-approval. People are afraid of being exposed.",
+		"facts": [
+		  {
+			"category": "Issue",
+			"value": "Newsroom trust eroding",
+			"source": "Article"
+		  },
+		  {
+			"category": "Symptom",
+			"value": "Sources reluctant to share",
+			"source": "Article"
+		  },
+		  {
+			"category": "Cause",
+			"value": "Started after pre-approval requirement",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Concerned",
+		"integrity_score": 0.69
+	  }
+	},
+	{
+	  "sender": "Editorial Board",
+	  "subject": "Editorial Independence Under Threat",
+	  "content": "The editorial board is concerned about increasing government interference. Information Ministry requirements are compromising our ability to report independently.",
+	  "timestamp": "10:18",
+	  "news_data": {
+		"article_text": "The editorial board is concerned about increasing government interference. Information Ministry requirements are compromising our ability to report independently.",
+		"tip_text": "Tip: Several board members have expressed willingness to resign if the situation worsens. This could be a breaking point.",
+		"facts": [
+		  {
+			"category": "Concern",
+			"value": "Government interference increasing",
+			"source": "Article"
+		  },
+		  {
+			"category": "Impact",
+			"value": "Compromising independent reporting",
+			"source": "Article"
+		  },
+		  {
+			"category": "Risk",
+			"value": "Board members considering resignation",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Critical",
+		"integrity_score": 0.75
+	  }
+	},
+	{
+	  "sender": "Information Ministry Liaison",
+	  "subject": "Political Story Requires Pre-Approval",
+	  "content": "Your article on Senate proceedings has been flagged for review. The Information Ministry requires approval before publication. Please submit the draft for clearance.",
+	  "timestamp": "11:21",
+	  "news_data": {
+		"article_text": "Your article on Senate proceedings has been flagged for review. The Information Ministry requires approval before publication. Please submit the draft for clearance.",
+		"tip_text": "Tip: This is the third article this week requiring 'pre-approval'. Previous submissions were delayed for days.",
+		"facts": [
+		  {
+			"category": "Requirement",
+			"value": "Pre-approval needed for political stories",
+			"source": "Article"
+		  },
+		  {
+			"category": "Process",
+			"value": "Information Ministry review required",
+			"source": "Article"
+		  },
+		  {
+			"category": "Pattern",
+			"value": "Third article flagged this week",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Neutral",
+		"integrity_score": 0.65
+	  }
+	},
+	{
+	  "sender": "Information Ministry",
+	  "subject": "Article Requires Additional Verification",
+	  "content": "Your submitted article requires additional verification from official sources. Please provide contact information for all sources mentioned in the piece.",
+	  "timestamp": "12:24",
+	  "news_data": {
+		"article_text": "Your submitted article requires additional verification from official sources. Please provide contact information for all sources mentioned in the piece.",
+		"tip_text": "Tip: This request violates journalistic protection of sources. They're asking us to expose confidential contacts.",
+		"facts": [
+		  {
+			"category": "Request",
+			"value": "Additional verification required",
+			"source": "Article"
+		  },
+		  {
+			"category": "Requirement",
+			"value": "Must provide source contact information",
+			"source": "Article"
+		  },
+		  {
+			"category": "Ethics",
+			"value": "Violates source protection",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Critical",
+		"integrity_score": 0.73
+	  }
+	},
+	{
+	  "sender": "Senior Editor",
+	  "subject": "Information Ministry Rejects Article",
+	  "content": "The Information Ministry has rejected our article on the Senate debate. They cited 'incomplete information' and requested we wait for official statements.",
+	  "timestamp": "13:27",
+	  "news_data": {
+		"article_text": "The Information Ministry has rejected our article on the Senate debate. They cited 'incomplete information' and requested we wait for official statements.",
+		"tip_text": "Tip: The article was fully fact-checked. The rejection came hours after SyndiNet published a similar story with different framing.",
+		"facts": [
+		  {
+			"category": "Rejection",
+			"value": "Information Ministry rejected article",
+			"source": "Article"
+		  },
+		  {
+			"category": "Reason",
+			"value": "Cited incomplete information",
+			"source": "Article"
+		  },
+		  {
+			"category": "Timing",
+			"value": "Rejection after SyndiNet publication",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Concerned",
+		"integrity_score": 0.68
+	  }
+	},
+	{
+	  "sender": "Investigative Reporter",
+	  "subject": "Leaked Senate Files Surface",
+	  "content": "Anonymous sources have leaked Senate files showing potential corruption. Some documents appear authentic, others may be forged. SyndiNet is rushing to publish their version.",
+	  "timestamp": "14:30",
+	  "news_data": {
+		"article_text": "Anonymous sources have leaked Senate files showing potential corruption. Some documents appear authentic, others may be forged. SyndiNet is rushing to publish their version.",
+		"tip_text": "Tip: The leaked files arrived from an encrypted source. Cross-reference with official records to verify authenticity.",
+		"facts": [
+		  {
+			"category": "Leak",
+			"value": "Senate files leaked anonymously",
+			"source": "Article"
+		  },
+		  {
+			"category": "Authenticity",
+			"value": "Some files may be forged",
+			"source": "Article"
+		  },
+		  {
+			"category": "Competition",
+			"value": "SyndiNet rushing to publish",
+			"source": "Article"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.75
+	  }
+	},
+	{
+	  "sender": "Document Analyst",
+	  "subject": "Senate Files Show Inconsistencies",
+	  "content": "Analysis of leaked Senate files reveals inconsistencies in formatting and metadata. Some documents appear authentic, others show signs of tampering or forgery.",
+	  "timestamp": "15:33",
+	  "news_data": {
+		"article_text": "Analysis of leaked Senate files reveals inconsistencies in formatting and metadata. Some documents appear authentic, others show signs of tampering or forgery.",
+		"tip_text": "Tip: The forged documents focus on specific senators. The authentic ones point to different individuals. This suggests selective manipulation.",
+		"facts": [
+		  {
+			"category": "Analysis",
+			"value": "Files show inconsistencies",
+			"source": "Article"
+		  },
+		  {
+			"category": "Authenticity",
+			"value": "Some authentic, some forged",
+			"source": "Article"
+		  },
+		  {
+			"category": "Pattern",
+			"value": "Forged documents target specific senators",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.76
+	  }
+	},
+	{
+	  "sender": "Whistleblower Contact",
+	  "subject": "More Files Coming - Stay Safe",
+	  "content": "Additional Senate files will be sent soon. Be careful—they're watching. Some files are real, some are traps. Verify everything before publishing.",
+	  "timestamp": "16:36",
+	  "news_data": {
+		"article_text": "Additional Senate files will be sent soon. Be careful—they're watching. Some files are real, some are traps. Verify everything before publishing.",
+		"tip_text": "Tip: This contact has been reliable before, but the warning about traps is new. Proceed with extreme caution.",
+		"facts": [
+		  {
+			"category": "Promise",
+			"value": "More files coming",
+			"source": "Article"
+		  },
+		  {
+			"category": "Warning",
+			"value": "They're watching",
+			"source": "Article"
+		  },
+		  {
+			"category": "Caution",
+			"value": "Some files may be traps",
+			"source": "Article"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.77
+	  }
+	},
+	{
+	  "sender": "SyndiNet Monitor",
+	  "subject": "SyndiNet Publishes Twisted Version",
+	  "content": "SyndiNet has published a heavily edited version of the Senate leak story. They've removed key context and added speculation that contradicts our findings.",
+	  "timestamp": "17:39",
+	  "news_data": {
+		"article_text": "SyndiNet has published a heavily edited version of the Senate leak story. They've removed key context and added speculation that contradicts our findings.",
+		"tip_text": "Tip: Their version appeared within hours of receiving the leaks. Compare timestamps—they may have had advance access.",
+		"facts": [
+		  {
+			"category": "Publication",
+			"value": "SyndiNet published edited version",
+			"source": "Article"
+		  },
+		  {
+			"category": "Changes",
+			"value": "Removed context, added speculation",
+			"source": "Article"
+		  },
+		  {
+			"category": "Timing",
+			"value": "Published within hours of leak",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Critical",
+		"integrity_score": 0.72
+	  }
+	},
+	{
+	  "sender": "Competitive Intelligence",
+	  "subject": "SyndiNet Gets Leaks First",
+	  "content": "SyndiNet consistently receives leaked documents before we do. Their articles on Senate corruption appeared 6 hours before our sources received the same files.",
+	  "timestamp": "18:42",
+	  "news_data": {
+		"article_text": "SyndiNet consistently receives leaked documents before we do. Their articles on Senate corruption appeared 6 hours before our sources received the same files.",
+		"tip_text": "Tip: This pattern suggests they have inside connections or are being fed information to control the narrative.",
+		"facts": [
+		  {
+			"category": "Pattern",
+			"value": "SyndiNet gets leaks first",
+			"source": "Article"
+		  },
+		  {
+			"category": "Timing",
+			"value": "6 hours ahead of our sources",
+			"source": "Article"
+		  },
+		  {
+			"category": "Implication",
+			"value": "Possible inside connections",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Suspicious",
+		"integrity_score": 0.74
+	  }
+	}
+  ],
+  "map_03": [
+	{
+	  "sender": "System Administrator",
+	  "subject": "Newsroom Servers Wiped Clean",
+	  "content": "Critical newsroom servers have been wiped. All archived articles and source materials from the past month are gone. Recovery attempts have failed.",
+	  "timestamp": "8:20",
+	  "news_data": {
+		"article_text": "[REDACTED] newsroom servers have been [REDACTED]. All archived articles and [REDACTED] materials from the past month are [REDACTED]. Recovery attempts have [REDACTED].",
+		"tip_text": "Tip: The wipe occurred during a 'scheduled maintenance' that wasn't on any calendar. Access logs show external connections.",
+		"facts": [
+		  {
+			"category": "Event",
+			"value": "Servers wiped",
+			"source": "Article"
+		  },
+		  {
+			"category": "Loss",
+			"value": "Archived articles deleted",
+			"source": "Article"
+		  },
+		  {
+			"category": "Anomaly",
+			"value": "Unscheduled maintenance, external connections",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Critical",
+		"integrity_score": 0.82
+	  }
+	},
+	{
+	  "sender": "Data Recovery Team",
+	  "subject": "Last Fragments of Evidence Recovered",
+	  "content": "We've recovered the last fragments of evidence from backup systems. The documents prove the manufactured truth campaign. This is all we have left.",
+	  "timestamp": "9:24",
+	  "news_data": {
+		"article_text": "We've recovered the [REDACTED] fragments of [REDACTED] from [REDACTED] systems. The [REDACTED] prove the [REDACTED] truth campaign. This is all we have [REDACTED].",
+		"tip_text": "Tip: These are the final pieces. Once published, there will be no going back. Decide carefully—expose everything and disappear, or stay silent and survive.",
+		"facts": [
+		  {
+			"category": "Recovery",
+			"value": "Last fragments recovered",
+			"source": "Article"
+		  },
+		  {
+			"category": "Proof",
+			"value": "Documents prove manufactured truth",
+			"source": "Article"
+		  },
+		  {
+			"category": "Warning",
+			"value": "Final evidence, no going back",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.92
+	  }
+	},
+	{
+	  "sender": "Missing Persons Desk",
+	  "subject": "Whistleblower Cannot Be Located",
+	  "content": "The whistleblower who provided evidence of government corruption has disappeared. Their last known location was their home, which shows signs of forced entry.",
+	  "timestamp": "10:28",
+	  "news_data": {
+		"article_text": "The [REDACTED] who provided evidence of [REDACTED] corruption has [REDACTED]. Their last known location was [REDACTED], which shows signs of [REDACTED].",
+		"tip_text": "Tip: Three other sources have vanished this week. All were working on stories about government-SyndiNet connections.",
+		"facts": [
+		  {
+			"category": "Disappearance",
+			"value": "Whistleblower missing",
+			"source": "Article"
+		  },
+		  {
+			"category": "Evidence",
+			"value": "Signs of forced entry",
+			"source": "Article"
+		  },
+		  {
+			"category": "Pattern",
+			"value": "Three sources vanished this week",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.85
+	  }
+	},
+	{
+	  "sender": "Investigative Team",
+	  "subject": "Multiple Whistleblowers Missing",
+	  "content": "Five whistleblowers who provided evidence of the Republica-SyndiNet alliance have disappeared. Their families report no contact for days.",
+	  "timestamp": "11:32",
+	  "news_data": {
+		"article_text": "Five [REDACTED] who provided evidence of the [REDACTED] alliance have [REDACTED]. Their families report [REDACTED] contact for [REDACTED].",
+		"tip_text": "Tip: All five were scheduled to provide additional evidence this week. Their disappearances are too coordinated to be coincidence.",
+		"facts": [
+		  {
+			"category": "Disappearance",
+			"value": "Five whistleblowers missing",
+			"source": "Article"
+		  },
+		  {
+			"category": "Connection",
+			"value": "All provided alliance evidence",
+			"source": "Article"
+		  },
+		  {
+			"category": "Pattern",
+			"value": "Disappearances appear coordinated",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.87
+	  }
+	},
+	{
+	  "sender": "SyndiNet Editorial",
+	  "subject": "Your Agency Branded as Traitors",
+	  "content": "SyndiNet has published multiple articles branding your newsroom as traitors and enemies of the state. They claim you're spreading false information to destabilize the government.",
+	  "timestamp": "12:36",
+	  "news_data": {
+		"article_text": "SyndiNet has published [REDACTED] articles branding your newsroom as [REDACTED] and enemies of the [REDACTED]. They claim you're spreading [REDACTED] information to [REDACTED] the government.",
+		"tip_text": "Tip: These accusations started after you began investigating the Republica-SyndiNet alliance. The timing is suspicious.",
+		"facts": [
+		  {
+			"category": "Accusation",
+			"value": "Branded as traitors",
+			"source": "Article"
+		  },
+		  {
+			"category": "Claim",
+			"value": "Accused of spreading false information",
+			"source": "Article"
+		  },
+		  {
+			"category": "Timing",
+			"value": "After alliance investigation began",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Critical",
+		"integrity_score": 0.88
+	  }
+	},
+	{
+	  "sender": "Media Watchdog",
+	  "subject": "SyndiNet Floods Airwaves with Accusations",
+	  "content": "SyndiNet is flooding the airwaves with accusations against your agency. Every hour brings new claims of treason, false reporting, and anti-government activities.",
+	  "timestamp": "13:40",
+	  "news_data": {
+		"article_text": "SyndiNet is [REDACTED] the airwaves with [REDACTED] against your agency. Every [REDACTED] brings new claims of [REDACTED], [REDACTED] reporting, and [REDACTED] activities.",
+		"tip_text": "Tip: The accusations are baseless but relentless. This is a coordinated smear campaign designed to discredit you before you can publish your findings.",
+		"facts": [
+		  {
+			"category": "Campaign",
+			"value": "SyndiNet flooding airwaves",
+			"source": "Article"
+		  },
+		  {
+			"category": "Accusations",
+			"value": "Claims of treason and false reporting",
+			"source": "Article"
+		  },
+		  {
+			"category": "Purpose",
+			"value": "Coordinated smear campaign",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Critical",
+		"integrity_score": 0.89
+	  }
+	},
+	{
+	  "sender": "Anonymous Source",
+	  "subject": "Sovereign Council Purging Dissenters",
+	  "content": "The Sovereign Council is quietly purging dissenters from media organizations. Several journalists have been 'reassigned' or 'let go' after publishing critical stories.",
+	  "timestamp": "14:44",
+	  "news_data": {
+		"article_text": "The [REDACTED] Council is [REDACTED] purging [REDACTED] from media organizations. Several [REDACTED] have been '[REDACTED]' or '[REDACTED]' after publishing [REDACTED] stories.",
+		"tip_text": "Tip: This source provided names and dates. Cross-reference with recent staff changes—the pattern matches.",
+		"facts": [
+		  {
+			"category": "Action",
+			"value": "Sovereign Council purging dissenters",
+			"source": "Article"
+		  },
+		  {
+			"category": "Method",
+			"value": "Reassignment or termination",
+			"source": "Article"
+		  },
+		  {
+			"category": "Pattern",
+			"value": "After critical stories published",
+			"source": "Article"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.87
+	  }
+	},
+	{
+	  "sender": "Sovereign Council Spokesperson",
+	  "subject": "Council Announces Unity Initiative",
+	  "content": "The Sovereign Council announces a new unity initiative promoting harmony between all media outlets. They encourage collaboration and discourage 'divisive reporting'.",
+	  "timestamp": "15:48",
+	  "news_data": {
+		"article_text": "The Sovereign Council announces a new [REDACTED] initiative promoting [REDACTED] between all media outlets. They encourage [REDACTED] and discourage '[REDACTED] reporting'.",
+		"tip_text": "Tip: 'Divisive reporting' appears to mean any story critical of the government. The 'unity' seems to mean conformity.",
+		"facts": [
+		  {
+			"category": "Announcement",
+			"value": "Unity initiative launched",
+			"source": "Article"
+		  },
+		  {
+			"category": "Message",
+			"value": "Promotes collaboration, discourages divisive reporting",
+			"source": "Article"
+		  },
+		  {
+			"category": "Interpretation",
+			"value": "Divisive means critical of government",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Pro-Government",
+		"integrity_score": 0.5
+	  }
+	},
+	{
+	  "sender": "Investigative Team",
+	  "subject": "Proof of Secret Alliance Found",
+	  "content": "We've uncovered proof of a secret alliance between Republica and SyndiNet. Documents show coordinated messaging and shared resources to control the narrative.",
+	  "timestamp": "16:52",
+	  "news_data": {
+		"article_text": "We've uncovered proof of a [REDACTED] alliance between [REDACTED] and [REDACTED]. Documents show [REDACTED] messaging and [REDACTED] resources to [REDACTED] the narrative.",
+		"tip_text": "Tip: These documents were recovered from a backup server. They're the last fragments of evidence before everything was wiped.",
+		"facts": [
+		  {
+			"category": "Discovery",
+			"value": "Proof of secret alliance found",
+			"source": "Article"
+		  },
+		  {
+			"category": "Details",
+			"value": "Coordinated messaging and shared resources",
+			"source": "Article"
+		  },
+		  {
+			"category": "Source",
+			"value": "Recovered from backup before wipe",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.9
+	  }
+	},
+	{
+	  "sender": "Data Analyst",
+	  "subject": "Alliance Documents Show Manufactured Truth",
+	  "content": "Recovered documents from the Republica-SyndiNet alliance reveal a systematic campaign to manufacture truth. Both sides coordinated to create a single narrative.",
+	  "timestamp": "17:56",
+	  "news_data": {
+		"article_text": "Recovered [REDACTED] from the [REDACTED] alliance reveal a [REDACTED] campaign to [REDACTED] truth. Both sides [REDACTED] to create a [REDACTED] narrative.",
+		"tip_text": "Tip: The documents show meeting schedules, talking points, and distribution lists. This is proof of the conspiracy.",
+		"facts": [
+		  {
+			"category": "Revelation",
+			"value": "Systematic truth manufacturing campaign",
+			"source": "Article"
+		  },
+		  {
+			"category": "Method",
+			"value": "Coordinated narrative creation",
+			"source": "Article"
+		  },
+		  {
+			"category": "Evidence",
+			"value": "Meeting schedules and talking points found",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.91
+	  }
+	},
+	{
+	  "sender": "Government Press Office",
+	  "subject": "Republica Achieves Record Stability",
+	  "content": "The Republica government announces record-breaking stability and public approval. Economic indicators show unprecedented growth under current leadership.",
+	  "timestamp": "18:20",
+	  "news_data": {
+		"article_text": "The Republica government announces [REDACTED] stability and public approval. Economic indicators show [REDACTED] growth under current leadership. All sectors report [REDACTED] improvements.",
+		"tip_text": "Tip: These numbers contradict independent economic reports. The 'public approval' data source is not disclosed.",
+		"facts": [
+		  {
+			"category": "Claim",
+			"value": "Record stability achieved",
+			"source": "Article"
+		  },
+		  {
+			"category": "Claim",
+			"value": "Unprecedented economic growth",
+			"source": "Article"
+		  },
+		  {
+			"category": "Verification",
+			"value": "Contradicts independent reports",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Pro-Government",
+		"integrity_score": 0.45
+	  }
+	},
+	{
+	  "sender": "Government Statistics Bureau",
+	  "subject": "Public Support at All-Time High",
+	  "content": "Latest polls show 95% public support for current government policies. Citizen satisfaction has reached unprecedented levels across all demographics.",
+	  "timestamp": "19:24",
+	  "news_data": {
+		"article_text": "Latest polls show [REDACTED]% public support for current government [REDACTED]. Citizen [REDACTED] has reached [REDACTED] levels across all [REDACTED].",
+		"tip_text": "Tip: These polls were conducted by a government agency. Independent polling organizations report different numbers but aren't allowed to publish.",
+		"facts": [
+		  {
+			"category": "Claim",
+			"value": "95% public support",
+			"source": "Article"
+		  },
+		  {
+			"category": "Claim",
+			"value": "Unprecedented satisfaction levels",
+			"source": "Article"
+		  },
+		  {
+			"category": "Source",
+			"value": "Government-conducted polls only",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Pro-Government",
+		"integrity_score": 0.42
+	  }
+	},
+	{
+	  "sender": "SyndiNet Breaking News",
+	  "subject": "Opposition Media Spreads Lies",
+	  "content": "SyndiNet reports that opposition media outlets are spreading deliberate lies to undermine public trust. They call for increased regulation of 'unreliable' news sources.",
+	  "timestamp": "20:28",
+	  "news_data": {
+		"article_text": "SyndiNet reports that [REDACTED] media outlets are spreading [REDACTED] lies to [REDACTED] public trust. They call for [REDACTED] regulation of '[REDACTED]' news sources.",
+		"tip_text": "Tip: SyndiNet's definition of 'unreliable' appears to mean any outlet that doesn't align with government messaging. This is projection.",
+		"facts": [
+		  {
+			"category": "Accusation",
+			"value": "Opposition media spreads lies",
+			"source": "Article"
+		  },
+		  {
+			"category": "Call",
+			"value": "Increased regulation requested",
+			"source": "Article"
+		  },
+		  {
+			"category": "Bias",
+			"value": "Unreliable means non-government aligned",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Pro-Government",
+		"integrity_score": 0.48
+	  }
+	},
+	{
+	  "sender": "Ministry of Information",
+	  "subject": "Government Achieves Unprecedented Success",
+	  "content": "The Republica government reports unprecedented success across all sectors. Infrastructure improvements, economic growth, and social harmony have reached historic levels.",
+	  "timestamp": "21:32",
+	  "news_data": {
+		"article_text": "The Republica government reports [REDACTED] success across all [REDACTED]. [REDACTED] improvements, [REDACTED] growth, and [REDACTED] harmony have reached [REDACTED] levels.",
+		"tip_text": "Tip: These claims are not supported by independent data. The government has restricted access to official statistics.",
+		"facts": [
+		  {
+			"category": "Claim",
+			"value": "Unprecedented success across sectors",
+			"source": "Article"
+		  },
+		  {
+			"category": "Claim",
+			"value": "Historic levels of improvement",
+			"source": "Article"
+		  },
+		  {
+			"category": "Verification",
+			"value": "Not supported by independent data",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Pro-Government",
+		"integrity_score": 0.43
+	  }
+	},
+	{
+	  "sender": "Public Relations Office",
+	  "subject": "Citizens Express Overwhelming Support",
+	  "content": "Citizens across the nation are expressing overwhelming support for government policies. Public demonstrations of approval have been held in multiple cities.",
+	  "timestamp": "22:36",
+	  "news_data": {
+		"article_text": "Citizens across the [REDACTED] are expressing [REDACTED] support for government [REDACTED]. Public [REDACTED] of approval have been held in [REDACTED] cities.",
+		"tip_text": "Tip: The 'demonstrations' were organized by government-affiliated groups. Independent observers report low attendance and forced participation.",
+		"facts": [
+		  {
+			"category": "Claim",
+			"value": "Overwhelming citizen support",
+			"source": "Article"
+		  },
+		  {
+			"category": "Claim",
+			"value": "Public demonstrations of approval",
+			"source": "Article"
+		  },
+		  {
+			"category": "Reality",
+			"value": "Organized by government groups, low attendance",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Pro-Government",
+		"integrity_score": 0.46
+	  }
+	},
+	{
+	  "sender": "Economic Development Bureau",
+	  "subject": "Economy Reaches New Heights",
+	  "content": "The national economy has reached new heights under current leadership. Unemployment is at record lows and economic indicators show sustained growth.",
+	  "timestamp": "23:40",
+	  "news_data": {
+		"article_text": "The national [REDACTED] has reached [REDACTED] heights under current [REDACTED]. [REDACTED] is at record [REDACTED] and [REDACTED] indicators show [REDACTED] growth.",
+		"tip_text": "Tip: The unemployment numbers exclude 'temporary workers' and 'volunteers'. Real unemployment is significantly higher according to independent analysts.",
+		"facts": [
+		  {
+			"category": "Claim",
+			"value": "Economy at new heights",
+			"source": "Article"
+		  },
+		  {
+			"category": "Claim",
+			"value": "Record low unemployment",
+			"source": "Article"
+		  },
+		  {
+			"category": "Methodology",
+			"value": "Numbers exclude temporary workers",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Pro-Government",
+		"integrity_score": 0.44
+	  }
+	},
+	{
+	  "sender": "System Administrator",
+	  "subject": "Newsroom Servers Wiped Clean",
+	  "content": "Critical newsroom servers have been wiped. All archived articles and source materials from the past month are gone. Recovery attempts have failed.",
+	  "timestamp": "8:44",
+	  "news_data": {
+		"article_text": "[REDACTED] newsroom servers have been [REDACTED]. All archived articles and [REDACTED] materials from the past month are [REDACTED]. Recovery attempts have [REDACTED].",
+		"tip_text": "Tip: The wipe occurred during a 'scheduled maintenance' that wasn't on any calendar. Access logs show external connections.",
+		"facts": [
+		  {
+			"category": "Event",
+			"value": "Servers wiped",
+			"source": "Article"
+		  },
+		  {
+			"category": "Loss",
+			"value": "Archived articles deleted",
+			"source": "Article"
+		  },
+		  {
+			"category": "Anomaly",
+			"value": "Unscheduled maintenance, external connections",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Critical",
+		"integrity_score": 0.82
+	  }
+	},
+	{
+	  "sender": "Data Recovery Team",
+	  "subject": "Last Fragments of Evidence Recovered",
+	  "content": "We've recovered the last fragments of evidence from backup systems. The documents prove the manufactured truth campaign. This is all we have left.",
+	  "timestamp": "9:48",
+	  "news_data": {
+		"article_text": "We've recovered the [REDACTED] fragments of [REDACTED] from [REDACTED] systems. The [REDACTED] prove the [REDACTED] truth campaign. This is all we have [REDACTED].",
+		"tip_text": "Tip: These are the final pieces. Once published, there will be no going back. Decide carefully—expose everything and disappear, or stay silent and survive.",
+		"facts": [
+		  {
+			"category": "Recovery",
+			"value": "Last fragments recovered",
+			"source": "Article"
+		  },
+		  {
+			"category": "Proof",
+			"value": "Documents prove manufactured truth",
+			"source": "Article"
+		  },
+		  {
+			"category": "Warning",
+			"value": "Final evidence, no going back",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.92
+	  }
+	},
+	{
+	  "sender": "Missing Persons Desk",
+	  "subject": "Whistleblower Cannot Be Located",
+	  "content": "The whistleblower who provided evidence of government corruption has disappeared. Their last known location was their home, which shows signs of forced entry.",
+	  "timestamp": "10:52",
+	  "news_data": {
+		"article_text": "The [REDACTED] who provided evidence of [REDACTED] corruption has [REDACTED]. Their last known location was [REDACTED], which shows signs of [REDACTED].",
+		"tip_text": "Tip: Three other sources have vanished this week. All were working on stories about government-SyndiNet connections.",
+		"facts": [
+		  {
+			"category": "Disappearance",
+			"value": "Whistleblower missing",
+			"source": "Article"
+		  },
+		  {
+			"category": "Evidence",
+			"value": "Signs of forced entry",
+			"source": "Article"
+		  },
+		  {
+			"category": "Pattern",
+			"value": "Three sources vanished this week",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.85
+	  }
+	},
+	{
+	  "sender": "Investigative Team",
+	  "subject": "Multiple Whistleblowers Missing",
+	  "content": "Five whistleblowers who provided evidence of the Republica-SyndiNet alliance have disappeared. Their families report no contact for days.",
+	  "timestamp": "11:56",
+	  "news_data": {
+		"article_text": "Five [REDACTED] who provided evidence of the [REDACTED] alliance have [REDACTED]. Their families report [REDACTED] contact for [REDACTED].",
+		"tip_text": "Tip: All five were scheduled to provide additional evidence this week. Their disappearances are too coordinated to be coincidence.",
+		"facts": [
+		  {
+			"category": "Disappearance",
+			"value": "Five whistleblowers missing",
+			"source": "Article"
+		  },
+		  {
+			"category": "Connection",
+			"value": "All provided alliance evidence",
+			"source": "Article"
+		  },
+		  {
+			"category": "Pattern",
+			"value": "Disappearances appear coordinated",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.87
+	  }
+	},
+	{
+	  "sender": "SyndiNet Editorial",
+	  "subject": "Your Agency Branded as Traitors",
+	  "content": "SyndiNet has published multiple articles branding your newsroom as traitors and enemies of the state. They claim you're spreading false information to destabilize the government.",
+	  "timestamp": "12:20",
+	  "news_data": {
+		"article_text": "SyndiNet has published [REDACTED] articles branding your newsroom as [REDACTED] and enemies of the [REDACTED]. They claim you're spreading [REDACTED] information to [REDACTED] the government.",
+		"tip_text": "Tip: These accusations started after you began investigating the Republica-SyndiNet alliance. The timing is suspicious.",
+		"facts": [
+		  {
+			"category": "Accusation",
+			"value": "Branded as traitors",
+			"source": "Article"
+		  },
+		  {
+			"category": "Claim",
+			"value": "Accused of spreading false information",
+			"source": "Article"
+		  },
+		  {
+			"category": "Timing",
+			"value": "After alliance investigation began",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Critical",
+		"integrity_score": 0.88
+	  }
+	},
+	{
+	  "sender": "Media Watchdog",
+	  "subject": "SyndiNet Floods Airwaves with Accusations",
+	  "content": "SyndiNet is flooding the airwaves with accusations against your agency. Every hour brings new claims of treason, false reporting, and anti-government activities.",
+	  "timestamp": "13:24",
+	  "news_data": {
+		"article_text": "SyndiNet is [REDACTED] the airwaves with [REDACTED] against your agency. Every [REDACTED] brings new claims of [REDACTED], [REDACTED] reporting, and [REDACTED] activities.",
+		"tip_text": "Tip: The accusations are baseless but relentless. This is a coordinated smear campaign designed to discredit you before you can publish your findings.",
+		"facts": [
+		  {
+			"category": "Campaign",
+			"value": "SyndiNet flooding airwaves",
+			"source": "Article"
+		  },
+		  {
+			"category": "Accusations",
+			"value": "Claims of treason and false reporting",
+			"source": "Article"
+		  },
+		  {
+			"category": "Purpose",
+			"value": "Coordinated smear campaign",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Critical",
+		"integrity_score": 0.89
+	  }
+	},
+	{
+	  "sender": "Anonymous Source",
+	  "subject": "Sovereign Council Purging Dissenters",
+	  "content": "The Sovereign Council is quietly purging dissenters from media organizations. Several journalists have been 'reassigned' or 'let go' after publishing critical stories.",
+	  "timestamp": "14:28",
+	  "news_data": {
+		"article_text": "The [REDACTED] Council is [REDACTED] purging [REDACTED] from media organizations. Several [REDACTED] have been '[REDACTED]' or '[REDACTED]' after publishing [REDACTED] stories.",
+		"tip_text": "Tip: This source provided names and dates. Cross-reference with recent staff changes—the pattern matches.",
+		"facts": [
+		  {
+			"category": "Action",
+			"value": "Sovereign Council purging dissenters",
+			"source": "Article"
+		  },
+		  {
+			"category": "Method",
+			"value": "Reassignment or termination",
+			"source": "Article"
+		  },
+		  {
+			"category": "Pattern",
+			"value": "After critical stories published",
+			"source": "Article"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.87
+	  }
+	},
+	{
+	  "sender": "Sovereign Council Spokesperson",
+	  "subject": "Council Announces Unity Initiative",
+	  "content": "The Sovereign Council announces a new unity initiative promoting harmony between all media outlets. They encourage collaboration and discourage 'divisive reporting'.",
+	  "timestamp": "15:32",
+	  "news_data": {
+		"article_text": "The Sovereign Council announces a new [REDACTED] initiative promoting [REDACTED] between all media outlets. They encourage [REDACTED] and discourage '[REDACTED] reporting'.",
+		"tip_text": "Tip: 'Divisive reporting' appears to mean any story critical of the government. The 'unity' seems to mean conformity.",
+		"facts": [
+		  {
+			"category": "Announcement",
+			"value": "Unity initiative launched",
+			"source": "Article"
+		  },
+		  {
+			"category": "Message",
+			"value": "Promotes collaboration, discourages divisive reporting",
+			"source": "Article"
+		  },
+		  {
+			"category": "Interpretation",
+			"value": "Divisive means critical of government",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Pro-Government",
+		"integrity_score": 0.5
+	  }
+	},
+	{
+	  "sender": "Investigative Team",
+	  "subject": "Proof of Secret Alliance Found",
+	  "content": "We've uncovered proof of a secret alliance between Republica and SyndiNet. Documents show coordinated messaging and shared resources to control the narrative.",
+	  "timestamp": "16:36",
+	  "news_data": {
+		"article_text": "We've uncovered proof of a [REDACTED] alliance between [REDACTED] and [REDACTED]. Documents show [REDACTED] messaging and [REDACTED] resources to [REDACTED] the narrative.",
+		"tip_text": "Tip: These documents were recovered from a backup server. They're the last fragments of evidence before everything was wiped.",
+		"facts": [
+		  {
+			"category": "Discovery",
+			"value": "Proof of secret alliance found",
+			"source": "Article"
+		  },
+		  {
+			"category": "Details",
+			"value": "Coordinated messaging and shared resources",
+			"source": "Article"
+		  },
+		  {
+			"category": "Source",
+			"value": "Recovered from backup before wipe",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.9
+	  }
+	},
+	{
+	  "sender": "Data Analyst",
+	  "subject": "Alliance Documents Show Manufactured Truth",
+	  "content": "Recovered documents from the Republica-SyndiNet alliance reveal a systematic campaign to manufacture truth. Both sides coordinated to create a single narrative.",
+	  "timestamp": "17:40",
+	  "news_data": {
+		"article_text": "Recovered [REDACTED] from the [REDACTED] alliance reveal a [REDACTED] campaign to [REDACTED] truth. Both sides [REDACTED] to create a [REDACTED] narrative.",
+		"tip_text": "Tip: The documents show meeting schedules, talking points, and distribution lists. This is proof of the conspiracy.",
+		"facts": [
+		  {
+			"category": "Revelation",
+			"value": "Systematic truth manufacturing campaign",
+			"source": "Article"
+		  },
+		  {
+			"category": "Method",
+			"value": "Coordinated narrative creation",
+			"source": "Article"
+		  },
+		  {
+			"category": "Evidence",
+			"value": "Meeting schedules and talking points found",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.91
+	  }
+	},
+	{
+	  "sender": "Government Press Office",
+	  "subject": "Republica Achieves Record Stability",
+	  "content": "The Republica government announces record-breaking stability and public approval. Economic indicators show unprecedented growth under current leadership.",
+	  "timestamp": "18:44",
+	  "news_data": {
+		"article_text": "The Republica government announces [REDACTED] stability and public approval. Economic indicators show [REDACTED] growth under current leadership. All sectors report [REDACTED] improvements.",
+		"tip_text": "Tip: These numbers contradict independent economic reports. The 'public approval' data source is not disclosed.",
+		"facts": [
+		  {
+			"category": "Claim",
+			"value": "Record stability achieved",
+			"source": "Article"
+		  },
+		  {
+			"category": "Claim",
+			"value": "Unprecedented economic growth",
+			"source": "Article"
+		  },
+		  {
+			"category": "Verification",
+			"value": "Contradicts independent reports",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Pro-Government",
+		"integrity_score": 0.45
+	  }
+	},
+	{
+	  "sender": "Government Statistics Bureau",
+	  "subject": "Public Support at All-Time High",
+	  "content": "Latest polls show 95% public support for current government policies. Citizen satisfaction has reached unprecedented levels across all demographics.",
+	  "timestamp": "19:48",
+	  "news_data": {
+		"article_text": "Latest polls show [REDACTED]% public support for current government [REDACTED]. Citizen [REDACTED] has reached [REDACTED] levels across all [REDACTED].",
+		"tip_text": "Tip: These polls were conducted by a government agency. Independent polling organizations report different numbers but aren't allowed to publish.",
+		"facts": [
+		  {
+			"category": "Claim",
+			"value": "95% public support",
+			"source": "Article"
+		  },
+		  {
+			"category": "Claim",
+			"value": "Unprecedented satisfaction levels",
+			"source": "Article"
+		  },
+		  {
+			"category": "Source",
+			"value": "Government-conducted polls only",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Pro-Government",
+		"integrity_score": 0.42
+	  }
+	},
+	{
+	  "sender": "SyndiNet Breaking News",
+	  "subject": "Opposition Media Spreads Lies",
+	  "content": "SyndiNet reports that opposition media outlets are spreading deliberate lies to undermine public trust. They call for increased regulation of 'unreliable' news sources.",
+	  "timestamp": "20:52",
+	  "news_data": {
+		"article_text": "SyndiNet reports that [REDACTED] media outlets are spreading [REDACTED] lies to [REDACTED] public trust. They call for [REDACTED] regulation of '[REDACTED]' news sources.",
+		"tip_text": "Tip: SyndiNet's definition of 'unreliable' appears to mean any outlet that doesn't align with government messaging. This is projection.",
+		"facts": [
+		  {
+			"category": "Accusation",
+			"value": "Opposition media spreads lies",
+			"source": "Article"
+		  },
+		  {
+			"category": "Call",
+			"value": "Increased regulation requested",
+			"source": "Article"
+		  },
+		  {
+			"category": "Bias",
+			"value": "Unreliable means non-government aligned",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Pro-Government",
+		"integrity_score": 0.48
+	  }
+	},
+	{
+	  "sender": "Ministry of Information",
+	  "subject": "Government Achieves Unprecedented Success",
+	  "content": "The Republica government reports unprecedented success across all sectors. Infrastructure improvements, economic growth, and social harmony have reached historic levels.",
+	  "timestamp": "21:56",
+	  "news_data": {
+		"article_text": "The Republica government reports [REDACTED] success across all [REDACTED]. [REDACTED] improvements, [REDACTED] growth, and [REDACTED] harmony have reached [REDACTED] levels.",
+		"tip_text": "Tip: These claims are not supported by independent data. The government has restricted access to official statistics.",
+		"facts": [
+		  {
+			"category": "Claim",
+			"value": "Unprecedented success across sectors",
+			"source": "Article"
+		  },
+		  {
+			"category": "Claim",
+			"value": "Historic levels of improvement",
+			"source": "Article"
+		  },
+		  {
+			"category": "Verification",
+			"value": "Not supported by independent data",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Pro-Government",
+		"integrity_score": 0.43
+	  }
+	},
+	{
+	  "sender": "Public Relations Office",
+	  "subject": "Citizens Express Overwhelming Support",
+	  "content": "Citizens across the nation are expressing overwhelming support for government policies. Public demonstrations of approval have been held in multiple cities.",
+	  "timestamp": "22:20",
+	  "news_data": {
+		"article_text": "Citizens across the [REDACTED] are expressing [REDACTED] support for government [REDACTED]. Public [REDACTED] of approval have been held in [REDACTED] cities.",
+		"tip_text": "Tip: The 'demonstrations' were organized by government-affiliated groups. Independent observers report low attendance and forced participation.",
+		"facts": [
+		  {
+			"category": "Claim",
+			"value": "Overwhelming citizen support",
+			"source": "Article"
+		  },
+		  {
+			"category": "Claim",
+			"value": "Public demonstrations of approval",
+			"source": "Article"
+		  },
+		  {
+			"category": "Reality",
+			"value": "Organized by government groups, low attendance",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Pro-Government",
+		"integrity_score": 0.46
+	  }
+	},
+	{
+	  "sender": "Economic Development Bureau",
+	  "subject": "Economy Reaches New Heights",
+	  "content": "The national economy has reached new heights under current leadership. Unemployment is at record lows and economic indicators show sustained growth.",
+	  "timestamp": "23:24",
+	  "news_data": {
+		"article_text": "The national [REDACTED] has reached [REDACTED] heights under current [REDACTED]. [REDACTED] is at record [REDACTED] and [REDACTED] indicators show [REDACTED] growth.",
+		"tip_text": "Tip: The unemployment numbers exclude 'temporary workers' and 'volunteers'. Real unemployment is significantly higher according to independent analysts.",
+		"facts": [
+		  {
+			"category": "Claim",
+			"value": "Economy at new heights",
+			"source": "Article"
+		  },
+		  {
+			"category": "Claim",
+			"value": "Record low unemployment",
+			"source": "Article"
+		  },
+		  {
+			"category": "Methodology",
+			"value": "Numbers exclude temporary workers",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Pro-Government",
+		"integrity_score": 0.44
+	  }
+	},
+	{
+	  "sender": "System Administrator",
+	  "subject": "Newsroom Servers Wiped Clean",
+	  "content": "Critical newsroom servers have been wiped. All archived articles and source materials from the past month are gone. Recovery attempts have failed.",
+	  "timestamp": "8:28",
+	  "news_data": {
+		"article_text": "[REDACTED] newsroom servers have been [REDACTED]. All archived articles and [REDACTED] materials from the past month are [REDACTED]. Recovery attempts have [REDACTED].",
+		"tip_text": "Tip: The wipe occurred during a 'scheduled maintenance' that wasn't on any calendar. Access logs show external connections.",
+		"facts": [
+		  {
+			"category": "Event",
+			"value": "Servers wiped",
+			"source": "Article"
+		  },
+		  {
+			"category": "Loss",
+			"value": "Archived articles deleted",
+			"source": "Article"
+		  },
+		  {
+			"category": "Anomaly",
+			"value": "Unscheduled maintenance, external connections",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Critical",
+		"integrity_score": 0.82
+	  }
+	},
+	{
+	  "sender": "Data Recovery Team",
+	  "subject": "Last Fragments of Evidence Recovered",
+	  "content": "We've recovered the last fragments of evidence from backup systems. The documents prove the manufactured truth campaign. This is all we have left.",
+	  "timestamp": "9:32",
+	  "news_data": {
+		"article_text": "We've recovered the [REDACTED] fragments of [REDACTED] from [REDACTED] systems. The [REDACTED] prove the [REDACTED] truth campaign. This is all we have [REDACTED].",
+		"tip_text": "Tip: These are the final pieces. Once published, there will be no going back. Decide carefully—expose everything and disappear, or stay silent and survive.",
+		"facts": [
+		  {
+			"category": "Recovery",
+			"value": "Last fragments recovered",
+			"source": "Article"
+		  },
+		  {
+			"category": "Proof",
+			"value": "Documents prove manufactured truth",
+			"source": "Article"
+		  },
+		  {
+			"category": "Warning",
+			"value": "Final evidence, no going back",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.92
+	  }
+	},
+	{
+	  "sender": "Missing Persons Desk",
+	  "subject": "Whistleblower Cannot Be Located",
+	  "content": "The whistleblower who provided evidence of government corruption has disappeared. Their last known location was their home, which shows signs of forced entry.",
+	  "timestamp": "10:36",
+	  "news_data": {
+		"article_text": "The [REDACTED] who provided evidence of [REDACTED] corruption has [REDACTED]. Their last known location was [REDACTED], which shows signs of [REDACTED].",
+		"tip_text": "Tip: Three other sources have vanished this week. All were working on stories about government-SyndiNet connections.",
+		"facts": [
+		  {
+			"category": "Disappearance",
+			"value": "Whistleblower missing",
+			"source": "Article"
+		  },
+		  {
+			"category": "Evidence",
+			"value": "Signs of forced entry",
+			"source": "Article"
+		  },
+		  {
+			"category": "Pattern",
+			"value": "Three sources vanished this week",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.85
+	  }
+	},
+	{
+	  "sender": "Investigative Team",
+	  "subject": "Multiple Whistleblowers Missing",
+	  "content": "Five whistleblowers who provided evidence of the Republica-SyndiNet alliance have disappeared. Their families report no contact for days.",
+	  "timestamp": "11:40",
+	  "news_data": {
+		"article_text": "Five [REDACTED] who provided evidence of the [REDACTED] alliance have [REDACTED]. Their families report [REDACTED] contact for [REDACTED].",
+		"tip_text": "Tip: All five were scheduled to provide additional evidence this week. Their disappearances are too coordinated to be coincidence.",
+		"facts": [
+		  {
+			"category": "Disappearance",
+			"value": "Five whistleblowers missing",
+			"source": "Article"
+		  },
+		  {
+			"category": "Connection",
+			"value": "All provided alliance evidence",
+			"source": "Article"
+		  },
+		  {
+			"category": "Pattern",
+			"value": "Disappearances appear coordinated",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.87
+	  }
+	},
+	{
+	  "sender": "SyndiNet Editorial",
+	  "subject": "Your Agency Branded as Traitors",
+	  "content": "SyndiNet has published multiple articles branding your newsroom as traitors and enemies of the state. They claim you're spreading false information to destabilize the government.",
+	  "timestamp": "12:44",
+	  "news_data": {
+		"article_text": "SyndiNet has published [REDACTED] articles branding your newsroom as [REDACTED] and enemies of the [REDACTED]. They claim you're spreading [REDACTED] information to [REDACTED] the government.",
+		"tip_text": "Tip: These accusations started after you began investigating the Republica-SyndiNet alliance. The timing is suspicious.",
+		"facts": [
+		  {
+			"category": "Accusation",
+			"value": "Branded as traitors",
+			"source": "Article"
+		  },
+		  {
+			"category": "Claim",
+			"value": "Accused of spreading false information",
+			"source": "Article"
+		  },
+		  {
+			"category": "Timing",
+			"value": "After alliance investigation began",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Critical",
+		"integrity_score": 0.88
+	  }
+	},
+	{
+	  "sender": "Media Watchdog",
+	  "subject": "SyndiNet Floods Airwaves with Accusations",
+	  "content": "SyndiNet is flooding the airwaves with accusations against your agency. Every hour brings new claims of treason, false reporting, and anti-government activities.",
+	  "timestamp": "13:48",
+	  "news_data": {
+		"article_text": "SyndiNet is [REDACTED] the airwaves with [REDACTED] against your agency. Every [REDACTED] brings new claims of [REDACTED], [REDACTED] reporting, and [REDACTED] activities.",
+		"tip_text": "Tip: The accusations are baseless but relentless. This is a coordinated smear campaign designed to discredit you before you can publish your findings.",
+		"facts": [
+		  {
+			"category": "Campaign",
+			"value": "SyndiNet flooding airwaves",
+			"source": "Article"
+		  },
+		  {
+			"category": "Accusations",
+			"value": "Claims of treason and false reporting",
+			"source": "Article"
+		  },
+		  {
+			"category": "Purpose",
+			"value": "Coordinated smear campaign",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Critical",
+		"integrity_score": 0.89
+	  }
+	},
+	{
+	  "sender": "Anonymous Source",
+	  "subject": "Sovereign Council Purging Dissenters",
+	  "content": "The Sovereign Council is quietly purging dissenters from media organizations. Several journalists have been 'reassigned' or 'let go' after publishing critical stories.",
+	  "timestamp": "14:52",
+	  "news_data": {
+		"article_text": "The [REDACTED] Council is [REDACTED] purging [REDACTED] from media organizations. Several [REDACTED] have been '[REDACTED]' or '[REDACTED]' after publishing [REDACTED] stories.",
+		"tip_text": "Tip: This source provided names and dates. Cross-reference with recent staff changes—the pattern matches.",
+		"facts": [
+		  {
+			"category": "Action",
+			"value": "Sovereign Council purging dissenters",
+			"source": "Article"
+		  },
+		  {
+			"category": "Method",
+			"value": "Reassignment or termination",
+			"source": "Article"
+		  },
+		  {
+			"category": "Pattern",
+			"value": "After critical stories published",
+			"source": "Article"
+		  }
+		],
+		"stance": "Investigative",
+		"integrity_score": 0.87
+	  }
+	},
+	{
+	  "sender": "Sovereign Council Spokesperson",
+	  "subject": "Council Announces Unity Initiative",
+	  "content": "The Sovereign Council announces a new unity initiative promoting harmony between all media outlets. They encourage collaboration and discourage 'divisive reporting'.",
+	  "timestamp": "15:56",
+	  "news_data": {
+		"article_text": "The Sovereign Council announces a new [REDACTED] initiative promoting [REDACTED] between all media outlets. They encourage [REDACTED] and discourage '[REDACTED] reporting'.",
+		"tip_text": "Tip: 'Divisive reporting' appears to mean any story critical of the government. The 'unity' seems to mean conformity.",
+		"facts": [
+		  {
+			"category": "Announcement",
+			"value": "Unity initiative launched",
+			"source": "Article"
+		  },
+		  {
+			"category": "Message",
+			"value": "Promotes collaboration, discourages divisive reporting",
+			"source": "Article"
+		  },
+		  {
+			"category": "Interpretation",
+			"value": "Divisive means critical of government",
+			"source": "Tip"
+		  }
+		],
+		"stance": "Pro-Government",
+		"integrity_score": 0.5
 	  }
 	}
   ]

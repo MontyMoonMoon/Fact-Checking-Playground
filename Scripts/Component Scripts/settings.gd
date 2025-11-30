@@ -26,6 +26,10 @@ var game_timer: Node = null
 var game_manager: Node = null
 var is_paused: bool = false
 
+@onready var help: PackedScene = preload("res://Prefabs/Components/help_panel.tscn")
+
+signal settings_closed
+
 # ---------- UPDATE METHODS ----------
 func update_sliders() -> void:
 	master_slider.value = SettingsManager.master_vol
@@ -66,40 +70,18 @@ func _toggle_slider_value(slider: HSlider, button: Button) -> void:
 	save_pref()
 
 # ---------- BUTTONS ----------
-func _on_pause_pressed() -> void:
+func _on_help_pressed() -> void:
 	master.sound_manager.play_sound("mouse_click")
-	toggle_pause()
-
-func toggle_pause() -> void:
-	is_paused = !is_paused
-	
-	# Pause/unpause the game tree
-	get_tree().paused = is_paused
-	
-	# Pause/unpause the timer
-	if game_timer:
-		if is_paused:
-			game_timer.pause_timer()
-		else:
-			game_timer.resume_timer()
-	
-	# Update button text
-	if pause_button:
-		pause_button.text = "Resume" if is_paused else "Pause"
-	
-	print("Game %s" % ("paused" if is_paused else "resumed"))
-
-func set_game_timer(timer: Node) -> void:
-	game_timer = timer
-
-func set_game_manager(manager: Node) -> void:
-	game_manager = manager
+	var help_instance = help.instantiate()
+	help_instance.master = master
+	settings.add_child(help_instance)
 
 func _on_main_menu_pressed() -> void:
 	master.sound_manager.play_sound("mouse_click")
 	master.scene_loader.load_by_id(0)
 
 func _on_exit_pressed() -> void:
+	emit_signal("settings_closed")
 	queue_free()
 
 # ---------- SAVE DATA ----------

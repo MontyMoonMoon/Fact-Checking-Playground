@@ -1,7 +1,7 @@
 [gd_scene load_steps=23 format=3 uid="uid://buwqe1pymhbag"]
 
 [ext_resource type="Script" uid="uid://c8n2j52amxe6l" path="res://Scripts/Component Scripts/settings.gd" id="1_me6tl"]
-[ext_resource type="Texture2D" uid="uid://dwsjcb47v7jan" path="res://Assets/PNGs/UI/UI Assets.png" id="2_ctaxl"]
+[ext_resource type="Texture2D" uid="uid://dq83lbqfexi88" path="res://Assets/PNGs/UI/UI Assets.png" id="2_ctaxl"]
 [ext_resource type="FontFile" uid="uid://de2qiyybswcte" path="res://Assets/Fonts/windows-xp-tahoma.otf" id="3_befpv"]
 [ext_resource type="Texture2D" uid="uid://bd6yke83kddbo" path="res://Assets/PNGs/UI/Slider_Handle.png" id="3_ctaxl"]
 [ext_resource type="Texture2D" uid="uid://by5hcp7lpjoc7" path="res://Assets/PNGs/UI/Slider_Handle_HL.png" id="4_g15yg"]
@@ -345,6 +345,7 @@ size_flags_horizontal = 0
 size_flags_vertical = 8
 
 [node name="Pause" type="Button" parent="MarginContainer/NinePatchRect/MarginContainer/Buttons1"]
+visible = false
 custom_minimum_size = Vector2(110, 36)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -400,4 +401,5 @@ text = "Main Menu"
 [connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders/MusicSet/MusicButton" to="." method="_on_music_button_pressed"]
 [connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders/SFXSet/SFXButton" to="." method="_on_sfx_button_pressed"]
 [connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/Buttons1/Pause" to="." method="_on_pause_pressed"]
+[connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/Buttons1/Help" to="." method="_on_help_pressed"]
 [connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/Button2/MainMenu" to="." method="_on_main_menu_pressed"]

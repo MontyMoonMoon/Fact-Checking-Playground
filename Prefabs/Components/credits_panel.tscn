@@ -1,0 +1,607 @@
+[gd_scene load_steps=18 format=3 uid="uid://do8m3fycviffl"]
+
+[ext_resource type="Texture2D" uid="uid://dq83lbqfexi88" path="res://Assets/PNGs/UI/UI Assets.png" id="1_o6147"]
+[ext_resource type="Script" uid="uid://dgghe2l27b6xc" path="res://Scripts/Component Scripts/credits_panel.gd" id="1_tyg3m"]
+[ext_resource type="FontFile" uid="uid://de2qiyybswcte" path="res://Assets/Fonts/windows-xp-tahoma.otf" id="2_hnnrw"]
+[ext_resource type="FontFile" uid="uid://bhqhtnkkcerbn" path="res://Assets/Fonts/BMmini.TTF" id="3_hibwv"]
+[ext_resource type="Theme" uid="uid://df6e0ld8c6ydr" path="res://Assets/Default.tres" id="4_mx7yf"]
+[ext_resource type="FontFile" uid="uid://oluhvxue80kf" path="res://Assets/Fonts/MyDearestBit.ttf" id="5_c8pnd"]
+[ext_resource type="Texture2D" uid="uid://brll6eec1kgi4" path="res://Assets/PNGs/LogoFull.png" id="5_ogdd0"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_o6147"]
+texture = ExtResource("1_o6147")
+region_rect = Rect2(384, 646, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hnnrw"]
+texture = ExtResource("1_o6147")
+region_rect = Rect2(451, 646, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hibwv"]
+texture = ExtResource("1_o6147")
+region_rect = Rect2(418, 646, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mx7yf"]
+texture = ExtResource("1_o6147")
+region_rect = Rect2(963, 179, 25, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_c8pnd"]
+texture = ExtResource("1_o6147")
+region_rect = Rect2(963, 243, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ogdd0"]
+texture = ExtResource("1_o6147")
+region_rect = Rect2(963, 213, 26, 26)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o6147"]
+bg_color = Color(0.8474746, 0.8474744, 0.84747416, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hibwv"]
+font = ExtResource("2_hnnrw")
+font_size = 32
+font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hnnrw"]
+bg_color = Color(0.18431373, 0.27058825, 0.39607844, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c8pnd"]
+bg_color = Color(0.92156863, 0.9254902, 0.94509804, 1)
+
+[node name="Credits Panel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tyg3m")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+custom_minimum_size = Vector2(800, 500)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_o6147")
+region_rect = Rect2(1008, 384, 700, 400)
+
+[node name="MarginContainer" type="MarginContainer" parent="NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 4
+
+[node name="Buttons" type="MarginContainer" parent="NinePatchRect/MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 8
+
+[node name="Buttons" type="HBoxContainer" parent="NinePatchRect/MarginContainer/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="Size" type="Button" parent="NinePatchRect/MarginContainer/Buttons/Buttons"]
+custom_minimum_size = Vector2(25, 26)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_o6147")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_hnnrw")
+theme_override_styles/hover = SubResource("StyleBoxTexture_hnnrw")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_hibwv")
+disabled = true
+
+[node name="Exit" type="Button" parent="NinePatchRect/MarginContainer/Buttons/Buttons"]
+custom_minimum_size = Vector2(25, 26)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_mx7yf")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_c8pnd")
+theme_override_styles/hover = SubResource("StyleBoxTexture_c8pnd")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_ogdd0")
+
+[node name="Document Tabs" type="Panel" parent="NinePatchRect/MarginContainer"]
+custom_minimum_size = Vector2(230, 452)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxFlat_o6147")
+
+[node name="MarginContainer" type="MarginContainer" parent="NinePatchRect/MarginContainer/Document Tabs"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 20
+
+[node name="MarginContainer" type="MarginContainer" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Document Tabs"
+label_settings = SubResource("LabelSettings_hibwv")
+
+[node name="Control" type="Control" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+theme_override_fonts/font = ExtResource("3_hibwv")
+theme_override_font_sizes/font_size = 16
+text = "Credits"
+
+[node name="MarginContainer" type="MarginContainer" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Pos1" type="HBoxContainer" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Pos1"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3882353, 0.3882353, 0.3882353, 1)
+theme_override_fonts/font = ExtResource("3_hibwv")
+text = ">"
+
+[node name="Label2" type="Label" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Pos1"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+theme_override_fonts/font = ExtResource("3_hibwv")
+theme_override_font_sizes/font_size = 16
+text = "Position"
+
+[node name="Pos2" type="HBoxContainer" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Pos2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3882353, 0.3882353, 0.3882353, 1)
+theme_override_fonts/font = ExtResource("3_hibwv")
+text = ">"
+
+[node name="Label2" type="Label" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Pos2"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+theme_override_fonts/font = ExtResource("3_hibwv")
+theme_override_font_sizes/font_size = 16
+text = "Position"
+
+[node name="Pos3" type="HBoxContainer" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Pos3"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3882353, 0.3882353, 0.3882353, 1)
+theme_override_fonts/font = ExtResource("3_hibwv")
+text = ">"
+
+[node name="Label2" type="Label" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Pos3"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+theme_override_fonts/font = ExtResource("3_hibwv")
+theme_override_font_sizes/font_size = 16
+text = "Position"
+
+[node name="Fonts" type="HBoxContainer" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Fonts"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3882353, 0.3882353, 0.3882353, 1)
+theme_override_fonts/font = ExtResource("3_hibwv")
+text = ">"
+
+[node name="Label2" type="Label" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Fonts"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+theme_override_fonts/font = ExtResource("3_hibwv")
+theme_override_font_sizes/font_size = 16
+text = "Fonts"
+
+[node name="Sound Effects" type="HBoxContainer" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Sound Effects"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3882353, 0.3882353, 0.3882353, 1)
+theme_override_fonts/font = ExtResource("3_hibwv")
+text = ">"
+
+[node name="Label2" type="Label" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Sound Effects"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+theme_override_fonts/font = ExtResource("3_hibwv")
+theme_override_font_sizes/font_size = 16
+text = "Sound Effects"
+
+[node name="Visual Assets" type="HBoxContainer" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Visual Assets"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3882353, 0.3882353, 0.3882353, 1)
+theme_override_fonts/font = ExtResource("3_hibwv")
+text = ">"
+
+[node name="Label2" type="Label" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Visual Assets"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+theme_override_fonts/font = ExtResource("3_hibwv")
+theme_override_font_sizes/font_size = 16
+text = "Visual Effects"
+
+[node name="Special Thanks" type="HBoxContainer" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Special Thanks"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3882353, 0.3882353, 0.3882353, 1)
+theme_override_fonts/font = ExtResource("3_hibwv")
+text = ">"
+
+[node name="Label2" type="Label" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Special Thanks"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+theme_override_fonts/font = ExtResource("3_hibwv")
+theme_override_font_sizes/font_size = 16
+text = "Special Thanks"
+
+[node name="Sep" type="VBoxContainer" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/Sep"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="NinePatchRect/MarginContainer/Document Tabs/MarginContainer/Sep"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hnnrw")
+
+[node name="MainContent" type="MarginContainer" parent="NinePatchRect/MarginContainer"]
+custom_minimum_size = Vector2(567, 450)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_constants/margin_left = 37
+theme_override_constants/margin_top = 18
+
+[node name="ScrollContainer" type="ScrollContainer" parent="NinePatchRect/MarginContainer/MainContent"]
+custom_minimum_size = Vector2(529, 412)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme = ExtResource("4_mx7yf")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 13)
+layout_mode = 2
+
+[node name="Content" type="MarginContainer" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Back Panel" type="Panel" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content"]
+custom_minimum_size = Vector2(500, 450)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_c8pnd")
+
+[node name="TextContent" type="MarginContainer" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content"]
+custom_minimum_size = Vector2(220, 30)
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Control" type="Control" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer"]
+custom_minimum_size = Vector2(213, 128)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("5_ogdd0")
+
+[node name="Control2" type="Control" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Members" type="VBoxContainer" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer"]
+layout_mode = 2
+
+[node name="Pos1" type="Label" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Members"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+theme_override_fonts/font = ExtResource("5_c8pnd")
+text = "Backend & Systems Integration"
+
+[node name="Mem1" type="Label" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Members"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_c8pnd")
+text = "Simon Marvy V. Agustin"
+
+[node name="Control2" type="Control" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Members"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+
+[node name="Pos2" type="Label" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Members"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+theme_override_fonts/font = ExtResource("5_c8pnd")
+text = "UI, Assets & Integration Support"
+
+[node name="Mem2" type="Label" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Members"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_c8pnd")
+text = "Krishna Marie B. Reformina"
+
+[node name="Control3" type="Control" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Members"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+
+[node name="Pos3" type="Label" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Members"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+theme_override_fonts/font = ExtResource("5_c8pnd")
+text = "Visual Design & Prototype"
+
+[node name="Mem3" type="Label" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Members"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_c8pnd")
+text = "Eurie Mae B. Manaig"
+
+[node name="Control4" type="Control" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Members"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Fonts" type="VBoxContainer" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 10
+
+[node name="Fonts" type="Label" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Fonts"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+theme_override_fonts/font = ExtResource("5_c8pnd")
+text = "- - Fonts  - -"
+
+[node name="Control" type="Control" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Fonts"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+
+[node name="Font1" type="Label" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Fonts"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_c8pnd")
+text = "MyDearestBit  by  Hyohnoo"
+
+[node name="Font2" type="Label" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Fonts"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_c8pnd")
+text = "Windows XP Tahoma  by  Matthew Carter"
+
+[node name="Font3" type="Label" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Fonts"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_c8pnd")
+text = "BM Mini  by  BitmapMania"
+
+[node name="Control4" type="Control" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Fonts"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Sounds" type="VBoxContainer" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 10
+
+[node name="Sound Effects" type="Label" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Sounds"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+theme_override_fonts/font = ExtResource("5_c8pnd")
+text = "- - Sound Effects  - -"
+
+[node name="NinePatchRect" type="NinePatchRect" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Sounds"]
+layout_mode = 2
+region_rect = Rect2(0, 0, 197, 197)
+
+[node name="Control" type="Control" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Sounds"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+
+[node name="SFX" type="Label" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Sounds"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_c8pnd")
+text = "Alarm_clock, Error_sound, Exit_sound,
+Mouse_click1, Mouse_click2, Notification,
+Phone_click, Typing_sound"
+horizontal_alignment = 1
+
+[node name="Control4" type="Control" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Sounds"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Visual" type="VBoxContainer" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 10
+
+[node name="Visual" type="Label" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Visual"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+theme_override_fonts/font = ExtResource("5_c8pnd")
+text = "- - Visual Assets  - -"
+
+[node name="Control" type="Control" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Visual"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+
+[node name="Vis1" type="Label" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Visual"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_c8pnd")
+text = "Pixelart  App  Icons  &  Generic  Icons  
+by  ReffPixels"
+horizontal_alignment = 1
+
+[node name="Vis2" type="Label" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Visual"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_c8pnd")
+text = "Luci  Icons  by  Leo  Red"
+horizontal_alignment = 1
+
+[node name="Vis3" type="Label" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Visual"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_c8pnd")
+text = "Retro Windows GUI by Comp-3 Interactive"
+horizontal_alignment = 1
+
+[node name="Vis4" type="Label" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Visual"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_c8pnd")
+text = "Pixel(ized)  Phone  2.0  by  Ashizian"
+horizontal_alignment = 1
+
+[node name="Control4" type="Control" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Visual"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Special Thanks" type="VBoxContainer" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 10
+
+[node name="Special" type="Label" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Special Thanks"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+theme_override_fonts/font = ExtResource("5_c8pnd")
+theme_override_font_sizes/font_size = 24
+text = "SPECIAL THANKS"
+
+[node name="Control" type="Control" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Special Thanks"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+
+[node name="Pos1" type="Label" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Special Thanks"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+theme_override_fonts/font = ExtResource("5_c8pnd")
+text = "Thesis Adviser"
+
+[node name="Per1" type="Label" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Special Thanks"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_c8pnd")
+text = "Sheryl Kamantigue"
+horizontal_alignment = 1
+
+[node name="Control4" type="Control" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Special Thanks"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Note" type="VBoxContainer" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 10
+
+[node name="Par1" type="Label" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Note"]
+visible = false
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+theme_override_fonts/font = ExtResource("5_c8pnd")
+text = "\"In a world drowning in half-truths and digital deception, the most powerful weapon we have is the ability to question, verify, and think critically. Every story has multiple sides—it's our duty to find the truth.\""
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Control" type="Control" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Note"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+
+[node name="Phrase" type="Label" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Note"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.5254902, 0.19215687, 0.19215687, 1)
+theme_override_fonts/font = ExtResource("5_c8pnd")
+text = "Stay curious. Stay critical. Stay informed."
+horizontal_alignment = 1
+
+[node name="Control2" type="Control" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Note"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[connection signal="pressed" from="NinePatchRect/MarginContainer/Buttons/Buttons/Exit" to="." method="_on_exit_pressed"]

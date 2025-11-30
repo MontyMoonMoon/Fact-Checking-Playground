@@ -205,27 +205,22 @@ func _find_messages_container() -> VBoxContainer:
 		return chat_content_node.find_child("MessagesContainer", true, false)
 	return null
 
-func _create_chat_bubble(content: String) -> Node:
-	"""Helper to create chat bubble with content"""
-	var chat_bubble = chat_bubble_prefab.instantiate()
-	var paragraph_label = chat_bubble.get_node_or_null("Content/TextsContainer/Paragraph")
-	
-	if not paragraph_label:
-		paragraph_label = chat_bubble.find_child("Paragraph", true, false)
-	
-	if paragraph_label and paragraph_label is Label:
-		paragraph_label.text = content
-		paragraph_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		paragraph_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		paragraph_label.visible = true
-		return chat_bubble
-	
-	var fallback_label = Label.new()
-	fallback_label.text = content
-	fallback_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	fallback_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	fallback_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	return fallback_label
+func _create_chat_bubble(content: String) -> Control:
+	if not chat_bubble_prefab:
+		push_warning("chat_bubble_prefab is not assigned!")
+		return Label.new()  # fallback
+
+	var chat_bubble = chat_bubble_prefab.instantiate() as Control
+
+	if chat_bubble.has_method("set_text"):
+		chat_bubble.set_text(content)
+	else:
+		push_warning("Chat bubble instance has no set_text method!")
+		var fallback = Label.new()
+		fallback.text = content
+		return fallback
+
+	return chat_bubble
 
 func _ensure_container_visibility() -> void:
 	"""Helper to ensure message container and parents are visible"""
@@ -309,21 +304,24 @@ func _add_discard_button_to_message(chat_instance: Node, message_data: Dictionar
 	# Add discard button as an overlay or as part of the chat button
 	var discard_button = Button.new()
 	discard_button.name = "DiscardButton"
-	discard_button.text = "X"
-	discard_button.custom_minimum_size = Vector2(30, 30)
+	discard_button.text = "x"
+	discard_button.custom_minimum_size = Vector2(15, 15)
 	discard_button.flat = true
-	
+	discard_button.focus_mode = Control.FOCUS_NONE
+
+	# Set text color for all states
+	var text_color := Color("#2b3931")
+	discard_button.add_theme_color_override("font_color", text_color)
+	discard_button.add_theme_color_override("font_color_hover", text_color)
+	discard_button.add_theme_color_override("font_color_pressed", text_color)
+
 	# Position button on the right side of the chat button
 	chat_button.add_child(discard_button)
+	
 	# Set anchors manually for right-top positioning (anchor to right and top)
 	discard_button.anchor_left = 1.0
 	discard_button.anchor_top = 0.0
-	discard_button.anchor_right = 1.0
-	discard_button.anchor_bottom = 0.0
-	discard_button.offset_left = -35
-	discard_button.offset_top = 5
-	discard_button.offset_right = -5
-	discard_button.offset_bottom = 35
+	discard_button.offset_left = -40
 	
 	# Connect button to discard function
 	discard_button.pressed.connect(func(): _on_discard_message_pressed(message_data, chat_instance))
@@ -391,11 +389,11 @@ func _create_save_to_notes_button() -> void:
 	
 	if not save_to_notes_button and chat_content:
 		# Find the VBoxContainer inside chat_content (Chats/VBoxContainer)
-		var vbox_container = chat_content.get_node_or_null("VBoxContainer")
+		var vbox_container = chat_content.get_node_or_null("Chats/VBoxContainer/Scrollable/SaveSpawn")
 		
 		if not vbox_container:
 			# Fallback: try to find it via path
-			vbox_container = get_node_or_null("Chats/VBoxContainer")
+			vbox_container = get_node_or_null("Chats/VBoxContainer/Scrollable/SaveSpawn")
 		
 		# Create button
 		var button = Button.new()
@@ -404,43 +402,32 @@ func _create_save_to_notes_button() -> void:
 		button.custom_minimum_size = Vector2(180, 35)
 		button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		button.pressed.connect(_on_save_to_notes_pressed)
-		
-		# Add to VBoxContainer - place it BEFORE the ScrollContainer so it stays visible
-		# Order: Control1 -> Chat Closed -> Panel -> SaveToNotesButton -> ScrollContainer
+
+		var color := Color("aabab1")
+
+		# NORMAL
+		var sb_normal := StyleBoxFlat.new()
+		sb_normal.bg_color = color
+		button.add_theme_stylebox_override("normal", sb_normal)
+
+		# HOVER
+		var sb_hover := StyleBoxFlat.new()
+		sb_hover.bg_color = color
+		button.add_theme_stylebox_override("hover", sb_hover)
+
+		# PRESSED
+		var sb_pressed := StyleBoxFlat.new()
+		sb_pressed.bg_color = color
+		button.add_theme_stylebox_override("pressed", sb_pressed)
+
 		if vbox_container and vbox_container is VBoxContainer:
-			# Find the ScrollContainer to insert button BEFORE it
-			var scrollable_index = -1
-			for i in range(vbox_container.get_child_count()):
-				var child = vbox_container.get_child(i)
-				if child is ScrollContainer:
-					scrollable_index = i
-					break
-			
-			if scrollable_index >= 0:
-				# Insert button BEFORE ScrollContainer (position will be scrollable_index)
-				vbox_container.add_child(button)
-				vbox_container.move_child(button, scrollable_index)
-				save_to_notes_button = button
-				print("[Message_app._create_save_to_notes_button] Created SaveToNotesButton BEFORE ScrollContainer at index %d" % scrollable_index)
-			else:
-				# Fallback: find Panel and add after it
-				var panel_index = -1
-				for i in range(vbox_container.get_child_count()):
-					var child = vbox_container.get_child(i)
-					if child is Panel:
-						panel_index = i
-						break
-				
-				vbox_container.add_child(button)
-				if panel_index >= 0:
-					vbox_container.move_child(button, panel_index + 1)
-				save_to_notes_button = button
-				print("[Message_app._create_save_to_notes_button] Created SaveToNotesButton (fallback: after Panel at index %d)" % (panel_index + 1))
+			# Always add to bottom
+			vbox_container.add_child(button)
+
+			save_to_notes_button = button
+			print("[Message_app._create_save_to_notes_button] Created SaveToNotesButton at BOTTOM")
 		else:
 			push_warning("[Message_app._create_save_to_notes_button] Could not find VBoxContainer!")
-	elif save_to_notes_button:
-		save_to_notes_button.pressed.disconnect(_on_save_to_notes_pressed)
-		save_to_notes_button.pressed.connect(_on_save_to_notes_pressed)
 
 func _on_save_to_notes_pressed() -> void:
 	"""Save the current tip to notes system - prevents duplicates"""
@@ -520,6 +507,19 @@ func set_ui(visibility: bool, target: int) -> void:
 
 # ---------- BUTTONS ----------
 func _on_messages_main_pressed() -> void:
+	master.sound_manager.play_sound("phone_click")
+	set_ui(false, 1)
+	set_ui(false, 2)
+	# Hide app_container to show phone main menu again
+	if phone and phone.app_container:
+		phone.app_container.visible = false
+	elif phone:
+		# Try to find app_container directly via node path
+		var app_container = phone.get_node_or_null("PhoneContainer/MainPhone/AppContainers")
+		if app_container:
+			app_container.visible = false
+
+func close_messages() -> void:
 	set_ui(false, 1)
 	set_ui(false, 2)
 	# Hide app_container to show phone main menu again
@@ -592,7 +592,7 @@ func _ready() -> void:
 		
 	if phone:
 		phone.connect("open_message_app", Callable(self, "_on_open_messages_app"))
-		phone.connect("close_all_apps", Callable(self, "_on_messages_main_pressed"))
+		phone.connect("close_all_apps", Callable(self, "close_messages"))
 	else:
 		push_warning("[Messaging_app.ready] Phone is kinda missing...")
 	

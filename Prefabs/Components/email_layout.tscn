@@ -1,0 +1,57 @@
+[gd_scene load_steps=4 format=3 uid="uid://c8h3lam2n5p7q"]
+
+[ext_resource type="Script" path="res://Scripts/Component Scripts/email_layout.gd" id="1_email"]
+[ext_resource type="Texture2D" uid="uid://dq83lbqfexi88" path="res://Assets/PNGs/UI/UI Assets.png" id="2_bvysy"]
+[ext_resource type="FontFile" uid="uid://de2qiyybswcte" path="res://Assets/Fonts/windows-xp-tahoma.otf" id="3_38n7s"]
+
+[node name="email_layout" type="Control" node_paths=PackedStringArray("display_text")]
+custom_minimum_size = Vector2(400, 40)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_email")
+display_text = NodePath("Content/TextContent/VBoxContainer/Label")
+
+[node name="Content" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_right = 200.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Content"]
+custom_minimum_size = Vector2(400, 40)
+layout_mode = 2
+texture = ExtResource("2_bvysy")
+region_rect = Rect2(480, 720, 515, 50)
+size_flags_horizontal = 0
+
+[node name="TextContent" type="MarginContainer" parent="Content"]
+custom_minimum_size = Vector2(180, 20)
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Content/TextContent"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Label" type="Label" parent="Content/TextContent/VBoxContainer"]
+custom_minimum_size = Vector2(370, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_38n7s")
+theme_override_font_sizes/font_size = 28
+text = "Email/article content"
+autowrap_mode = 3
+

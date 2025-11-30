@@ -27,6 +27,7 @@ func _on_messages_pressed() -> void:
 
 func _on_notes_pressed() -> void:
 	emit_signal("open_notes_app")
+	print("Opening notes app")
 	app_container.visible = true
 
 func _on_contacts_pressed() -> void:
@@ -35,6 +36,7 @@ func _on_contacts_pressed() -> void:
 
 # ---------- PHONE EXIT ----------
 func _on_exit_phone_pressed() -> void:
+	master.sound_manager.play_sound("ui_click")
 	emit_signal("closed_phone")
 	emit_signal("close_all_apps")
 	app_container.visible = false

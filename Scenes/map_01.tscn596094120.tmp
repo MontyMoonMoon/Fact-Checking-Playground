@@ -1,0 +1,166 @@
+[gd_scene load_steps=11 format=3 uid="uid://c0t6505sx6arq"]
+
+[ext_resource type="Script" uid="uid://dgq6oe33k16qn" path="res://Scripts/Scene Scripts/map_01.gd" id="1_iq20c"]
+[ext_resource type="PackedScene" uid="uid://0er4ikvu0igi" path="res://Prefabs/Main Components/integrity_meter.tscn" id="2_rct2e"]
+[ext_resource type="Texture2D" uid="uid://cn7jrvimsqga1" path="res://Assets/PNGs/UI/Settings.png" id="2_tp66r"]
+[ext_resource type="Texture2D" uid="uid://jwbm4w48rlp" path="res://Assets/PNGs/DeskBG.png" id="3_3rba1"]
+[ext_resource type="Texture2D" uid="uid://bhujshw3xbpe7" path="res://Assets/PNGs/Main Components/PhoneIcon.png" id="3_iq20c"]
+[ext_resource type="PackedScene" uid="uid://dlpb35r0pfucw" path="res://Prefabs/Main Components/phone.tscn" id="4_5230n"]
+[ext_resource type="PackedScene" uid="uid://0tax7malsyxa" path="res://Prefabs/Main Components/laptop.tscn" id="4_rct2e"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_43hql"]
+bg_color = Color(0.380392, 0.380392, 0.380392, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3rba1"]
+texture = ExtResource("2_tp66r")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5230n"]
+texture = ExtResource("3_iq20c")
+
+[node name="map_01" type="CanvasLayer" node_paths=PackedStringArray("main_container", "day_counter", "settings_button", "phone_button", "phone_container", "phone", "laptop")]
+script = ExtResource("1_iq20c")
+main_container = NodePath("Contents/Objects")
+day_counter = NodePath("Contents/TopBar/MarginContainer/DayCounter")
+settings_button = NodePath("Contents/TopBar/MarginContainer/Right/Settings")
+phone_button = NodePath("Contents/Objects/Phone/MarginContainer/PhoneButton")
+phone_container = NodePath("Contents/Objects/Phone/MarginContainer/Phone")
+phone = NodePath("Contents/Objects/Phone/MarginContainer/Phone/Phone")
+laptop = NodePath("Contents/Objects/Laptop/Laptop")
+
+[node name="Contents" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TopBar" type="Panel" parent="Contents"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_43hql")
+
+[node name="MarginContainer" type="MarginContainer" parent="Contents/TopBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="Header" type="Label" parent="Contents/TopBar/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 24
+text = "The Republia Post"
+
+[node name="DayCounter" type="Label" parent="Contents/TopBar/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 36
+text = "DAY 1"
+
+[node name="Right" type="HBoxContainer" parent="Contents/TopBar/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_constants/separation = 10
+
+[node name="Settings" type="Button" parent="Contents/TopBar/MarginContainer/Right"]
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_3rba1")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_3rba1")
+theme_override_styles/hover = SubResource("StyleBoxTexture_3rba1")
+toggle_mode = true
+
+[node name="Desk" type="NinePatchRect" parent="Contents"]
+custom_minimum_size = Vector2(0, 567.8)
+layout_mode = 2
+size_flags_vertical = 8
+texture = ExtResource("3_3rba1")
+region_rect = Rect2(0, 0, 386, 189)
+
+[node name="Objects" type="MarginContainer" parent="Contents"]
+custom_minimum_size = Vector2(0, 570)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Integriy Meter" type="Control" parent="Contents/Objects"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="Contents/Objects/Integriy Meter"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+
+[node name="IntegrityMeter" parent="Contents/Objects/Integriy Meter/MarginContainer" instance=ExtResource("2_rct2e")]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Phone" type="Control" parent="Contents/Objects"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Contents/Objects/Phone"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_right = 15
+
+[node name="PhoneButton" type="VBoxContainer" parent="Contents/Objects/Phone/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="PhoneButton" type="Button" parent="Contents/Objects/Phone/MarginContainer/PhoneButton"]
+custom_minimum_size = Vector2(44, 80)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_5230n")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5230n")
+theme_override_styles/hover = SubResource("StyleBoxTexture_5230n")
+
+[node name="Control" type="Control" parent="Contents/Objects/Phone/MarginContainer/PhoneButton"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Phone" type="VBoxContainer" parent="Contents/Objects/Phone/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+
+[node name="Control" type="Control" parent="Contents/Objects/Phone/MarginContainer/Phone"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Phone" parent="Contents/Objects/Phone/MarginContainer/Phone" instance=ExtResource("4_5230n")]
+layout_mode = 2
+
+[node name="Laptop" type="Control" parent="Contents/Objects"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Laptop" parent="Contents/Objects/Laptop" instance=ExtResource("4_rct2e")]
+layout_mode = 1
+
+[connection signal="pressed" from="Contents/TopBar/MarginContainer/Right/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="Contents/Objects/Phone/MarginContainer/PhoneButton/PhoneButton" to="." method="_on_phone_button_pressed"]

@@ -1,17 +1,17 @@
 [gd_scene load_steps=6 format=3 uid="uid://b24ayq2tow7r5"]
 
 [ext_resource type="Script" uid="uid://bicurxgsbtvsy" path="res://Scripts/Component Scripts/chats_content.gd" id="1_ftpxr"]
-[ext_resource type="FontFile" uid="uid://dee4q2pxdjpua" path="res://Assets/Fonts/BMgermar.TTF" id="1_n6msf"]
 [ext_resource type="FontFile" uid="uid://bhqhtnkkcerbn" path="res://Assets/Fonts/BMmini.TTF" id="2_dwnwg"]
+[ext_resource type="FontFile" uid="uid://dee4q2pxdjpua" path="res://Assets/Fonts/BMgermar.TTF" id="2_ftpxr"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n86ce"]
-bg_color = Color(0.694118, 0.698039, 0.701961, 1)
+bg_color = Color(0.6627451, 0.7294118, 0.6901961, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n6msf"]
-bg_color = Color(0.380392, 0.380392, 0.380392, 1)
+bg_color = Color(0.4, 0.48235294, 0.43529412, 1)
 
 [node name="MessageChat" type="Control"]
-custom_minimum_size = Vector2(230, 50)
+custom_minimum_size = Vector2(230, 55)
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -32,7 +32,7 @@ grow_vertical = 2
 theme_override_constants/separation = -1
 
 [node name="Chat" type="Button" parent="Preview"]
-custom_minimum_size = Vector2(228, 50)
+custom_minimum_size = Vector2(228, 55)
 layout_mode = 2
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_n86ce")
@@ -47,24 +47,32 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 5
+theme_override_constants/margin_top = 8
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Preview/Chat/Contents"]
 layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 1
 
 [node name="Header" type="Label" parent="Preview/Chat/Contents/VBoxContainer"]
+custom_minimum_size = Vector2(210, 0)
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_fonts/font = ExtResource("1_n6msf")
-theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.16862746, 0.22352941, 0.19215687, 1)
+theme_override_fonts/font = ExtResource("2_ftpxr")
+theme_override_font_sizes/font_size = 24
 text = "Name"
+clip_text = true
 
 [node name="Preview" type="Label" parent="Preview/Chat/Contents/VBoxContainer"]
+custom_minimum_size = Vector2(210, 0)
 layout_mode = 2
 size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.16862746, 0.22352941, 0.19215687, 1)
 theme_override_fonts/font = ExtResource("2_dwnwg")
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 16
 text = "Hey what's up? "
+clip_text = true
 
 [node name="Line" type="Panel" parent="Preview"]
 custom_minimum_size = Vector2(228, 1)

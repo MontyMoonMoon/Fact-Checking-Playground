@@ -1,0 +1,16 @@
+{
+  "notes": [
+	{
+	  "id": "note1",
+	  "note_header": "Work Reminders",
+	  "note_content": "Lorem ipsum dolor sit amet consectetur. Nec sed sem cursus leo laoreet facilisi eget pellentesque. Eros semper nisl faucibus adipiscing nisi in. Bibendum aliquet enim sit nec tempus et. Ut viverra pharetra ligula maecenas viverra sit arcu facilisi tempor.",
+	  "note_date_time": "08/20 8:15PM"
+	},
+	{
+		"id": "note2",
+		"note_header": "Thesis Deadline",
+		"note_content": "Final Defense Date - Dec 4",
+		"note_date_time": "11/09 3:18PM"
+	}
+  ]
+}

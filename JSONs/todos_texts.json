@@ -1,0 +1,14 @@
+{
+  "todos": [
+	{
+	  "id": "todo1",
+	  "todo_content": "Check 5 emails",
+	  "todo_state": false,
+	},
+	{
+	  "id": "todo2",
+	  "todo_content": "Verify 5 sources",
+	  "todo_state": false,
+	}
+  ]
+}

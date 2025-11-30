@@ -1,0 +1,341 @@
+[gd_scene load_steps=15 format=3 uid="uid://bweiyk2d5bdu1"]
+
+[ext_resource type="Texture2D" uid="uid://dq83lbqfexi88" path="res://Assets/PNGs/UI/UI Assets.png" id="1_2qfc2"]
+[ext_resource type="Script" uid="uid://1kt0yu86dfxy" path="res://Scripts/Component Scripts/help_panel.gd" id="1_gcj38"]
+[ext_resource type="Theme" uid="uid://df6e0ld8c6ydr" path="res://Assets/Default.tres" id="2_d4itq"]
+[ext_resource type="FontFile" uid="uid://de2qiyybswcte" path="res://Assets/Fonts/windows-xp-tahoma.otf" id="2_vkq5e"]
+[ext_resource type="FontFile" uid="uid://bhqhtnkkcerbn" path="res://Assets/Fonts/BMmini.TTF" id="4_chpfe"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_chpfe"]
+texture = ExtResource("1_2qfc2")
+region_rect = Rect2(384, 646, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gcj38"]
+texture = ExtResource("1_2qfc2")
+region_rect = Rect2(451, 646, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_g8jlm"]
+texture = ExtResource("1_2qfc2")
+region_rect = Rect2(418, 646, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ok2p7"]
+texture = ExtResource("1_2qfc2")
+region_rect = Rect2(963, 179, 25, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hmioy"]
+texture = ExtResource("1_2qfc2")
+region_rect = Rect2(963, 243, 26, 26)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2qfc2"]
+texture = ExtResource("1_2qfc2")
+expand_margin_bottom = 2.0
+region_rect = Rect2(864, 832, 224, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vkq5e"]
+texture = ExtResource("1_2qfc2")
+region_rect = Rect2(864, 864, 224, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_d4itq"]
+texture = ExtResource("1_2qfc2")
+region_rect = Rect2(864, 896, 224, 16)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d4itq"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[node name="Help Panel" type="Control" node_paths=PackedStringArray("control_button", "controls_panel", "htp_button", "htp_panel")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gcj38")
+control_button = NodePath("NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/Controls")
+controls_panel = NodePath("NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/ControlsContent")
+htp_button = NodePath("NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/How to Play")
+htp_panel = NodePath("NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HowToPlayContent")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+custom_minimum_size = Vector2(532, 336)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_2qfc2")
+region_rect = Rect2(1008, 16, 532, 336)
+
+[node name="Buttons" type="MarginContainer" parent="NinePatchRect"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 25.0
+grow_horizontal = 2
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 10
+
+[node name="Buttons" type="HBoxContainer" parent="NinePatchRect/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="Size" type="Button" parent="NinePatchRect/Buttons/Buttons"]
+custom_minimum_size = Vector2(25, 26)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_chpfe")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_gcj38")
+theme_override_styles/hover = SubResource("StyleBoxTexture_gcj38")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_g8jlm")
+disabled = true
+
+[node name="Exit" type="Button" parent="NinePatchRect/Buttons/Buttons"]
+custom_minimum_size = Vector2(25, 26)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_ok2p7")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_hmioy")
+theme_override_styles/hover = SubResource("StyleBoxTexture_hmioy")
+
+[node name="MarginContainer" type="MarginContainer" parent="NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 36
+theme_override_constants/margin_right = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="NinePatchRect/MarginContainer"]
+layout_mode = 2
+theme = ExtResource("2_d4itq")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NinePatchRect/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Sep" type="Control" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Controls" type="Button" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(510, 33)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_vkq5e")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_2qfc2")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_vkq5e")
+theme_override_styles/hover = SubResource("StyleBoxTexture_d4itq")
+toggle_mode = true
+text = "  Controls"
+alignment = 0
+
+[node name="ControlsContent" type="MarginContainer" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 2
+
+[node name="Panel" type="Panel" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/ControlsContent"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_d4itq")
+
+[node name="TextsContainer" type="MarginContainer" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/ControlsContent"]
+custom_minimum_size = Vector2(220, 30)
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/ControlsContent/TextsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 45
+
+[node name="Controls" type="VBoxContainer" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/ControlsContent/TextsContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/separation = 10
+
+[node name="Interact" type="Label" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/ControlsContent/TextsContainer/HBoxContainer/Controls"]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_chpfe")
+theme_override_font_sizes/font_size = 16
+text = "Interact"
+vertical_alignment = 2
+autowrap_mode = 3
+
+[node name="ESC" type="Label" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/ControlsContent/TextsContainer/HBoxContainer/Controls"]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_chpfe")
+theme_override_font_sizes/font_size = 16
+text = "Open settings panel"
+vertical_alignment = 2
+autowrap_mode = 3
+
+[node name="ALT" type="Label" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/ControlsContent/TextsContainer/HBoxContainer/Controls"]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_chpfe")
+theme_override_font_sizes/font_size = 16
+text = "Open Laptop"
+vertical_alignment = 2
+autowrap_mode = 3
+
+[node name="Number" type="Label" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/ControlsContent/TextsContainer/HBoxContainer/Controls"]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_chpfe")
+theme_override_font_sizes/font_size = 16
+text = "Laptop Apps"
+vertical_alignment = 2
+autowrap_mode = 3
+
+[node name="TAB" type="Label" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/ControlsContent/TextsContainer/HBoxContainer/Controls"]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_chpfe")
+theme_override_font_sizes/font_size = 16
+text = "Open Phone"
+vertical_alignment = 2
+autowrap_mode = 3
+
+[node name="Keys" type="VBoxContainer" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/ControlsContent/TextsContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/separation = 10
+
+[node name="Interact" type="Label" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/ControlsContent/TextsContainer/HBoxContainer/Keys"]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_chpfe")
+theme_override_font_sizes/font_size = 16
+text = "LMB"
+horizontal_alignment = 2
+vertical_alignment = 2
+autowrap_mode = 3
+
+[node name="ESC" type="Label" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/ControlsContent/TextsContainer/HBoxContainer/Keys"]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_chpfe")
+theme_override_font_sizes/font_size = 16
+text = "ESCAPE"
+horizontal_alignment = 2
+vertical_alignment = 2
+autowrap_mode = 3
+
+[node name="ALT" type="Label" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/ControlsContent/TextsContainer/HBoxContainer/Keys"]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_chpfe")
+theme_override_font_sizes/font_size = 16
+text = "ALT"
+horizontal_alignment = 2
+vertical_alignment = 2
+autowrap_mode = 3
+
+[node name="Number" type="Label" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/ControlsContent/TextsContainer/HBoxContainer/Keys"]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_chpfe")
+theme_override_font_sizes/font_size = 16
+text = "1 - 4"
+horizontal_alignment = 2
+vertical_alignment = 2
+autowrap_mode = 3
+
+[node name="TAB" type="Label" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/ControlsContent/TextsContainer/HBoxContainer/Keys"]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_chpfe")
+theme_override_font_sizes/font_size = 16
+text = "TAB"
+horizontal_alignment = 2
+vertical_alignment = 2
+autowrap_mode = 3
+
+[node name="How to Play" type="Button" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(510, 33)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_vkq5e")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_2qfc2")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_vkq5e")
+theme_override_styles/hover = SubResource("StyleBoxTexture_d4itq")
+toggle_mode = true
+text = "  How to Play"
+alignment = 0
+
+[node name="HowToPlayContent" type="MarginContainer" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 2
+
+[node name="Panel" type="Panel" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HowToPlayContent"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_d4itq")
+
+[node name="TextsContainer" type="MarginContainer" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HowToPlayContent"]
+custom_minimum_size = Vector2(220, 30)
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 10
+
+[node name="Sep2" type="Control" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[connection signal="pressed" from="NinePatchRect/Buttons/Buttons/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/Controls" to="." method="_on_controls_pressed"]
+[connection signal="pressed" from="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/How to Play" to="." method="_on_how_to_play_pressed"]

@@ -1,14 +1,13 @@
 [gd_scene load_steps=20 format=3 uid="uid://c3kbynasxfujb"]
 
 [ext_resource type="Texture2D" uid="uid://dcscg1b2qiqa1" path="res://Assets/PNGs/ScreenBackground.png" id="1_03b3j"]
-[ext_resource type="Script" uid="uid://3j8048x61usr" path="res://Scripts/Scene Scripts/TitleScreen.gd" id="1_rxa4l"]
+[ext_resource type="Script" uid="uid://3j8048x61usr" path="res://Scripts/Scene Scripts/titlescreen.gd" id="1_rxa4l"]
 [ext_resource type="Texture2D" uid="uid://clb8di80d4gxo" path="res://Assets/PNGs/Logo.png" id="2_roy3c"]
 [ext_resource type="FontFile" uid="uid://de2qiyybswcte" path="res://Assets/Fonts/windows-xp-tahoma.otf" id="5_rxa4l"]
 [ext_resource type="Texture2D" uid="uid://ccft2e71ddjjm" path="res://Assets/PNGs/Apps/Laptop/Google Files.png" id="6_1pxgp"]
 [ext_resource type="Texture2D" uid="uid://b8h00llexr05n" path="res://Assets/PNGs/Apps/Laptop/Docx.png" id="6_ceqoh"]
-[ext_resource type="Texture2D" uid="uid://dwsjcb47v7jan" path="res://Assets/PNGs/UI/UI Assets.png" id="6_rxa4l"]
+[ext_resource type="Texture2D" uid="uid://dq83lbqfexi88" path="res://Assets/PNGs/UI/UI Assets.png" id="6_rxa4l"]
 [ext_resource type="Texture2D" uid="uid://cfpt32ojjkcio" path="res://Assets/PNGs/UI/mail.png" id="6_we6g2"]
-
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nj8rq"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -33,18 +32,18 @@ region_rect = Rect2(963, 179, 25, 26)
 texture = ExtResource("6_rxa4l")
 region_rect = Rect2(963, 213, 26, 26)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lq7pf"]
-texture = ExtResource("6_ceqoh")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gmd6l"]
-texture = ExtResource("6_ceqoh")
-modulate_color = Color(1.353256, 1.353256, 1.353256, 1)
-
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_f3cfk"]
 texture = ExtResource("6_1pxgp")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wyr7s"]
 texture = ExtResource("6_1pxgp")
+modulate_color = Color(1.353256, 1.353256, 1.353256, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lq7pf"]
+texture = ExtResource("6_ceqoh")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gmd6l"]
+texture = ExtResource("6_ceqoh")
 modulate_color = Color(1.353256, 1.353256, 1.353256, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8dnki"]
@@ -54,7 +53,7 @@ texture = ExtResource("6_we6g2")
 follow_viewport_enabled = true
 script = ExtResource("1_rxa4l")
 titlescreen_container = NodePath("TitleScreenContainer")
-buttons = [NodePath("TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer/Play/Play"), NodePath("TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer/Continue/Continue"), NodePath("TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer/Settings/Settings"), NodePath("TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer/Exit/Exit"), NodePath("TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer/Help/Help"), NodePath("TitleScreenContainer/CreditsContainer/Credits/Credits"), NodePath("TitleScreenContainer/MailNotif")]
+buttons = [NodePath("TitleScreenContainer/CreditsContainer/Credits/Credits"), null, NodePath("TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer/Settings/Settings"), NodePath("TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer/Exit/Exit"), NodePath("TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer/Help/Help"), NodePath("TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer/Play/Play"), NodePath("TitleScreenContainer/MailNotif")]
 buttons_containers = [NodePath("TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer/Play"), NodePath("TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer/Continue"), NodePath("TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer/Settings"), NodePath("TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer/Exit"), NodePath("TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer/Help"), NodePath("TitleScreenContainer/CreditsContainer/Credits")]
 name_edit = NodePath("TitleScreenContainer/Background/MarginContainer/HBoxContainer/LoginContainer/Login/PlayerName")
 
@@ -201,10 +200,10 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 focus_mode = 0
-theme_override_styles/normal = SubResource("StyleBoxTexture_lq7pf")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_lq7pf")
-theme_override_styles/hover = SubResource("StyleBoxTexture_gmd6l")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_lq7pf")
+theme_override_styles/normal = SubResource("StyleBoxTexture_f3cfk")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_f3cfk")
+theme_override_styles/hover = SubResource("StyleBoxTexture_wyr7s")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_f3cfk")
 
 [node name="Label" type="Label" parent="TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer/Play"]
 layout_mode = 2
@@ -223,10 +222,10 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 focus_mode = 0
-theme_override_styles/normal = SubResource("StyleBoxTexture_lq7pf")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_lq7pf")
-theme_override_styles/hover = SubResource("StyleBoxTexture_gmd6l")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_lq7pf")
+theme_override_styles/normal = SubResource("StyleBoxTexture_f3cfk")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_f3cfk")
+theme_override_styles/hover = SubResource("StyleBoxTexture_wyr7s")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_f3cfk")
 
 [node name="Label" type="Label" parent="TitleScreenContainer/MainMenu/MainMenuContainer/MainContent/ButtonsContainer/HBoxContainer/Continue"]
 layout_mode = 2
@@ -356,10 +355,10 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 focus_mode = 0
-theme_override_styles/normal = SubResource("StyleBoxTexture_f3cfk")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_f3cfk")
-theme_override_styles/hover = SubResource("StyleBoxTexture_wyr7s")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_f3cfk")
+theme_override_styles/normal = SubResource("StyleBoxTexture_lq7pf")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_lq7pf")
+theme_override_styles/hover = SubResource("StyleBoxTexture_gmd6l")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_lq7pf")
 
 [node name="Label" type="Label" parent="TitleScreenContainer/CreditsContainer/Credits"]
 layout_mode = 2
@@ -371,16 +370,7 @@ horizontal_alignment = 1
 
 [node name="MailNotif" type="Button" parent="TitleScreenContainer"]
 custom_minimum_size = Vector2(300, 103.5)
-layout_mode = 0
-anchors_preset = 5
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 40.0
-offset_top = -143.5
-offset_right = 340.0
-offset_bottom = -40.0
-grow_horizontal = 1
-grow_vertical = 0
+layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 focus_mode = 0

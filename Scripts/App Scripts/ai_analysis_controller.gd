@@ -51,6 +51,8 @@ var pending_article_key: String = ""
 var article_panel: Panel = null
 var tip_panel: Panel = null
 
+@onready var facts_button_prefab = preload("res://Prefabs/Components/facts_button.tscn")
+
 # ---------- HELPER METHODS ----------
 func _nlp_result_to_dict(result: NLPAnalyzer.AnalysisResult) -> Dictionary:
 	"""Convert AnalysisResult to dictionary to avoid RefCounted storage issues"""
@@ -284,20 +286,18 @@ func _display_article(entry: Dictionary):
 	current_article_key = _generate_article_key(entry)
 	
 	# Clear old fact buttons (but keep "Facts:" Label, Date, Context buttons, and Control nodes)
+	# Clear old fact buttons in article container
 	if article_facts_container:
-		# Keep static scene elements (Label, Date, Context buttons, Control nodes)
 		for child in article_facts_container.get_children():
-			# Only remove dynamically created fact buttons
-			if (child.name.begins_with("Fact_") and child is Button) or (child.has_method("_on_fact_selected") and not child.name in ["Date", "Context"]):
+			if child.name.begins_with("FactContainer_"):
 				child.queue_free()
 	
+	# Clear old fact buttons in tips container
 	if tips_facts_container:
-		# Keep static scene elements (Label, Date, Context buttons, Control nodes)
 		for child in tips_facts_container.get_children():
-			# Only remove dynamically created fact buttons
-			if (child.name.begins_with("Fact_") and child is Button) or (child.has_method("_on_fact_selected") and not child.name in ["Date", "Context"]):
+			if child.name.begins_with("FactContainer_"):
 				child.queue_free()
-	
+
 	if article_panel:
 		_setup_panel(article_panel)
 	if tip_panel:
@@ -317,11 +317,10 @@ func _display_article(entry: Dictionary):
 	current_article_nlp_data.clear()
 	current_tip_nlp_data.clear()
 	
-	_setup_content_label(article_content, article_text, article_panel)
-	_setup_content_label(tips_content, tip_text, tip_panel)
-	
+	set_content_text(article_content, article_text)
+	set_content_text(tips_content, tip_text)
+
 	# Note: article_content and tips_content are Labels, not RichTextLabels, so no BBCode
-	
 	_update_button_text(article_date, "Date", entry.get("date", ""))
 	_update_button_text(article_context, "Context", entry.get("context", ""))
 	_update_button_text(tips_date, "Date", entry.get("tip_date", entry.get("date", "")))
@@ -343,69 +342,35 @@ func _display_article(entry: Dictionary):
 			else:
 				tip_facts.append(fact_data)
 	
-	# Create fact buttons for article side (add after Context button)
-	# Ensure facts container doesn't overlap with content by using proper size flags
-	if article_facts_container:
-		article_facts_container.clip_contents = true
-		article_facts_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		article_facts_container.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		for fact_data in article_facts:
-			article_facts_list.append(fact_data)
-			var fact_id = _get_fact_id_from_dict(fact_data)
-			fact_id_to_fact_data[fact_id] = fact_data
-			_add_fact_button(fact_data, fact_id, article_facts_container, "article")
-	
-	if tips_facts_container:
-		tips_facts_container.clip_contents = true
-		tips_facts_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		tips_facts_container.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		for fact_data in tip_facts:
-			tip_facts_list.append(fact_data)
-			var fact_id = _get_fact_id_from_dict(fact_data)
-			fact_id_to_fact_data[fact_id] = fact_data
-			_add_fact_button(fact_data, fact_id, tips_facts_container, "tip")
-	
+	# Setup layout for both Article and Tips
+	spawn_fact_buttons(article_facts, article_facts_container)
+	spawn_fact_buttons(tip_facts, tips_facts_container)
+
 	# Update result display (resets values, doesn't analyze)
 	_update_result_display(entry)
 	
-	# DON'T send article for ML analysis here - only when Analyze button is pressed
-
 func _setup_fact_button_style(btn: Button, container: VBoxContainer) -> void:
-	"""Helper to setup fact button styling"""
-	var tahoma_font = preload("res://Assets/Fonts/windows-xp-tahoma.otf")
-	btn.add_theme_font_override("font", tahoma_font)
-	btn.add_theme_font_size_override("font_size", 32)
-	btn.add_theme_color_override("font_color", Color(0, 0, 0, 1))
+	# Instantiate the prefab
+	var fact_btn_container := facts_button_prefab.instantiate() as MarginContainer
+	if not fact_btn_container:
+		push_warning("Failed to instantiate facts_button prefab!")
+		return
+
+	# Get the Button inside the prefab
+	var fact_btn := fact_btn_container.get_node("VBoxContainer/Fact") as Button
+	if not fact_btn:
+		push_warning("Prefab has no Button node named 'Fact'")
+		return
 	
-	var button_texture = load("res://Assets/PNGs/UI/UI Assets.png")
-	if button_texture:
-		var normal_style = StyleBoxTexture.new()
-		normal_style.texture = button_texture
-		normal_style.expand_margin_left = 10.0
-		normal_style.expand_margin_right = 10.0
-		normal_style.region_rect = Rect2(656, 832, 192, 16)
-		btn.add_theme_stylebox_override("normal", normal_style)
-		
-		var pressed_style = StyleBoxTexture.new()
-		pressed_style.texture = button_texture
-		pressed_style.expand_margin_left = 10.0
-		pressed_style.expand_margin_right = 10.0
-		pressed_style.region_rect = Rect2(656, 896, 192, 16)
-		btn.add_theme_stylebox_override("pressed", pressed_style)
-		btn.add_theme_stylebox_override("hover", pressed_style)
-	else:
-		var date_button = container.get_node_or_null("Date")
-		if date_button and date_button is Button:
-			btn.add_theme_stylebox_override("normal", date_button.get_theme_stylebox("normal"))
-			btn.add_theme_stylebox_override("pressed", date_button.get_theme_stylebox("pressed"))
-			btn.add_theme_stylebox_override("hover", date_button.get_theme_stylebox("hover"))
+	# Add to container
+	article_facts_container.add_child(fact_btn_container)
 
 func _insert_fact_button_after_context(btn: Button, container: VBoxContainer) -> void:
 	"""Helper to insert fact button after Context button"""
 	var context_button = container.get_node_or_null("Context")
 	if context_button:
 		container.add_child(btn)
-		container.move_child(btn, context_button.get_index() + 1)
+		container.move_child(btn, context_button.get_index() + 2)
 		return
 	
 	var control_node = container.get_node_or_null("Control")
@@ -415,25 +380,74 @@ func _insert_fact_button_after_context(btn: Button, container: VBoxContainer) ->
 	else:
 		container.add_child(btn)
 
-func _add_fact_button(fact_data: Dictionary, fact_id: String, container: VBoxContainer, panel_type: String):
+func spawn_fact_buttons(facts_list: Array, facts_container: VBoxContainer) -> void:
+	if not facts_container or facts_list.size() == 0:
+		return
+
+	var panel_type: String = "article" if facts_container == article_facts_container else "tip"
+
+	for fact_data in facts_list:
+		var fact_id = _get_fact_id_from_dict(fact_data)
+		fact_id_to_fact_data[fact_id] = fact_data
+
+		# Instantiate the prefab
+		var btn_container := facts_button_prefab.instantiate() as MarginContainer
+		if not btn_container:
+			push_warning("Failed to instantiate facts_button prefab!")
+
+		# Corrected reference to the Button node
+		var btn := btn_container.get_node("VBoxContainer/Fact") as Button
+		if not btn:
+			push_warning("Prefab has no Button node named 'Fact' inside VBoxContainer")
+
+		# Set button text
+		btn.text = "%s: %s" % [fact_data.get("category", ""), fact_data.get("value", "")]
+
+		# Connect pressed signal with proper panel_type string
+		btn.connect("pressed", Callable(self, "_on_fact_selected").bind(fact_id, btn, panel_type))
+
+		# Give the container a unique name so it can be cleared later
+		btn_container.name = "FactContainer_%s" % fact_id
+
+		# Add to container after the first child
+		if facts_container.get_child_count() > 0:
+			facts_container.add_child(btn_container)
+		else:
+			facts_container.add_child(btn_container)
+
+func _add_fact_button(fact_data: Dictionary, fact_id: String, panel_type: String) -> void:
+	var container: VBoxContainer
+	if panel_type == "article":
+		container = article_facts_container
+	else:
+		container = tips_facts_container
+	
 	if not container:
+		push_warning("Fact container not found for panel type: %s" % panel_type)
 		return
 	
-	var btn = Button.new()
-	btn.name = "Fact_" + fact_id.replace("|", "_")
+	# Instantiate your prefab
+	var btn_container := facts_button_prefab.instantiate() as MarginContainer
+	if not btn_container:
+		push_warning("Failed to instantiate facts_button prefab!")
+		return
+	
+	# Get the Button node inside prefab
+	var btn := btn_container.get_node("VBoxContainer/Fact") as Button
+	if not btn:
+		push_warning("Prefab has no Button node named 'Fact'")
+		return
+	
+	# Set text
 	btn.text = "%s: %s" % [fact_data.get("category", ""), fact_data.get("value", "")]
-	btn.custom_minimum_size = Vector2(0, 40)
-	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	btn.focus_mode = Control.FOCUS_NONE
-	btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
-	btn.clip_contents = true
-	btn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	
-	_setup_fact_button_style(btn, container)
+	# Connect pressed signal
 	btn.connect("pressed", Callable(self, "_on_fact_selected").bind(fact_id, btn, panel_type))
-	_insert_fact_button_after_context(btn, container)
 	
+	# Add prefab container to the proper VBoxContainer
+	container.add_child(btn_container)
+	
+	# Store reference if needed
 	if panel_type == "article":
 		article_fact_buttons[fact_id] = btn
 	else:
@@ -462,38 +476,10 @@ func _update_result_display(entry: Dictionary):
 	if keyword_overlap:
 		keyword_overlap.text = "0% - Low similarity"
 
-func _setup_content_label(content_label: Label, text: String, panel: Panel) -> void:
-	"""Helper to setup content label with transparent styling"""
+func set_content_text(content_label: Label, text: String) -> void:
 	if not content_label:
 		return
-	
 	content_label.text = text
-	content_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	content_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	content_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	content_label.clip_contents = true
-	
-	var empty_style = StyleBoxEmpty.new()
-	content_label.add_theme_stylebox_override("normal", empty_style)
-	content_label.add_theme_stylebox_override("panel", empty_style)
-	
-	var parent_vbox = content_label.get_parent()
-	if parent_vbox and parent_vbox is VBoxContainer:
-		parent_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		parent_vbox.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		parent_vbox.clip_contents = true
-	
-	var scroll_container = content_label.get_parent()
-	while scroll_container and not scroll_container is ScrollContainer:
-		scroll_container = scroll_container.get_parent()
-	if scroll_container and scroll_container is ScrollContainer:
-		scroll_container.add_theme_stylebox_override("panel", empty_style)
-		scroll_container.add_theme_stylebox_override("background", empty_style)
-		scroll_container.clip_contents = true
-	
-	if panel:
-		panel.add_theme_stylebox_override("panel", _get_border_style())
-		panel.clip_contents = false
 
 func _update_button_text(button: Button, prefix: String, value: String) -> void:
 	"""Helper to update button text with prefix"""
@@ -560,11 +546,20 @@ func compare_facts_from_dict(fact_a_data: Dictionary, fact_b_data: Dictionary) -
 		"truth_status": "",
 		"entity_analysis": "",
 		"classification_analysis": "",
-		"keyword_analysis": ""
+		"keyword_analysis": "",
+		"relationship": ""  # NEW: Clear relationship description
 	}
 	
 	var value_a = fact_a_data.get("value", "")
 	var value_b = fact_b_data.get("value", "")
+	var category_a = fact_a_data.get("category", "")
+	var category_b = fact_b_data.get("category", "")
+	var source_a = fact_a_data.get("source", "")
+	var source_b = fact_b_data.get("source", "")
+	
+	# Determine relationship type
+	var relationship_type = _determine_fact_relationship(category_a, category_b, value_a, value_b, source_a, source_b)
+	result.relationship = relationship_type
 	
 	# Perform NLP analysis
 	var nlp_a = NLPAnalyzer.analyze_text(value_a)
@@ -620,22 +615,22 @@ func compare_facts_from_dict(fact_a_data: Dictionary, fact_b_data: Dictionary) -
 	
 	if overall_score < 0.4:
 		result.is_discrepancy = true
-		result.reason = "Significant discrepancy detected (Match Score: %.0f%%)" % (overall_score * 100)
+		result.reason = "⚠ CONTRADICTION DETECTED (Match: %.0f%%)" % (overall_score * 100)
 		
 		if fake_score_a > 0.3 or fake_score_b > 0.3:
-			result.truth_status = "⚠ Warning: Fake news patterns detected in one or both facts"
+			result.truth_status = "🚨 WARNING: Fake news patterns detected!\nThese facts contradict each other - one may be false."
 		else:
-			result.truth_status = "Facts show significant differences. Verify sources."
+			result.truth_status = "❌ Facts contradict each other.\nThe article and tip provide conflicting information.\nVerify which source is reliable."
 			
 	elif overall_score >= 0.4 and overall_score < 0.7:
 		result.is_discrepancy = false
-		result.reason = "Partial match (Match Score: %.0f%%)" % (overall_score * 100)
-		result.truth_status = "Facts are similar but not identical. Review details."
+		result.reason = "⚠ PARTIAL MATCH (Match: %.0f%%)" % (overall_score * 100)
+		result.truth_status = "⚠ Facts are similar but not identical.\nReview details carefully - there may be subtle differences."
 		
 	else:
 		result.is_discrepancy = false
-		result.reason = "High match (Match Score: %.0f%%)" % (overall_score * 100)
-		result.truth_status = "Facts are consistent and match well."
+		result.reason = "✓ HIGH MATCH (Match: %.0f%%)" % (overall_score * 100)
+		result.truth_status = "✓ Facts are consistent!\nThe article and tip support each other.\nThis increases credibility."
 		
 		if semantic_similarity >= 0.90 and semantic_similarity <= 1.0:
 			print("[AI ANALYSIS DEBUG] High semantic overlap detected: %.4f" % semantic_similarity)
@@ -657,9 +652,37 @@ func compare_facts_from_dict(fact_a_data: Dictionary, fact_b_data: Dictionary) -
 	
 	result.reason = "\n".join(detailed_analysis)
 	
+	# Add relationship to detailed analysis
+	if result.relationship != "":
+		detailed_analysis.insert(0, result.relationship)
+	
+	result.reason = "\n".join(detailed_analysis)
+	
 	comparison.clear()
 	
 	return result
+
+# NEW: Determine how facts relate to each other
+func _determine_fact_relationship(cat_a: String, cat_b: String, val_a: String, val_b: String, src_a: String, src_b: String) -> String:
+	# Same category = direct comparison
+	if cat_a == cat_b:
+		return "Direct Comparison: Both facts about '%s'" % cat_a
+	
+	# Related categories
+	if (cat_a == "Event" and cat_b == "Timeline") or (cat_b == "Event" and cat_a == "Timeline"):
+		return "Related: Event and its Timeline"
+	if (cat_a == "Claim" and cat_b == "Evidence") or (cat_b == "Claim" and cat_a == "Evidence"):
+		return "Related: Claim vs Evidence"
+	if (cat_a == "Statement" and cat_b == "Contradiction") or (cat_b == "Statement" and cat_a == "Contradiction"):
+		return "Contradictory: Statement vs Contradiction"
+	
+	# Tip warnings/contradictions
+	if src_b == "Tip" and cat_b in ["Warning", "Contradiction", "Anomaly", "Pressure"]:
+		return "Tip Contradicts: Tip reveals issues with article fact"
+	if src_a == "Tip" and cat_a in ["Warning", "Contradiction", "Anomaly", "Pressure"]:
+		return "Tip Contradicts: Tip reveals issues with article fact"
+	
+	return "Different Aspects: Facts cover different aspects of the story"
 
 func _show_result(result: Dictionary):
 	if not result_note:
@@ -794,16 +817,10 @@ func _send_article_for_analysis(article_text: String):
 		http_request.cancel_request()
 		await get_tree().process_frame
 	
-	var json_data = { 
-		"text": article_text,
-		"sentiment_score": 0.0,
-		"evidence_count": 2,
-		"contradiction_score": 0.5,
-		"propaganda_pattern_score": 0.5,
-		"source_type": "independent",
-		"topic": "politics"
-	}
-	var json_str = JSON.stringify(json_data)
+	# Extract features from current article data
+	var features = _extract_ml_features(current_article_data, article_text)
+	
+	var json_str = JSON.stringify(features)
 	
 	pending_article_key = current_article_key
 	print("Sending article for ML analysis to http://127.0.0.1:8000/analyze...")
@@ -823,6 +840,166 @@ func _send_article_for_analysis(article_text: String):
 		push_error("Failed to send HTTP request: %d" % error)
 		if result_note:
 			result_note.text = "HTTP Request Error: %d" % error
+
+# NEW FUNCTION: Extract ML features from article data
+func _extract_ml_features(article_data: Dictionary, article_text: String) -> Dictionary:
+	var news_data = article_data.get("news_data", {})
+	var sender = article_data.get("sender", "")
+	var tip_text = news_data.get("tip_text", "")
+	var facts = news_data.get("facts", [])
+	var stance = news_data.get("stance", "Neutral")
+	var integrity_score = news_data.get("integrity_score", 0.5)
+	
+	# 1. Evidence Count - count facts from article (not tips)
+	var evidence_count = 0
+	for fact in facts:
+		if fact.get("source", "") == "Article":
+			evidence_count += 1
+	# Minimum 1, use facts count if available
+	if evidence_count == 0 and facts.size() > 0:
+		evidence_count = facts.size()
+	if evidence_count == 0:
+		evidence_count = 1  # Default minimum
+	
+	# 2. Sentiment Score - based on stance and NLP analysis
+	var sentiment_score = _calculate_sentiment_score(article_text, stance)
+	
+	# 3. Contradiction Score - compare article vs tip
+	var contradiction_score = _calculate_contradiction_score(article_text, tip_text, facts)
+	
+	# 4. Propaganda Pattern Score - based on stance, sender, and content patterns
+	var propaganda_score = _calculate_propaganda_score(article_text, stance, sender, integrity_score)
+	
+	# 5. Source Type - infer from sender
+	var source_type = _infer_source_type(sender, stance)
+	
+	# 6. Topic - detect from content and sender
+	var topic = _detect_topic(article_text, sender)
+	
+	return {
+		"text": article_text,
+		"sentiment_score": sentiment_score,
+		"evidence_count": evidence_count,
+		"contradiction_score": contradiction_score,
+		"propaganda_pattern_score": propaganda_score,
+		"source_type": source_type,
+		"topic": topic
+	}
+
+# Helper: Calculate sentiment score (-1.0 to 1.0, normalized to 0.0-1.0)
+func _calculate_sentiment_score(text: String, stance: String) -> float:
+	var base_score = 0.5  # Neutral
+	
+	# Adjust based on stance
+	match stance:
+		"Pro-Government", "Pro-Celebrity":
+			base_score = 0.7  # Positive
+		"Critical", "Skeptical", "Investigative":
+			base_score = 0.3  # Negative
+		"Neutral", "Concerned", "Suspicious":
+			base_score = 0.5  # Neutral
+	
+	# Use NLP analyzer if available for text-based sentiment
+	if current_article_nlp_data.has("classification"):
+		var classification = current_article_nlp_data.get("classification", "Unverified")
+		if classification == "True":
+			base_score += 0.1
+		elif classification == "False":
+			base_score -= 0.1
+	
+	return clamp(base_score, 0.0, 1.0)
+
+# Helper: Calculate contradiction between article and tip
+func _calculate_contradiction_score(article_text: String, tip_text: String, facts: Array) -> float:
+	if tip_text == "" or tip_text.begins_with("Tip: "):
+		return 0.3  # Low contradiction if no meaningful tip
+	
+	# Check if tip contradicts article based on facts
+	var contradiction_count = 0
+	var total_facts = facts.size()
+	
+	if total_facts == 0:
+		# Use NLP comparison if available
+		if not current_article_nlp_data.is_empty() and not current_tip_nlp_data.is_empty():
+			# If classifications differ significantly, higher contradiction
+			var article_class = current_article_nlp_data.get("classification", "Unknown")
+			var tip_class = current_tip_nlp_data.get("classification", "Unknown")
+			if article_class != tip_class:
+				return 0.7  # High contradiction
+		return 0.3  # Default low
+	
+	# Count facts where tip contradicts article
+	for fact in facts:
+		var source = fact.get("source", "")
+		if source == "Tip":
+			# Tip facts often provide contradictory information
+			var category = fact.get("category", "")
+			if category in ["Warning", "Pressure", "Anomaly", "Contradiction", "Conflict"]:
+				contradiction_count += 1
+	
+	var contradiction_ratio = float(contradiction_count) / float(max(total_facts, 1))
+	return clamp(contradiction_ratio, 0.0, 1.0)
+
+# Helper: Calculate propaganda score
+func _calculate_propaganda_score(text: String, stance: String, sender: String, integrity_score: float) -> float:
+	var score = 0.5  # Base
+	
+	# High propaganda indicators
+	if stance == "Pro-Government":
+		score = 0.8  # High propaganda
+	elif sender.contains("Government") or sender.contains("Ministry") or sender.contains("Press Office"):
+		score = 0.7
+	elif sender.contains("SyndiNet"):
+		score = 0.75  # SyndiNet is propaganda outlet
+	
+	# Low integrity score suggests propaganda
+	if integrity_score < 0.5:
+		score += 0.2
+	
+	# Check for propaganda keywords
+	var lower_text = text.to_lower()
+	var propaganda_keywords = ["unprecedented", "record-breaking", "overwhelming support", "historic levels", "all-time high", "redacted"]
+	for keyword in propaganda_keywords:
+		if lower_text.contains(keyword):
+			score += 0.1
+	
+	return clamp(score, 0.0, 1.0)
+
+# Helper: Infer source type from sender
+func _infer_source_type(sender: String, stance: String) -> String:
+	var lower_sender = sender.to_lower()
+	
+	if lower_sender.contains("government") or lower_sender.contains("ministry") or lower_sender.contains("press office") or lower_sender.contains("sovereign council"):
+		return "state_media"
+	elif lower_sender.contains("syndinet"):
+		return "state_media"  # SyndiNet is state-controlled
+	elif lower_sender.contains("anonymous") or lower_sender.contains("whistleblower") or lower_sender.contains("source"):
+		return "anonymous_tip"
+	elif lower_sender.contains("foreign") or lower_sender.contains("international"):
+		return "foreign_press"
+	else:
+		return "independent"
+
+# Helper: Detect topic from content and sender
+func _detect_topic(text: String, sender: String) -> String:
+	var lower_text = text.to_lower()
+	var lower_sender = sender.to_lower()
+	
+	# Topic keywords
+	if lower_text.contains("celebrity") or lower_text.contains("entertainment") or lower_sender.contains("entertainment"):
+		return "celebrity"
+	elif lower_text.contains("senate") or lower_text.contains("government") or lower_text.contains("political") or lower_text.contains("corruption"):
+		return "politics"
+	elif lower_text.contains("military") or lower_text.contains("defense") or lower_text.contains("war"):
+		return "military"
+	elif lower_text.contains("economy") or lower_text.contains("economic") or lower_text.contains("supply") or lower_text.contains("shortage"):
+		return "economy"
+	elif lower_text.contains("protest") or lower_text.contains("demonstration") or lower_text.contains("rally"):
+		return "protest"
+	elif lower_text.contains("health") or lower_text.contains("hospital") or lower_text.contains("medical"):
+		return "health"
+	else:
+		return "politics"  # Default
 
 func _on_http_request_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
 	print("HTTP Request completed - Result: %d, Response Code: %d" % [result, response_code])
@@ -847,14 +1024,30 @@ func _on_http_request_request_completed(result: int, response_code: int, headers
 		var avg = response.get("average_score", 0.5)
 		var verdict = response.get("result", "Unknown")
 		
+		# Validate ML results against article data
+		var validation = _validate_ml_result(response, current_article_data)
+		
+		# Build comprehensive feedback
+		var feedback_text = "ML Analysis Results:\n"
+		feedback_text += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+		feedback_text += "Random Forest: %.2f/10.0\n" % rf
+		feedback_text += "Logistic Regression: %.2f/10.0\n" % log
+		feedback_text += "Average Score: %.2f/10.0\n" % avg
+		feedback_text += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+		feedback_text += "Verdict: %s\n" % verdict
+		feedback_text += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+		
+		# Add interpretation based on article context
+		var interpretation = _interpret_ml_result(avg, verdict, current_article_data)
+		feedback_text += "\n%s" % interpretation
+		
 		# Display ML results
 		if result_note:
-			var existing_text = result_note.text
-			result_note.text = existing_text + "\n\nML Analysis:\n" + \
-				"RF: %.2f | LogReg: %.2f | Avg: %.2f\nVerdict: %s" % [rf, log, avg, verdict]
+			result_note.text = feedback_text
 		
 		print("[AI ANALYSIS DEBUG] ===== ML Analysis Complete =====")
 		print("[AI ANALYSIS DEBUG] RF: %.2f, LogReg: %.2f, Avg: %.2f, Verdict: %s" % [rf, log, avg, verdict])
+		print("[AI ANALYSIS DEBUG] Validation Accuracy: %.2f%%" % (validation.accuracy * 100))
 		
 		var article_key = pending_article_key
 		var integrity_available = not _has_article_been_scored(article_key)
@@ -874,3 +1067,72 @@ func _on_http_request_request_completed(result: int, response_code: int, headers
 		print("[AI ANALYSIS DEBUG] ==================================")
 	else:
 		push_error("Invalid response from ML API")
+
+# NEW: Validate ML results against expected values
+func _validate_ml_result(ml_response: Dictionary, article_data: Dictionary) -> Dictionary:
+	var news_data = article_data.get("news_data", {})
+	var integrity_score = news_data.get("integrity_score", 0.5)
+	var actual_score = ml_response.get("average_score", 0.5) / 10.0  # Normalize to 0-1
+	
+	# Expected score should correlate with integrity_score
+	# Low integrity (0.3-0.5) = likely fake (low ML score)
+	# High integrity (0.7-0.9) = likely real (high ML score)
+	var expected_score = integrity_score
+	
+	var accuracy = 1.0 - abs(expected_score - actual_score)
+	
+	return {
+		"accuracy": accuracy,
+		"expected": expected_score,
+		"actual": actual_score
+	}
+
+# NEW: Interpret ML results in context of article
+func _interpret_ml_result(avg_score: float, verdict: String, article_data: Dictionary) -> String:
+	var news_data = article_data.get("news_data", {})
+	var stance = news_data.get("stance", "Neutral")
+	var sender = article_data.get("sender", "")
+	var facts = news_data.get("facts", [])
+	
+	var interpretation = "Analysis Interpretation:\n"
+	
+	# Check if verdict aligns with article characteristics
+	if avg_score >= 6.5:  # Likely Real
+		interpretation += "✓ Article appears credible based on ML analysis.\n"
+		if stance in ["Investigative", "Neutral", "Skeptical"]:
+			interpretation += "✓ Stance supports credibility.\n"
+		elif stance == "Pro-Government":
+			interpretation += "⚠ Pro-government stance may indicate bias.\n"
+		
+		# Check evidence
+		var article_facts_count = 0
+		for fact in facts:
+			if fact.get("source") == "Article":
+				article_facts_count += 1
+		
+		if article_facts_count >= 2:
+			interpretation += "✓ Multiple supporting facts found.\n"
+		else:
+			interpretation += "⚠ Limited evidence in article facts.\n"
+	else:  # Likely Fake
+		interpretation += "⚠ Article shows signs of being unreliable.\n"
+		
+		# Check for red flags
+		if sender.contains("SyndiNet") or sender.contains("Government"):
+			interpretation += "⚠ Source may have agenda.\n"
+		
+		if stance == "Pro-Government":
+			interpretation += "⚠ Pro-government stance suggests potential propaganda.\n"
+		
+		# Check for contradictions
+		var contradiction_facts = 0
+		for fact in facts:
+			if fact.get("source") == "Tip":
+				var category = fact.get("category", "")
+				if category in ["Warning", "Contradiction", "Anomaly"]:
+					contradiction_facts += 1
+		
+		if contradiction_facts > 0:
+			interpretation += "⚠ Tips reveal contradictions - verify carefully.\n"
+	
+	return interpretation

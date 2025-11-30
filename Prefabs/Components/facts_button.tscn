@@ -1,0 +1,61 @@
+[gd_scene load_steps=5 format=3 uid="uid://dtosrr3gewq8v"]
+
+[ext_resource type="FontFile" uid="uid://de2qiyybswcte" path="res://Assets/Fonts/windows-xp-tahoma.otf" id="1_ceov5"]
+[ext_resource type="Texture2D" uid="uid://dq83lbqfexi88" path="res://Assets/PNGs/UI/UI Assets.png" id="2_obikh"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ceov5"]
+texture = ExtResource("2_obikh")
+expand_margin_left = 10.0
+expand_margin_top = 5.0
+expand_margin_right = 10.0
+expand_margin_bottom = 7.0
+region_rect = Rect2(656, 832, 192, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_obikh"]
+texture = ExtResource("2_obikh")
+expand_margin_left = 10.0
+expand_margin_top = 5.0
+expand_margin_right = 10.0
+expand_margin_bottom = 7.0
+region_rect = Rect2(656, 896, 192, 16)
+
+[node name="Facts_button" type="MarginContainer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -25.0
+offset_right = 240.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(480, 45)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Control2" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+
+[node name="Fact" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(460, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+focus_mode = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_ceov5")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_ceov5")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_obikh")
+theme_override_styles/hover = SubResource("StyleBoxTexture_obikh")
+alignment = 0
+autowrap_mode = 3

@@ -11,6 +11,7 @@ static var todos_data: Array = []
 static var player_name: String = ""
 static var player_integrity: int = 100
 static var current_act: int = 1
+static var current_map: String = "map_01"  # Track current map/scene
 
 static var master_vol: int = 100
 static var music_vol: int = 100
@@ -19,7 +20,8 @@ static var sfx_vol: int = 100
 const player_data_template: Dictionary = {
 	"player_name": "",
 	"integrity": 100,
-	"current_act": 1
+	"current_act": 1,
+	"current_map": "map_01"
 }
 
 const settings_data_template: Dictionary = {
@@ -35,6 +37,7 @@ static func save_data() -> void:
 	player_data["player_name"] = player_name
 	player_data["integrity"] = player_integrity
 	player_data["current_act"] = current_act
+	player_data["current_map"] = current_map
 	
 	settings_data["master_vol"] = master_vol
 	settings_data["music_vol"] = music_vol
@@ -83,6 +86,7 @@ static func load_data() -> void:
 			player_name = player_dict.get("player_name", "")
 			player_integrity = player_dict.get("integrity", 100)
 			current_act = player_dict.get("current_act", 1)
+			current_map = player_dict.get("current_map", "map_01")
 		
 			master_vol = settings_dict.get("master_vol", 100)
 			music_vol = settings_dict.get("music_vol", 100)
@@ -150,6 +154,25 @@ static func delete_todo_by_id(todo_id: String) -> void:
 			todos_data.remove_at(i)
 			save_data()
 			return
+
+#CREATE NEW SAVE(error culprit1 ||fixed)
+static func create_new_save(player_name_param: String) -> void:
+	"""Create a new save file with the given player name"""
+	player_name = player_name_param
+	player_integrity = 100
+	current_act = 1
+	current_map = "map_01"
+	notes_data = []
+	todos_data = []
+	
+	# Initialize player_data and settings_data if needed
+	if player_data.is_empty():
+		player_data = player_data_template.duplicate(true)
+	if settings_data.is_empty():
+		settings_data = settings_data_template.duplicate(true)
+	
+	save_data()
+	print("[DataManager.create_new_save] New save created for player: %s" % player_name)
 
 # ---------- RESET PLAYER DATA ----------
 func reset_player_data() -> void:

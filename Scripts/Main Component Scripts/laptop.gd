@@ -1,6 +1,8 @@
 extends Control
 class_name Laptop
 
+var master: Master
+
 @export_group("Laptop Containers")
 @export var laptop_screen: Control
 @export var home_screen: NinePatchRect
@@ -18,6 +20,8 @@ class_name Laptop
 
 # ---------- VARIABLES & SIGNALS ----------
 var laptop_screen_in := false
+signal laptop_toggled()
+
 var emails_controller: MarginContainer = null
 var ai_analysis_controller: Node = null
 var evidence_bank_controller: EvidenceBankController = null
@@ -27,7 +31,6 @@ var crash_glitch_effect: Node = null
 var is_crashed: bool = false
 var sound_manager: SoundManager = null
 var glitch_sound_player: AudioStreamPlayer = null
-signal laptop_toggled(is_open: bool)
 
 signal open_emails
 signal open_analysis
@@ -85,17 +88,20 @@ func set_text(text: String) -> void:
 
 # ---------- LAPTOP: BUTTON FUNCTIONS ----------
 func _on_screen_pressed() -> void:
+	sound_manager.play_sound("ui_click")
 	laptop_screen_in = true
 	set_ui(true, 0)
-	emit_signal("laptop_toggled", true)
+	emit_signal("laptop_toggled")
 
 func _on_exit_pressed() -> void:
+	sound_manager.play_sound("mouse_click")
 	laptop_screen_in = false
 	set_ui(false, 0)
 	set_ui(false, 1)
-	emit_signal("laptop_toggled", false)
+	emit_signal("laptop_toggled")
 
 func _on_close_app_pressed() -> void:
+	sound_manager.play_sound("mouse_click")
 	"""Close the currently open app and return to laptop home screen"""
 	set_text("")
 	set_ui(false, 1)
@@ -103,6 +109,7 @@ func _on_close_app_pressed() -> void:
 
 # ---------- LAPTOP: HOMESCREEN APPS ----------
 func _on_email_pressed() -> void:
+	sound_manager.play_sound("mouse_click")
 	set_text("Email")
 	set_ui(true, 1)
 	emit_signal("open_emails")
@@ -112,12 +119,14 @@ func _on_email_pressed() -> void:
 		emails_controller.spawn_emails()
 
 func _on_ai_analysis_pressed() -> void:
+	sound_manager.play_sound("mouse_click")
 	set_text("AI Analysis")
 	set_ui(true, 1)
 	emit_signal("open_analysis")
 	set_app("ai_analysis")
 
 func _on_evidence_bank_pressed() -> void:
+	sound_manager.play_sound("mouse_click")
 	set_text("Evidence Bank")
 	set_ui(true, 1)
 	emit_signal("open_evidences")
@@ -128,6 +137,7 @@ func _on_evidence_bank_pressed() -> void:
 		evidence_bank_controller._on_refresh_pressed()
 
 func _on_article_publisher_pressed() -> void:
+	sound_manager.play_sound("mouse_click")
 	set_text("Article Publisher")
 	set_ui(true, 1)
 	emit_signal("open_article_publisher")
@@ -169,6 +179,7 @@ func _find_trash_node() -> Node:
 	return find_child("Trash Controller", true, false)
 
 func _on_trashbin_pressed() -> void:
+	sound_manager.play_sound("mouse_click")
 	"""Open trash app when trashbin button is pressed"""
 	set_text("Trash")
 	set_ui(true, 1)
@@ -426,9 +437,11 @@ func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("laptop"):
 		if laptop_screen_in:
 			_on_exit_pressed()
+			emit_signal("laptop_toggled")
 		else:
 			_on_screen_pressed()
-	
+			emit_signal("laptop_toggled")
+
 	if laptop_screen_in:
 		if Input.is_action_just_pressed("key_1"):
 			_on_email_pressed()
@@ -436,3 +449,5 @@ func _process(_delta: float) -> void:
 			_on_ai_analysis_pressed()
 		elif Input.is_action_just_pressed("key_3"):
 			_on_evidence_bank_pressed()
+		elif Input.is_action_just_pressed("key_4"):
+			_on_article_publisher_pressed()

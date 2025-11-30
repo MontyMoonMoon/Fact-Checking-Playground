@@ -25,7 +25,6 @@ var _spawned_emails: Array = []
 
 const SPAM_EVIDENCE_PENALTY := -3.0
 const SPAM_GLITCH_DURATION := 2.5
-const SPAM_GLITCH_CHANCE := 0.1  # 10% chance to trigger glitch effect
 
 func _on_open_emails() -> void:
 	if not visible:
@@ -157,13 +156,16 @@ func _create_email_instance(email_data: Dictionary, is_spam: bool) -> Node:
 		email_instance.setup_email(email_data, evidence_bank_controller, self)
 		email_instance.call_deferred("_update_email_display")
 		_spawned_emails.append(email_instance)
+		print("[Emails Controller] Created email instance with setup_email method")
 		return email_instance
 	elif master:
 		email_instance.master = master
 		email_instance.connect("open_mail", Callable(self, "_on_mail_opened"))
 		_spawned_emails.append(email_instance)
+		print("[Emails Controller] Created email instance with master connection")
 		return email_instance
 	
+	push_warning("[Emails Controller] Failed to create email instance - no setup_email method and no master")
 	return null
 
 func _load_email_news() -> bool:
@@ -174,14 +176,44 @@ func _load_email_news() -> bool:
 		return false
 	
 	var data = JSONManager.load_json(file_path, {})
-	if typeof(data) == TYPE_DICTIONARY and data.has("emails"):
-		email_news_pool = data["emails"]
-		print("[Emails_controller] Loaded %d email news items" % email_news_pool.size())
-		return true
-	else:
-		push_error("[Emails_controller] Invalid JSON format: missing 'emails' array")
+	if typeof(data) != TYPE_DICTIONARY:
+		push_error("[Emails_controller] Invalid JSON format: expected dictionary")
 		email_news_pool = []
 		return false
+	
+	# Detect current map
+	var current_map = _get_current_map()
+	print("[Emails_controller] Detected current map: %s" % current_map)
+	
+	# Load map-specific email pool
+	if data.has(current_map):
+		email_news_pool = data[current_map]
+		print("[Emails_controller] Loaded %d email news items for %s" % [email_news_pool.size(), current_map])
+		return true
+	elif data.has("emails"):
+		# Fallback to old format for backwards compatibility
+		email_news_pool = data["emails"]
+		print("[Emails_controller] Loaded %d email news items (legacy format)" % email_news_pool.size())
+		return true
+	else:
+		push_error("[Emails_controller] Invalid JSON format: missing '%s' or 'emails' key" % current_map)
+		email_news_pool = []
+		return false
+
+func _get_current_map() -> String:
+	# Try to get from DataManager first
+	if DataManager.current_map in ["map_01", "map_02", "map_03"]:
+		return DataManager.current_map
+	
+	# Fallback: detect from scene path
+	var scene_path = get_tree().current_scene.scene_file_path if get_tree().current_scene else ""
+	if scene_path:
+		var scene_name = scene_path.get_file().get_basename()
+		if scene_name in ["map_01", "map_02", "map_03"]:
+			return scene_name
+	
+	# Default to map_01
+	return "map_01"
 
 func add_spam_email(spam_data: Dictionary) -> void:
 	_ensure_spam_fields(spam_data)
@@ -226,35 +258,71 @@ func _prepare_mail_data(mail_dict: Dictionary) -> Dictionary:
 	if not mail_data.has("sender"):
 		mail_data["sender"] = mail_data.get("from", "Unknown Sender")
 	
-	if not mail_data.has("main_text"):
-		var email_content = mail_data.get("content", "")
-		var news_data = mail_data.get("news_data", {})
-		if news_data and news_data.has("article_text"):
-			mail_data["main_text"] = email_content + "\n\n[b]Article:[/b] " + news_data.get("article_text", "") + "\n\n[b]Tip:[/b] " + news_data.get("tip_text", "")
-		else:
-			mail_data["main_text"] = email_content
+	# Build main_text from content and news_data
+	var email_content = mail_data.get("content", "")
+	var news_data = mail_data.get("news_data", {})
+	
+	push_error("[Emails Controller] Preparing mail data:")
+	push_error("  - email_content length: " + str(email_content.length()))
+	push_error("  - news_data keys: " + (str(news_data.keys()) if news_data else "none"))
+	
+	var main_text_parts = []
+	
+	if email_content != "":
+		main_text_parts.append(email_content)
+		push_error("  - Added email_content")
+	
+	if news_data and not news_data.is_empty():
+		if news_data.has("article_text") and news_data.get("article_text", "") != "":
+			main_text_parts.append("\n\n[b]Article:[/b] " + news_data.get("article_text", ""))
+			push_error("  - Added article_text")
+		
+		if news_data.has("tip_text") and news_data.get("tip_text", "") != "":
+			main_text_parts.append("\n\n[b]Tip:[/b] " + news_data.get("tip_text", ""))
+			push_error("  - Added tip_text")
+	
+	mail_data["main_text"] = "".join(main_text_parts)
+	
+	if mail_data["main_text"] == "":
+		mail_data["main_text"] = "No content available."
+		push_error("  - WARNING: No content found, using default")
+	
+	push_error("  - Final main_text length: " + str(mail_data["main_text"].length()))
+	push_error("  - First 150 chars: " + mail_data["main_text"].substr(0, 150))
 	
 	return mail_data
 
 func _on_mail_opened(mail_dict: Dictionary) -> void:
+	push_error("========== [Emails Controller._on_mail_opened] CALLED ==========")
+	push_error("[Emails Controller] mail_dict keys: " + str(mail_dict.keys()))
+	
 	if not container:
+		push_error("[Emails Controller] ERROR: container is null!")
 		return
 	
+	# 25% chance to trigger glitch when viewing spam email content
 	if mail_dict.get("is_spam", false):
-		_apply_spam_evidence_penalty()
-		_trigger_spam_email_glitch()
+		var glitch_chance = randf()
+		if glitch_chance < 0.25:
+			_trigger_spam_email_glitch()
 	
 	var mail_instance = mail_prefab.instantiate()
 	container.add_child(mail_instance)
 	
+	push_error("[Emails Controller] Mail instance created and added to container")
+	
+	await get_tree().process_frame
+	
 	if mail_instance.has_method("load_mail"):
-		mail_instance.load_mail(_prepare_mail_data(mail_dict))
+		push_error("[Emails Controller] Calling _prepare_mail_data...")
+		var prepared_data = _prepare_mail_data(mail_dict)
+		push_error("[Emails Controller] Calling load_mail on instance...")
+		mail_instance.load_mail(prepared_data)
+		push_error("[Emails Controller] load_mail call completed")
+	else:
+		push_error("[Emails Controller._on_mail_opened] Mail instance doesn't have load_mail method!")
 
 func _trigger_spam_email_glitch() -> void:
-	# Random chance to trigger glitch effect
-	if randf() > SPAM_GLITCH_CHANCE:
-		return  # No glitch this time
-	
 	if laptop:
 		if laptop.has_method("trigger_crash"):
 			laptop.trigger_crash(SPAM_GLITCH_DURATION)
@@ -263,7 +331,7 @@ func _trigger_spam_email_glitch() -> void:
 
 func _apply_spam_evidence_penalty() -> void:
 	if game_manager and game_manager.has_method("add_integrity_score"):
-		game_manager.add_integrity_score(SPAM_EVIDENCE_PENALTY)
+		game_manager.add_integrity_score(SPAM_EVIDENCE_PENALTY, "spam_emails")
 	else:
 		push_warning("[EmailsController] Unable to apply spam penalty - missing GameManager reference")
 

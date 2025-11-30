@@ -18,6 +18,7 @@ var error_data := {
 
 # ---------- BUTTON ----------
 func _on_exit_pressed() -> void:
+	master.sound_manager.play_sound("mouse_click")
 	queue_free()
 
 # ---------- SIGNAL CALLS ----------

@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://cnp1vfo5hq53u"]
 
 [ext_resource type="Script" uid="uid://cfsubjr2c6it7" path="res://Scripts/Component Scripts/mail.gd" id="1_ayirk"]
-[ext_resource type="Texture2D" uid="uid://dwsjcb47v7jan" path="res://Assets/PNGs/UI/UI Assets.png" id="2_ptgt2"]
+[ext_resource type="Texture2D" uid="uid://dq83lbqfexi88" path="res://Assets/PNGs/UI/UI Assets.png" id="2_ptgt2"]
 [ext_resource type="FontFile" uid="uid://bhqhtnkkcerbn" path="res://Assets/Fonts/BMmini.TTF" id="2_t0pm4"]
 [ext_resource type="FontFile" uid="uid://de2qiyybswcte" path="res://Assets/Fonts/windows-xp-tahoma.otf" id="4_no1ox"]
 
@@ -46,7 +46,7 @@ region_rect = Rect2(384, 560, 48, 16)
 texture = ExtResource("2_ptgt2")
 region_rect = Rect2(384, 624, 48, 16)
 
-[node name="Mail" type="Control" node_paths=PackedStringArray("receiver", "subject", "sender", "main_text", "confirm_button")]
+[node name="Mail" type="Control" node_paths=PackedStringArray("receiver", "sender", "subject", "main_text", "confirm_button")]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -57,8 +57,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ayirk")
 receiver = NodePath("MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/Headers/ReceiverLabels/Receiver")
-subject = NodePath("MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/Headers/SubjectLabels/Subject")
 sender = NodePath("MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/Headers/SenderLabels/Sender")
+subject = NodePath("MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/Headers/SubjectLabels/Subject")
 main_text = NodePath("MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/Main/Content")
 confirm_button = NodePath("MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/Main/Confirm")
 
@@ -217,12 +217,13 @@ size_flags_horizontal = 0
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Content" type="Label" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/Main"]
+[node name="Content" type="RichTextLabel" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/Main"]
 custom_minimum_size = Vector2(490, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("2_t0pm4")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_t0pm4")
+bbcode_enabled = true
 autowrap_mode = 3
 
 [node name="Confirm" type="Button" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/Main"]

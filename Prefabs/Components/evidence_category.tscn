@@ -1,0 +1,53 @@
+[gd_scene load_steps=5 format=3 uid="uid://prlhijbjrfan"]
+
+[ext_resource type="FontFile" uid="uid://de2qiyybswcte" path="res://Assets/Fonts/windows-xp-tahoma.otf" id="1_am83i"]
+[ext_resource type="Texture2D" uid="uid://dq83lbqfexi88" path="res://Assets/PNGs/UI/UI Assets.png" id="2_xliiv"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rhm8a"]
+texture = ExtResource("2_xliiv")
+expand_margin_left = 20.0
+expand_margin_top = 10.0
+expand_margin_right = 20.0
+expand_margin_bottom = 10.0
+region_rect = Rect2(1104, 832, 288, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ayvki"]
+texture = ExtResource("2_xliiv")
+expand_margin_left = 20.0
+expand_margin_top = 10.0
+expand_margin_right = 20.0
+expand_margin_bottom = 10.0
+region_rect = Rect2(1104, 896, 288, 16)
+
+[node name="EvidenceCategory" type="MarginContainer"]
+custom_minimum_size = Vector2(1050, 50)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = -25.0
+offset_right = 500.0
+offset_bottom = 31.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Category" type="Button" parent="."]
+custom_minimum_size = Vector2(1000, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.3529412, 0.54901963, 0.3529412, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.3529412, 0.54901963, 0.3529412, 1)
+theme_override_fonts/font = ExtResource("1_am83i")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_rhm8a")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_ayvki")
+theme_override_styles/hover = SubResource("StyleBoxTexture_ayvki")
+text = "Lorem ipsum dolor waaaaaaa"
+alignment = 0
+autowrap_mode = 3

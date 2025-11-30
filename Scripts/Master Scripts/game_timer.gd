@@ -156,3 +156,23 @@ func get_time_remaining() -> float:
 
 func get_time_elapsed() -> float:
 	return time_limit - time_remaining
+
+func reduce_time(seconds: float) -> void:
+	"""Reduce time remaining by specified seconds (for debugging)"""
+	if is_running:
+		time_remaining = max(0.0, time_remaining - seconds)
+		print("[GameTimer] Reduced time by %.1f seconds. Remaining: %.1f seconds" % [seconds, time_remaining])
+		
+		# Update display immediately
+		var minutes = int(time_remaining) / 60
+		var secs = int(time_remaining) % 60
+		var time_text = "%02d:%02d" % [minutes, secs]
+		if timer_label:
+			timer_label.text = time_text
+		emit_signal("timer_updated", time_text)
+		
+		# Check if time is up
+		if time_remaining <= 0.0:
+			time_remaining = 0.0
+			is_running = false
+			emit_signal("time_up")

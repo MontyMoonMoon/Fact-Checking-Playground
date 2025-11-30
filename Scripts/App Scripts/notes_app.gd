@@ -3,22 +3,25 @@ extends Panel
 var master: Master
 var sound_manager: SoundManager
 var json_manager: JSONManager = null
-var game_manager: Node = null  # Reference to GameManager for integrity changes
+var game_manager: Node = null  
 
 @export var phone: Control
 
-@export_group("App")
+@export_group("App Navigation")
 @export var notes_app: Panel
+@export var notes_button: Button
+@export var todo_button: Button
 @export var bottom_bar: Panel
 
 @export_subgroup("Notes")
+@export var notes_section: MarginContainer
 @export var notes_preview: MarginContainer
-@export var notes_content: MarginContainer
 @export var notes_scroll_container: VBoxContainer
+@export var notes_content_container: MarginContainer
+@export var new_note_container: MarginContainer
 
 @export_subgroup("To-do")
 @export var to_do_preview: MarginContainer
-@export var to_do_scroll_container: VBoxContainer
 
 # ---------- PREFAB ----------
 var note_prefab = preload("res://Prefabs/Components/note.tscn")
@@ -28,14 +31,16 @@ var notes_data: Array = []
 var viewed_note_ids: Array = []  # Track which notes have been viewed for integrity
 
 # ---------- METHODS ----------
-func _on_open_notes_app() -> void:
-	#master.sound_manager.play_sound("phone_click")
-	spawn_notes()  # Refresh notes when opening
-	set_ui(true, 0)  # Show bottom bar
-	# Notes section is now enabled
-	set_ui(true, 1)  # notes_app
-	set_ui(true, 2)  # notes_preview
-	print("[Notes_app._on_open_notes_app] Notes app opened")
+func _open_notes_app() -> void:
+	set_ui(true, "app")
+	
+	set_ui(true, "notes_main")
+	set_ui(false, "todo_main")
+	set_ui(false, "notes_opened")
+	set_ui(false, "new_note")
+	
+	notes_button.button_pressed = true
+	todo_button.button_pressed = false
 
 func spawn_notes() -> void:
 	"""Load and display notes from JSON"""
@@ -92,9 +97,6 @@ func _load_notes() -> void:
 	else:
 		push_warning("[Notes_app] JSONManager not found!")
 		notes_data = []
-
-func spawn_to_do() -> void:
-	pass
 
 func _on_notes_opened(note_instance: Node) -> void:
 	master.sound_manager.play_sound("phone_click")
@@ -169,7 +171,7 @@ func _apply_note_integrity(note_data: Dictionary) -> void:
 	
 	# Apply integrity change
 	if game_manager.has_method("add_integrity_score"):
-		game_manager.add_integrity_score(integrity_change)
+		game_manager.add_integrity_score(integrity_change, "correct_messages")
 	else:
 		push_warning("[Notes_app] GameManager doesn't have add_integrity_score method!")
 
@@ -188,51 +190,52 @@ func set_game_manager(manager: Node) -> void:
 	"""Set reference to GameManager for integrity changes"""
 	game_manager = manager
 
-# -------- UI HANDLER ----------
-func set_ui(visibility: bool, target: int) -> void:
+# ---------- UI MANAGER ----------
+func set_ui(visibility: bool, target: String) -> void:
 	match target:
-		0: 
-			if bottom_bar:
-				bottom_bar.visible = visibility
-		1: 
-			if notes_app:
-				notes_app.visible = visibility
-		2: 
-			if notes_preview:
-				notes_preview.visible = visibility
-		3: 
-			if notes_content:
-				notes_content.visible = visibility
+		"app": notes_app.visible = visibility
+		"bar": bottom_bar.visible = visibility
+		"notes_main": notes_preview.visible = visibility
+		"notes_opened": notes_content_container.visible = visibility
+		"new_note": new_note_container.visible = visibility
+		"todo_main": to_do_preview.visible = visibility
 
 # ---------- BUTTONS: NOTES  ----------
+func _on_all_notes_pressed() -> void:
+	set_ui(true, "notes_main")
+	set_ui(false, "todo_main")
+	
+	todo_button.button_pressed = false
+
 func _on_notes_main_pressed() -> void:
-	#master.sound_manager.play_sound("phone_click")
-	set_ui(false, 1)
-	set_ui(false, 2)
-	set_ui(false, 3)
-	# Hide app_container to show phone main menu again
-	if phone and phone.app_container:
-		phone.app_container.visible = false
-	elif phone:
-		# Try to find app_container directly via node path
-		var app_container = phone.get_node_or_null("PhoneContainer/MainPhone/AppContainers")
-		if app_container:
-			app_container.visible = false
+	set_ui(false, "app")
 
+func _on_note_open_pressed() -> void: 
+	set_ui(false, "notes_main")
+	set_ui(true, "notes_opened")
+	
 func _on_new_note_pressed() -> void:
-	master.sound_manager.play_sound("phone_click")
-	set_ui(false, 0)
-	set_ui(false, 2)
-	set_ui(true, 3)
+	set_ui(false, "notes_main")
+	set_ui(true, "new_note")
+	set_ui(false, "bar")
 
-func _on_chats_closed_pressed() -> void:
-	master.sound_manager.play_sound("phone_click")
-	set_ui(true, 0)
-	set_ui(false, 3)
-	set_ui(true, 2)
+func _on_notes_list_pressed() -> void:
+	set_ui(true, "notes_main")
+	set_ui(false, "new_note")
+	set_ui(false, "notes_opened")
+	set_ui(true, "bar")
 
 # ---------- BUTTONS: TO-DO ----------
+func _on_todo_pressed() -> void:
+	set_ui(true, "todo_main")
+	set_ui(false, "notes_main")
+	
+	notes_button.button_pressed = false
 
+func _on_todo_main_pressed() -> void:
+	set_ui(false, "todo_main")
+	set_ui(true, "notes_main")
+	
 # ---------- GODOT CALLBACKS ----------
 func _ready() -> void:
 	master = get_node("/root/Master")
@@ -244,8 +247,8 @@ func _ready() -> void:
 	json_manager = JSONManager.get_instance()
 		
 	if phone:
-		phone.connect("open_notes_app", Callable(self, "_on_open_notes_app"))
-		phone.connect("close_all_apps", Callable(self, "_on_notes_main_pressed"))
+		phone.connect("open_notes_app", Callable(self, "_open_notes_app"))
+		phone.connect("close_all_apps", Callable(self, "close_notes"))
 	else:
 		push_warning("[Notes_app.ready] Phone is kinda missing...")
 	
@@ -253,6 +256,12 @@ func _ready() -> void:
 	_hide_new_note_elements()
 	
 	spawn_notes()
+	
+	notes_button.button_pressed = true
+	set_ui(true, "bar")
+	set_ui(false, "app")
+	set_ui(true, "notes_main")
+	set_ui(false, "todo_main")
 
 func _hide_new_note_elements() -> void:
 	"""Hide the new note button and UI elements"""

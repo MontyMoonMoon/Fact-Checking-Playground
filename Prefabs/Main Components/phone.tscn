@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://dlpb35r0pfucw"]
+[gd_scene load_steps=39 format=3 uid="uid://dlpb35r0pfucw"]
 
 [ext_resource type="Script" uid="uid://be6je7wckv7es" path="res://Scripts/Main Component Scripts/mobile_phone.gd" id="1_qkp33"]
 [ext_resource type="Texture2D" uid="uid://dtwo3abgkxdb8" path="res://Assets/PNGs/Main Components/Phone.png" id="2_5xoch"]
@@ -6,12 +6,13 @@
 [ext_resource type="Texture2D" uid="uid://e5ql8svu8qh2" path="res://Assets/PNGs/Apps/Phone/messageApp.png" id="4_4hdon"]
 [ext_resource type="Texture2D" uid="uid://xt1dwgk25qyf" path="res://Assets/PNGs/Apps/Phone/notesApp.png" id="5_5xoch"]
 [ext_resource type="Script" uid="uid://bj343pn4foclu" path="res://Scripts/App Scripts/message_app.gd" id="7_jaril"]
-[ext_resource type="PackedScene" uid="uid://2ir530c3p01p" path="res://Prefabs/Components/chat_bubble.tscn" id="7_rjkfa"]
 [ext_resource type="Script" uid="uid://crdubrf8yhw0n" path="res://Scripts/App Scripts/notes_app.gd" id="8_g367n"]
 [ext_resource type="Script" uid="uid://cnn7np4tssov6" path="res://Scripts/App Scripts/todo_section.gd" id="8_nm0lr"]
 [ext_resource type="Script" uid="uid://d2ubx3t4u1dvm" path="res://Scripts/App Scripts/notes_section.gd" id="8_xgwv0"]
-[ext_resource type="Texture2D" uid="uid://c6b1nefcuxaij" path="res://Assets/PNGs/Apps/Phone/Trello v2.png" id="9_lqrb5"]
-[ext_resource type="Texture2D" uid="uid://kutegs20g4mv" path="res://Assets/PNGs/Apps/Phone/Checkmark_Blue.png" id="10_nm0lr"]
+[ext_resource type="Texture2D" uid="uid://pljfpu2d1ixh" path="res://Assets/PNGs/Apps/Phone/Trello v2.png" id="9_lqrb5"]
+[ext_resource type="Texture2D" uid="uid://qmtvay8e1q6v" path="res://Assets/PNGs/Apps/Phone/Checkmark_Blue.png" id="10_nm0lr"]
+[ext_resource type="FontFile" uid="uid://oluhvxue80kf" path="res://Assets/Fonts/MyDearestBit.ttf" id="11_4lll1"]
+[ext_resource type="FontFile" uid="uid://bhqhtnkkcerbn" path="res://Assets/Fonts/BMmini.TTF" id="11_sjowd"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jaril"]
 texture = ExtResource("4_4hdon")
@@ -19,34 +20,54 @@ texture = ExtResource("4_4hdon")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_g367n"]
 texture = ExtResource("5_5xoch")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qkp33"]
-bg_color = Color(1, 1, 1, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qxi81"]
+bg_color = Color(0.74509805, 0.7921569, 0.7647059, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lyibd"]
-bg_color = Color(0.8509804, 0.8509804, 0.8509804, 1)
+bg_color = Color(0.31764707, 0.41960785, 0.36078432, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fan7k"]
-bg_color = Color(0.8509804, 0.8509804, 0.8509804, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l2lpf"]
+bg_color = Color(0.31764707, 0.41960785, 0.36078432, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sjowd"]
+bg_color = Color(0.18431373, 0.24313726, 0.20784314, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tip4y"]
+bg_color = Color(0.8392157, 0.8862745, 0.85882354, 1)
+border_width_left = 5
+
+[sub_resource type="Theme" id="Theme_lyibd"]
+VScrollBar/styles/grabber = SubResource("StyleBoxFlat_sjowd")
+VScrollBar/styles/scroll = SubResource("StyleBoxFlat_tip4y")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5xoch"]
-bg_color = Color(0.85098, 0.85098, 0.85098, 1)
+bg_color = Color(0.31764707, 0.41960785, 0.36078432, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4lll1"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qkp33"]
+bg_color = Color(0.84705883, 0.75686276, 0.5686275, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lqrb5"]
-bg_color = Color(0.8509804, 0.8509804, 0.8509804, 1)
+bg_color = Color(0.5921569, 0.48235294, 0.2509804, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fan7k"]
+bg_color = Color(0.5921569, 0.48235294, 0.2509804, 1)
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_qkp33"]
-color = Color(0.8509804, 0.8509804, 0.8509804, 1)
+color = Color(0.5921569, 0.48235294, 0.2509804, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xgwv0"]
 bg_color = Color(1, 1, 1, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iju0l"]
+bg_color = Color(0.34117648, 0.2784314, 0.14509805, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rjkfa"]
 bg_color = Color(1, 1, 1, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4lll1"]
-bg_color = Color(0.6392157, 0.6392157, 0.6392157, 1)
+bg_color = Color(0.78039217, 0.6901961, 0.49019608, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
@@ -134,7 +155,9 @@ offset_right = 115.0
 offset_bottom = 200.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 15
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PhoneContainer/MainPhone/Screen"]
 layout_mode = 2
@@ -161,40 +184,35 @@ horizontal_alignment = 1
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
-[node name="AppIcons" type="VBoxContainer" parent="PhoneContainer/MainPhone/Screen/VBoxContainer"]
+[node name="AppIcons" type="VBoxContainer" parent="PhoneContainer/MainPhone/Screen"]
 layout_mode = 2
+size_flags_horizontal = 0
 theme_override_constants/separation = 25
 
-[node name="Top" type="HBoxContainer" parent="PhoneContainer/MainPhone/Screen/VBoxContainer/AppIcons"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_constants/separation = 25
-
-[node name="Button" type="Button" parent="PhoneContainer/MainPhone/Screen/VBoxContainer/AppIcons/Top"]
-custom_minimum_size = Vector2(170, 80)
+[node name="Seperator" type="Control" parent="PhoneContainer/MainPhone/Screen/AppIcons"]
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="Bottom" type="HBoxContainer" parent="PhoneContainer/MainPhone/Screen/VBoxContainer/AppIcons"]
+[node name="Bottom" type="HBoxContainer" parent="PhoneContainer/MainPhone/Screen/AppIcons"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 theme_override_constants/separation = 15
 
-[node name="Messages" type="Button" parent="PhoneContainer/MainPhone/Screen/VBoxContainer/AppIcons/Bottom"]
+[node name="Messages" type="Button" parent="PhoneContainer/MainPhone/Screen/AppIcons/Bottom"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
 size_flags_vertical = 4
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxTexture_jaril")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_jaril")
 theme_override_styles/hover = SubResource("StyleBoxTexture_jaril")
 
-[node name="Notes" type="Button" parent="PhoneContainer/MainPhone/Screen/VBoxContainer/AppIcons/Bottom"]
+[node name="Notes" type="Button" parent="PhoneContainer/MainPhone/Screen/AppIcons/Bottom"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
 size_flags_vertical = 4
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxTexture_g367n")
@@ -217,7 +235,7 @@ mouse_filter = 2
 [node name="MessageApp" type="Panel" parent="PhoneContainer/MainPhone/AppContainers" node_paths=PackedStringArray("phone", "message_app", "chat_preview", "chat_content", "chats_scroll_container")]
 layout_mode = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_qkp33")
+theme_override_styles/panel = SubResource("StyleBoxFlat_qxi81")
 script = ExtResource("7_jaril")
 phone = NodePath("../../../..")
 message_app = NodePath(".")
@@ -234,6 +252,7 @@ size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_lyibd")
 
 [node name="Preview" type="MarginContainer" parent="PhoneContainer/MainPhone/AppContainers/MessageApp"]
+visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -260,14 +279,12 @@ custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 size_flags_vertical = 0
 focus_mode = 0
-theme_override_colors/font_color = Color(0.490196, 0.490196, 0.490196, 1)
-theme_override_colors/font_pressed_color = Color(0.494118, 0.494118, 0.494118, 1)
-theme_override_colors/font_hover_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_colors/font_color = Color(0.16862746, 0.22352941, 0.19215687, 1)
 theme_override_fonts/font = ExtResource("2_l7r67")
 theme_override_font_sizes/font_size = 24
-theme_override_styles/normal = SubResource("StyleBoxFlat_fan7k")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_fan7k")
-theme_override_styles/hover = SubResource("StyleBoxFlat_fan7k")
+theme_override_styles/normal = SubResource("StyleBoxFlat_l2lpf")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_l2lpf")
+theme_override_styles/hover = SubResource("StyleBoxFlat_l2lpf")
 text = "  <  Messages "
 alignment = 0
 
@@ -276,6 +293,7 @@ custom_minimum_size = Vector2(230, 375)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
+theme = SubResource("Theme_lyibd")
 
 [node name="MessagesScrollContainer" type="VBoxContainer" parent="PhoneContainer/MainPhone/AppContainers/MessageApp/Preview/VBoxContainer/Scrollable"]
 layout_mode = 2
@@ -287,7 +305,6 @@ layout_mode = 2
 size_flags_vertical = 0
 
 [node name="Chats" type="MarginContainer" parent="PhoneContainer/MainPhone/AppContainers/MessageApp"]
-visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -311,9 +328,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 focus_mode = 0
-theme_override_colors/font_color = Color(0.490196, 0.490196, 0.490196, 1)
-theme_override_colors/font_pressed_color = Color(0.494118, 0.494118, 0.494118, 1)
-theme_override_colors/font_hover_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_colors/font_color = Color(0.16862746, 0.22352941, 0.19215687, 1)
 theme_override_fonts/font = ExtResource("2_l7r67")
 theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_5xoch")
@@ -335,7 +350,7 @@ offset_right = 20.0
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0.454902, 0.454902, 0.454902, 1)
+theme_override_colors/font_color = Color(0.16862746, 0.22352941, 0.19215687, 1)
 theme_override_fonts/font = ExtResource("2_l7r67")
 theme_override_font_sizes/font_size = 24
 text = "Name"
@@ -353,24 +368,33 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 
-[node name="MessagesContainer" type="VBoxContainer" parent="PhoneContainer/MainPhone/AppContainers/MessageApp/Chats/VBoxContainer/Scrollable"]
+[node name="SaveSpawn" type="VBoxContainer" parent="PhoneContainer/MainPhone/AppContainers/MessageApp/Chats/VBoxContainer/Scrollable"]
 layout_mode = 2
-size_flags_horizontal = 4
+theme_override_constants/separation = 10
+
+[node name="MessagesContainer" type="VBoxContainer" parent="PhoneContainer/MainPhone/AppContainers/MessageApp/Chats/VBoxContainer/Scrollable/SaveSpawn"]
+custom_minimum_size = Vector2(220, 40)
+layout_mode = 2
+size_flags_horizontal = 8
 size_flags_vertical = 4
 theme_override_constants/separation = 4
 
-[node name="Chat Bubble" parent="PhoneContainer/MainPhone/AppContainers/MessageApp/Chats/VBoxContainer/Scrollable/MessagesContainer" instance=ExtResource("7_rjkfa")]
-layout_mode = 2
-
-[node name="NotesApp" type="Panel" parent="PhoneContainer/MainPhone/AppContainers" node_paths=PackedStringArray("phone", "notes_app", "bottom_bar", "notes_preview", "to_do_preview")]
+[node name="NotesApp" type="Panel" parent="PhoneContainer/MainPhone/AppContainers" node_paths=PackedStringArray("phone", "notes_app", "notes_button", "todo_button", "bottom_bar", "notes_section", "notes_preview", "notes_scroll_container", "notes_content_container", "new_note_container", "to_do_preview")]
+visible = false
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_qkp33")
 script = ExtResource("8_g367n")
 phone = NodePath("../../../..")
 notes_app = NodePath(".")
+notes_button = NodePath("BottomBar/MarginContainer/HBoxContainer/All_notes")
+todo_button = NodePath("BottomBar/MarginContainer/HBoxContainer/Todo")
 bottom_bar = NodePath("BottomBar")
+notes_section = NodePath("Notes Preview")
 notes_preview = NodePath("Notes Preview")
+notes_scroll_container = NodePath("Notes Preview/NotesContainer/Scrollable/Container/NotesContainer")
+notes_content_container = NodePath("Note Content")
+new_note_container = NodePath("New Note")
 to_do_preview = NodePath("To-do")
 
 [node name="TopPanel" type="Panel" parent="PhoneContainer/MainPhone/AppContainers/NotesApp"]
@@ -425,9 +449,7 @@ theme_override_constants/separation = 117
 layout_mode = 2
 size_flags_horizontal = 0
 focus_mode = 0
-theme_override_colors/font_color = Color(0.49019608, 0.49019608, 0.49019608, 1)
-theme_override_colors/font_pressed_color = Color(0.494118, 0.494118, 0.494118, 1)
-theme_override_colors/font_hover_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_colors/font_color = Color(0.34117648, 0.2784314, 0.14509805, 1)
 theme_override_fonts/font = ExtResource("2_l7r67")
 theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_fan7k")
@@ -516,7 +538,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 0
 focus_mode = 0
-theme_override_colors/font_color = Color(0.49019608, 0.49019608, 0.49019608, 1)
+theme_override_colors/font_color = Color(0.34117648, 0.2784314, 0.14509805, 1)
 theme_override_colors/font_pressed_color = Color(0.494118, 0.494118, 0.494118, 1)
 theme_override_colors/font_hover_color = Color(0.490196, 0.490196, 0.490196, 1)
 theme_override_fonts/font = ExtResource("2_l7r67")
@@ -556,11 +578,11 @@ theme_override_styles/panel = SubResource("StyleBoxLine_qkp33")
 [node name="TextContent" type="MarginContainer" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/Note Content"]
 layout_mode = 2
 mouse_filter = 2
-theme_override_constants/margin_left = 5
+theme_override_constants/margin_left = 7
 theme_override_constants/margin_top = 30
 
 [node name="Scrollable" type="ScrollContainer" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/Note Content/TextContent"]
-custom_minimum_size = Vector2(228, 370)
+custom_minimum_size = Vector2(226, 370)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -571,11 +593,12 @@ layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="Header" type="LineEdit" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/Note Content/TextContent/Scrollable/NewNoteContainer"]
-custom_minimum_size = Vector2(220, 0)
+custom_minimum_size = Vector2(220, 35)
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+theme_override_colors/font_color = Color(0.34117648, 0.2784314, 0.14509805, 1)
 theme_override_colors/caret_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+theme_override_fonts/font = ExtResource("11_sjowd")
 theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_xgwv0")
 theme_override_styles/read_only = SubResource("StyleBoxFlat_xgwv0")
@@ -583,21 +606,28 @@ theme_override_styles/focus = SubResource("StyleBoxFlat_xgwv0")
 placeholder_text = "Title"
 max_length = 15
 
+[node name="Panel" type="Panel" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/Note Content/TextContent/Scrollable/NewNoteContainer"]
+custom_minimum_size = Vector2(220, 2)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_iju0l")
+
 [node name="Label" type="Label" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/Note Content/TextContent/Scrollable/NewNoteContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+theme_override_colors/font_color = Color(0.34509805, 0.28235295, 0.14509805, 1)
 theme_override_font_sizes/font_size = 12
 text = "mm/dd  00:00"
 
 [node name="Control" type="Control" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/Note Content/TextContent/Scrollable/NewNoteContainer"]
-custom_minimum_size = Vector2(0, 10)
+custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 
 [node name="Content" type="TextEdit" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/Note Content/TextContent/Scrollable/NewNoteContainer"]
 custom_minimum_size = Vector2(222, 308)
 layout_mode = 2
 theme_override_colors/caret_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
-theme_override_colors/font_color = Color(0.38039216, 0.38039216, 0.38039216, 1)
+theme_override_colors/font_color = Color(0.34117648, 0.2784314, 0.14509805, 1)
+theme_override_fonts/font = ExtResource("11_4lll1")
 theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxFlat_rjkfa")
 theme_override_styles/focus = SubResource("StyleBoxFlat_rjkfa")
@@ -756,9 +786,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 0
 focus_mode = 0
-theme_override_colors/font_color = Color(0.49019608, 0.49019608, 0.49019608, 1)
-theme_override_colors/font_pressed_color = Color(0.494118, 0.494118, 0.494118, 1)
-theme_override_colors/font_hover_color = Color(0.490196, 0.490196, 0.490196, 1)
+theme_override_colors/font_color = Color(0.34117648, 0.2784314, 0.14509805, 1)
 theme_override_fonts/font = ExtResource("2_l7r67")
 theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_fan7k")
@@ -796,12 +824,18 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 focus_mode = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("11_sjowd")
 theme_override_styles/normal = SubResource("StyleBoxFlat_4lll1")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_4lll1")
 theme_override_styles/hover = SubResource("StyleBoxFlat_4lll1")
 toggle_mode = true
-text = "  Work Tasks"
+text = " Work Tasks"
 alignment = 0
+
+[node name="Control" type="Control" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/To-do/Container/ScrollContainer/MainButtons"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
 
 [node name="PersonalTasks" type="Button" parent="PhoneContainer/MainPhone/AppContainers/NotesApp/To-do/Container/ScrollContainer/MainButtons"]
 custom_minimum_size = Vector2(220, 35)
@@ -809,6 +843,8 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 focus_mode = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("11_sjowd")
 theme_override_styles/normal = SubResource("StyleBoxFlat_4lll1")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_4lll1")
 theme_override_styles/hover = SubResource("StyleBoxFlat_4lll1")
@@ -889,8 +925,8 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_djuqe")
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 
-[connection signal="pressed" from="PhoneContainer/MainPhone/Screen/VBoxContainer/AppIcons/Bottom/Messages" to="." method="_on_messages_pressed"]
-[connection signal="pressed" from="PhoneContainer/MainPhone/Screen/VBoxContainer/AppIcons/Bottom/Notes" to="." method="_on_notes_pressed"]
+[connection signal="pressed" from="PhoneContainer/MainPhone/Screen/AppIcons/Bottom/Messages" to="." method="_on_messages_pressed"]
+[connection signal="pressed" from="PhoneContainer/MainPhone/Screen/AppIcons/Bottom/Notes" to="." method="_on_notes_pressed"]
 [connection signal="pressed" from="PhoneContainer/MainPhone/AppContainers/MessageApp/Preview/VBoxContainer/Messages_Main" to="PhoneContainer/MainPhone/AppContainers/MessageApp" method="_on_messages_main_pressed"]
 [connection signal="pressed" from="PhoneContainer/MainPhone/AppContainers/MessageApp/Chats/VBoxContainer/Chat Closed" to="PhoneContainer/MainPhone/AppContainers/MessageApp" method="_on_chat_closed_pressed"]
 [connection signal="pressed" from="PhoneContainer/MainPhone/AppContainers/NotesApp/Notes Preview/TopBar/HBoxContainer/Notes_main" to="PhoneContainer/MainPhone/AppContainers/NotesApp" method="_on_notes_main_pressed"]

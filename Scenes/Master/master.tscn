@@ -1,9 +1,11 @@
-[gd_scene load_steps=20 format=3 uid="uid://ccetierkoni7f"]
+[gd_scene load_steps=22 format=3 uid="uid://ccetierkoni7f"]
 
 [ext_resource type="Script" uid="uid://c7eqmov67u6ak" path="res://Scripts/Master Scripts/master.gd" id="1_qemos"]
 [ext_resource type="Script" uid="uid://5nhq2bfua1p0" path="res://Scripts/Master Scripts/scene_loader.gd" id="2_tcv0n"]
 [ext_resource type="PackedScene" uid="uid://c3kbynasxfujb" path="res://Scenes/map_0.tscn" id="3_urij7"]
 [ext_resource type="PackedScene" uid="uid://c0t6505sx6arq" path="res://Scenes/map_01.tscn" id="4_4kcn7"]
+[ext_resource type="PackedScene" uid="uid://c0xiooku4752i" path="res://Scenes/map_02.tscn" id="5_map02"]
+[ext_resource type="PackedScene" uid="uid://desh6xaynqmmc" path="res://Scenes/map_03.tscn" id="6_map03"]
 [ext_resource type="Script" uid="uid://c3rxcmmbsf0ks" path="res://Scripts/Master Scripts/data_manager.gd" id="5_sxu81"]
 [ext_resource type="AudioStream" uid="uid://bawdtknx6pwjd" path="res://Assets/SFX/mouse_click2.mp3" id="6_0hine"]
 [ext_resource type="Script" uid="uid://db5i32iw08st8" path="res://Scripts/Master Scripts/settings_manager.gd" id="6_tcv0n"]
@@ -31,18 +33,18 @@ timedate_manager = NodePath("TimeDate Manager")
 
 [node name="Scene Loader" type="Node" parent="."]
 script = ExtResource("2_tcv0n")
-scenes = Array[PackedScene]([ExtResource("3_urij7"), ExtResource("4_4kcn7")])
+scenes = Array[PackedScene]([ExtResource("3_urij7"), ExtResource("4_4kcn7"), ExtResource("5_map02"), ExtResource("6_map03")])
 
 [node name="Sound Manager" type="Node" parent="."]
 script = ExtResource("7_urij7")
 sound_effects = Dictionary[String, AudioStream]({
-"error_sound": ExtResource("7_iwwxa"),
 "Glitch1": ExtResource("12_0hine"),
 "IntegScoreDecrement": ExtResource("14_0hine"),
 "IntegScoreIncrement": ExtResource("13_0hine"),
-"mouse_click": ExtResource("7_0hine"),
 "NewEmail": ExtResource("10_0hine"),
 "NewMessage": ExtResource("11_0hine"),
+"error_sound": ExtResource("7_iwwxa"),
+"mouse_click": ExtResource("7_0hine"),
 "notif_sound": ExtResource("8_0hine"),
 "phone_click": ExtResource("9_0hine"),
 "ui_click": ExtResource("6_0hine")

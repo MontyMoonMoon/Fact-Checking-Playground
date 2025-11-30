@@ -34,6 +34,7 @@ var http_request: HTTPRequest = null
 
 # Data
 var articles_data: Array = []
+var original_articles_data: Array = []  # Store original articles before removal
 var constructed_parts: Array = []
 var max_parts: int = 4
 var published_article_texts: Array = []  # Track published articles by article_text
@@ -42,6 +43,8 @@ const PUBLISHED_ARTICLES_PATH = "user://published_articles.json"
 # Part node mapping
 var part_nodes: Array = []
 var part_label_nodes: Array = []
+
+@onready var avail_article_prefab: PackedScene = preload("res://Prefabs/Components/avail_article.tscn")
 
 func _ready():
 	master = get_node("/root/Master")
@@ -92,6 +95,43 @@ func refresh_articles():
 	_load_published_articles()
 	_load_articles()
 	call_deferred("_display_articles_list")
+
+func add_article_to_pool(article_data: Dictionary) -> void:
+	"""Add an article directly to the publisher pool (called from evidence bank)"""
+	if article_data.is_empty():
+		return
+	
+	var article_text = article_data.get("article_text", "")
+	if article_text == "":
+		return
+	
+	# Check if article already exists in pool
+	var already_exists = false
+	for existing_article in articles_data:
+		if existing_article.get("article_text", "") == article_text:
+			already_exists = true
+			break
+	
+	# Check if article is published
+	var is_published = false
+	for published_text in published_article_texts:
+		if published_text == article_text:
+			is_published = true
+			break
+	
+	# Add to pool if not already present and not published
+	if not already_exists and not is_published:
+		articles_data.append(article_data.duplicate(true))
+		print("Article Publisher: Added article to pool - %s" % article_text)
+		
+		# Refresh display if visible
+		if visible:
+			_display_articles_list()
+	else:
+		if already_exists:
+			print("Article Publisher: Article already in pool - %s" % article_text)
+		if is_published:
+			print("Article Publisher: Article already published - %s" % article_text)
 
 func _load_published_articles():
 	"""Load list of published article texts from file"""
@@ -149,66 +189,73 @@ func _load_articles():
 				filtered_articles.append(article)
 		
 		articles_data = filtered_articles
+		# Store original articles for restoration when clearing
+		original_articles_data = articles_data.duplicate(true)
 		print("Article Publisher: Filtered out %d published articles, %d remaining" % [published_article_texts.size(), articles_data.size()])
 
 func _display_articles_list():
-	"""Display available articles in the container"""
 	if not avail_art_container:
 		return
 	
-	# Clear existing buttons
+	# Clear old buttons
 	for child in avail_art_container.get_children():
-		if child is Button:
+		if child.name != "Control":  
 			child.queue_free()
 	
-	if articles_data.size() == 0:
-		var empty_label = Label.new()
+	if articles_data.is_empty():
+		var empty_label := Label.new()
 		empty_label.text = "No articles available"
 		empty_label.add_theme_color_override("font_color", Color.BLACK)
 		avail_art_container.add_child(empty_label)
 		return
 	
-	# Create buttons for each article
 	for i in range(articles_data.size()):
 		var article = articles_data[i]
-		var btn = Button.new()
-		
-		# Get article text - handle different possible formats
-		var article_text = ""
-		if article.has("article_text"):
-			article_text = article.get("article_text", "")
-		elif article.has("headline"):
-			article_text = article.get("headline", "")
-		elif article.has("text"):
-			article_text = article.get("text", "")
-		
+
+		# Extract text
+		var article_text = article.get("article_text", article.get("headline", article.get("text", "")))
 		if article_text.begins_with("Article: "):
 			article_text = article_text.substr(9)
-		
+
 		var display_text = article_text if article_text.length() > 0 else "Article %d" % (i + 1)
 		if display_text.length() > 50:
 			display_text = display_text.substr(0, 47) + "..."
+
+		# Instantiate your UI prefab
+		var item_container = avail_article_prefab.instantiate()
+		if not item_container:
+			push_warning("Failed to instantiate article prefab!")
+			continue
+		
+		# Get the built-in styled button
+		var btn := item_container.get_node("Art1") as Button
+		if not btn:
+			push_warning("Prefab has no Button named 'Art1'!")
+			continue
 		
 		btn.text = display_text
-		btn.custom_minimum_size = Vector2(460, 50)
-		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		btn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		
+		# Connect press
 		btn.connect("pressed", Callable(self, "_on_article_selected").bind(i))
-		avail_art_container.add_child(btn)
+
+		# Add the prefab to the list
+		avail_art_container.add_child(item_container)
 
 func _on_article_selected(article_index: int):
 	if article_index < 0 or article_index >= articles_data.size():
+		print("[Article Publisher] Invalid article index: %d (pool size: %d)" % [article_index, articles_data.size()])
 		return
 	
 	if constructed_parts.size() >= max_parts:
 		print("Maximum %d parts allowed! Clear or publish first." % max_parts)
 		return
 	
-	var article = articles_data[article_index]
+	var article = articles_data[article_index].duplicate(true)  # Make a copy
 	var article_text = article.get("article_text", "")
 	if article_text.begins_with("Article: "):
 		article_text = article_text.substr(9)
 	
+	# Always start from art_1 (index 0) for proper formatting
 	var part_index = constructed_parts.size()
 	var part_label = ""
 	if article.has("headline"):
@@ -216,24 +263,83 @@ func _on_article_selected(article_index: int):
 	elif article_text.length() > 0:
 		part_label = article_text.substr(0, min(60, article_text.length()))
 	
+	# Ensure label text is set properly for Art1 button appearance
+	if part_label == "":
+		part_label = article_text.substr(0, min(60, article_text.length())) if article_text.length() > 0 else "Article %d" % (part_index + 1)
+	
+	# Store the original article data for restoration
 	constructed_parts.append({
 		"index": article_index,
 		"text": article_text,
 		"article_data": article,
-		"label": part_label
+		"label": part_label,
+		"original_article": article.duplicate(true)  # Store original for restoration
 	})
 	
-	# Update UI to show the new part
+	# Remove the article from available list to prevent duplicate selection
+	articles_data.remove_at(article_index)
+	
+	# Update UI to show the new part - always use art_1, art_2, art_3, art_4 format
+	# part_index is 0-based, so first article (index 0) goes to art_1
 	var part_key = "art_%d" % (part_index + 1)
+	
+	print("[Article Publisher] Adding article to part %s with label: %s" % [part_key, part_label])
+	
+	# Set article immediately
 	set_article(part_key, part_label)
+	
+	# Also set it deferred to ensure it updates after layout
+	call_deferred("set_article", part_key, part_label)
+	
+	# Refresh the articles list display to remove the selected article
+	_display_articles_list()
 
 # ---------- BUTTONS ----------
 func _on_clear_pressed() -> void:
 	if sound_manager:
 		sound_manager.play_sound("mouse_click")
+	
+	# Restore articles back to the pool before clearing
+	var articles_to_restore = []
+	for part in constructed_parts:
+		if part.has("original_article"):
+			var original_article = part.get("original_article")
+			articles_to_restore.append(original_article)
+	
+	# Clear constructed parts first
 	constructed_parts.clear()
 	set_article("none", "")
-	print("Construction area cleared.")
+	
+	# Reload articles from source to get fresh list
+	_load_articles()
+	
+	# Add back the articles that were being constructed (if not already in the list)
+	for article_to_restore in articles_to_restore:
+		var article_text = article_to_restore.get("article_text", "")
+		if article_text == "":
+			continue
+		
+		# Check if article is already in the list
+		var already_exists = false
+		for existing_article in articles_data:
+			if existing_article.get("article_text", "") == article_text:
+				already_exists = true
+				break
+		
+		# Only add if not already present and not published
+		if not already_exists:
+			var is_published = false
+			for published_text in published_article_texts:
+				if published_text == article_text:
+					is_published = true
+					break
+			
+			if not is_published:
+				articles_data.append(article_to_restore)
+	
+	# Refresh the articles list to show restored articles
+	_display_articles_list()
+	print("Construction area cleared. %d articles restored to pool." % articles_to_restore.size())
 
 func _on_publish_pressed() -> void:
 	if sound_manager:
@@ -263,23 +369,46 @@ func set_article(target: String, text: String) -> void:
 		"art_1": 
 			if article_part1:
 				article_part1.visible = true
+				article_part1.show()
+				# Ensure parent containers are visible
+				var parent = article_part1.get_parent()
+				var depth = 0
+				while parent and depth < 5:
+					if parent is Control:
+						parent.visible = true
+					parent = parent.get_parent()
+					depth += 1
 			if article_part1_label:
-				article_part1_label.text = text
+				article_part1_label.text = text if text != "" else ""
+				article_part1_label.visible = true
+				article_part1_label.show()
+				print("[Article Publisher] Set art_1 label to: %s" % text)
+			else:
+				push_warning("[Article Publisher] article_part1_label is null! Cannot set Art1 text.")
 		"art_2": 
 			if article_part2:
 				article_part2.visible = true
+				article_part2.show()
 			if article_part2_label:
 				article_part2_label.text = text
+				article_part2_label.visible = true
+				article_part2_label.show()
 		"art_3": 
 			if article_part3:
 				article_part3.visible = true
+				article_part3.show()
 			if article_part3_label:
 				article_part3_label.text = text
+				article_part3_label.visible = true
+				article_part3_label.show()
 		"art_4": 
 			if article_part4:
 				article_part4.visible = true
+				article_part4.show()
 			if article_part4_label:
 				article_part4_label.text = text
+				article_part4_label.visible = true
+				article_part4_label.show()
 		"none": 
 			if article_part1:
 				article_part1.visible = false
@@ -289,10 +418,26 @@ func set_article(target: String, text: String) -> void:
 				article_part3.visible = false
 			if article_part4:
 				article_part4.visible = false
+			# Clear all labels
+			if article_part1_label:
+				article_part1_label.text = ""
+			if article_part2_label:
+				article_part2_label.text = ""
+			if article_part3_label:
+				article_part3_label.text = ""
+			if article_part4_label:
+				article_part4_label.text = ""
 	
-	# Hide parts that don't have constructed data
+	# Update visibility based on constructed_parts
 	for i in range(max_parts):
-		if i >= constructed_parts.size():
+		if i < constructed_parts.size():
+			# Ensure parts with data are visible
+			var part_node = part_nodes[i]
+			if part_node:
+				part_node.visible = true
+				part_node.show()
+		else:
+			# Hide parts without data
 			var part_node = part_nodes[i]
 			if part_node:
 				part_node.visible = false
@@ -423,7 +568,8 @@ func _on_http_request_request_completed(result: int, response_code: int, headers
 			print("Integrity Score Increment: +%.2f" % integrity_increment)
 		
 		if game_manager and game_manager.has_method("add_integrity_score"):
-			game_manager.add_integrity_score(integrity_increment)
+			var source = "incorrect_articles_published" if is_fake else "correct_articles_published"
+			game_manager.add_integrity_score(integrity_increment, source)
 		elif game_manager and game_manager.has_method("add_article_result"):
 			var rf_normalized = rf / 10.0
 			var log_normalized = log / 10.0

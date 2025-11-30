@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://crebwcceb18nl"]
+[gd_scene load_steps=6 format=3 uid="uid://crebwcceb18nl"]
 
-[ext_resource type="Texture2D" uid="uid://ctr0sx6nwpx62" path="res://Assets/PNGs/UI/BlankNewspaper_New.png" id="1_xmk6m"]
+[ext_resource type="Script" path="res://Scripts/Main Component Scripts/day_end_panel.gd" id="1_day_end"]
+[ext_resource type="Texture2D" uid="uid://o01gmcr1gkot" path="res://Assets/PNGs/UI/BlankNewspaper_New.png" id="1_xmk6m"]
 [ext_resource type="FontFile" uid="uid://oluhvxue80kf" path="res://Assets/Fonts/MyDearestBit.ttf" id="2_1ls7x"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xmk6m"]
@@ -10,12 +11,16 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 bg_color = Color(1, 1, 1, 1)
 
 [node name="Day End Panel" type="Control"]
+script = ExtResource("1_day_end")
+custom_minimum_size = Vector2(350, 400)
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
+offset_left = -175.0
+offset_right = 175.0
 grow_horizontal = 2
 grow_vertical = 2
 

@@ -1,0 +1,55 @@
+[gd_scene load_steps=4 format=3 uid="uid://bxwj81jvntpyk"]
+
+[ext_resource type="Script" uid="uid://ri31dtu24fnp" path="res://Scripts/Component Scripts/trash.gd" id="1_blfkt"]
+[ext_resource type="Texture2D" uid="uid://dq83lbqfexi88" path="res://Assets/PNGs/UI/UI Assets.png" id="2_bvysy"]
+[ext_resource type="FontFile" uid="uid://de2qiyybswcte" path="res://Assets/Fonts/windows-xp-tahoma.otf" id="3_38n7s"]
+
+[node name="trash" type="Control" node_paths=PackedStringArray("display_text")]
+custom_minimum_size = Vector2(1100, 60)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_blfkt")
+display_text = NodePath("Content/TextContent/VBoxContainer/Label")
+
+[node name="Content" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -540.0
+offset_right = 540.0
+offset_bottom = 60.0
+grow_horizontal = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Content"]
+custom_minimum_size = Vector2(1080, 60)
+layout_mode = 2
+texture = ExtResource("2_bvysy")
+region_rect = Rect2(480, 720, 515, 50)
+
+[node name="TextContent" type="MarginContainer" parent="Content"]
+custom_minimum_size = Vector2(220, 30)
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Content/TextContent"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Label" type="Label" parent="Content/TextContent/VBoxContainer"]
+custom_minimum_size = Vector2(1000, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_38n7s")
+theme_override_font_sizes/font_size = 32
+text = " Trashed article/email/evidence"
+autowrap_mode = 3

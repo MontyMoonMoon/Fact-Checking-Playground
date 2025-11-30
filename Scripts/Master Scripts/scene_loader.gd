@@ -58,12 +58,19 @@ func _setup_fade_overlay() -> void:
 
 func load_by_id(id: int) -> void:
 	if id >= scenes.size():
-		push_warning("[SceneLoader] Scene ID %d out of range." % id)
+		push_warning("[SceneLoader] Scene ID %d out of range. Scenes array size: %d" % [id, scenes.size()])
 		return
 	
+	if id < 0:
+		push_warning("[SceneLoader] Scene ID %d is negative!" % id)
+		return
+	
+	print("[SceneLoader] Loading scene ID %d (current: %d)" % [id, current_scene_id])
 	var skip_fade = is_first_load
-	load_packed_scene(scenes[id], skip_fade)
+	# Update current_scene_id BEFORE loading to ensure it's set correctly
 	current_scene_id = id
+	load_packed_scene(scenes[id], skip_fade)
+	print("[SceneLoader] Scene ID %d load initiated" % id)
 
 func load_packed_scene(scene: PackedScene, skip_fade_out: bool = false) -> void:
 	await _setup_fade_overlay()

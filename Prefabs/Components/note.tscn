@@ -4,6 +4,7 @@
 [ext_resource type="FontFile" uid="uid://dee4q2pxdjpua" path="res://Assets/Fonts/BMgermar.TTF" id="2_nsyt1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3o8b3"]
+bg_color = Color(0.75686276, 0.654902, 0.43529412, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5

@@ -26,6 +26,7 @@ var stored_infos: Array = []
 var trashed_infos: Array = []  # Store trashed articles
 var selected_info: Dictionary = {}
 var selected_button: Button = null  # Track selected button for highlighting
+var category_button_group := ButtonGroup.new()
 var info_to_button: Dictionary = {}  # Map info to button for highlighting
 var ai_analysis_ref: Node = null
 var game_manager: Node = null
@@ -33,7 +34,8 @@ var laptop_ref: Node = null  # Reference to laptop for app switching
 var trash_controller_ref: Node = null  # Reference to trash controller
 var article_publisher_ref: Node = null  # Reference to article publisher controller
 
-
+# ---------- PREFAB ----------
+@onready var category_button_prefab: PackedScene = preload("res://Prefabs/Components/evidence_category.tscn")
 
 func _ready():
 	master = get_node("/root/Master")
@@ -140,10 +142,16 @@ func _clear_facts_container() -> void:
 				child.queue_free()
 
 func _create_fact_label(fact: Dictionary) -> Label:
-	"""Helper to create fact label"""
+	"""Helper to create fact label with tahoma font"""
 	var fact_label = Label.new()
 	fact_label.text = "%s (%s): %s" % [fact.get("category", ""), fact.get("source", ""), fact.get("value", "")]
+	
+	# Apply tahoma font
+	var tahoma_font = preload("res://Assets/Fonts/windows-xp-tahoma.otf")
+	fact_label.add_theme_font_override("font", tahoma_font)
+	fact_label.add_theme_font_size_override("font_size", 32)
 	fact_label.add_theme_color_override("font_color", Color.BLACK)
+	
 	return fact_label
 
 func set_evidence_text() -> void:
@@ -167,6 +175,10 @@ func set_evidence_text() -> void:
 	
 	if integrity_score:
 		integrity_score.text = "%.2f" % case_data.get("integrity_score", 0.0)
+		# Apply tahoma font to integrity score
+		var tahoma_font = preload("res://Assets/Fonts/windows-xp-tahoma.otf")
+		integrity_score.add_theme_font_override("font", tahoma_font)
+		integrity_score.add_theme_font_size_override("font_size", 32)
 	
 	_clear_facts_container()
 	var facts = case_data.get("facts", [])
@@ -293,14 +305,13 @@ func _display_info_buttons():
 	if not evidence_list_container:
 		return
 	
-	# Ensure evidence_list_container expands properly to allow scrolling
-	evidence_list_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	# Ensure evidence_list_container expands properly to allow scrolling and align to left
+	evidence_list_container.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	evidence_list_container.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	
-	# Clear existing category buttons and mappings
+	# Clear existing category groups and mappings
 	for child in evidence_list_container.get_children():
-		if child is Button:
-			child.queue_free()
+		child.queue_free()
 	info_to_button.clear()
 	selected_button = null
 
@@ -313,25 +324,88 @@ func _display_info_buttons():
 			categories[category] = []
 		categories[category].append(info)
 
-	# Create category buttons
+	# Load tahoma font
+	var tahoma_font = preload("res://Assets/Fonts/windows-xp-tahoma.otf")
+
+	# Create category buttons with evidence items grouped under them
 	var category_index = 0
 	for category_name in categories.keys():
-		var btn = Button.new()
-		btn.text = category_name.to_upper()
-		btn.custom_minimum_size = Vector2(0, 30)
-		btn.alignment = HORIZONTAL_ALIGNMENT_CENTER
-		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		btn.connect("pressed", Callable(self, "_on_category_selected").bind(category_name, categories[category_name]))
-		evidence_list_container.add_child(btn)
-		
-		# Store first info from this category for button mapping
+		# Get first article text for preview
+		var preview_text = ""
 		if categories[category_name].size() > 0:
-			info_to_button[categories[category_name][0]] = btn
+			var first_info = categories[category_name][0]
+			var first_case_data = first_info.get("case_data", {})
+			var article_text = first_case_data.get("article_text", "")
+			if article_text.length() > 0:
+				# Get preview (first 40 characters)
+				preview_text = article_text.substr(0, min(40, article_text.length()))
+				if article_text.length() > 40:
+					preview_text += "..."
 		
-		category_index += 1
-		# Remove limit to allow scrolling through all categories
-		# if category_index >= 3:  # Limit to 3 categories as per UI design
-		# 	break
+		# Create category button using email_layout (showing category name + preview)
+		var email_layout_prefab = preload("res://Prefabs/Components/email_layout.tscn")
+		var category_display_text = category_name.to_upper()
+		if preview_text != "":
+			category_display_text += " - " + preview_text
+		
+		# Create email_layout instance for category with wider size
+		var category_email_layout = email_layout_prefab.instantiate()
+		# Make it wider for evidence bank - extend to fill more space
+		category_email_layout.custom_minimum_size = Vector2(800, 40)
+		# Update internal components to match wider size
+		var content_node = category_email_layout.get_node_or_null("Content")
+		if content_node:
+			content_node.offset_left = -400.0
+			content_node.offset_right = 400.0
+		var nine_patch = category_email_layout.get_node_or_null("Content/NinePatchRect")
+		if nine_patch:
+			nine_patch.custom_minimum_size = Vector2(800, 40)
+		if category_email_layout and category_email_layout.has_method("_set_text"):
+			category_email_layout._set_text(category_display_text)
+		elif category_email_layout:
+			# Fallback: try to set text via display_text export
+			var display_text_node = category_email_layout.get_node_or_null("Content/TextContent/VBoxContainer/Label")
+			if display_text_node and display_text_node is Label:
+				display_text_node.text = category_display_text
+				# Update label width to match wider layout
+				display_text_node.custom_minimum_size = Vector2(770, 0)
+		
+		if category_button_prefab == null:
+			push_warning("Category button prefab not assigned!")
+			return
+
+		# Instantiate the prefab container
+		var category_btn_container = category_button_prefab.instantiate() as MarginContainer
+		if category_btn_container == null:
+			push_warning("Failed to instantiate category button prefab!")
+			return
+
+		# Get the Button inside the container
+		var category_btn = category_btn_container.get_node("Category") as Button
+		if category_btn == null:
+			push_warning("Prefab does not have a Button named 'Button'!")
+			return
+		
+		# Reuse the existing variable instead of redeclaring
+		category_display_text = category_name.to_upper()
+		if preview_text != "":
+			category_display_text += " - " + preview_text
+
+		category_btn.text = category_display_text
+		category_btn.toggle_mode = true
+		category_btn.button_group = category_button_group
+
+		# Connect the pressed signal
+		category_btn.connect("pressed", Callable(self, "_on_category_selected").bind(category_name, categories[category_name]))
+
+		# Add the entire container to the evidence list
+		evidence_list_container.add_child(category_btn_container)
+
+		# Map all infos in this category to the category button
+		for info in categories[category_name]:
+			info_to_button[info] = category_btn
+
+		category_index =- 1
 
 func _on_category_selected(category_name: String, infos: Array):
 	"""Handle category button press - select first info from category"""
@@ -339,19 +413,13 @@ func _on_category_selected(category_name: String, infos: Array):
 		_on_info_selected(infos[0], info_to_button.get(infos[0], null))
 
 func _on_info_selected(info: Dictionary, button: Button):
-	# Clear previous button highlight
-	if selected_button:
-		selected_button.modulate = Color.WHITE
-	
-	# Set new selection
 	selected_info = info
 	selected_button = button
-	
-	# Highlight selected button
-	if selected_button:
-		selected_button.modulate = Color(0.5, 0.8, 1.0, 1.0)  # Light blue highlight
-	
-	# Update display using FRONTUI structure
+
+	# Highlight the toggled button text
+	for btn in category_button_group.get_buttons():
+		var color = Color(0.353, 0.549, 0.353) if btn.pressed else Color(0, 0, 0)
+
 	set_evidence_text()
 
 # ---------- SELECTION HELPER METHODS ----------
@@ -389,18 +457,27 @@ func _on_add_pressed() -> void:
 		push_warning("No case data in selected info")
 		return
 	
-	if not ai_analysis_ref or not ai_analysis_ref.has_method("add_article_to_pool"):
+	# Add to AI Analysis pool
+	if ai_analysis_ref and ai_analysis_ref.has_method("add_article_to_pool"):
+		ai_analysis_ref.add_article_to_pool(case_data)
+		print("Evidence Bank: Article added to AI Analysis pool")
+	else:
 		push_warning("AI Analysis controller not available or missing add_article_to_pool method")
-		return
 	
-	ai_analysis_ref.add_article_to_pool(case_data)
+	# Also add to Article Publisher pool
+	if article_publisher_ref and article_publisher_ref.has_method("add_article_to_pool"):
+		article_publisher_ref.add_article_to_pool(case_data)
+		print("Evidence Bank: Article added to Article Publisher pool")
+	else:
+		push_warning("Article Publisher controller not available or missing add_article_to_pool method")
+	
 	var article_text = case_data.get("article_text", "")
 	
 	if _remove_info_by_article_text(article_text):
 		_save_updated_infos()
 		_display_info_buttons()
 		_clear_selection()
-		print("Evidence Bank: Article added to AI Analysis and removed from evidence bank")
+		print("Evidence Bank: Article added to both pools and removed from evidence bank")
 
 func _on_trash_pressed() -> void:
 	if sound_manager:

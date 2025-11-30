@@ -225,31 +225,32 @@ func _calculate_fake_news_score(text: String) -> float:
 
 func _extract_semantic_keywords(text: String) -> Array:
 	# Extract important words (nouns, capitalized words, numbers)
-	var words = text.split(" ")
+	# First normalize the text - split on common delimiters
+	var normalized_text = text.replace(":", " ").replace(";", " ").replace(",", " ").replace(".", " ").replace("!", " ").replace("?", " ")
+	var words = normalized_text.split(" ", false)
 	var keywords = []
 	var stop_words = ["the", "a", "an", "and", "or", "but", "in", "on", "at", "to", "for", "of", "with", "by", "is", "are", "was", "were", "be", "been", "have", "has", "had", "do", "does", "did", "will", "would", "could", "should", "may", "might", "must", "can"]
+	var seen_keywords = {}  # Use dictionary for faster lookup
 	
 	for word in words:
 		var clean_word = word.strip_edges().to_lower()
-		# Remove punctuation
-		clean_word = clean_word.replace(".", "").replace(",", "").replace("!", "").replace("?", "").replace(":", "").replace(";", "")
+		
+		# Remove any remaining punctuation
+		clean_word = clean_word.replace(".", "").replace(",", "").replace("!", "").replace("?", "").replace(":", "").replace(";", "").replace("-", "").replace("_", "")
 		
 		# Skip stop words and short words
-		if clean_word.length() < 3 or stop_words.has(clean_word):
+		if clean_word.length() < 2 or stop_words.has(clean_word):
 			continue
 		
-		# Include capitalized words (likely proper nouns)
-		if word[0] == word[0].to_upper() and word[0] != word[0].to_lower():
-			if not keywords.has(clean_word):
-				keywords.append(clean_word)
-		# Include numbers
-		elif clean_word.is_valid_float() or clean_word.is_valid_int():
-			if not keywords.has(clean_word):
-				keywords.append(clean_word)
+		# Include all meaningful words (not just capitalized ones)
+		# This ensures "dusk" and "Dusk" both become "dusk"
+		if not seen_keywords.has(clean_word):
+			keywords.append(clean_word)
+			seen_keywords[clean_word] = true
 	
-	# Limit to top 10 keywords
-	if keywords.size() > 10:
-		keywords = keywords.slice(0, 10)
+	# Limit to top 15 keywords (increased to capture more relevant terms)
+	if keywords.size() > 15:
+		keywords = keywords.slice(0, 15)
 	
 	return keywords
 
@@ -287,13 +288,34 @@ static func compare_analyses(analysis_a: AnalysisResult, analysis_b: AnalysisRes
 	# Compare classification
 	result.classification_match = (analysis_a.classification == analysis_b.classification)
 	
-	# Compare keywords
+	# Compare keywords with improved matching
 	var keywords_a = analysis_a.semantic_keywords
 	var keywords_b = analysis_b.semantic_keywords
 	var common_keywords = []
-	for keyword in keywords_a:
-		if keywords_b.has(keyword):
-			common_keywords.append(keyword)
+	var matched_b = {}  # Track which keywords_b have been matched
+	
+	# First pass: exact matches (case-insensitive, already normalized)
+	for keyword_a in keywords_a:
+		var found_match = false
+		for keyword_b in keywords_b:
+			if keyword_a == keyword_b:
+				if not matched_b.has(keyword_b):
+					common_keywords.append(keyword_a)
+					matched_b[keyword_b] = true
+					found_match = true
+					break
+		
+		# Second pass: fuzzy matching for similar keywords (handles minor variations)
+		if not found_match:
+			for keyword_b in keywords_b:
+				if matched_b.has(keyword_b):
+					continue
+				# Check if keywords are similar (e.g., "dusk" vs "dusk", or "time" vs "time")
+				var similarity = _calculate_keyword_similarity(keyword_a, keyword_b)
+				if similarity >= 0.9:  # 90% similarity threshold for fuzzy matching
+					common_keywords.append(keyword_a)
+					matched_b[keyword_b] = true
+					break
 	
 	var total_keywords = max(keywords_a.size(), keywords_b.size(), 1)
 	result.keyword_overlap = float(common_keywords.size()) / float(total_keywords)
@@ -324,6 +346,38 @@ static func _calculate_text_similarity(text_a: String, text_b: String) -> float:
 			common += 1
 	
 	return float(common) / float(total)
+
+static func _calculate_keyword_similarity(keyword_a: String, keyword_b: String) -> float:
+	"""Calculate similarity between two keywords (0.0 to 1.0)"""
+	# Normalize both to lowercase
+	var a = keyword_a.to_lower().strip_edges()
+	var b = keyword_b.to_lower().strip_edges()
+	
+	# Exact match
+	if a == b:
+		return 1.0
+	
+	# Check if one contains the other (for compound words)
+	if a.length() > 0 and b.length() > 0:
+		if a.contains(b) or b.contains(a):
+			var min_len = min(a.length(), b.length())
+			var max_len = max(a.length(), b.length())
+			return float(min_len) / float(max_len)
+	
+	# Calculate character-based similarity (Levenshtein-like)
+	var max_len = max(a.length(), b.length())
+	if max_len == 0:
+		return 0.0
+	
+	var common_chars = 0
+	var min_len = min(a.length(), b.length())
+	for i in range(min_len):
+		if a[i] == b[i]:
+			common_chars += 1
+	
+	# Simple similarity based on common prefix and length
+	var similarity = float(common_chars) / float(max_len)
+	return similarity
 
 static func _calculate_semantic_similarity(text_a: String, text_b: String) -> float:
 	# Jaccard similarity on word sets
@@ -356,3 +410,10 @@ static func _calculate_semantic_similarity(text_a: String, text_b: String) -> fl
 		return 0.0
 	
 	return float(intersection) / float(union)
+
+
+
+
+
+
+

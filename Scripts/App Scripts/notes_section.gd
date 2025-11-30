@@ -35,7 +35,7 @@ func spawn_notes() -> void:
 		all_notes.append_array(DataManager.notes_data)
 	
 	if all_notes.is_empty():
-		push_error("No notes found in either JSONManager or DataManager.")
+		push_warning("No notes found in either JSONManager or DataManager.")
 		return
 	
 	var hbox: HBoxContainer = null
