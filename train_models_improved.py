@@ -22,7 +22,7 @@ print("=" * 60)
 # ========== LOAD SYNTHETIC DATASET ==========
 print("\n[1/5] Loading synthetic dataset...")
 try:
-    df_synthetic = pd.read_csv("synthetic_news_dataset.csv")
+    df_synthetic = pd.read_csv("final_news_dataset.csv")
     print(f"✓ Loaded {len(df_synthetic)} synthetic articles")
 except FileNotFoundError:
     print("⚠ Warning: synthetic_news_dataset.csv not found. Using game data only.")
