@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://2ir530c3p01p"]
 
 [ext_resource type="FontFile" uid="uid://bhqhtnkkcerbn" path="res://Assets/Fonts/BMmini.TTF" id="1_4pf8a"]
-[ext_resource type="Script" uid="uid://gcir805ysr4e" path="res://Prefabs/Components/chat_bubble.gd" id="2_t4ke7"]
+[ext_resource type="Script" path="res://Prefabs/Components/chat_bubble.gd" id="2_t4ke7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ykh1w"]
 bg_color = Color(0.6666667, 0.7294118, 0.69411767, 1)

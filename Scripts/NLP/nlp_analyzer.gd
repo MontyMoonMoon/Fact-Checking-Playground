@@ -96,6 +96,8 @@ class AnalysisResult:
 	var fake_news_keywords: Array = []
 	var fake_news_score: float = 0.0
 	var semantic_keywords: Array = []
+	var invalid_dates: Array = []  # NEW: List of invalid dates found
+	var date_validation_score: float = 1.0  # NEW: 1.0 = all dates valid, 0.0 = all invalid
 	
 	func _init():
 		pass
@@ -107,6 +109,22 @@ static func analyze_text(text: String) -> AnalysisResult:
 	
 	# Extract entities
 	result.entities = analyzer._extract_entities(text)
+	
+	# Check for invalid dates and calculate date validation score
+	var date_entities = []
+	var invalid_date_count = 0
+	for entity in result.entities:
+		if entity.type == "DATE" or entity.type == "DATE_INVALID":
+			date_entities.append(entity)
+			if entity.type == "DATE_INVALID":
+				invalid_date_count += 1
+				result.invalid_dates.append(entity.text)
+	
+	# Calculate date validation score
+	if date_entities.size() > 0:
+		result.date_validation_score = 1.0 - (float(invalid_date_count) / float(date_entities.size()))
+	else:
+		result.date_validation_score = 1.0  # No dates = perfect score
 	
 	# Classify text
 	var classification_data = analyzer._classify_text(text)
@@ -156,7 +174,14 @@ func _extract_entities(text: String) -> Array:
 		regex.compile(pattern)
 		var results = regex.search_all(text)
 		for match in results:
-			var entity = Entity.new(match.get_string(), "DATE", match.get_start(), match.get_end())
+			var date_text = match.get_string()
+			# Validate date before adding
+			var is_valid = _validate_date(date_text)
+			var entity = Entity.new(date_text, "DATE", match.get_start(), match.get_end())
+			# Store validation result in entity (we'll use a custom field)
+			# For now, we'll mark invalid dates with a special type
+			if not is_valid:
+				entity.type = "DATE_INVALID"  # Mark as invalid
 			entities.append(entity)
 	
 	# Remove duplicates
@@ -168,6 +193,115 @@ func _extract_entities(text: String) -> Array:
 			unique_entities.append(entity)
 	
 	return unique_entities
+
+# NEW: Validate date format and values
+func _validate_date(date_text: String) -> bool:
+	# Remove common punctuation
+	var clean_date = date_text.strip_edges()
+	
+	# Pattern 1: "Month Day, Year" or "Month Day Year"
+	var month_day_year_pattern = RegEx.new()
+	month_day_year_pattern.compile("(January|February|March|April|May|June|July|August|September|October|November|December)\\s+(\\d{1,2}),?\\s+(\\d{4})")
+	var regex_match = month_day_year_pattern.search(clean_date)
+	if regex_match:
+		var month_name = regex_match.get_string(1)
+		var day_str = regex_match.get_string(2)
+		var year_str = regex_match.get_string(3)
+		
+		var day = int(day_str)
+		var year = int(year_str)
+		
+		# Get days in month
+		var days_in_month = _get_days_in_month(month_name, year)
+		
+		if day < 1 or day > days_in_month:
+			return false  # Invalid day for this month
+		if year < 1900 or year > 2100:
+			return false  # Unreasonable year
+		
+		return true
+	
+	# Pattern 2: "MM/DD/YYYY" or "MM-DD-YYYY"
+	var numeric_pattern = RegEx.new()
+	numeric_pattern.compile("(\\d{1,2})[/-](\\d{1,2})[/-](\\d{2,4})")
+	regex_match = numeric_pattern.search(clean_date)
+	if regex_match:
+		var month_str = regex_match.get_string(1)
+		var day_str = regex_match.get_string(2)
+		var year_str = regex_match.get_string(3)
+		
+		var month = int(month_str)
+		var day = int(day_str)
+		var year = int(year_str)
+		
+		# Handle 2-digit years
+		if year < 100:
+			if year < 50:
+				year += 2000
+			else:
+				year += 1900
+		
+		if month < 1 or month > 12:
+			return false
+		
+		var days_in_month = _get_days_in_month_numeric(month, year)
+		if day < 1 or day > days_in_month:
+			return false
+		
+		if year < 1900 or year > 2100:
+			return false
+		
+		return true
+	
+	# Pattern 3: "DayOfWeek, Month Day" - less strict, just check if format is reasonable
+	var day_month_pattern = RegEx.new()
+	day_month_pattern.compile("(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),?\\s+(January|February|March|April|May|June|July|August|September|October|November|December)\\s+(\\d{1,2})")
+	regex_match = day_month_pattern.search(clean_date)
+	if regex_match:
+		var month_name = regex_match.get_string(2)
+		var day_str = regex_match.get_string(3)
+		var day = int(day_str)
+		
+		# Basic validation - day should be 1-31 (we don't have year here)
+		if day < 1 or day > 31:
+			return false
+		
+		return true
+	
+	# If no pattern matches, consider it potentially invalid
+	# But don't reject it completely - might be a different format
+	return true  # Default to valid if we can't parse it
+
+# Helper: Get days in month by name
+func _get_days_in_month(month_name: String, year: int) -> int:
+	var feb_days = 29 if _is_leap_year(year) else 28
+	var month_days = {
+		"January": 31,
+		"February": feb_days,
+		"March": 31,
+		"April": 30,
+		"May": 31,
+		"June": 30,
+		"July": 31,
+		"August": 31,
+		"September": 30,
+		"October": 31,
+		"November": 30,
+		"December": 31
+	}
+	return month_days.get(month_name, 31)
+
+# Helper: Get days in month by number
+func _get_days_in_month_numeric(month: int, year: int) -> int:
+	var month_names = ["January", "February", "March", "April", "May", "June",
+	                  "July", "August", "September", "October", "November", "December"]
+	if month >= 1 and month <= 12:
+		return _get_days_in_month(month_names[month - 1], year)
+	return 31
+
+# Helper: Check if year is leap year
+func _is_leap_year(year: int) -> bool:
+	return (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)
 
 func _classify_text(text: String) -> Dictionary:
 	var lower_text = text.to_lower()
@@ -410,10 +544,3 @@ static func _calculate_semantic_similarity(text_a: String, text_b: String) -> fl
 		return 0.0
 	
 	return float(intersection) / float(union)
-
-
-
-
-
-
-

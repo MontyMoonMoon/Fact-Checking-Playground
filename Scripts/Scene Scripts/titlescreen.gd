@@ -7,6 +7,7 @@ var sound_manager: SoundManager
 
 @export_group("Container")
 @export var titlescreen_container: MarginContainer
+@export var continue_button_container: VBoxContainer
 @export_group("Buttons")
 @export var buttons: Array[Button] = []
 @export var buttons_containers: Array[VBoxContainer] = []
@@ -34,6 +35,12 @@ func _on_play_pressed() -> void:
 		msg_instance.master = master
 		connect("show_error", Callable(msg_instance, "show_error"))
 		emit_signal("show_error", "Empty_name")
+		master.sound_manager.play_sound("error_sound")
+	elif name_edit.text == master.data_manager.player_name:
+		var msg_instance = add_child_scene(message)
+		msg_instance.master = master
+		connect("show_error", Callable(msg_instance, "show_error"))
+		emit_signal("show_error", "Same_name")
 		master.sound_manager.play_sound("error_sound")
 	else:
 		player_name = name_edit.text.strip_edges()
@@ -98,9 +105,7 @@ func _on_settings_pressed() -> void:
 	var settings_instance = add_child_scene(settings)
 	settings_instance.master = master
 	
-	settings_instance.main_button.disabled = true
-	settings_instance.pause_button.disabled = true
-	settings_instance.help_button.disabled = true
+	settings_instance.buttons_container.visible = false
 
 func _on_credits_pressed() -> void:
 	master.sound_manager.play_sound("mouse_click")
@@ -158,6 +163,11 @@ func _ready() -> void:
 		print("[WARN: map_0._ready] Master is still null. Calling members from this object may cause issues.")
 		return
 	
+	# Play main menu music
+	if master.sound_manager:
+		call_deferred("_play_mainmenu_music")
+	
+	continue_button_container.visible = false
 	get_button(6).visible = false
 	
 	SettingsManager.load_settings()
@@ -166,9 +176,15 @@ func _ready() -> void:
 		print("[Map_0.ready] Save file found!")
 		set_container(1).visible = true
 		is_first_time = false
+		name_edit.text = master.data_manager.player_name
 	else:
 		print("[Map_0.ready] No save file!")
 		is_first_time = true
 	
 	if is_first_time == false:
-		set_container(1).visible = true
+		continue_button_container.visible = true
+
+func _play_mainmenu_music() -> void:
+	"""Play main menu music"""
+	if master and master.sound_manager:
+		master.sound_manager.play_music("mainmenu")

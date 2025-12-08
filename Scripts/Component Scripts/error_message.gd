@@ -13,7 +13,10 @@ var drag_offset := Vector2.ZERO
 var error_data := {
 	"Empty_name": {
 		"message": "Name field is empty"
-		}
+		},
+	"Same_name": {
+		"message": "A file already exists with the same name"
+	}
 }
 
 # ---------- BUTTON ----------

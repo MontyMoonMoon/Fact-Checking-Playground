@@ -1,6 +1,7 @@
 extends Control
 
 var master: Master
+var sound_manager: SoundManager
 var data_manager: DataManager
 var receiver_name: String = "" 
 
@@ -13,19 +14,15 @@ var receiver_name: String = ""
 @export var main_text: RichTextLabel
 
 @export_subgroup("Button")
+@export var container: VBoxContainer
 @export var confirm_button: Button
 
 var is_dragging := false
 var drag_offset := Vector2.ZERO
 
 func load_mail(mail_dict: Dictionary) -> void:
-	print("========== [Mail.load_mail] CALLED ==========")
-	print("[Mail] mail_dict keys: ", mail_dict.keys())
-	
 	if not is_inside_tree():
 		await ready
-	
-	print("[Mail] After ready check")
 	
 	# Set receiver
 	if receiver:
@@ -50,113 +47,127 @@ func load_mail(mail_dict: Dictionary) -> void:
 	# Set main text content - CRITICAL: Find node if @export failed
 	var text_content = mail_dict.get("main_text", "")
 	
-	push_error("[Mail] Text content to display: " + str(text_content.length()) + " chars")
-	push_error("[Mail] Text content preview: " + text_content.substr(0, min(100, text_content.length())))
+	# If main_text is empty, try to get content from other fields
+	if text_content == "" or text_content == "No content available.":
+		text_content = mail_dict.get("content", "")
 	
 	# Try to get main_text node
 	var content_label: RichTextLabel = main_text
 	
-	push_error("[Mail] main_text @export is null: " + str(main_text == null))
-	
 	# Fallback: find node manually if @export didn't work
 	if not content_label:
-		push_error("[Mail] @export failed, trying manual find...")
 		content_label = get_node_or_null("MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/Main/Content") as RichTextLabel
-		if content_label:
-			push_error("[Mail] Found Content node manually")
-		else:
-			push_error("[Mail] Manual find also failed!")
+		if not content_label:
+			# Try alternative path
+			content_label = find_child("Content", true, false) as RichTextLabel
 	
 	if content_label:
-		push_error("[Mail] Setting text on RichTextLabel, content length: " + str(text_content.length()))
-		
 		# Configure RichTextLabel BEFORE setting text
 		content_label.bbcode_enabled = true
-		content_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		content_label.visible = true
-		content_label.modulate = Color.WHITE  # Ensure it's not transparent
-		content_label.size_flags_vertical = Control.SIZE_EXPAND_FILL  # Allow expansion
+		content_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		
+		# CRITICAL: Ensure font size is set (check if it's 0 or missing)
+		var current_font_size = content_label.get_theme_font_size("normal_font_size")
+		if current_font_size <= 0:
+			# Font size is 0 or missing, set a default
+			content_label.add_theme_font_size_override("normal_font_size", 16)
+		
+		# Also ensure font is loaded
+		var current_font = content_label.get_theme_font("normal_font")
+		if not current_font:
+			var font = load("res://Assets/Fonts/BMmini.TTF")
+			if font:
+				content_label.add_theme_font_override("normal_font", font)
 		
 		# Ensure text color is visible (black)
 		content_label.add_theme_color_override("default_color", Color.BLACK)
 		
-		# Check if RichTextLabel has a minimum size
-		if content_label.custom_minimum_size.y == 0:
-			content_label.custom_minimum_size = Vector2(490, 0)  # Allow vertical expansion
+		# Ensure font is set
+		if not content_label.has_theme_font_override("normal_font"):
+			var font = load("res://Assets/Fonts/BMmini.TTF")
+			if font:
+				content_label.add_theme_font_override("normal_font", font)
+		
+		# CRITICAL: Ensure all characters are visible
+		content_label.visible_characters = -1
 		
 		# Set the text directly - RichTextLabel handles BBCode when bbcode_enabled is true
 		content_label.text = text_content
 		
-		push_error("[Mail] Text set directly, RichTextLabel.text length: " + str(content_label.text.length()))
-		push_error("[Mail] RichTextLabel visible: " + str(content_label.visible))
-		push_error("[Mail] RichTextLabel size: " + str(content_label.size))
-		push_error("[Mail] RichTextLabel custom_minimum_size: " + str(content_label.custom_minimum_size))
-		push_error("[Mail] RichTextLabel modulate: " + str(content_label.modulate))
-		push_error("[Mail] RichTextLabel bbcode_enabled: " + str(content_label.bbcode_enabled))
-		push_error("[Mail] RichTextLabel text preview (first 100): " + content_label.text.substr(0, min(100, content_label.text.length())))
-		
-		# Force update
-		content_label.queue_redraw()
-		
-		# Wait and verify
+		# Wait for text to be processed and layout to update
 		await get_tree().process_frame
-		push_error("[Mail] After frame - text length: " + str(content_label.text.length()))
-		push_error("[Mail] After frame - size: " + str(content_label.size))
+		await get_tree().process_frame  # Extra frame to ensure size is calculated
 		
-		# Check if text is actually visible
-		if content_label.text.length() > 0:
-			var parent_scroll = content_label.get_parent()
-			if parent_scroll and parent_scroll is ScrollContainer:
-				push_error("[Mail] Parent ScrollContainer size: " + str(parent_scroll.size))
-				push_error("[Mail] Parent ScrollContainer visible: " + str(parent_scroll.visible))
+		# CRITICAL: Calculate minimum height based on content
+		# RichTextLabel needs a minimum height to display content
+		var font_size = content_label.get_theme_font_size("normal_font_size")
+		if font_size <= 0:
+			font_size = 16  # Fallback
 		
-		# Double-check: if text is set but not showing, try forcing a re-render
-		if content_label.text.length() > 0 and content_label.size.y == 0:
-			push_error("[Mail] WARNING: Text set but size.y is 0! Forcing minimum size...")
-			content_label.custom_minimum_size = Vector2(490, 200)  # Force a height
-			await get_tree().process_frame
-			push_error("[Mail] After forcing size - size: " + str(content_label.size))
+		# Estimate height: count lines (including wrapped lines)
+		var line_height = font_size * 1.5  # Line height with spacing
+		var text_lines = text_content.split("\n")
+		var width = content_label.size.x if content_label.size.x > 0 else content_label.custom_minimum_size.x
+		if width <= 0:
+			width = 490  # Default width from logs
+		
+		# Estimate wrapped lines: divide by approximate chars per line
+		var chars_per_line = int(width / (font_size * 0.6))  # Approximate
+		if chars_per_line <= 0:
+			chars_per_line = 50  # Fallback
+		
+		var total_lines = 0
+		for line in text_lines:
+			var line_chars = line.length()
+			var wrapped_lines = max(1, int(ceil(float(line_chars) / chars_per_line)))
+			total_lines += wrapped_lines
+		
+		var estimated_height = total_lines * line_height
+		
+		# Set minimum height - but be conservative to avoid pushing button too far down
+		# Use a reasonable minimum that allows content to display without excessive spacing
+		# For short content, use estimated height; for longer content, cap it and let scrolling handle it
+		var max_visible_height = 200.0  # Maximum height before scrolling kicks in
+		var min_height = min(max(estimated_height, 50.0), max_visible_height)
+		content_label.custom_minimum_size = Vector2(content_label.custom_minimum_size.x, min_height)
+		
+		# Wait another frame for size to update
+		await get_tree().process_frame
 	else:
-		push_error("[Mail.load_mail] Could not find Content RichTextLabel node!")
+		push_error("[Mail.load_mail] ERROR: content_label is null, cannot set text!")
 
 # ---------- BUTTONS ----------
 func _on_show_confirm() -> void:
+	container.visible = true
 	if confirm_button:
 		confirm_button.visible = true
 		confirm_button.connect("pressed", Callable(get_parent(), "_on_confirm_pressed"))
 
 func _on_exit_pressed() -> void:
+	master.sound_manager.play_sound("mouse_click")
 	queue_free()
 
 # ---------- GODOT CALLBACKS ----------
 func _ready() -> void:
-	push_error("========== [Mail._ready] CALLED ==========")
-	push_error("[Mail._ready] main_text @export is null: " + str(main_text == null))
-	
 	if receiver:
 		receiver.text = receiver_name
 	if subject:
 		subject.text = ""
 	if main_text:
-		print("[Mail._ready] main_text found, setting up...")
 		if main_text is RichTextLabel:
 			main_text.bbcode_enabled = true
 			main_text.autowrap_mode = 3
-			print("[Mail._ready] RichTextLabel configured")
-		else:
-			print("[Mail._ready] WARNING: main_text is not a RichTextLabel!")
 	else:
-		print("[Mail._ready] WARNING: main_text @export is null! Will need to find manually.")
 		# Try to find it manually
 		var found = get_node_or_null("MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/Main/Content")
 		if found:
-			print("[Mail._ready] Found Content node manually: ", found.get_class())
 			if found is RichTextLabel:
 				main_text = found
 				main_text.bbcode_enabled = true
 				main_text.autowrap_mode = 3
-				print("[Mail._ready] Configured manually found RichTextLabel")
 	if confirm_button:
+		container.visible = false
 		confirm_button.visible = false
 
 # ---------- MAKE DRAGGABLE ----------

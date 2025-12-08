@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://c4a8in7hn6s1g"]
 
-[ext_resource type="Script" uid="uid://c7an4cce5tam1" path="res://Scripts/Component Scripts/email.gd" id="1_87vxb"]
-[ext_resource type="Texture2D" uid="uid://dwsjcb47v7jan" path="res://Assets/PNGs/UI/UI Assets.png" id="1_hahys"]
+[ext_resource type="Script" uid="uid://c4ek5wyrkbm8u" path="res://Scripts/Component Scripts/email.gd" id="1_87vxb"]
+[ext_resource type="Texture2D" uid="uid://dhpi5sj5m6sa7" path="res://Assets/PNGs/UI/UI Assets.png" id="1_hahys"]
 [ext_resource type="FontFile" uid="uid://de2qiyybswcte" path="res://Assets/Fonts/windows-xp-tahoma.otf" id="2_vntg0"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hahys"]

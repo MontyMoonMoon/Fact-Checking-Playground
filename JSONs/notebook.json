@@ -1,0 +1,64 @@
+{
+  "notebook_content": [
+	{
+	  "id": "page_1",
+	  "header": "The Aurum Empire",
+	  "text_content": "Once a mighty empire, the Aurum Empire fell after years of internal unrest and corruption. Rumors of hidden agendas, ruthless officials, and covert operations lingered long after its collapse. The citizens remember both its grandeur and the fear it instilled, a shadow that still affects how power is exercised today."
+	},
+	{
+	  "id": "page_2",
+	  "header": "The Republia Post",
+	  "text_content": "The Republia Post is a reputable news agency, yet whispers within its walls suggest not all stories are free from influence. While some journalists strive to uncover truths, others quietly align with the Sovereign Council’s agenda. The line between fact and fiction has become a dangerous gray."
+	},
+	{
+	  "id": "page_3",
+	  "header": "Getting Started",
+	  "text_content": "You are now one of The Republica Post’s proud employees. During your time here we expect you to do your work in a timely manner. In case you forgot the flow of your work or didn’t listen enough, we’ll provide you with this text book so you can check it whenever you need it."
+	},
+	{
+	  "id": "page_4",
+	  "header": "Getting Started",
+	  "text_content": " Every journalist has their own supporters, but since you are just starting out, people don’t view you negatively or positively yet. By publishing articles that people view as factual, you will gain more integrity points by doing your job well. At the start of an act, check the designated object in the desk. If it hasn’t been found yet, it will blink until you do. Afterwards, explore your phone and laptop for information."
+	},
+	{
+	  "id": "page_5",
+	  "header": "Sabotages & Score Decay",
+	  "text_content": "Sabotages occur depending on how close the end of the day is. The less time available, the more intense the sabotage. You need to work under a time crunch to dish out articles to survive. If you remain idle, your integrity score decreases gradually, so stay active and engaged to maintain and improve your score."
+	},
+	{
+	  "id": "page_6",
+	  "header": "Phone",
+	  "text_content": "You are at work, so we provide a phone for work use. Messages arrive occasionally, though most will be spam from people trying to access our system. Some messages are unknown sources with useful tips. If received, send them to your Notes app. For notes, discard what you don’t need and feel free to add anything important."
+	},
+	{
+	  "id": "page_7",
+	  "header": "Laptop",
+	  "text_content": "This is your main workspace. You get access to 5 apps: Mail, Evidence Bank, AI Analysis, Article Publisher, and Trash Bin. Mail receives information about tips and article bits. You can add these to Evidence Bank or discard them to Trash Bin. Evidence Bank categorizes content and provides brief overviews for each entry."
+	},
+	{
+	"id": "page_8",
+	"header": "Mail App",
+	"text_content": "This is where you’ll mostly receive information about the latest tips and article bits that our agency gets. You can add these to the Evidence Bank if they seem useful, or discard them by sending them to the Trash Bin. Mail is often the first place where important leads appear, so make sure to check it frequently to stay updated."
+	},
+	{
+	"id": "page_9",
+	"header": "Evidence Bank",
+	"text_content": "The evidences you send here will be categorized based on their contents. When you click an entry, it will give you a brief overview of the information it contains. This helps you keep track of what is relevant, what connects to other data, and what pieces of information you might want to use when constructing your article later."
+	},
+	{
+	"id": "page_10",
+	"header": "AI Analysis",
+	"text_content": "Since our agency is lacking in manpower, we designed an AI system to assist in analyzing information we receive. However, it is not perfect. We still need workers like you to verify details and choose which pieces of data should go into the articles we release to the public. Treat the AI as support—not a replacement for your judgment."
+	},
+	{
+	"id": "page_11",
+	"header": "Article Publisher",
+	"text_content": "This is where you can place up to four articles on the paper for publishing. You can arrange the contents on the right side before finalizing the layout. If you do not like the current setup or want to redo it, you can clear the entire page and re-add the articles as needed before submitting the final version."
+	},
+	{
+	"id": "page_12",
+	"header": "Trash Bin",
+	"text_content": "Anything you discard from Mail or the Evidence Bank will end up here. If you change your mind, you can restore deleted items back to their original locations. Use the Trash Bin to manage clutter while keeping the option to recover information you may need later."
+	}
+	]
+	}

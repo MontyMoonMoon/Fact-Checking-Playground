@@ -4,6 +4,10 @@ var master: Master
 var sound_manager: SoundManager
 var is_spam_email: bool = false
 
+func get_is_spam_email() -> bool:
+	"""Get whether this email is spam"""
+	return is_spam_email
+
 @export_group("Texts")
 @export var sender: Label
 @export var subject: Label
@@ -30,9 +34,9 @@ func setup_email(data: Dictionary, ev_bank_controller: EvidenceBankController = 
 		push_warning("[Email.setup_email] Received empty email data!")
 		return
 	
-	email_data = data
+	email_data = data.duplicate(true)  # Make a deep copy to preserve all fields
 	news_data = data.get("news_data", {})
-	mail_data = data  # For compatibility with open_mail signal
+	mail_data = email_data.duplicate(true)  # Ensure mail_data has all fields including content
 	is_spam_email = email_data.get("is_spam", false)
 	evidence_bank_controller = ev_bank_controller
 	emails_controller = emails_ctrl
@@ -75,6 +79,22 @@ func _on_button_pressed() -> void:
 	"""Open mail when email preview is clicked"""
 	if sound_manager:
 		sound_manager.play_sound("mouse_click")
+	
+	# CRITICAL: Rebuild mail_data from email_data to ensure ALL fields are present
+	# This ensures content field is included
+	mail_data = email_data.duplicate(true)
+	
+	# Debug: log what we're passing
+	print("[Email._on_button_pressed] email_data keys: ", email_data.keys())
+	print("[Email._on_button_pressed] email_data content: ", email_data.get("content", "MISSING"))
+	print("[Email._on_button_pressed] mail_data keys: ", mail_data.keys())
+	print("[Email._on_button_pressed] mail_data content: ", mail_data.get("content", "MISSING"))
+	
+	# Ensure main_text is set from content if not already set
+	if mail_data.has("content") and mail_data.get("content", "") != "":
+		mail_data["main_text"] = mail_data["content"]
+		print("[Email._on_button_pressed] Set main_text from content: ", mail_data["main_text"].substr(0, min(50, mail_data["main_text"].length())))
+	
 	if emails_controller and emails_controller.has_method("_on_mail_opened"):
 		emails_controller._on_mail_opened(mail_data)
 	else:
@@ -94,9 +114,18 @@ func _on_add_pressed() -> void:
 	
 	if not evidence_bank_controller:
 		push_warning("[Email] Cannot add to evidence bank: controller not available")
-		return
-	
-	print("[Email] Adding to evidence bank: %s" % news_data.get("article_text", "Unknown"))
+		# Try to get it from emails_controller if available
+		if emails_controller and emails_controller.has_method("get_evidence_bank_controller"):
+			evidence_bank_controller = emails_controller.get_evidence_bank_controller()
+		# Try to get from laptop
+		if not evidence_bank_controller and master:
+			var laptop = master.get_node_or_null("Laptop")
+			if laptop and laptop.has_method("get_evidence_bank_controller"):
+				evidence_bank_controller = laptop.get_evidence_bank_controller()
+		
+		if not evidence_bank_controller:
+			push_error("[Email] Could not find evidence bank controller after fallback attempts")
+			return
 	
 	# Format the news data similar to evidence bank format
 	var info = {
@@ -106,10 +135,10 @@ func _on_add_pressed() -> void:
 		"email_data": email_data.duplicate(true)
 	}
 	
-	# Add to evidence bank's stored_infos
+	# Add to evidence bank's stored_infos (but NOT to dataset_additions.json)
+	# Player must click Add button in evidence bank to add to AI analysis/Publisher
 	if evidence_bank_controller.has_method("_add_info_directly"):
-		evidence_bank_controller._add_info_directly(info)
-		print("[Email] Added to evidence bank successfully")
+		evidence_bank_controller._add_info_directly(info, false)  # false = don't add to dataset
 	else:
 		push_error("[Email] Evidence bank controller does not have _add_info_directly method")
 	

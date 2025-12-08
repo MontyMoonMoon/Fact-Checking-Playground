@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://c0xiooku4752i"]
+[gd_scene load_steps=41 format=3 uid="uid://me6ds5re13g2"]
 
 [ext_resource type="Script" uid="uid://dgq6oe33k16qn" path="res://Scripts/Scene Scripts/map_01.gd" id="1_iq20c"]
 [ext_resource type="FontFile" uid="uid://oluhvxue80kf" path="res://Assets/Fonts/MyDearestBit.ttf" id="2_id6oe"]
@@ -6,9 +6,19 @@
 [ext_resource type="Texture2D" uid="uid://brply3wb5ao5b" path="res://Assets/PNGs/UI/Settings.png" id="2_tp66r"]
 [ext_resource type="Texture2D" uid="uid://b0tcblfu7718d" path="res://Assets/PNGs/Main Components/PhoneIcon.png" id="3_iq20c"]
 [ext_resource type="PackedScene" uid="uid://dlpb35r0pfucw" path="res://Prefabs/Main Components/phone.tscn" id="4_5230n"]
-[ext_resource type="Texture2D" uid="uid://kxoowq8gq75s" path="res://Assets/PNGs/Desk.png" id="4_id6oe"]
+[ext_resource type="Texture2D" uid="uid://b427thk18tj4b" path="res://Assets/PNGs/Desk.png" id="4_id6oe"]
 [ext_resource type="PackedScene" uid="uid://0tax7malsyxa" path="res://Prefabs/Main Components/laptop.tscn" id="4_rct2e"]
 [ext_resource type="PackedScene" uid="uid://crebwcceb18nl" path="res://Prefabs/Main Components/day_end_panel.tscn" id="7_546ff"]
+[ext_resource type="Script" uid="uid://xm4q2kamb421" path="res://Scripts/Main Component Scripts/start_object.gd" id="10_xcqnb"]
+[ext_resource type="Texture2D" uid="uid://dq83lbqfexi88" path="res://Assets/PNGs/UI/UI Assets.png" id="11_o315w"]
+[ext_resource type="Texture2D" uid="uid://dhy1cupydbrci" path="res://Assets/PNGs/PromptObjects/letters.png" id="12_i16mb"]
+[ext_resource type="Texture2D" uid="uid://dt7y48pk715dd" path="res://Assets/PNGs/PromptObjects/Act2Letters.png" id="13_xcqnb"]
+[ext_resource type="Script" uid="uid://bdany27l8d4vi" path="res://Scripts/Component Scripts/tutorial.gd" id="15_vl3me"]
+[ext_resource type="Script" uid="uid://dwpo5rd0lx6kq" path="res://Scripts/Main Component Scripts/notebook.gd" id="16_1ylyh"]
+[ext_resource type="FontFile" uid="uid://bhqhtnkkcerbn" path="res://Assets/Fonts/BMmini.TTF" id="16_uwin2"]
+[ext_resource type="Texture2D" uid="uid://cyw8sr3ubqaki" path="res://Assets/PNGs/Main Components/NotebookButton.png" id="17_6niyg"]
+[ext_resource type="Texture2D" uid="uid://dprpjarbfuybc" path="res://Assets/PNGs/Main Components/NotebookOpened.png" id="18_kudu0"]
+[ext_resource type="FontFile" uid="uid://dee4q2pxdjpua" path="res://Assets/Fonts/BMgermar.TTF" id="19_jvpfm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_43hql"]
 bg_color = Color(0.18431373, 0.27058825, 0.39607844, 1)
@@ -18,26 +28,97 @@ border_color = Color(0.15294118, 0.21176471, 0.3019608, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_id6oe"]
 bg_color = Color(0.15294118, 0.21176471, 0.3019608, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ph8ol"]
-bg_color = Color(1, 1, 1, 1)
-
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3rba1"]
 texture = ExtResource("2_tp66r")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5230n"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qhe0j"]
 texture = ExtResource("3_iq20c")
+region_rect = Rect2(0, 0, 48, 82)
 
-[node name="map_02" type="CanvasLayer" node_paths=PackedStringArray("main_container", "day_counter", "settings_button", "timer_label", "integrity_meter_node", "phone_button", "phone_container", "phone", "laptop")]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1ylyh"]
+texture = ExtResource("3_iq20c")
+region_rect = Rect2(0, 82, 48, 84)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6niyg"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_o315w"]
+texture = ExtResource("12_i16mb")
+region_rect = Rect2(0, 0, 66, 34)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vl3me"]
+texture = ExtResource("12_i16mb")
+region_rect = Rect2(0, 68, 66, 34)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uwin2"]
+texture = ExtResource("12_i16mb")
+region_rect = Rect2(0, 34, 66, 34)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kudu0"]
+texture = ExtResource("17_6niyg")
+region_rect = Rect2(0, 68, 74, 68)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jvpfm"]
+texture = ExtResource("17_6niyg")
+region_rect = Rect2(148, 68, 74, 68)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3cyh7"]
+texture = ExtResource("17_6niyg")
+region_rect = Rect2(74, 68, 74, 68)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rhwrq"]
+texture = ExtResource("11_o315w")
+region_rect = Rect2(769, 658, 14, 13)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4fi1p"]
+texture = ExtResource("11_o315w")
+region_rect = Rect2(769, 690, 14, 13)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tfvra"]
+texture = ExtResource("11_o315w")
+region_rect = Rect2(769, 674, 14, 13)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vrk1f"]
+texture = ExtResource("11_o315w")
+region_rect = Rect2(753, 658, 14, 13)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tsgm1"]
+texture = ExtResource("11_o315w")
+region_rect = Rect2(753, 690, 14, 13)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_faqg7"]
+texture = ExtResource("11_o315w")
+region_rect = Rect2(753, 674, 14, 13)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_12usl"]
+texture = ExtResource("11_o315w")
+expand_margin_top = 2.0
+region_rect = Rect2(1424, 848, 288, 32)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_w8tet"]
+texture = ExtResource("11_o315w")
+region_rect = Rect2(1424, 944, 288, 32)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_21b07"]
+texture = ExtResource("11_o315w")
+region_rect = Rect2(1424, 896, 288, 32)
+
+[node name="map_02" type="CanvasLayer" node_paths=PackedStringArray("tutorial_container", "main_container", "prompt_object", "notebook", "notebook_button", "day_counter", "settings_button", "timer_label", "integrity_meter_node", "phone_button", "phone_button_main", "phone_container", "phone", "laptop")]
 script = ExtResource("1_iq20c")
-main_container = NodePath("Contents/ComponentsContainer")
+keep_notebook = true
+tutorial_container = NodePath("Tutorial")
+main_container = NodePath("Contents/MainObjects")
+prompt_object = NodePath("PromptObject")
+notebook = NodePath("Notebook")
+notebook_button = NodePath("Notebook/NotebookButton")
 day_counter = NodePath("Contents/TopBar/Middle/DayCounter")
-settings_button = NodePath("Contents/TopBar/MarginContainer/Right/Settings")
-timer_label = NodePath("Contents/TopBar/MarginContainer/Right/Time")
-integrity_meter_node = NodePath("Contents/ComponentsContainer/Integriy Meter/MarginContainer/IntegrityMeter")
-phone_button = NodePath("Contents/ComponentsContainer/Phone/MarginContainer/PhoneButton")
-phone_container = NodePath("Contents/ComponentsContainer/Phone/MarginContainer/Phone")
-phone = NodePath("Contents/ComponentsContainer/Phone/MarginContainer/Phone/Phone")
-laptop = NodePath("Contents/ComponentsContainer/Laptop/Laptop")
+settings_button = NodePath("Contents/TopBar/Right/Right/Settings")
+timer_label = NodePath("Contents/TopBar/Right/Right/Time")
+integrity_meter_node = NodePath("Contents/MainObjects/Integriy Meter/MarginContainer/IntegrityMeter")
+phone_button = NodePath("Contents/MainObjects/Phone/MarginContainer/PhoneButton")
+phone_button_main = NodePath("Contents/MainObjects/Phone/MarginContainer/PhoneButton/PhoneButton")
+phone_container = NodePath("Contents/MainObjects/Phone/MarginContainer/Phone")
+phone = NodePath("Contents/MainObjects/Phone/MarginContainer/Phone/Phone")
+laptop = NodePath("Contents/MainObjects/Laptop/Laptop")
 
 [node name="Contents" type="MarginContainer" parent="."]
 anchors_preset = 15
@@ -115,7 +196,7 @@ text = "ACT II"
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="Contents/TopBar"]
+[node name="Right" type="MarginContainer" parent="Contents/TopBar"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -130,37 +211,24 @@ grow_vertical = 2
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="Right" type="HBoxContainer" parent="Contents/TopBar/MarginContainer"]
+[node name="Right" type="HBoxContainer" parent="Contents/TopBar/Right"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
 theme_override_constants/separation = 10
 
-[node name="Date" type="Label" parent="Contents/TopBar/MarginContainer/Right"]
-layout_mode = 2
-size_flags_vertical = 8
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("2_id6oe")
-text = "00/00/0000"
-
-[node name="Panel" type="Panel" parent="Contents/TopBar/MarginContainer/Right"]
-custom_minimum_size = Vector2(2, 30)
-layout_mode = 2
-size_flags_vertical = 8
-theme_override_styles/panel = SubResource("StyleBoxFlat_ph8ol")
-
-[node name="Time" type="Label" parent="Contents/TopBar/MarginContainer/Right"]
+[node name="Time" type="Label" parent="Contents/TopBar/Right/Right"]
 layout_mode = 2
 size_flags_vertical = 8
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_id6oe")
 text = "05:00"
 
-[node name="Control" type="Control" parent="Contents/TopBar/MarginContainer/Right"]
+[node name="Control" type="Control" parent="Contents/TopBar/Right/Right"]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 
-[node name="Settings" type="Button" parent="Contents/TopBar/MarginContainer/Right"]
+[node name="Settings" type="Button" parent="Contents/TopBar/Right/Right"]
 custom_minimum_size = Vector2(35, 35)
 layout_mode = 2
 focus_mode = 0
@@ -176,17 +244,17 @@ size_flags_vertical = 8
 texture = ExtResource("4_id6oe")
 region_rect = Rect2(386, 0, 386, 189)
 
-[node name="ComponentsContainer" type="MarginContainer" parent="Contents"]
+[node name="MainObjects" type="MarginContainer" parent="Contents"]
 custom_minimum_size = Vector2(0, 570)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Integriy Meter" type="Control" parent="Contents/ComponentsContainer"]
+[node name="Integriy Meter" type="Control" parent="Contents/MainObjects"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 
-[node name="MarginContainer" type="MarginContainer" parent="Contents/ComponentsContainer/Integriy Meter"]
+[node name="MarginContainer" type="MarginContainer" parent="Contents/MainObjects/Integriy Meter"]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 1
 anchors_preset = 9
@@ -194,15 +262,16 @@ anchor_bottom = 1.0
 grow_vertical = 2
 theme_override_constants/margin_left = 50
 
-[node name="IntegrityMeter" parent="Contents/ComponentsContainer/Integriy Meter/MarginContainer" instance=ExtResource("2_rct2e")]
+[node name="IntegrityMeter" parent="Contents/MainObjects/Integriy Meter/MarginContainer" instance=ExtResource("2_rct2e")]
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="Phone" type="Control" parent="Contents/ComponentsContainer"]
+[node name="Phone" type="Control" parent="Contents/MainObjects"]
+z_index = 1
 layout_mode = 2
 mouse_filter = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="Contents/ComponentsContainer/Phone"]
+[node name="MarginContainer" type="MarginContainer" parent="Contents/MainObjects/Phone"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -212,49 +281,425 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_constants/margin_right = 15
 
-[node name="PhoneButton" type="VBoxContainer" parent="Contents/ComponentsContainer/Phone/MarginContainer"]
+[node name="PhoneButton" type="VBoxContainer" parent="Contents/MainObjects/Phone/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 
-[node name="PhoneButton" type="Button" parent="Contents/ComponentsContainer/Phone/MarginContainer/PhoneButton"]
-custom_minimum_size = Vector2(44, 80)
+[node name="PhoneButton" type="Button" parent="Contents/MainObjects/Phone/MarginContainer/PhoneButton"]
+custom_minimum_size = Vector2(48, 84)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 focus_mode = 0
-theme_override_styles/normal = SubResource("StyleBoxTexture_5230n")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_5230n")
-theme_override_styles/hover = SubResource("StyleBoxTexture_5230n")
+theme_override_styles/normal = SubResource("StyleBoxTexture_qhe0j")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_qhe0j")
+theme_override_styles/hover = SubResource("StyleBoxTexture_1ylyh")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_6niyg")
 
-[node name="Control" type="Control" parent="Contents/ComponentsContainer/Phone/MarginContainer/PhoneButton"]
+[node name="Control" type="Control" parent="Contents/MainObjects/Phone/MarginContainer/PhoneButton"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
-[node name="Phone" type="VBoxContainer" parent="Contents/ComponentsContainer/Phone/MarginContainer"]
+[node name="Phone" type="VBoxContainer" parent="Contents/MainObjects/Phone/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
 
-[node name="Control" type="Control" parent="Contents/ComponentsContainer/Phone/MarginContainer/Phone"]
+[node name="Control" type="Control" parent="Contents/MainObjects/Phone/MarginContainer/Phone"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Phone" parent="Contents/ComponentsContainer/Phone/MarginContainer/Phone" instance=ExtResource("4_5230n")]
+[node name="Phone" parent="Contents/MainObjects/Phone/MarginContainer/Phone" instance=ExtResource("4_5230n")]
 layout_mode = 2
 
-[node name="Laptop" type="Control" parent="Contents/ComponentsContainer"]
+[node name="Laptop" type="Control" parent="Contents/MainObjects"]
+z_index = 1
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Laptop" parent="Contents/ComponentsContainer/Laptop" instance=ExtResource("4_rct2e")]
-visible = false
+[node name="Laptop" parent="Contents/MainObjects/Laptop" instance=ExtResource("4_rct2e")]
 layout_mode = 1
 
 [node name="Day End Panel" parent="Contents" instance=ExtResource("7_546ff")]
 visible = false
 layout_mode = 2
 
-[connection signal="pressed" from="Contents/TopBar/MarginContainer/Right/Settings" to="." method="_on_settings_pressed"]
-[connection signal="pressed" from="Contents/ComponentsContainer/Phone/MarginContainer/PhoneButton/PhoneButton" to="." method="_on_phone_button_pressed"]
+[node name="PromptObject" type="MarginContainer" parent="." node_paths=PackedStringArray("prompt_image", "prompt_button", "prompt_content")]
+z_index = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("10_xcqnb")
+prompt_image = NodePath("LettersContent/VBoxContainer/NinePatchRect")
+prompt_button = NodePath("StartObject/PromptObject")
+prompt_content = NodePath("LettersContent")
+
+[node name="StartObject" type="MarginContainer" parent="PromptObject"]
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 2
+theme_override_constants/margin_right = 80
+theme_override_constants/margin_bottom = 20
+
+[node name="PromptObject" type="Button" parent="PromptObject/StartObject"]
+custom_minimum_size = Vector2(198, 102)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_o315w")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_vl3me")
+theme_override_styles/hover = SubResource("StyleBoxTexture_uwin2")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="PromptObject/StartObject"]
+z_index = -1
+custom_minimum_size = Vector2(198, 102)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+texture = ExtResource("12_i16mb")
+region_rect = Rect2(66, 0, 66, 34)
+
+[node name="LettersContent" type="MarginContainer" parent="PromptObject"]
+visible = false
+z_index = 1
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_top = 48
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PromptObject/LettersContent"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 15
+
+[node name="NinePatchRect" type="NinePatchRect" parent="PromptObject/LettersContent/VBoxContainer"]
+custom_minimum_size = Vector2(470, 384)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("13_xcqnb")
+
+[node name="Tutorial" type="Control" parent="." node_paths=PackedStringArray("skip_text", "text_display", "panel", "instruction_label", "input_blocker", "laptop_blocker", "settings", "newspaper_main", "phone_open", "laptop_open", "laptop_content")]
+visible = false
+z_index = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("15_vl3me")
+skip_text = NodePath("TextDisplay")
+text_display = NodePath("TextDisplay")
+panel = NodePath("TextDisplay/NinePatchRect")
+instruction_label = NodePath("TextDisplay/NinePatchRect/MarginContainer/Label")
+input_blocker = NodePath("InputBlocker")
+laptop_blocker = NodePath("LaptopBlocker")
+settings = NodePath("Settings")
+newspaper_main = NodePath("../PromptObject/StartObject")
+phone_open = NodePath("..")
+laptop_open = NodePath("..")
+laptop_content = NodePath("../Contents/MainObjects/Laptop/Laptop")
+
+[node name="TextDisplay" type="MarginContainer" parent="Tutorial"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 95
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Tutorial/TextDisplay"]
+custom_minimum_size = Vector2(590, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+texture = ExtResource("11_o315w")
+region_rect = Rect2(1104, 1088, 245, 41)
+
+[node name="MarginContainer" type="MarginContainer" parent="Tutorial/TextDisplay/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Tutorial/TextDisplay/NinePatchRect/MarginContainer"]
+custom_minimum_size = Vector2(550, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("16_uwin2")
+theme_override_font_sizes/font_size = 24
+text = "Instruction Text here!!!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="DownTexture" type="MarginContainer" parent="Tutorial/TextDisplay/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Tutorial/TextDisplay/NinePatchRect/DownTexture"]
+custom_minimum_size = Vector2(28, 16)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+texture = ExtResource("11_o315w")
+region_rect = Rect2(1585, 1094, 14, 8)
+
+[node name="InputBlocker" type="Control" parent="Tutorial"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LaptopBlocker" type="Control" parent="Tutorial"]
+custom_minimum_size = Vector2(300, 40)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Settings" type="Control" parent="Tutorial"]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="Notebook" type="Control" parent="." node_paths=PackedStringArray("tutorial", "notebook_button", "notebook_texture", "notebook_opened", "prompt_object", "title1", "content1", "title2", "content2")]
+z_index = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("16_1ylyh")
+tutorial = NodePath("../Tutorial")
+notebook_button = NodePath("NotebookButton/Button")
+notebook_texture = NodePath("")
+notebook_opened = NodePath("NotebookOpened")
+prompt_object = NodePath("../PromptObject")
+title1 = NodePath("NotebookOpened/Notebook/Notebook/Text Container/Text/LeftSide/Header1")
+content1 = NodePath("NotebookOpened/Notebook/Notebook/Text Container/Text/LeftSide/Content1")
+title2 = NodePath("NotebookOpened/Notebook/Notebook/Text Container/Text/RightSide/Header2")
+content2 = NodePath("NotebookOpened/Notebook/Notebook/Text Container/Text/RightSide/Content2")
+
+[node name="NotebookButton" type="MarginContainer" parent="Notebook"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 171
+theme_override_constants/margin_top = 417
+
+[node name="Button" type="Button" parent="Notebook/NotebookButton"]
+z_index = 1
+custom_minimum_size = Vector2(222, 204)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_kudu0")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_jvpfm")
+theme_override_styles/hover = SubResource("StyleBoxTexture_3cyh7")
+
+[node name="NotebookButton2" type="MarginContainer" parent="Notebook"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 171
+theme_override_constants/margin_top = 417
+
+[node name="NoteBook+CoffeBG" type="NinePatchRect" parent="Notebook/NotebookButton2"]
+custom_minimum_size = Vector2(222, 204)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("17_6niyg")
+region_rect = Rect2(0, 68, 74, 68)
+
+[node name="NotebookOpened" type="MarginContainer" parent="Notebook"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Notebook" type="MarginContainer" parent="Notebook/NotebookOpened"]
+layout_mode = 2
+theme_override_constants/margin_top = 75
+
+[node name="Notebook" type="NinePatchRect" parent="Notebook/NotebookOpened/Notebook"]
+custom_minimum_size = Vector2(697, 476)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("18_kudu0")
+
+[node name="Text Container" type="MarginContainer" parent="Notebook/NotebookOpened/Notebook/Notebook"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 35
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 35
+theme_override_constants/margin_bottom = 30
+
+[node name="Text" type="HBoxContainer" parent="Notebook/NotebookOpened/Notebook/Notebook/Text Container"]
+layout_mode = 2
+theme_override_constants/separation = 49
+
+[node name="LeftSide" type="VBoxContainer" parent="Notebook/NotebookOpened/Notebook/Notebook/Text Container/Text"]
+layout_mode = 2
+
+[node name="Header1" type="Label" parent="Notebook/NotebookOpened/Notebook/Notebook/Text Container/Text/LeftSide"]
+custom_minimum_size = Vector2(290, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("19_jvpfm")
+theme_override_font_sizes/font_size = 24
+text = "Lorem ipsum dolor"
+horizontal_alignment = 1
+
+[node name="Control" type="Control" parent="Notebook/NotebookOpened/Notebook/Notebook/Text Container/Text/LeftSide"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Content1" type="Label" parent="Notebook/NotebookOpened/Notebook/Notebook/Text Container/Text/LeftSide"]
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("16_uwin2")
+theme_override_font_sizes/font_size = 16
+text = "Lorem ipsum dolor"
+horizontal_alignment = 3
+autowrap_mode = 3
+
+[node name="RightSide" type="VBoxContainer" parent="Notebook/NotebookOpened/Notebook/Notebook/Text Container/Text"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Header2" type="Label" parent="Notebook/NotebookOpened/Notebook/Notebook/Text Container/Text/RightSide"]
+custom_minimum_size = Vector2(290, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("19_jvpfm")
+theme_override_font_sizes/font_size = 24
+text = "Lorem ipsum dolor"
+horizontal_alignment = 1
+
+[node name="Control" type="Control" parent="Notebook/NotebookOpened/Notebook/Notebook/Text Container/Text/RightSide"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Content2" type="Label" parent="Notebook/NotebookOpened/Notebook/Notebook/Text Container/Text/RightSide"]
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("16_uwin2")
+theme_override_font_sizes/font_size = 16
+text = "Lorem ipsum dolor"
+horizontal_alignment = 3
+autowrap_mode = 3
+
+[node name="ButtonsContainer" type="MarginContainer" parent="Notebook/NotebookOpened"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 10
+
+[node name="MarginContainer" type="MarginContainer" parent="Notebook/NotebookOpened/ButtonsContainer"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 255
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Notebook/NotebookOpened/ButtonsContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 693
+
+[node name="Prev" type="Button" parent="Notebook/NotebookOpened/ButtonsContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_rhwrq")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_4fi1p")
+theme_override_styles/hover = SubResource("StyleBoxTexture_tfvra")
+
+[node name="Next" type="Button" parent="Notebook/NotebookOpened/ButtonsContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_vrk1f")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_tsgm1")
+theme_override_styles/hover = SubResource("StyleBoxTexture_faqg7")
+
+[node name="Close" type="Button" parent="Notebook/NotebookOpened/ButtonsContainer"]
+custom_minimum_size = Vector2(500, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+focus_mode = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("16_uwin2")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxTexture_12usl")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_w8tet")
+theme_override_styles/hover = SubResource("StyleBoxTexture_21b07")
+text = "Close Notebook"
+
+[connection signal="pressed" from="Contents/TopBar/Right/Right/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="Contents/MainObjects/Phone/MarginContainer/PhoneButton/PhoneButton" to="." method="_on_phone_button_pressed"]
+[connection signal="pressed" from="PromptObject/StartObject/PromptObject" to="PromptObject" method="_on_prompt_object_pressed"]
+[connection signal="pressed" from="Notebook/NotebookButton/Button" to="Notebook" method="_on_button_pressed"]
+[connection signal="pressed" from="Notebook/NotebookOpened/ButtonsContainer/MarginContainer/HBoxContainer/Prev" to="Notebook" method="_on_prev_pressed"]
+[connection signal="pressed" from="Notebook/NotebookOpened/ButtonsContainer/MarginContainer/HBoxContainer/Next" to="Notebook" method="_on_next_pressed"]
+[connection signal="pressed" from="Notebook/NotebookOpened/ButtonsContainer/Close" to="Notebook" method="_on_close_pressed"]

@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://crebwcceb18nl"]
+[gd_scene load_steps=8 format=3 uid="uid://crebwcceb18nl"]
 
-[ext_resource type="Script" path="res://Scripts/Main Component Scripts/day_end_panel.gd" id="1_day_end"]
+[ext_resource type="Script" uid="uid://b0eitjknnf8lq" path="res://Scripts/Main Component Scripts/day_end_panel.gd" id="1_day_end"]
 [ext_resource type="Texture2D" uid="uid://o01gmcr1gkot" path="res://Assets/PNGs/UI/BlankNewspaper_New.png" id="1_xmk6m"]
 [ext_resource type="FontFile" uid="uid://oluhvxue80kf" path="res://Assets/Fonts/MyDearestBit.ttf" id="2_1ls7x"]
 
@@ -10,8 +10,15 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rj6oc"]
 bg_color = Color(1, 1, 1, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_goxxp"]
+bg_color = Color(0.41960785, 0.41960785, 0.41960785, 1)
+expand_margin_top = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_om2fj"]
+bg_color = Color(0.52, 0.52, 0.52, 1)
+expand_margin_top = 10.0
+
 [node name="Day End Panel" type="Control"]
-script = ExtResource("1_day_end")
 custom_minimum_size = Vector2(350, 400)
 layout_mode = 3
 anchors_preset = 8
@@ -23,6 +30,7 @@ offset_left = -175.0
 offset_right = 175.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_day_end")
 
 [node name="Content" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -216,8 +224,17 @@ text = "0.0"
 horizontal_alignment = 2
 vertical_alignment = 2
 
-[node name="Next" type="Button" parent="Content/TextsContainer"]
-custom_minimum_size = Vector2(100, 30)
+[node name="Control" type="Control" parent="Content/TextsContainer/Contents"]
+layout_mode = 2
+
+[node name="Next" type="Button" parent="Content/TextsContainer/Contents"]
+custom_minimum_size = Vector2(100, 20)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
+focus_mode = 0
+theme_override_fonts/font = ExtResource("2_1ls7x")
+theme_override_styles/normal = SubResource("StyleBoxFlat_goxxp")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_om2fj")
+theme_override_styles/hover = SubResource("StyleBoxFlat_om2fj")
+text = "Exit"

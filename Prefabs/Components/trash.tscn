@@ -1,37 +1,46 @@
 [gd_scene load_steps=4 format=3 uid="uid://bxwj81jvntpyk"]
 
-[ext_resource type="Script" uid="uid://ri31dtu24fnp" path="res://Scripts/Component Scripts/trash.gd" id="1_blfkt"]
+[ext_resource type="Script" path="res://Scripts/Component Scripts/trash.gd" id="1_blfkt"]
 [ext_resource type="Texture2D" uid="uid://dq83lbqfexi88" path="res://Assets/PNGs/UI/UI Assets.png" id="2_bvysy"]
 [ext_resource type="FontFile" uid="uid://de2qiyybswcte" path="res://Assets/Fonts/windows-xp-tahoma.otf" id="3_38n7s"]
 
 [node name="trash" type="Control" node_paths=PackedStringArray("display_text")]
-custom_minimum_size = Vector2(1100, 60)
+custom_minimum_size = Vector2(900, 60)
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
+offset_left = -553.0
+offset_top = -30.0
+offset_right = 553.0
+offset_bottom = 37.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 4
 script = ExtResource("1_blfkt")
 display_text = NodePath("Content/TextContent/VBoxContainer/Label")
 
 [node name="Content" type="MarginContainer" parent="."]
 layout_mode = 1
-anchors_preset = 5
+anchors_preset = 8
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-offset_left = -540.0
-offset_right = 540.0
-offset_bottom = 60.0
+anchor_bottom = 0.5
+offset_left = -520.0
+offset_top = -30.0
+offset_right = 520.0
+offset_bottom = 30.0
 grow_horizontal = 2
+grow_vertical = 2
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Content"]
-custom_minimum_size = Vector2(1080, 60)
+custom_minimum_size = Vector2(980, 60)
 layout_mode = 2
 texture = ExtResource("2_bvysy")
-region_rect = Rect2(480, 720, 515, 50)
+region_rect = Rect2(1104, 928, 288, 32)
 
 [node name="TextContent" type="MarginContainer" parent="Content"]
 custom_minimum_size = Vector2(220, 30)

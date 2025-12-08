@@ -67,7 +67,7 @@ var crash_effects_active: bool = false
 var crash_duration: float = 0.0
 
 func _ready():
-	print("Lyra AI initialized - Ready to sabotage!")
+	pass
 
 func _process(delta):
 	# Don't run if game is paused
@@ -104,9 +104,7 @@ func set_laptop(laptop_node: Node):
 
 func set_message_app(app: Node):
 	message_app = app
-	if message_app:
-		print("Lyra: Message app connected successfully")
-	else:
+	if not message_app:
 		push_warning("Lyra: Message app is null!")
 
 func reset_for_new_game():
@@ -115,7 +113,6 @@ func reset_for_new_game():
 	intensity = 0.0
 	crash_effects_active = false
 	crash_duration = 0.0
-	print("Lyra: Reset for new game")
 
 func _update_intensity():
 	"""Calculate intensity based on time remaining (0.0 = start, 1.0 = almost out of time)"""
@@ -156,11 +153,7 @@ func _should_perform_sabotage() -> bool:
 	var current_aggression = lerp(base_aggression, max_aggression, intensity)
 	var roll = randf() * 100.0
 	
-	var should_trigger = roll <= current_aggression
-	if should_trigger:
-		print("Lyra: Sabotage check passed (roll: %.2f <= aggression: %.2f, intensity: %.2f)" % [roll, current_aggression, intensity])
-	
-	return should_trigger
+	return roll <= current_aggression
 
 func _perform_random_sabotage():
 	"""Perform a random sabotage action"""
@@ -204,17 +197,6 @@ func _perform_random_sabotage():
 			break
 	
 	# Execute sabotage
-	var type_names = {
-		SabotageType.SPAM_EMAILS: "SPAM_EMAILS",
-		SabotageType.TIME_DEDUCTION: "TIME_DEDUCTION",
-		SabotageType.INTEGRITY_REDUCTION: "INTEGRITY_REDUCTION",
-		SabotageType.LAPTOP_CRASH: "LAPTOP_CRASH",
-		SabotageType.MESSAGE_LYRA_TAUNT: "MESSAGE_LYRA_TAUNT",
-		SabotageType.MESSAGE_THREAT: "MESSAGE_THREAT",
-		SabotageType.MESSAGE_TRASH: "MESSAGE_TRASH",
-		SabotageType.MESSAGE_TIP: "MESSAGE_TIP"
-	}
-	print("Lyra: Executing sabotage - %s (intensity: %.2f)" % [type_names.get(selected_type, "UNKNOWN"), intensity])
 	
 	match selected_type:
 		SabotageType.SPAM_EMAILS:
@@ -237,10 +219,7 @@ func _perform_random_sabotage():
 func _execute_spam_emails():
 	"""Spam useless emails to the player"""
 	if not emails_controller:
-		print("Lyra: ERROR - Cannot spam emails - emails controller is null!")
 		return
-	
-	print("Lyra: Spamming useless emails (emails_controller found: %s)..." % emails_controller.name)
 	
 	# Number of spam emails increases with intensity
 	var spam_count = int(lerp(2, 5, intensity))
@@ -249,13 +228,13 @@ func _execute_spam_emails():
 		# Create spam email
 		var template = spam_email_templates[randi() % spam_email_templates.size()]
 		var spam_email = {
-			"sender": template.from,  # Use "sender" field (email component expects this)
-			"from": template.from,  # Also include "from" for compatibility
+			"sender": template.from,
+			"from": template.from,
 			"subject": template.subject,
 			"content": template.body,
 			"timestamp": Time.get_datetime_string_from_system(),
 			"news_data": {
-				"article_text": template.body,  # Useless content
+				"article_text": template.body,
 				"tip_text": "This is spam - ignore it.",
 				"facts": [],
 				"stance": "spam",
@@ -266,53 +245,35 @@ func _execute_spam_emails():
 		# Add spam email to emails controller
 		if emails_controller.has_method("add_spam_email"):
 			emails_controller.add_spam_email(spam_email)
-			print("Lyra: Added spam email %d/%d: %s (sender: %s)" % [i+1, spam_count, spam_email.subject, spam_email.sender])
-		else:
-			print("Lyra: ERROR - emails_controller doesn't have add_spam_email method!")
-			# Fallback: try to add directly to email pool
-			if emails_controller.has("email_news_pool"):
-				emails_controller.email_news_pool.append(spam_email)
-				print("Lyra: Added spam email via fallback method")
-	
-	print("Lyra: Sent %d spam emails total" % spam_count)
+		elif emails_controller.has("email_news_pool"):
+			emails_controller.email_news_pool.append(spam_email)
 
 func _execute_time_deduction():
 	"""Deduct time from the game timer"""
 	if not game_timer:
-		print("Lyra: Cannot deduct time - game timer not found")
 		return
 	
 	# Amount of time deducted increases with intensity
-	var time_deduction = lerp(5.0, 20.0, intensity)  # 5-20 seconds
+	var time_deduction = lerp(5.0, 20.0, intensity)
 	
 	var current_time = game_timer.get_time_remaining()
 	game_timer.time_remaining = max(0.0, current_time - time_deduction)
-	
-	print("Lyra: Deducted %.1f seconds from timer (intensity: %.2f)" % [time_deduction, intensity])
 
 func _execute_integrity_reduction():
 	"""Reduce player's integrity score"""
 	if not game_manager:
-		print("Lyra: Cannot reduce integrity - game manager not found")
 		return
 	
 	# Amount of integrity reduction increases with intensity
 	var integrity_loss = lerp(0.3, 1.5, intensity)
 	
 	if game_manager.has_method("add_integrity_score"):
-		# Use negative value to reduce
 		game_manager.add_integrity_score(-integrity_loss)
-		print("Lyra: Reduced integrity by %.2f (intensity: %.2f)" % [integrity_loss, intensity])
-	else:
-		print("Lyra: Cannot reduce integrity - game manager missing method")
 
 func _execute_laptop_crash():
 	"""Cause laptop to crash or hang"""
 	if not laptop:
-		print("Lyra: Cannot crash laptop - laptop not found")
 		return
-	
-	print("Lyra: Initiating laptop crash/hang...")
 	
 	# Crash duration increases with intensity
 	crash_duration = lerp(2.0, 5.0, intensity)
@@ -413,7 +374,6 @@ var tip_message_templates: Array = [
 func _execute_message_lyra_taunt():
 	"""Send a taunting message from Lyra"""
 	if not message_app:
-		print("Lyra: ERROR - Cannot send message - message app not found!")
 		return
 	
 	var taunt = lyra_taunt_templates[randi() % lyra_taunt_templates.size()]
@@ -427,14 +387,10 @@ func _execute_message_lyra_taunt():
 	
 	if message_app.has_method("add_message"):
 		message_app.add_message(message_data)
-		print("Lyra: Sent taunt message: %s" % taunt)
-	else:
-		print("Lyra: ERROR - message_app doesn't have add_message method!")
 
 func _execute_message_threat():
 	"""Send a random threat message"""
 	if not message_app:
-		print("Lyra: ERROR - Cannot send message - message app not found!")
 		return
 	
 	var threat = threat_message_templates[randi() % threat_message_templates.size()]
@@ -448,14 +404,10 @@ func _execute_message_threat():
 	
 	if message_app.has_method("add_message"):
 		message_app.add_message(message_data)
-		print("Lyra: Sent threat message: %s" % threat)
-	else:
-		print("Lyra: ERROR - message_app doesn't have add_message method!")
 
 func _execute_message_trash():
 	"""Send a trash/promo message (not too many)"""
 	if not message_app:
-		print("Lyra: ERROR - Cannot send message - message app not found!")
 		return
 	
 	var trash = trash_message_templates[randi() % trash_message_templates.size()]
@@ -469,14 +421,10 @@ func _execute_message_trash():
 	
 	if message_app.has_method("add_message"):
 		message_app.add_message(message_data)
-		print("Lyra: Sent trash message from %s" % trash.sender)
-	else:
-		print("Lyra: ERROR - message_app doesn't have add_message method!")
 
 func _execute_message_tip():
 	"""Send a tip message (some legit, some suspicious)"""
 	if not message_app:
-		print("Lyra: ERROR - Cannot send message - message app not found!")
 		return
 	
 	var tip = tip_message_templates[randi() % tip_message_templates.size()]
@@ -492,6 +440,3 @@ func _execute_message_tip():
 	
 	if message_app.has_method("add_message"):
 		message_app.add_message(message_data)
-		print("Lyra: Sent tip message (legit: %s): %s" % [tip.is_legit, tip.content])
-	else:
-		print("Lyra: ERROR - message_app doesn't have add_message method!")

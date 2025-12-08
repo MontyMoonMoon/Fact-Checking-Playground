@@ -3,8 +3,8 @@ extends Panel
 var master: Master
 var sound_manager: SoundManager
 var json_manager: JSONManager = null
-var notes_app_ref: Node = null  # Reference to notes app for saving tips
-var todo_section_ref: Node = null  # Reference to todo section for saving tips to to-do
+var notes_app_ref: Node = null  
+var todo_section_ref: Node = null 
 
 @export var phone: Control
 
@@ -16,8 +16,10 @@ var todo_section_ref: Node = null  # Reference to todo section for saving tips t
 
 @export_group("Chat Content")
 @export var chat_name_label: Label = null
-@export var messages_container: VBoxContainer = null  # Container for individual messages in chat view
-@export var save_to_notes_button: Button = null  # Button to save tip to notes (only visible for tips)
+@export var messages_container: VBoxContainer = null  
+@export var save_to_notes_button: Button = null 
+
+signal call_spawn_notes
 
 # ---------- PREFAB ----------
 var message_chats = preload("res://Prefabs/Components/message_chat.tscn")
@@ -56,20 +58,16 @@ func _extract_tip_content(chat_data: Dictionary) -> String:
 # ---------- METHODS ----------
 func _on_open_messages_app() -> void:
 	master.sound_manager.play_sound("phone_click")
-	spawn_messages_preview()  # Refresh messages when opening
+	spawn_messages_preview() 
 	set_ui(true, 1)
 	set_ui(true, 2)
 
 func reset_for_new_game() -> void:
 	"""Reset messages for new game - clear ALL messages, start empty"""
-	print("[Message App] Resetting messages for NEW GAME - starting empty...")
-	
-	# Clear local data
 	messages_data.clear()
 	current_chat_data.clear()
 	current_message_type = ""
 	
-	# Clear UI
 	if chats_scroll_container:
 		for child in chats_scroll_container.get_children():
 			child.queue_free()
@@ -83,21 +81,13 @@ func reset_for_new_game() -> void:
 	if json_manager:
 		json_manager.messages_cache = []
 	
-	# Ensure messages.json is empty (file already cleared by map_0)
-	# Save empty array to prevent JSONManager from auto-initializing
+	# Ensure messages.json is empty
 	JSONManager.save_json("user://messages.json", [])
 	
 	# Reload messages (will be empty now)
 	_load_messages()
-	
-	print("[Message App] Reset complete - messages EMPTY (loaded %d)" % messages_data.size())
-	
-	if messages_data.size() > 0:
-		push_warning("[Message App] ERROR - Still have %d messages after reset!" % messages_data.size())
 
 func spawn_messages_preview() -> void:
-	print("[Message_app.spawn_messages_preview] Starting...")
-	
 	# Clear existing messages
 	if chats_scroll_container:
 		for child in chats_scroll_container.get_children():
@@ -107,34 +97,28 @@ func spawn_messages_preview() -> void:
 	_load_messages()
 	
 	if not chats_scroll_container:
-		push_warning("[Message_app.spawn_messages_preview] chats_scroll_container is null! Cannot spawn messages.")
+		push_warning("[Message_app] chats_scroll_container is null!")
 		return
 	
-	print("[Message_app.spawn_messages_preview] Spawning %d messages..." % messages_data.size())
-	
-	# Show all messages - no artificial limits
+	# Show all messages
 	for i in range(messages_data.size()):
 		var message = messages_data[i]
 		
 		var content = _extract_message_content(message)
 		if content.is_empty():
-			push_warning("[Message_app.spawn_messages_preview] Message %d has no content!" % i)
+			continue
 		message["content"] = content
 		
 		# Create chat preview
 		var chat_instance = message_chats.instantiate()
 		chats_scroll_container.add_child(chat_instance)
 		
-		# Store message_data directly on the instance BEFORE setup_message
-		# This ensures it's accessible when clicked
+		# Store message_data directly on the instance
 		chat_instance.message_data = message.duplicate()
-		print("[Message_app.spawn_messages_preview] Message %d: Stored message_data with content: %s" % [i, message.get("content", "").substr(0, 30)])
 		
 		# Setup chat preview with message data
 		if chat_instance.has_method("setup_message"):
 			chat_instance.setup_message(message)
-		else:
-			push_warning("[Message_app.spawn_messages_preview] Chat instance doesn't have setup_message method!")
 		
 		# Connect signal for opening chat
 		if not chat_instance.is_connected("open_chat", _on_chat_opened):
@@ -142,8 +126,6 @@ func spawn_messages_preview() -> void:
 		
 		# Add discard button to each message
 		_add_discard_button_to_message(chat_instance, message)
-	
-	print("[Message_app.spawn_messages_preview] Spawned %d message previews" % chats_scroll_container.get_child_count())
 
 func _load_messages() -> void:
 	"""Load messages from JSONManager"""
@@ -152,8 +134,6 @@ func _load_messages() -> void:
 	
 	if json_manager:
 		messages_data = json_manager.get_all_messages()
-		print("[Message_app] Loaded %d messages from JSON" % messages_data.size())
-		
 	else:
 		push_warning("[Message_app] JSONManager not found!")
 		messages_data = []
@@ -183,11 +163,11 @@ func _on_chat_opened(message_instance: Node) -> void:
 	if message_instance:
 		current_chat_data = _extract_message_data_from_instance(message_instance)
 		if current_chat_data.is_empty():
-			push_warning("[Message_app._on_chat_opened] current_chat_data is empty!")
+			return
 		current_message_type = current_chat_data.get("type", "")
 		_display_chat_content()
 	else:
-		push_warning("[Message_app._on_chat_opened] message_instance is null!")
+		return
 	
 	set_ui(false, 2)
 	set_ui(true, 3)
@@ -333,7 +313,6 @@ func _on_discard_message_pressed(message_data: Dictionary, chat_instance: Node) 
 	
 	if json_manager and json_manager.has_method("remove_message"):
 		if json_manager.remove_message(message_data):
-			print("[Message_app] Discarded message: %s" % message_data.get("sender", "Unknown"))
 			# Remove from local data
 			for i in range(messages_data.size() - 1, -1, -1):
 				var msg = messages_data[i]
@@ -396,28 +375,53 @@ func _create_save_to_notes_button() -> void:
 			vbox_container = get_node_or_null("Chats/VBoxContainer/Scrollable/SaveSpawn")
 		
 		# Create button
-		var button = Button.new()
+		var tahoma_font := preload("res://Assets/Fonts/BMmini.TTF")
+		var button := Button.new()
 		button.name = "SaveToNotesButton"
 		button.text = "Save to Notes"
 		button.custom_minimum_size = Vector2(180, 35)
 		button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		button.pressed.connect(_on_save_to_notes_pressed)
+		
+		# --- APPLY FONT ---
+		var font_override := FontFile.new()
+		font_override = tahoma_font
+		button.add_theme_font_override("font", font_override)
+		
+		# --- APPLY FONT COLOR & SIZE ---
+		button.add_theme_color_override("font_color", Color("2b3931"))
+		var font_with_size := FontVariation.new()
+		font_with_size.base_font = tahoma_font
+		button.add_theme_font_size_override("font_size", 16)
 
+		button.add_theme_font_override("font", font_with_size)
+		
 		var color := Color("aabab1")
-
-		# NORMAL
+		
 		var sb_normal := StyleBoxFlat.new()
 		sb_normal.bg_color = color
+		sb_normal.corner_radius_top_left = 5
+		sb_normal.corner_radius_top_right = 5
+		sb_normal.corner_radius_bottom_left = 5
+		sb_normal.corner_radius_bottom_right = 5
 		button.add_theme_stylebox_override("normal", sb_normal)
 
 		# HOVER
 		var sb_hover := StyleBoxFlat.new()
 		sb_hover.bg_color = color
+		sb_hover.corner_radius_top_left = 5
+		sb_hover.corner_radius_top_right = 5
+		sb_hover.corner_radius_bottom_left = 5
+		sb_hover.corner_radius_bottom_right = 5
 		button.add_theme_stylebox_override("hover", sb_hover)
 
 		# PRESSED
 		var sb_pressed := StyleBoxFlat.new()
 		sb_pressed.bg_color = color
+		sb_pressed.corner_radius_top_left = 5
+		sb_pressed.corner_radius_top_right = 5
+		sb_pressed.corner_radius_bottom_left = 5
+		sb_pressed.corner_radius_bottom_right = 5
 		button.add_theme_stylebox_override("pressed", sb_pressed)
 
 		if vbox_container and vbox_container is VBoxContainer:
@@ -425,18 +429,24 @@ func _create_save_to_notes_button() -> void:
 			vbox_container.add_child(button)
 
 			save_to_notes_button = button
-			print("[Message_app._create_save_to_notes_button] Created SaveToNotesButton at BOTTOM")
 		else:
-			push_warning("[Message_app._create_save_to_notes_button] Could not find VBoxContainer!")
+			push_warning("[Message_app] Could not find VBoxContainer for save button!")
 
 func _on_save_to_notes_pressed() -> void:
-	"""Save the current tip to notes system - prevents duplicates"""
 	if current_message_type != "tip":
 		return
 	
 	var tip_content = _extract_tip_content(current_chat_data)
+	var tip_title = current_chat_data.get("title", current_chat_data.get("sender", "Tip"))
 	
-	# Check if this tip has already been saved (prevent duplicates)
+	if tip_content.strip_edges() == "" or tip_content == "Tip information":
+		if save_to_notes_button:
+			save_to_notes_button.text = "Nothing to Save"
+			await get_tree().create_timer(1.0).timeout
+			save_to_notes_button.text = "Save to Notes"
+		return
+
+	# Prevent duplicate saves in this session
 	if tip_content == saved_tip_content:
 		if save_to_notes_button:
 			save_to_notes_button.text = "Already Saved!"
@@ -444,52 +454,8 @@ func _on_save_to_notes_pressed() -> void:
 			save_to_notes_button.text = "Save to Notes"
 		return
 	
-	# Check if note with same content already exists in notes system
-	if not json_manager:
-		json_manager = JSONManager.get_instance()
-	
-	var existing_notes = []
-	if json_manager:
-		existing_notes = json_manager.load_notes()
-	
-	# Check for duplicate content
-	for note in existing_notes:
-		if note.get("content", "") == tip_content:
-			if save_to_notes_button:
-				save_to_notes_button.text = "Already Saved!"
-				await get_tree().create_timer(1.0).timeout
-				save_to_notes_button.text = "Save to Notes"
-			return
-	
-	print("[Message_app._on_save_to_notes_pressed] Saving tip to notes...")
-	
-	# Get tip title/sender
-	var tip_title = current_chat_data.get("title", current_chat_data.get("sender", "Tip"))
-	
-	# Create note data structure
-	var note_data = {
-		"id": "note_%d" % Time.get_ticks_msec(),
-		"title": tip_title,
-		"content": tip_content,
-		"is_legit": current_chat_data.get("is_legit", false),  # Determine if tip is legitimate
-		"viewed": false,
-		"timestamp": Time.get_datetime_string_from_system()
-	}
-	
-	# Add to notes via notes_app_ref
-	if notes_app_ref and notes_app_ref.has_method("add_note"):
-		notes_app_ref.add_note(note_data)
-		print("[Message_app._on_save_to_notes_pressed] Added tip to notes: %s" % tip_title)
-	else:
-		# Fallback: add via JSONManager directly
-		if json_manager:
-			json_manager.add_note(note_data)
-			print("[Message_app._on_save_to_notes_pressed] Added tip to notes via JSONManager: %s" % tip_title)
-		else:
-			push_warning("[Message_app._on_save_to_notes_pressed] Neither notes_app_ref nor json_manager available!")
-			return
-	
-	# Mark this tip as saved to prevent duplicate saves in this session
+	DataManager.add_note_runtime(tip_title, tip_content)
+	emit_signal("call_spawn_notes")
 	saved_tip_content = tip_content
 	
 	if save_to_notes_button:
@@ -497,6 +463,7 @@ func _on_save_to_notes_pressed() -> void:
 		save_to_notes_button.text = "Saved!"
 	
 	_remove_current_message_after_save()
+	_on_chat_closed_pressed()
 
 # -------- UI HANDLER ----------
 func set_ui(visibility: bool, target: int) -> void:
@@ -510,6 +477,7 @@ func _on_messages_main_pressed() -> void:
 	master.sound_manager.play_sound("phone_click")
 	set_ui(false, 1)
 	set_ui(false, 2)
+	
 	# Hide app_container to show phone main menu again
 	if phone and phone.app_container:
 		phone.app_container.visible = false
@@ -536,14 +504,9 @@ func _on_chat_closed_pressed() -> void:
 	set_ui(true, 2)
 	set_ui(false, 3)
 
-func set_notes_app_ref(notes_app: Node) -> void:
-	"""Set reference to notes app for saving tips"""
-	notes_app_ref = notes_app
-
 func set_todo_section_ref(todo_section: Node) -> void:
 	"""Set reference to todo section for saving tips to to-do"""
 	todo_section_ref = todo_section
-	print("[Message_app] Todo section reference set: %s" % (todo_section.name if todo_section else "null"))
 
 func add_message(message_data: Dictionary) -> void:
 	"""Add a new message (called by Lyra or other systems)"""
@@ -572,7 +535,7 @@ func _ready() -> void:
 	master = get_node("/root/Master")
 	
 	if master == null:
-		print("[WARN: Message_app._ready] Master is still null. Calling members from this object may cause issues.")
+		push_warning("[Message_app] Master is null!")
 		return
 	
 	if master.sound_manager:
@@ -595,11 +558,6 @@ func _ready() -> void:
 		phone.connect("close_all_apps", Callable(self, "close_messages"))
 	else:
 		push_warning("[Messaging_app.ready] Phone is kinda missing...")
-	
-	# Don't spawn messages in _ready() - let reset_for_new_game() or map_01 handle it
-	# This prevents messages from loading before reset happens on new game
-	# Messages will be spawned when the app is opened for the first time
-	# spawn_messages_preview()  # Commented out - will be called by reset or when opening app
 	
 	# Default UI
 	set_ui(false, 3)

@@ -6,7 +6,6 @@ var sound_manager: SoundManager
 
 @export_group("Time & Date")
 @export var time: Label 
-@export var date: Label
 
 @export_group("Containers")
 @export var phone_main: NinePatchRect
@@ -26,7 +25,7 @@ func _on_messages_pressed() -> void:
 	app_container.visible = true
 
 func _on_notes_pressed() -> void:
-	emit_signal("open_notes_app")
+	emit_signal("open_notes_app", true)
 	print("Opening notes app")
 	app_container.visible = true
 
@@ -48,9 +47,6 @@ func _ready():
 	if master == null:
 		print("[WARN: Mobile_phone._ready] Master is still null. Calling members from this object may cause issues.")
 		return
-	
-	TimeDateManager.load_days()
-	date.text = TimeDateManager.day1
 	
 	app_container.visible = false
 	emit_signal("close_all_apps")

@@ -1,17 +1,10 @@
 extends Node
 class_name JSONManager
 
-# Singleton for managing all JSON file operations
-# This centralizes all JSON loading/saving to reduce code duplication
-
-# Get JSONManager instance from scene tree
-
 static func get_instance() -> JSONManager:
 	# get from Master node
 	var master = Engine.get_main_loop().root.get_node_or_null("Master")
 	if master:
-		
-		# Try accessing via property (Master has @export var json_manager)
 		
 		var json_mgr = master.get("json_manager")
 		if json_mgr:
@@ -39,6 +32,9 @@ const TODOS_PATH = "res://JSONs/todos_texts.json"
 const MESSAGES_INITIAL_PATH = "res://JSONs/messages.json"
 const NOTES_INITIAL_PATH = "res://JSONs/notes.json"
 
+const TUTORIAL_TEXTS_PATH = "res://JSONs/tutorial_texts.json"
+const NOTEBOOK_TEXT_PATH = "res://JSONs/notebook.json"
+
 # ---------- CACHED DATA ----------
 var mails: Dictionary = {}
 var dataset_cache: Dictionary = {}
@@ -48,6 +44,9 @@ var trashed_infos_cache: Array = []
 var messages_cache: Array = []
 var notes_cache: Array = []
 var todos_cache: Array = []
+
+var tutorial_steps_cache: Array = []
+var notebook_contents_cache: Array = []
 
 # ---------- GENERIC JSON OPERATIONS ----------
 
@@ -113,6 +112,46 @@ static func clear_json_file(file_path: String) -> bool:
 # Check if file exists
 static func file_exists(file_path: String) -> bool:
 	return FileAccess.file_exists(file_path)
+	
+# ---------- TUTORIAL JSON OPERATIONS ----------
+# Load tutorial_steps.json
+func load_tutorial_steps() -> Array:
+	if tutorial_steps_cache.is_empty():
+		var data = load_json(TUTORIAL_TEXTS_PATH, [])
+		if typeof(data) == TYPE_DICTIONARY and data.has("tutorial_steps"):
+			tutorial_steps_cache = data["tutorial_steps"].duplicate(true)
+		elif typeof(data) == TYPE_ARRAY:
+			# fallback if file is just an array
+			tutorial_steps_cache = data.duplicate(true)
+		else:
+			tutorial_steps_cache = []
+	return tutorial_steps_cache.duplicate(true)
+
+func get_tutorial_step(step_id: String) -> Dictionary:
+	var steps = load_tutorial_steps()
+	for step in steps:
+		if step.get("id", "") == step_id:
+			return step.duplicate(true)
+	return {}
+
+# ---------- NOTEBOOK JSON OPERATIONS ----------
+func load_notebook_content() -> Array:
+	if notebook_contents_cache.is_empty():
+		var data = load_json(NOTEBOOK_TEXT_PATH, [])
+		if typeof(data) == TYPE_DICTIONARY and data.has("notebook_content"):
+			notebook_contents_cache = data["notebook_content"].duplicate(true)
+		elif typeof(data) == TYPE_ARRAY:
+			notebook_contents_cache = data.duplicate(true)
+		else:
+			notebook_contents_cache = []
+	return notebook_contents_cache.duplicate(true)
+
+func get_notebook_content(page_id: String) -> Dictionary:
+	var pages = load_notebook_content()
+	for page in pages:
+		if page.get("id", "") == page_id:
+			return page.duplicate(true)
+	return {}
 
 # ---------- DATASET.JSON OPERATIONS ----------
 
@@ -188,7 +227,14 @@ func save_collected_infos(data: Array) -> bool:
 # Clear collected_infos.json
 func clear_collected_infos() -> bool:
 	collected_infos_cache.clear()
-	return clear_json_file(COLLECTED_INFOS_PATH)
+	var result = clear_json_file(COLLECTED_INFOS_PATH)
+	# Verify file is actually empty
+	var verify = load_json(COLLECTED_INFOS_PATH, [])
+	if typeof(verify) == TYPE_ARRAY and verify.size() > 0:
+		push_warning("[JSONManager] clear_collected_infos: File still has data after clear! Forcing empty write.")
+		save_json(COLLECTED_INFOS_PATH, [])
+	print("[JSONManager] clear_collected_infos: cleared cache and file")
+	return result
 
 # ---------- DATASET_ADDITIONS.JSON OPERATIONS ----------
 
@@ -198,8 +244,10 @@ func load_dataset_additions() -> Array:
 		var data = load_json(DATASET_ADDITIONS_PATH, [])
 		if typeof(data) == TYPE_ARRAY:
 			dataset_additions_cache = data
+			print("[JSONManager] load_dataset_additions: loaded %d items from file" % data.size())
 		else:
 			dataset_additions_cache = []
+			print("[JSONManager] load_dataset_additions: file is empty or invalid")
 	
 	return dataset_additions_cache.duplicate(true)
 
@@ -224,7 +272,14 @@ func add_to_dataset_additions(case_data: Dictionary) -> bool:
 # Clear dataset_additions.json
 func clear_dataset_additions() -> bool:
 	dataset_additions_cache.clear()
-	return clear_json_file(DATASET_ADDITIONS_PATH)
+	var result = clear_json_file(DATASET_ADDITIONS_PATH)
+	# Verify file is actually empty
+	var verify = load_json(DATASET_ADDITIONS_PATH, [])
+	if typeof(verify) == TYPE_ARRAY and verify.size() > 0:
+		push_warning("[JSONManager] clear_dataset_additions: File still has data after clear! Forcing empty write.")
+		save_json(DATASET_ADDITIONS_PATH, [])
+	print("[JSONManager] clear_dataset_additions: cleared cache and file")
+	return result
 
 # ---------- TRASHED_INFOS.JSON OPERATIONS ----------
 
@@ -365,7 +420,7 @@ func remove_message(message_data: Dictionary) -> bool:
 		
 		if msg_content == data_content and msg_sender == data_sender:
 			removed = true
-			continue  # Skip this message
+			continue  
 		
 		filtered.append(msg)
 	
@@ -474,14 +529,10 @@ func refresh_caches() -> void:
 # ---------- GODOT CALLBACKS ----------
 func _ready():
 	load_mails()
-	# Initialize messages and notes from res:// if user:// files don't exist
-	# BUT: Skip auto-initialization if file explicitly exists as empty array (new game)
 	if not FileAccess.file_exists(MESSAGES_PATH):
 		print("JSONManager: messages.json doesn't exist, initializing...")
 		_initialize_messages_from_res()
 	else:
-		# Check if file is empty - if it exists and is empty, assume it's intentional (new game)
-		# Don't auto-initialize, let the game handle empty messages
 		var existing = load_json(MESSAGES_PATH, [])
 		if typeof(existing) == TYPE_ARRAY:
 			if existing.size() == 0:
@@ -493,8 +544,6 @@ func _ready():
 		print("JSONManager: notes.json doesn't exist, initializing...")
 		_initialize_notes_from_res()
 	else:
-		# Check if file is empty - if it exists and is empty, assume it's intentional (new game)
-		# Don't auto-initialize, let the game handle empty notes
 		var existing = load_json(NOTES_PATH, [])
 		if typeof(existing) == TYPE_ARRAY:
 			if existing.size() == 0:

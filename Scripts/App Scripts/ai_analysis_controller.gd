@@ -44,8 +44,11 @@ var current_article_data: Dictionary = {}
 var current_article_nlp_data: Dictionary = {}
 var current_tip_nlp_data: Dictionary = {}
 var article_integrity_awarded: Dictionary = {}
+var discrepancy_rewards_given: Dictionary = {}  # Track which articles have been rewarded for discrepancies
+var article_classifications: Dictionary = {}  # Store classifications per article key
 var current_article_key: String = ""
 var pending_article_key: String = ""
+var _is_displaying_article: bool = false  # Prevent concurrent article displays
 
 # Panel references for highlighting (from scene structure)
 var article_panel: Panel = null
@@ -70,7 +73,9 @@ func _nlp_result_to_dict(result: NLPAnalyzer.AnalysisResult) -> Dictionary:
 		"classification_confidence": result.classification_confidence,
 		"fake_news_keywords": result.fake_news_keywords,
 		"fake_news_score": result.fake_news_score,
-		"semantic_keywords": result.semantic_keywords
+		"semantic_keywords": result.semantic_keywords,
+		"invalid_dates": result.invalid_dates,
+		"date_validation_score": result.date_validation_score
 	}
 
 func _get_fact_id_from_dict(fact_data: Dictionary) -> String:
@@ -112,9 +117,50 @@ func _ready() -> void:
 	
 	visible = false
 
+func _notification(what):
+	if what == NOTIFICATION_VISIBILITY_CHANGED and visible:
+		# Clear cache before reloading to ensure fresh data
+		var json_manager = JSONManager.get_instance()
+		if json_manager:
+			json_manager.dataset_additions_cache.clear()
+		
+		# Check if file is actually empty before loading
+		var file_check = JSONManager.load_json("user://dataset_additions.json", [])
+		if typeof(file_check) == TYPE_ARRAY and file_check.size() == 0:
+			# File is empty - don't load, just clear display
+			comparisons_data.clear()
+			current_index = 0
+			if article_content:
+				article_content.text = ""
+			if tips_content:
+				tips_content.text = ""
+			print("[AI Analysis] File is empty, staying empty")
+			return
+		
+		# Reload dataset when becoming visible to show newly added articles
+		_load_dataset()
+		# If we have articles, display the first one
+		if comparisons_data.size() > 0:
+			current_index = 0
+			_display_article(comparisons_data[0])
+		else:
+			# Clear display if no articles
+			if article_content:
+				article_content.text = ""
+			if tips_content:
+				tips_content.text = ""
+
 func _initialize_ai_analysis() -> void:
-	"""Initialize AI analysis - load dataset after scene is ready"""
-	_load_dataset()
+	"""Initialize AI analysis - start empty, will be populated by reset_for_new_game"""
+	# Start with empty dataset - will be populated by reset_for_new_game or when articles are added
+	# Don't load here - wait for reset_for_new_game
+	comparisons_data.clear()
+	current_index = 0
+	# Clear cache to ensure fresh start
+	var json_manager = JSONManager.get_instance()
+	if json_manager:
+		json_manager.dataset_additions_cache.clear()
+	print("[AI Analysis Controller] Initialized - starting empty")
 
 func _setup_http_request():
 	"""Setup HTTPRequest node for ML API calls"""
@@ -154,37 +200,167 @@ func _setup_panel_references():
 
 # ---------- DATA LOADING ----------
 func _load_dataset():
-	# Use JSONManager to get all cases (dataset + additions)
+	"""Load articles from dataset_additions.json only (player-added articles)"""
+	# Get current map to filter articles
+	var current_map = _get_current_map()
+	
+	# Only load articles from dataset_additions.json (player-added articles)
+	# Don't load from base dataset - on new game, start empty
 	var json_manager = JSONManager.get_instance()
+	var all_cases = []
+	
+	# Load from dataset_additions.json (player-added articles only)
+	# Force fresh load by clearing cache first
 	if json_manager:
-		comparisons_data = json_manager.get_all_cases(false)
-		print("AI Analysis: Loaded %d total cases (dataset + additions)" % comparisons_data.size())
-	else:
-		# Fallback: manual loading
-		var dataset = JSONManager.load_json("res://JSONs/dataset.json", {})
-		if typeof(dataset) == TYPE_DICTIONARY and dataset.has("cases"):
-			comparisons_data = dataset["cases"].duplicate()
-		elif typeof(dataset) == TYPE_ARRAY:
-			comparisons_data = dataset
+		json_manager.dataset_additions_cache.clear()
+		# Read directly from file to bypass cache
+		var file_data = JSONManager.load_json("user://dataset_additions.json", [])
+		if typeof(file_data) == TYPE_ARRAY:
+			all_cases = file_data.duplicate(true)
+			# Update cache with what we read
+			json_manager.dataset_additions_cache = file_data.duplicate(true)
+			print("[AI Analysis] _load_dataset: Read %d cases directly from file" % file_data.size())
 		else:
-			comparisons_data = []
-		
-		# Load additions
+			all_cases = []
+			json_manager.dataset_additions_cache = []
+			print("[AI Analysis] _load_dataset: File is empty or invalid")
+	else:
+		# Fallback: manual loading - force fresh read
 		var additions = JSONManager.load_json("user://dataset_additions.json", [])
 		if typeof(additions) == TYPE_ARRAY:
-			var existing_texts = {}
-			for case in comparisons_data:
-				var article_text = case.get("article_text", "")
-				if article_text != "":
-					existing_texts[article_text] = true
-			
-			for addition in additions:
-				var article_text = addition.get("article_text", "")
-				if article_text != "" and not existing_texts.has(article_text):
-					comparisons_data.append(addition)
-					existing_texts[article_text] = true
+			all_cases = additions.duplicate(true)
+			print("[AI Analysis] _load_dataset: Read %d cases (fallback)" % additions.size())
+		else:
+			all_cases = []
+			print("[AI Analysis] _load_dataset: File is empty (fallback)")
+	
+	# Filter by current map - only show articles from current map
+	var filtered_cases = _filter_cases_by_map(all_cases, current_map)
+	
+	# Preserve any articles that were manually added but not yet in dataset_additions
+	var existing_texts = {}
+	for case in filtered_cases:
+		var article_text = case.get("article_text", "")
+		if article_text != "":
+			existing_texts[article_text] = true
+	
+	# Add any articles from comparisons_data that aren't in the filtered list
+	for case in comparisons_data:
+		var article_text = case.get("article_text", "")
+		if article_text != "" and not existing_texts.has(article_text):
+			# Check if it matches current map
+			var case_map = case.get("map", "")
+			if case_map == current_map or case_map == "":
+				filtered_cases.append(case)
+				existing_texts[article_text] = true
+	
+	comparisons_data = filtered_cases
+	print("AI Analysis: Loaded %d cases for %s (from dataset_additions + manual adds)" % [comparisons_data.size(), current_map])
+
+# NEW: Filter cases by current map
+func _filter_cases_by_map(all_cases: Array, current_map: String) -> Array:
+	var filtered = []
+	
+	for case in all_cases:
+		# Check if case has map information
+		var email_data = case.get("email_data", {})
+		var case_map = case.get("map", "")
 		
-		print("AI Analysis: Loaded %d total cases (fallback)" % comparisons_data.size())
+		# Detect map from article content if no explicit map tag
+		var detected_map = case_map
+		if detected_map == "":
+			detected_map = _detect_map_from_content(case)
+		
+		# If case has explicit map field (added via add_article_to_pool), check it
+		if case_map != "":
+			if case_map == current_map:
+				filtered.append(case)
+			continue
+		
+		# If detected map doesn't match current map, exclude it
+		if detected_map != "" and detected_map != current_map:
+			continue  # Skip articles from other maps
+		
+		# For email-based cases (has email_data):
+		# Only include if they were explicitly added from evidence bank
+		# We check this by seeing if they have a "map" field or if they're in current map's email pool
+		if not email_data.is_empty():
+			# Email case - only include if it has map tag (was explicitly added)
+			# OR if detected map matches current map (from email pool)
+			if case_map == current_map or (detected_map == current_map and case_map == ""):
+				filtered.append(case)
+			# If no map tag and detected map doesn't match, skip - player hasn't added it to AI analysis yet
+			continue
+		
+		# Base dataset articles (no email_data, no map tag) - only include if they don't have map-specific content
+		# OR if detected map matches current map
+		if email_data.is_empty() and case_map == "":
+			if detected_map == "" or detected_map == current_map:
+				filtered.append(case)
+	
+	return filtered
+
+# NEW: Detect map from article content characteristics
+func _detect_map_from_content(case: Dictionary) -> String:
+	var article_text = case.get("article_text", "")
+	var news_data = case.get("news_data", {})
+	if article_text == "":
+		article_text = news_data.get("article_text", "")
+	
+	if article_text == "":
+		return ""  # Can't detect without content
+	
+	var lower_text = article_text.to_lower()
+	
+	# Map_03: Articles with [REDACTED] markers
+	if article_text.contains("[REDACTED]") or lower_text.contains("redacted"):
+		return "map_03"
+	
+	# Map_02: Articles with censorship hints (but not redactions)
+	# Check for censorship-related keywords
+	var censorship_keywords = ["censored", "restricted access", "approval required", "information ministry", "leaked senate files", "forged documents"]
+	for keyword in censorship_keywords:
+		if lower_text.contains(keyword):
+			return "map_02"
+	
+	# Check sender for map-specific indicators
+	var sender = case.get("sender", "")
+	if sender == "":
+		sender = news_data.get("sender", "")
+	
+	var lower_sender = sender.to_lower()
+	
+	# Map_03: Sovereign Council, high propaganda
+	if lower_sender.contains("sovereign council") or lower_sender.contains("syndinet"):
+		# Check if it's high propaganda (map_03) vs just censorship (map_02)
+		if article_text.contains("[REDACTED]") or lower_text.contains("redacted"):
+			return "map_03"
+		# SyndiNet in map_02 is also possible, but if no redactions, it's likely map_02
+		if lower_sender.contains("syndinet") and not article_text.contains("[REDACTED]"):
+			return "map_02"
+	
+	# Map_02: Information Ministry, leaked files
+	if lower_sender.contains("information ministry") or lower_sender.contains("senate"):
+		return "map_02"
+	
+	# No map-specific characteristics detected - neutral/base article
+	return ""
+
+# NEW: Get current map (same as emails_controller)
+func _get_current_map() -> String:
+	# Try to get from DataManager first
+	if DataManager.current_map in ["map_01", "map_02", "map_03"]:
+		return DataManager.current_map
+	
+	# Fallback: detect from scene path
+	var scene_path = get_tree().current_scene.scene_file_path if get_tree().current_scene else ""
+	if scene_path:
+		var scene_name = scene_path.get_file().get_basename()
+		if scene_name in ["map_01", "map_02", "map_03"]:
+			return scene_name
+	
+	# Default to map_01
+	return "map_01"
 
 func set_game_manager(manager: Node):
 	game_manager = manager
@@ -195,6 +371,7 @@ func load_article(article_data: Dictionary):
 	visible = true
 	
 	# Reload dataset to include any new additions (from emails)
+	# _load_dataset() now preserves manually added articles
 	_load_dataset()
 	
 	# Find matching case in dataset or use provided data
@@ -204,6 +381,14 @@ func load_article(article_data: Dictionary):
 			if case.get("article_text") == article_data.get("article_text"):
 				case_data = case
 				break
+	
+	# If article not found in comparisons_data, add it
+	if case_data == article_data:
+		var current_map = _get_current_map()
+		var article_with_map = article_data.duplicate(true)
+		article_with_map["map"] = current_map
+		comparisons_data.append(article_with_map)
+		case_data = article_with_map
 	
 	# Update current_index to match the loaded article
 	for i in range(comparisons_data.size()):
@@ -215,7 +400,10 @@ func load_article(article_data: Dictionary):
 
 func add_article_to_pool(article_data: Dictionary):
 	"""Add article to the comparisons pool without switching to the app"""
-	_load_dataset()
+	# Mark article with current map so it only appears in this map
+	var current_map = _get_current_map()
+	var article_with_map = article_data.duplicate(true)
+	article_with_map["map"] = current_map  # Tag with current map
 	
 	var article_text = article_data.get("article_text", "")
 	var exists = false
@@ -225,13 +413,56 @@ func add_article_to_pool(article_data: Dictionary):
 			break
 	
 	if not exists:
-		comparisons_data.append(article_data.duplicate(true))
-		print("AI Analysis: Added article to pool - %s" % article_text)
+		comparisons_data.append(article_with_map)
+		
+		# Ensure article is saved to dataset_additions.json so it persists
+		var json_manager = JSONManager.get_instance()
+		if json_manager:
+			# Check if already in dataset_additions
+			var additions = json_manager.load_dataset_additions()
+			var already_saved = false
+			for addition in additions:
+				if addition.get("article_text", "") == article_text:
+					already_saved = true
+					break
+			
+			if not already_saved:
+				json_manager.add_to_dataset_additions(article_with_map)
+		else:
+			# Fallback: manual save
+			var additions = JSONManager.load_json("user://dataset_additions.json", [])
+			var already_saved = false
+			for addition in additions:
+				if addition.get("article_text", "") == article_text:
+					already_saved = true
+					break
+			
+			if not already_saved:
+				additions.append(article_with_map)
+				JSONManager.save_json("user://dataset_additions.json", additions)
+		
+		# If AI Analysis is visible, update the display
+		if visible:
+			# If this is the first article, display it
+			if comparisons_data.size() == 1:
+				current_index = 0
+				_display_article(comparisons_data[0])
+			# Otherwise, if we're viewing an article, stay on current one
+			# (user can navigate with prev/next buttons)
+		
+		print("AI Analysis: Added article to pool for %s - %s (total: %d)" % [current_map, article_text, comparisons_data.size()])
 	else:
 		print("AI Analysis: Article already in pool - %s" % article_text)
 
 func reset_for_new_game() -> void:
 	"""Reset article pool and display for new game"""
+	# Clear cache first to ensure fresh load
+	var json_manager = JSONManager.get_instance()
+	if json_manager:
+		json_manager.dataset_additions_cache.clear()
+		# Also verify file is empty
+		json_manager.clear_dataset_additions()
+	
 	comparisons_data.clear()
 	current_index = 0
 	selected_article_fact_id = ""
@@ -245,6 +476,15 @@ func reset_for_new_game() -> void:
 	current_article_nlp_data.clear()
 	current_tip_nlp_data.clear()
 	article_integrity_awarded.clear()
+	
+	# Clear display
+	if article_content:
+		article_content.text = ""
+	if tips_content:
+		tips_content.text = ""
+	
+	print("[AI Analysis Controller] Reset for new game - article pool cleared and empty")
+	discrepancy_rewards_given.clear()
 	current_article_key = ""
 	pending_article_key = ""
 	
@@ -265,13 +505,19 @@ func reset_for_new_game() -> void:
 	if tips_content:
 		tips_content.text = ""
 	
-	# Reload dataset (this will repopulate comparisons_data with initial dataset)
-	_load_dataset()
-	
-	print("[AI Analysis Controller] Reset for new game - article pool cleared")
+	# Don't reload dataset on new game - start with empty pool
+	# Articles will be added as player collects evidence
+	print("[AI Analysis Controller] Reset for new game - article pool cleared and empty")
 
 # ---------- DISPLAY METHODS ----------
 func _display_article(entry: Dictionary):
+	# Prevent concurrent article displays
+	if _is_displaying_article:
+		print("[AI Analysis] Already displaying article, skipping duplicate call")
+		return
+	
+	_is_displaying_article = true
+	
 	# Clear previous selections
 	selected_article_fact_id = ""
 	selected_tip_fact_id = ""
@@ -280,23 +526,45 @@ func _display_article(entry: Dictionary):
 	article_facts_list.clear()
 	tip_facts_list.clear()
 	fact_id_to_fact_data.clear()
-	current_article_nlp_data.clear()
-	current_tip_nlp_data.clear()
+	# Don't clear NLP data here - it will be restored from article_classifications if available
 	current_article_data = entry
 	current_article_key = _generate_article_key(entry)
 	
+	# Restore NLP data if article was already analyzed
+	var article_key = _generate_article_key(entry)
+	var stored_classification = article_classifications.get(article_key, {})
+	if stored_classification.has("article_nlp"):
+		current_article_nlp_data = stored_classification.get("article_nlp", {})
+	if stored_classification.has("tip_nlp"):
+		current_tip_nlp_data = stored_classification.get("tip_nlp", {})
+	
 	# Clear old fact buttons (but keep "Facts:" Label, Date, Context buttons, and Control nodes)
-	# Clear old fact buttons in article container
+	# Clear old fact buttons in article container - remove immediately to prevent duplicates
 	if article_facts_container:
+		var children_to_remove = []
 		for child in article_facts_container.get_children():
 			if child.name.begins_with("FactContainer_"):
-				child.queue_free()
+				children_to_remove.append(child)
+		for child in children_to_remove:
+			article_facts_container.remove_child(child)
+			child.queue_free()
 	
-	# Clear old fact buttons in tips container
+	# Clear old fact buttons in tips container - remove immediately to prevent duplicates
 	if tips_facts_container:
+		var children_to_remove = []
 		for child in tips_facts_container.get_children():
 			if child.name.begins_with("FactContainer_"):
-				child.queue_free()
+				children_to_remove.append(child)
+		for child in children_to_remove:
+			tips_facts_container.remove_child(child)
+			child.queue_free()
+	
+	# Process immediately to ensure old buttons are removed before spawning new ones
+	# Use call_deferred instead of await to avoid making function async
+	call_deferred("_spawn_facts_after_clear", entry)
+
+func _spawn_facts_after_clear(entry: Dictionary):
+	"""Helper function to spawn facts after clearing old buttons"""
 
 	if article_panel:
 		_setup_panel(article_panel)
@@ -349,6 +617,9 @@ func _display_article(entry: Dictionary):
 	# Update result display (resets values, doesn't analyze)
 	_update_result_display(entry)
 	
+	# Reset flag at end to allow next article display
+	_is_displaying_article = false
+
 func _setup_fact_button_style(btn: Button, container: VBoxContainer) -> void:
 	# Instantiate the prefab
 	var fact_btn_container := facts_button_prefab.instantiate() as MarginContainer
@@ -386,34 +657,56 @@ func spawn_fact_buttons(facts_list: Array, facts_container: VBoxContainer) -> vo
 
 	var panel_type: String = "article" if facts_container == article_facts_container else "tip"
 
+	# Double-check: remove any remaining FactContainer_ nodes (safety check)
+	var children_to_remove = []
+	for child in facts_container.get_children():
+		if child.name.begins_with("FactContainer_"):
+			children_to_remove.append(child)
+	for child in children_to_remove:
+		facts_container.remove_child(child)
+		child.queue_free()
+
 	for fact_data in facts_list:
 		var fact_id = _get_fact_id_from_dict(fact_data)
+		
+		# Check if this fact button already exists (prevent duplicates)
+		var existing_container = facts_container.get_node_or_null("FactContainer_%s" % fact_id)
+		if existing_container:
+			print("[AI Analysis] Fact button already exists for %s, skipping duplicate" % fact_id)
+			continue
+		
 		fact_id_to_fact_data[fact_id] = fact_data
 
 		# Instantiate the prefab
 		var btn_container := facts_button_prefab.instantiate() as MarginContainer
 		if not btn_container:
 			push_warning("Failed to instantiate facts_button prefab!")
+			continue
 
 		# Corrected reference to the Button node
 		var btn := btn_container.get_node("VBoxContainer/Fact") as Button
 		if not btn:
 			push_warning("Prefab has no Button node named 'Fact' inside VBoxContainer")
+			btn_container.queue_free()
+			continue
 
 		# Set button text
 		btn.text = "%s: %s" % [fact_data.get("category", ""), fact_data.get("value", "")]
 
 		# Connect pressed signal with proper panel_type string
 		btn.connect("pressed", Callable(self, "_on_fact_selected").bind(fact_id, btn, panel_type))
-
+		
+		# Store button reference in the appropriate dictionary
+		if panel_type == "article":
+			article_fact_buttons[fact_id] = btn
+		else:
+			tip_fact_buttons[fact_id] = btn
+		
 		# Give the container a unique name so it can be cleared later
 		btn_container.name = "FactContainer_%s" % fact_id
-
-		# Add to container after the first child
-		if facts_container.get_child_count() > 0:
-			facts_container.add_child(btn_container)
-		else:
-			facts_container.add_child(btn_container)
+		
+		# Add to container
+		facts_container.add_child(btn_container)
 
 func _add_fact_button(fact_data: Dictionary, fact_id: String, panel_type: String) -> void:
 	var container: VBoxContainer
@@ -466,11 +759,21 @@ func _update_result_display(entry: Dictionary):
 		result_note.text = "Click one fact from each side to compare them."
 		result_note.modulate = Color.WHITE  # Reset color
 	
-	# Reset classifications - don't analyze until Analyze button is pressed
+	# Restore classifications if already analyzed, otherwise reset
+	var article_key = _generate_article_key(entry)
+	var stored_classification = article_classifications.get(article_key, {})
+	
 	if article_classification:
-		article_classification.text = "Unverified (50%)"
+		if stored_classification.has("article"):
+			article_classification.text = stored_classification.get("article", "Unverified (50%)")
+		else:
+			article_classification.text = "Unverified (50%)"
+	
 	if tip_classification:
-		tip_classification.text = "Unverified (50%)"
+		if stored_classification.has("tip"):
+			tip_classification.text = stored_classification.get("tip", "Unverified (50%)")
+		else:
+			tip_classification.text = "Unverified (50%)"
 	
 	# Reset keyword overlap - don't calculate until Analyze button is pressed
 	if keyword_overlap:
@@ -529,6 +832,7 @@ func _handle_fact_selection(fact_id: String, btn: Button, selected_id_var: Strin
 	return selected_id_var
 
 func _on_fact_selected(fact_id: String, btn: Button, panel_type: String):
+	master.sound_manager.play_sound("mouse_click")
 	var fact_data = fact_id_to_fact_data.get(fact_id, null)
 	if not fact_data:
 		return
@@ -539,150 +843,30 @@ func _on_fact_selected(fact_id: String, btn: Button, panel_type: String):
 		selected_tip_fact_id = _handle_fact_selection(fact_id, btn, selected_tip_fact_id, tip_fact_buttons, tip_panel)
 
 func compare_facts_from_dict(fact_a_data: Dictionary, fact_b_data: Dictionary) -> Dictionary:
-	"""Compare facts using dictionaries instead of Fact instances"""
-	var result = {
-		"is_discrepancy": false,
-		"reason": "",
-		"truth_status": "",
-		"entity_analysis": "",
-		"classification_analysis": "",
-		"keyword_analysis": "",
-		"relationship": ""  # NEW: Clear relationship description
-	}
+	"""Compare facts using dictionaries - delegates to FactComparator helper"""
+	var result = FactComparator.compare_facts(fact_a_data, fact_b_data)
 	
-	var value_a = fact_a_data.get("value", "")
-	var value_b = fact_b_data.get("value", "")
-	var category_a = fact_a_data.get("category", "")
-	var category_b = fact_b_data.get("category", "")
-	var source_a = fact_a_data.get("source", "")
-	var source_b = fact_b_data.get("source", "")
-	
-	# Determine relationship type
-	var relationship_type = _determine_fact_relationship(category_a, category_b, value_a, value_b, source_a, source_b)
-	result.relationship = relationship_type
-	
-	# Perform NLP analysis
-	var nlp_a = NLPAnalyzer.analyze_text(value_a)
-	var nlp_b = NLPAnalyzer.analyze_text(value_b)
-	
-	var classification_a = nlp_a.classification
-	var classification_b = nlp_b.classification
-	var fake_score_a = nlp_a.fake_news_score
-	var fake_score_b = nlp_b.fake_news_score
-	
-	var comparison = NLPAnalyzer.compare_analyses(nlp_a, nlp_b, value_a, value_b)
-	
-	nlp_a = null
-	nlp_b = null
-	
-	# Convert entity_matches to dictionaries
-	var entity_matches_dict = []
-	if comparison.has("entity_matches"):
-		for match_item in comparison.entity_matches:
-			if typeof(match_item) == TYPE_DICTIONARY:
-				entity_matches_dict.append(match_item)
-			else:
-				entity_matches_dict.append({
-					"type": match_item.get("type", "") if match_item.has_method("get") else "",
-					"entity_a": match_item.get("entity_a", "") if match_item.has_method("get") else "",
-					"entity_b": match_item.get("entity_b", "") if match_item.has_method("get") else "",
-					"similarity": match_item.get("similarity", 0.0) if match_item.has_method("get") else 0.0
-				})
-	
-	# Build entity analysis
-	var entity_info = []
-	if entity_matches_dict.size() > 0:
-		entity_info.append("Matching Entities:")
-		for match in entity_matches_dict:
-			entity_info.append("  • %s (%s): %.0f%% match" % [match.get("type", ""), match.get("entity_a", ""), match.get("similarity", 0.0) * 100])
-		result.entity_analysis = "\n".join(entity_info)
-	
-	# Build classification analysis
-	if comparison.classification_match:
-		result.classification_analysis = "Classification: Both classified as %s" % classification_a
-	else:
-		result.classification_analysis = "Classification Mismatch: Article=%s, Tip=%s" % [classification_a, classification_b]
-	
-	# Build keyword analysis
-	if comparison.keyword_overlap > 0.3:
-		result.keyword_analysis = "Keyword Overlap: %.0f%% - High semantic similarity" % (comparison.keyword_overlap * 100)
-	else:
-		result.keyword_analysis = "Keyword Overlap: %.0f%% - Low semantic similarity" % (comparison.keyword_overlap * 100)
-	
-	# Determine discrepancy
-	var overall_score = comparison.overall_match_score
-	var semantic_similarity = comparison.semantic_similarity
-	
-	if overall_score < 0.4:
-		result.is_discrepancy = true
-		result.reason = "⚠ CONTRADICTION DETECTED (Match: %.0f%%)" % (overall_score * 100)
-		
-		if fake_score_a > 0.3 or fake_score_b > 0.3:
-			result.truth_status = "🚨 WARNING: Fake news patterns detected!\nThese facts contradict each other - one may be false."
-		else:
-			result.truth_status = "❌ Facts contradict each other.\nThe article and tip provide conflicting information.\nVerify which source is reliable."
-			
-	elif overall_score >= 0.4 and overall_score < 0.7:
-		result.is_discrepancy = false
-		result.reason = "⚠ PARTIAL MATCH (Match: %.0f%%)" % (overall_score * 100)
-		result.truth_status = "⚠ Facts are similar but not identical.\nReview details carefully - there may be subtle differences."
-		
-	else:
-		result.is_discrepancy = false
-		result.reason = "✓ HIGH MATCH (Match: %.0f%%)" % (overall_score * 100)
-		result.truth_status = "✓ Facts are consistent!\nThe article and tip support each other.\nThis increases credibility."
-		
-		if semantic_similarity >= 0.90 and semantic_similarity <= 1.0:
-			print("[AI ANALYSIS DEBUG] High semantic overlap detected: %.4f" % semantic_similarity)
-			if not _has_article_been_scored(current_article_key):
-				if game_manager and game_manager.has_method("add_high_overlap_comparison"):
-					game_manager.add_high_overlap_comparison()
-					_mark_article_as_scored(current_article_key)
-					print("[AI ANALYSIS DEBUG] High overlap bonus awarded")
-				else:
-					push_warning("[AI ANALYSIS DEBUG] Game manager not available for high overlap bonus!")
-	
-	# Add detailed analysis
-	var detailed_analysis = []
-	detailed_analysis.append(result.reason)
-	if result.entity_analysis != "":
-		detailed_analysis.append(result.entity_analysis)
-	detailed_analysis.append(result.classification_analysis)
-	detailed_analysis.append(result.keyword_analysis)
-	
-	result.reason = "\n".join(detailed_analysis)
-	
-	# Add relationship to detailed analysis
-	if result.relationship != "":
-		detailed_analysis.insert(0, result.relationship)
-	
-	result.reason = "\n".join(detailed_analysis)
-	
+	# Check for high semantic overlap bonus (game-specific logic)
+	var comparison = NLPAnalyzer.compare_analyses(
+		NLPAnalyzer.analyze_text(fact_a_data.get("value", "")),
+		NLPAnalyzer.analyze_text(fact_b_data.get("value", "")),
+		fact_a_data.get("value", ""),
+		fact_b_data.get("value", "")
+	)
+	var semantic_similarity = comparison.get("semantic_similarity", 0.0)
 	comparison.clear()
 	
+	if semantic_similarity >= 0.90 and semantic_similarity <= 1.0:
+		print("[AI ANALYSIS DEBUG] High semantic overlap detected: %.4f" % semantic_similarity)
+		if not _has_article_been_scored(current_article_key):
+			if game_manager and game_manager.has_method("add_high_overlap_comparison"):
+				game_manager.add_high_overlap_comparison()
+				_mark_article_as_scored(current_article_key)
+				print("[AI ANALYSIS DEBUG] High overlap bonus awarded")
+			else:
+				push_warning("[AI ANALYSIS DEBUG] Game manager not available for high overlap bonus!")
+	
 	return result
-
-# NEW: Determine how facts relate to each other
-func _determine_fact_relationship(cat_a: String, cat_b: String, val_a: String, val_b: String, src_a: String, src_b: String) -> String:
-	# Same category = direct comparison
-	if cat_a == cat_b:
-		return "Direct Comparison: Both facts about '%s'" % cat_a
-	
-	# Related categories
-	if (cat_a == "Event" and cat_b == "Timeline") or (cat_b == "Event" and cat_a == "Timeline"):
-		return "Related: Event and its Timeline"
-	if (cat_a == "Claim" and cat_b == "Evidence") or (cat_b == "Claim" and cat_a == "Evidence"):
-		return "Related: Claim vs Evidence"
-	if (cat_a == "Statement" and cat_b == "Contradiction") or (cat_b == "Statement" and cat_a == "Contradiction"):
-		return "Contradictory: Statement vs Contradiction"
-	
-	# Tip warnings/contradictions
-	if src_b == "Tip" and cat_b in ["Warning", "Contradiction", "Anomaly", "Pressure"]:
-		return "Tip Contradicts: Tip reveals issues with article fact"
-	if src_a == "Tip" and cat_a in ["Warning", "Contradiction", "Anomaly", "Pressure"]:
-		return "Tip Contradicts: Tip reveals issues with article fact"
-	
-	return "Different Aspects: Facts cover different aspects of the story"
 
 func _show_result(result: Dictionary):
 	if not result_note:
@@ -702,6 +886,19 @@ func _show_result(result: Dictionary):
 		text += "\nArticle Classification: %s (%.0f%%)" % [current_article_nlp_data.get("classification", "Unknown"), current_article_nlp_data.get("classification_confidence", 0.0) * 100]
 		text += "\nTip Classification: %s (%.0f%%)" % [current_tip_nlp_data.get("classification", "Unknown"), current_tip_nlp_data.get("classification_confidence", 0.0) * 100]
 		
+		# Check for invalid dates (NLP supplements ML)
+		var article_invalid_dates = current_article_nlp_data.get("invalid_dates", [])
+		var article_date_score = current_article_nlp_data.get("date_validation_score", 1.0)
+		if article_invalid_dates.size() > 0:
+			text += "\n🚨 INVALID DATES DETECTED:"
+			for invalid_date in article_invalid_dates:
+				text += "\n  • '%s' - Date format or value is incorrect" % invalid_date
+			text += "\n⚠ This suggests potential misinformation or errors in the article."
+		
+		var tip_invalid_dates = current_tip_nlp_data.get("invalid_dates", [])
+		if tip_invalid_dates.size() > 0:
+			text += "\n⚠ Tip contains %d invalid date(s) - verify carefully" % tip_invalid_dates.size()
+		
 		var article_fake_keywords = current_article_nlp_data.get("fake_news_keywords", [])
 		var tip_fake_keywords = current_tip_nlp_data.get("fake_news_keywords", [])
 		if article_fake_keywords.size() > 0:
@@ -720,10 +917,35 @@ func _show_result(result: Dictionary):
 	var color = Color.GREEN
 	if result.is_discrepancy:
 		color = Color.RED
+		# Reward player for detecting discrepancy
+		_reward_discrepancy_detection()
 	elif result.truth_status.contains("Warning") or result.truth_status.contains("Review"):
 		color = Color.YELLOW
 	
 	result_note.modulate = color
+
+# NEW: Reward player for detecting discrepancies
+func _reward_discrepancy_detection() -> void:
+	"""Reward player with integrity score for detecting a discrepancy"""
+	if not game_manager:
+		return
+	
+	# Check if we've already rewarded for this article's discrepancy
+	var article_key = current_article_key
+	if article_key == "":
+		return
+	
+	if discrepancy_rewards_given.has(article_key):
+		return  # Already rewarded for this article
+	
+	# Award integrity for detecting discrepancy (small reward, encourages careful analysis)
+	var reward_amount = 0.3  # Small reward for detecting discrepancies
+	if game_manager.has_method("add_integrity_score"):
+		game_manager.add_integrity_score(reward_amount, "correct_ai_analysis")
+		print("[AI Analysis] Rewarded %.2f integrity for detecting discrepancy in article: %s" % [reward_amount, article_key])
+	
+	# Mark as rewarded
+	discrepancy_rewards_given[article_key] = true
 
 # ---------- BUTTON HANDLERS ----------
 func _on_prev_pressed() -> void:
@@ -763,15 +985,28 @@ func _on_analyze_pressed() -> void:
 			tip_nlp_result = null
 		
 		# Update classifications with analyzed data
+		var article_key = _generate_article_key(current_article_data)
+		var classification_data = {}
+		
 		if not current_article_nlp_data.is_empty() and article_classification:
 			var classification = current_article_nlp_data.get("classification", "Unknown")
 			var confidence = current_article_nlp_data.get("classification_confidence", 0.0) * 100
-			article_classification.text = "%s (%.0f%%)" % [classification, confidence]
+			var classification_text = "%s (%.0f%%)" % [classification, confidence]
+			article_classification.text = classification_text
+			classification_data["article"] = classification_text
+			classification_data["article_nlp"] = current_article_nlp_data.duplicate(true)
 		
 		if not current_tip_nlp_data.is_empty() and tip_classification:
 			var classification = current_tip_nlp_data.get("classification", "Unknown")
 			var confidence = current_tip_nlp_data.get("classification_confidence", 0.0) * 100
-			tip_classification.text = "%s (%.0f%%)" % [classification, confidence]
+			var classification_text = "%s (%.0f%%)" % [classification, confidence]
+			tip_classification.text = classification_text
+			classification_data["tip"] = classification_text
+			classification_data["tip_nlp"] = current_tip_nlp_data.duplicate(true)
+		
+		# Store classification for this article (including NLP data for restoration)
+		if not classification_data.is_empty():
+			article_classifications[article_key] = classification_data
 		
 		# Calculate and update keyword overlap
 		if keyword_overlap and not current_article_nlp_data.is_empty() and not current_tip_nlp_data.is_empty():
@@ -817,8 +1052,13 @@ func _send_article_for_analysis(article_text: String):
 		http_request.cancel_request()
 		await get_tree().process_frame
 	
-	# Extract features from current article data
-	var features = _extract_ml_features(current_article_data, article_text)
+	# Extract features from current article data using helper class
+	var nlp_data_for_ml = {
+		"article_nlp": current_article_nlp_data,
+		"tip_nlp": current_tip_nlp_data,
+		"date_validation_score": _get_nlp_date_validation_score()
+	}
+	var features = MLFeatureExtractor.extract_features(current_article_data, article_text, nlp_data_for_ml)
 	
 	var json_str = JSON.stringify(features)
 	
@@ -841,165 +1081,11 @@ func _send_article_for_analysis(article_text: String):
 		if result_note:
 			result_note.text = "HTTP Request Error: %d" % error
 
-# NEW FUNCTION: Extract ML features from article data
-func _extract_ml_features(article_data: Dictionary, article_text: String) -> Dictionary:
-	var news_data = article_data.get("news_data", {})
-	var sender = article_data.get("sender", "")
-	var tip_text = news_data.get("tip_text", "")
-	var facts = news_data.get("facts", [])
-	var stance = news_data.get("stance", "Neutral")
-	var integrity_score = news_data.get("integrity_score", 0.5)
-	
-	# 1. Evidence Count - count facts from article (not tips)
-	var evidence_count = 0
-	for fact in facts:
-		if fact.get("source", "") == "Article":
-			evidence_count += 1
-	# Minimum 1, use facts count if available
-	if evidence_count == 0 and facts.size() > 0:
-		evidence_count = facts.size()
-	if evidence_count == 0:
-		evidence_count = 1  # Default minimum
-	
-	# 2. Sentiment Score - based on stance and NLP analysis
-	var sentiment_score = _calculate_sentiment_score(article_text, stance)
-	
-	# 3. Contradiction Score - compare article vs tip
-	var contradiction_score = _calculate_contradiction_score(article_text, tip_text, facts)
-	
-	# 4. Propaganda Pattern Score - based on stance, sender, and content patterns
-	var propaganda_score = _calculate_propaganda_score(article_text, stance, sender, integrity_score)
-	
-	# 5. Source Type - infer from sender
-	var source_type = _infer_source_type(sender, stance)
-	
-	# 6. Topic - detect from content and sender
-	var topic = _detect_topic(article_text, sender)
-	
-	return {
-		"text": article_text,
-		"sentiment_score": sentiment_score,
-		"evidence_count": evidence_count,
-		"contradiction_score": contradiction_score,
-		"propaganda_pattern_score": propaganda_score,
-		"source_type": source_type,
-		"topic": topic
-	}
-
-# Helper: Calculate sentiment score (-1.0 to 1.0, normalized to 0.0-1.0)
-func _calculate_sentiment_score(text: String, stance: String) -> float:
-	var base_score = 0.5  # Neutral
-	
-	# Adjust based on stance
-	match stance:
-		"Pro-Government", "Pro-Celebrity":
-			base_score = 0.7  # Positive
-		"Critical", "Skeptical", "Investigative":
-			base_score = 0.3  # Negative
-		"Neutral", "Concerned", "Suspicious":
-			base_score = 0.5  # Neutral
-	
-	# Use NLP analyzer if available for text-based sentiment
-	if current_article_nlp_data.has("classification"):
-		var classification = current_article_nlp_data.get("classification", "Unverified")
-		if classification == "True":
-			base_score += 0.1
-		elif classification == "False":
-			base_score -= 0.1
-	
-	return clamp(base_score, 0.0, 1.0)
-
-# Helper: Calculate contradiction between article and tip
-func _calculate_contradiction_score(article_text: String, tip_text: String, facts: Array) -> float:
-	if tip_text == "" or tip_text.begins_with("Tip: "):
-		return 0.3  # Low contradiction if no meaningful tip
-	
-	# Check if tip contradicts article based on facts
-	var contradiction_count = 0
-	var total_facts = facts.size()
-	
-	if total_facts == 0:
-		# Use NLP comparison if available
-		if not current_article_nlp_data.is_empty() and not current_tip_nlp_data.is_empty():
-			# If classifications differ significantly, higher contradiction
-			var article_class = current_article_nlp_data.get("classification", "Unknown")
-			var tip_class = current_tip_nlp_data.get("classification", "Unknown")
-			if article_class != tip_class:
-				return 0.7  # High contradiction
-		return 0.3  # Default low
-	
-	# Count facts where tip contradicts article
-	for fact in facts:
-		var source = fact.get("source", "")
-		if source == "Tip":
-			# Tip facts often provide contradictory information
-			var category = fact.get("category", "")
-			if category in ["Warning", "Pressure", "Anomaly", "Contradiction", "Conflict"]:
-				contradiction_count += 1
-	
-	var contradiction_ratio = float(contradiction_count) / float(max(total_facts, 1))
-	return clamp(contradiction_ratio, 0.0, 1.0)
-
-# Helper: Calculate propaganda score
-func _calculate_propaganda_score(text: String, stance: String, sender: String, integrity_score: float) -> float:
-	var score = 0.5  # Base
-	
-	# High propaganda indicators
-	if stance == "Pro-Government":
-		score = 0.8  # High propaganda
-	elif sender.contains("Government") or sender.contains("Ministry") or sender.contains("Press Office"):
-		score = 0.7
-	elif sender.contains("SyndiNet"):
-		score = 0.75  # SyndiNet is propaganda outlet
-	
-	# Low integrity score suggests propaganda
-	if integrity_score < 0.5:
-		score += 0.2
-	
-	# Check for propaganda keywords
-	var lower_text = text.to_lower()
-	var propaganda_keywords = ["unprecedented", "record-breaking", "overwhelming support", "historic levels", "all-time high", "redacted"]
-	for keyword in propaganda_keywords:
-		if lower_text.contains(keyword):
-			score += 0.1
-	
-	return clamp(score, 0.0, 1.0)
-
-# Helper: Infer source type from sender
-func _infer_source_type(sender: String, stance: String) -> String:
-	var lower_sender = sender.to_lower()
-	
-	if lower_sender.contains("government") or lower_sender.contains("ministry") or lower_sender.contains("press office") or lower_sender.contains("sovereign council"):
-		return "state_media"
-	elif lower_sender.contains("syndinet"):
-		return "state_media"  # SyndiNet is state-controlled
-	elif lower_sender.contains("anonymous") or lower_sender.contains("whistleblower") or lower_sender.contains("source"):
-		return "anonymous_tip"
-	elif lower_sender.contains("foreign") or lower_sender.contains("international"):
-		return "foreign_press"
-	else:
-		return "independent"
-
-# Helper: Detect topic from content and sender
-func _detect_topic(text: String, sender: String) -> String:
-	var lower_text = text.to_lower()
-	var lower_sender = sender.to_lower()
-	
-	# Topic keywords
-	if lower_text.contains("celebrity") or lower_text.contains("entertainment") or lower_sender.contains("entertainment"):
-		return "celebrity"
-	elif lower_text.contains("senate") or lower_text.contains("government") or lower_text.contains("political") or lower_text.contains("corruption"):
-		return "politics"
-	elif lower_text.contains("military") or lower_text.contains("defense") or lower_text.contains("war"):
-		return "military"
-	elif lower_text.contains("economy") or lower_text.contains("economic") or lower_text.contains("supply") or lower_text.contains("shortage"):
-		return "economy"
-	elif lower_text.contains("protest") or lower_text.contains("demonstration") or lower_text.contains("rally"):
-		return "protest"
-	elif lower_text.contains("health") or lower_text.contains("hospital") or lower_text.contains("medical"):
-		return "health"
-	else:
-		return "politics"  # Default
+# Helper: Get NLP date validation score (used by MLFeatureExtractor)
+func _get_nlp_date_validation_score() -> float:
+	if not current_article_nlp_data.is_empty():
+		return current_article_nlp_data.get("date_validation_score", 1.0)
+	return 1.0
 
 func _on_http_request_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
 	print("HTTP Request completed - Result: %d, Response Code: %d" % [result, response_code])
@@ -1134,5 +1220,11 @@ func _interpret_ml_result(avg_score: float, verdict: String, article_data: Dicti
 		
 		if contradiction_facts > 0:
 			interpretation += "⚠ Tips reveal contradictions - verify carefully.\n"
+		
+		# Check for invalid dates from NLP
+		var invalid_dates = current_article_nlp_data.get("invalid_dates", [])
+		if invalid_dates.size() > 0:
+			interpretation += "🚨 INVALID DATES FOUND: Article contains %d invalid date(s).\n" % invalid_dates.size()
+			interpretation += "   This is a strong indicator of misinformation or errors.\n"
 	
 	return interpretation

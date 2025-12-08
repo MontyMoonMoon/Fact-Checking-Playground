@@ -6,6 +6,7 @@ var sound_manager: SoundManager
 
 @onready var settings: Control = $"."
 
+@export var buttons_container: MarginContainer
 @export var main_button: Button
 @export var pause_button: Button
 @export var help_button: Button
@@ -29,6 +30,7 @@ var is_paused: bool = false
 @onready var help: PackedScene = preload("res://Prefabs/Components/help_panel.tscn")
 
 signal settings_closed
+signal menu_clicked
 
 # ---------- UPDATE METHODS ----------
 func update_sliders() -> void:
@@ -78,9 +80,11 @@ func _on_help_pressed() -> void:
 
 func _on_main_menu_pressed() -> void:
 	master.sound_manager.play_sound("mouse_click")
+	emit_signal("menu_clicked")
 	master.scene_loader.load_by_id(0)
 
 func _on_exit_pressed() -> void:
+	master.sound_manager.play_sound("mouse_click")
 	emit_signal("settings_closed")
 	queue_free()
 

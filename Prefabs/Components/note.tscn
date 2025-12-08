@@ -10,7 +10,7 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[node name="note_content" type="Control" node_paths=PackedStringArray("title", "date")]
+[node name="note_content" type="Control" node_paths=PackedStringArray("title", "preview")]
 custom_minimum_size = Vector2(100, 70)
 layout_mode = 3
 anchors_preset = 8
@@ -25,8 +25,8 @@ offset_bottom = 36.5
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_g0ffl")
-title = NodePath("MarginContainer/Open/MarginContainer/Title")
-date = NodePath("MarginContainer/Open/MarginContainer/Date")
+title = NodePath("MarginContainer/Open/MarginContainer/VBoxContainer/Title")
+preview = NodePath("MarginContainer/Open/MarginContainer/VBoxContainer/Preview")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -64,7 +64,10 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="Title" type="Label" parent="MarginContainer/Open/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Open/MarginContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MarginContainer/Open/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -72,12 +75,29 @@ theme_override_fonts/font = ExtResource("2_nsyt1")
 theme_override_font_sizes/font_size = 12
 text = "Meeting Ideas"
 
-[node name="Date" type="Label" parent="MarginContainer/Open/MarginContainer"]
+[node name="Preview" type="Label" parent="MarginContainer/Open/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(85, 40)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 theme_override_fonts/font = ExtResource("2_nsyt1")
 theme_override_font_sizes/font_size = 12
-text = "mm/dd/yy"
+vertical_alignment = 2
+autowrap_mode = 3
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="Preview2" type="Label" parent="MarginContainer/Open/MarginContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(85, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_nsyt1")
+theme_override_font_sizes/font_size = 12
+vertical_alignment = 2
+autowrap_mode = 3
+clip_text = true
+text_overrun_behavior = 3
 
 [connection signal="pressed" from="MarginContainer/Open" to="." method="_on_open_pressed"]

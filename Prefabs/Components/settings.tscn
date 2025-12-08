@@ -80,7 +80,9 @@ region_rect = Rect2(613, 685, 23, 16)
 texture = ExtResource("2_ctaxl")
 region_rect = Rect2(613, 664, 22, 16)
 
-[node name="Settings" type="Control" node_paths=PackedStringArray("main_button", "pause_button", "help_button", "master_slider", "music_slider", "sfx_slider", "master_button", "music_button", "sfx_button")]
+[node name="Settings" type="Control" node_paths=PackedStringArray("buttons_container", "main_button", "pause_button", "help_button", "master_slider", "music_slider", "sfx_slider", "master_button", "music_button", "sfx_button")]
+z_index = 1
+y_sort_enabled = true
 custom_minimum_size = Vector2(450, 275)
 layout_mode = 3
 anchors_preset = 8
@@ -93,9 +95,10 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_me6tl")
-main_button = NodePath("MarginContainer/NinePatchRect/MarginContainer/Button2/MainMenu")
-pause_button = NodePath("MarginContainer/NinePatchRect/MarginContainer/Buttons1/Pause")
-help_button = NodePath("MarginContainer/NinePatchRect/MarginContainer/Buttons1/Help")
+buttons_container = NodePath("MarginContainer/NinePatchRect/MarginContainer/Buttons Container")
+main_button = NodePath("MarginContainer/NinePatchRect/MarginContainer/Buttons Container/Button2/MainMenu")
+pause_button = NodePath("MarginContainer/NinePatchRect/MarginContainer/Buttons Container/Buttons1/Pause")
+help_button = NodePath("MarginContainer/NinePatchRect/MarginContainer/Buttons Container/Buttons1/Help")
 master_slider = NodePath("MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders/MasterSet/Master")
 music_slider = NodePath("MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders/MusicSet/Music")
 sfx_slider = NodePath("MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders/SFXSet/SFX")
@@ -116,6 +119,7 @@ offset_right = 201.5
 offset_bottom = 125.5
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer"]
 custom_minimum_size = Vector2(448, 273)
@@ -130,6 +134,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 10
@@ -339,12 +344,16 @@ theme_override_styles/grabber_area = SubResource("StyleBoxTexture_me6tl")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxTexture_me6tl")
 value = 100.0
 
-[node name="Buttons1" type="HBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer"]
+[node name="Buttons Container" type="MarginContainer" parent="MarginContainer/NinePatchRect/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Buttons1" type="HBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer/Buttons Container"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 
-[node name="Pause" type="Button" parent="MarginContainer/NinePatchRect/MarginContainer/Buttons1"]
+[node name="Pause" type="Button" parent="MarginContainer/NinePatchRect/MarginContainer/Buttons Container/Buttons1"]
 visible = false
 custom_minimum_size = Vector2(110, 36)
 layout_mode = 2
@@ -360,7 +369,7 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_iybll")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_q817d")
 text = "Pause"
 
-[node name="Help" type="Button" parent="MarginContainer/NinePatchRect/MarginContainer/Buttons1"]
+[node name="Help" type="Button" parent="MarginContainer/NinePatchRect/MarginContainer/Buttons Container/Buttons1"]
 custom_minimum_size = Vector2(36, 36)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -376,12 +385,12 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_ejmes")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_k1nmv")
 text = " ?"
 
-[node name="Button2" type="HBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer"]
+[node name="Button2" type="HBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer/Buttons Container"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 
-[node name="MainMenu" type="Button" parent="MarginContainer/NinePatchRect/MarginContainer/Button2"]
+[node name="MainMenu" type="Button" parent="MarginContainer/NinePatchRect/MarginContainer/Buttons Container/Button2"]
 custom_minimum_size = Vector2(120, 36)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -400,6 +409,6 @@ text = "Main Menu"
 [connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders/MasterSet/MasterButton" to="." method="_on_master_button_pressed"]
 [connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders/MusicSet/MusicButton" to="." method="_on_music_button_pressed"]
 [connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/Volume Managers/Sliders/SFXSet/SFXButton" to="." method="_on_sfx_button_pressed"]
-[connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/Buttons1/Pause" to="." method="_on_pause_pressed"]
-[connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/Buttons1/Help" to="." method="_on_help_pressed"]
-[connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/Button2/MainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/Buttons Container/Buttons1/Pause" to="." method="_on_pause_pressed"]
+[connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/Buttons Container/Buttons1/Help" to="." method="_on_help_pressed"]
+[connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/Buttons Container/Button2/MainMenu" to="." method="_on_main_menu_pressed"]

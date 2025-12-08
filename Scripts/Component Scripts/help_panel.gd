@@ -13,6 +13,7 @@ var sound_manager: SoundManager
 @export_subgroup("How to Play")
 @export var htp_button: Button
 @export var htp_panel: MarginContainer
+@export var htp_text_label: RichTextLabel
 
 var is_dragging := false
 var drag_offset := Vector2.ZERO
@@ -35,6 +36,7 @@ func _on_how_to_play_pressed() -> void:
 	master.sound_manager.play_sound("mouse_click")
 	if htp_button.is_pressed():
 		set_visibility(2, true)
+		# Ensure text is set when panel becomes visible
 	else: 
 		set_visibility(2, false)
 

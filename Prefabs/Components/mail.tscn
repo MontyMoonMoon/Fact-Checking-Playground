@@ -46,7 +46,7 @@ region_rect = Rect2(384, 560, 48, 16)
 texture = ExtResource("2_ptgt2")
 region_rect = Rect2(384, 624, 48, 16)
 
-[node name="Mail" type="Control" node_paths=PackedStringArray("receiver", "sender", "subject", "main_text", "confirm_button")]
+[node name="Mail" type="Control" node_paths=PackedStringArray("receiver", "sender", "subject", "main_text", "container", "confirm_button")]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -59,8 +59,9 @@ script = ExtResource("1_ayirk")
 receiver = NodePath("MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/Headers/ReceiverLabels/Receiver")
 sender = NodePath("MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/Headers/SenderLabels/Sender")
 subject = NodePath("MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/Headers/SubjectLabels/Subject")
-main_text = NodePath("MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/Main/Content")
-confirm_button = NodePath("MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/Main/Confirm")
+main_text = NodePath("MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/Content")
+container = NodePath("MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/ConfirmButton")
+confirm_button = NodePath("MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/ConfirmButton/Confirm")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -136,8 +137,9 @@ layout_mode = 2
 size_flags_vertical = 0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main"]
-custom_minimum_size = Vector2(0, 297)
+custom_minimum_size = Vector2(523, 295)
 layout_mode = 2
+size_flags_horizontal = 0
 size_flags_vertical = 0
 theme = SubResource("Theme_ptgt2")
 
@@ -202,6 +204,7 @@ theme_override_fonts/font = ExtResource("2_t0pm4")
 text = "Subject: "
 
 [node name="Subject" type="Label" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/Headers/SubjectLabels"]
+custom_minimum_size = Vector2(420, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -213,20 +216,30 @@ custom_minimum_size = Vector2(500, 2)
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="Main" type="VBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents"]
+[node name="Control2" type="Control" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents"]
+custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
-theme_override_constants/separation = 15
 
-[node name="Content" type="RichTextLabel" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/Main"]
-custom_minimum_size = Vector2(490, 0)
+[node name="Content" type="RichTextLabel" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents"]
+custom_minimum_size = Vector2(490, 50)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_fonts/normal_font = ExtResource("2_t0pm4")
 bbcode_enabled = true
-autowrap_mode = 3
+fit_content = true
+scroll_active = false
 
-[node name="Confirm" type="Button" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/Main"]
+[node name="Control3" type="Control" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="ConfirmButton" type="VBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Confirm" type="Button" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/ConfirmButton"]
 custom_minimum_size = Vector2(96, 36)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -240,9 +253,9 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_ptgt2")
 text = "Confirm
 "
 
-[node name="Control" type="Control" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/Main"]
+[node name="Control" type="Control" parent="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/ConfirmButton"]
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 
 [connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/Buttons/Buttons/Exit" to="." method="_on_exit_pressed"]
-[connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/Main/Confirm" to="." method="_on_confirm_pressed"]
+[connection signal="pressed" from="MarginContainer/NinePatchRect/MarginContainer/MarginContainer/Main/ScrollContainer/Mail_contents/ConfirmButton/Confirm" to="." method="_on_confirm_pressed"]

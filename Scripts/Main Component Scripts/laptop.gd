@@ -3,6 +3,10 @@ class_name Laptop
 
 var master: Master
 
+@onready var laptop_button: Button = $LaptopOut/MarginContainer/Laptop
+
+@export var exit_button: Button
+
 @export_group("Laptop Containers")
 @export var laptop_screen: Control
 @export var home_screen: NinePatchRect
@@ -21,6 +25,7 @@ var master: Master
 # ---------- VARIABLES & SIGNALS ----------
 var laptop_screen_in := false
 signal laptop_toggled()
+signal close_app
 
 var emails_controller: MarginContainer = null
 var ai_analysis_controller: Node = null
@@ -36,6 +41,8 @@ signal open_emails
 signal open_analysis
 signal open_evidences
 signal open_article_publisher
+signal open_trash
+signal close_laptop
 
 # ---------- APP CONTAINER MANAGER ----------
 func set_ui(visibility: bool, target: int) -> void: 
@@ -101,6 +108,7 @@ func _on_exit_pressed() -> void:
 	emit_signal("laptop_toggled")
 
 func _on_close_app_pressed() -> void:
+	emit_signal("close_app")
 	sound_manager.play_sound("mouse_click")
 	"""Close the currently open app and return to laptop home screen"""
 	set_text("")
@@ -179,6 +187,7 @@ func _find_trash_node() -> Node:
 	return find_child("Trash Controller", true, false)
 
 func _on_trashbin_pressed() -> void:
+	emit_signal("open_trash")
 	sound_manager.play_sound("mouse_click")
 	"""Open trash app when trashbin button is pressed"""
 	set_text("Trash")
@@ -243,7 +252,6 @@ func set_evidence_bank_to_emails():
 	if emails_controller and evidence_bank_controller:
 		if emails_controller.has_method("set_evidence_bank_controller"):
 			emails_controller.set_evidence_bank_controller(evidence_bank_controller)
-			print("Laptop: Connected evidence bank to emails controller")
 
 func trigger_crash(duration: float):
 	"""Trigger laptop crash/hang effects"""
@@ -348,18 +356,29 @@ func _ready() -> void:
 	
 	# Find time label if not assigned
 	if not time_label:
-		# Try direct path first
-		if has_node("LaptopIn/TaskBar/Panel/MarginContainer/Right/Time"):
+		# Try correct path first: LaptopIn/TaskBar/Panel/Time/Time (MarginContainer named Time, Label inside also named Time)
+		if has_node("LaptopIn/TaskBar/Panel/Time/Time"):
+			time_label = get_node("LaptopIn/TaskBar/Panel/Time/Time") as Label
+		# Try alternative path
+		if not time_label and has_node("LaptopIn/TaskBar/Panel/MarginContainer/Right/Time"):
 			time_label = get_node("LaptopIn/TaskBar/Panel/MarginContainer/Right/Time") as Label
-		# Fallback to searching
+		# Fallback to searching for Label named "Time"
 		if not time_label:
 			var time_node = find_child("Time", true, false)
+			# Make sure it's a Label, not a MarginContainer
 			if time_node and time_node is Label:
 				time_label = time_node
+			# If we found a MarginContainer named Time, look for Label inside it
+			elif time_node and time_node.has_method("get_children"):
+				var children = time_node.get_children()
+				for child in children:
+					if child is Label and child.name == "Time":
+						time_label = child
+						break
 		if time_label:
 			print("[Laptop] Found time label: ", time_label.get_path())
 		else:
-			push_warning("[Laptop] Could not find time label!")
+			push_warning("[Laptop] Could not find time label! Searched paths: LaptopIn/TaskBar/Panel/Time/Time, LaptopIn/TaskBar/Panel/MarginContainer/Right/Time")
 	
 	# Get controller references
 	if emails:
@@ -371,10 +390,8 @@ func _ready() -> void:
 		print("[Laptop] AI Analysis controller: ", ai_analysis_controller)
 	if evidence_bank:
 		evidence_bank_controller = evidence_bank as EvidenceBankController
-		print("[Laptop] Evidence Bank controller: ", evidence_bank_controller)
 	if article_publisher:
 		article_publisher_controller = article_publisher as ArticlePublisherController
-		print("[Laptop] Article Publisher controller: ", article_publisher_controller)
 	# Try to find trash controller - use call_deferred to ensure node is ready
 	call_deferred("_initialize_trash_controller")
 
@@ -438,6 +455,7 @@ func _process(_delta: float) -> void:
 		if laptop_screen_in:
 			_on_exit_pressed()
 			emit_signal("laptop_toggled")
+			emit_signal("close_laptop")
 		else:
 			_on_screen_pressed()
 			emit_signal("laptop_toggled")

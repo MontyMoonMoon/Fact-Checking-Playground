@@ -48,8 +48,6 @@ var _o_key_pressed_last_frame: bool = false
 var _i_key_pressed_last_frame: bool = false
 
 func _ready():
-	print("GameManager initialized")
-	
 	# Load popup scenes
 	article_popup_scene = load("res://Prefabs/Components/article_popup.tscn") as PackedScene
 	
@@ -127,7 +125,6 @@ func _find_and_hide_day_end_panel():
 			day_end_panel.visible = false
 			# Force hide immediately to prevent it showing on start
 			day_end_panel.hide()
-			print("DayEndPanel found and hidden successfully")
 	else:
 		# Debug: Print all children of parent
 		var children_names = []
@@ -149,7 +146,6 @@ func _process(delta):
 		integrity_score = min(10.0, integrity_score + 1.0)
 		integrity_breakdown["base_score"] = integrity_score
 		_update_integrity_display()
-		print("[GameManager DEBUG] Integrity score incremented by 1.0. New score: %.2f" % integrity_score)
 	_o_key_pressed_last_frame = o_key_pressed
 	
 	# Debug: Decrement integrity score on 'I' press
@@ -158,7 +154,6 @@ func _process(delta):
 		integrity_score = max(0.0, integrity_score - 1.0)
 		integrity_breakdown["base_score"] = integrity_score
 		_update_integrity_display()
-		print("[GameManager DEBUG] Integrity score decremented by 1.0. New score: %.2f" % integrity_score)
 	_i_key_pressed_last_frame = i_key_pressed
 
 func set_game_timer(timer: GameTimer):
@@ -173,7 +168,6 @@ func set_integrity_meter(meter: Node):
 		integrity_meter.update_integrity(integrity_score)
 
 func start_game():
-	print("GameManager: Starting new game - resetting all systems")
 	day_over = false
 	instant_death = false
 	articles_analyzed.clear()
@@ -209,7 +203,6 @@ func start_game():
 	if integrity_decay_timer:
 		integrity_decay_timer.stop()
 		call_deferred("_start_decay_timer")
-		print("GameManager: Integrity decay timer will restart")
 	
 	# Reset evidence bank for new game
 	_reset_evidence_bank()
@@ -218,7 +211,6 @@ func start_game():
 		game_timer.start_timer()
 	
 	_update_integrity_display()
-	print("GameManager: Game started successfully")
 
 func _reset_evidence_bank():
 	# This will be handled by evidence bank controller itself
@@ -253,7 +245,6 @@ func _evaluate_day():
 	# Stop integrity decay timer
 	if integrity_decay_timer:
 		integrity_decay_timer.stop()
-		print("GameManager: Integrity decay timer stopped (day over)")
 	
 	# Recalculate integrity to ensure breakdown is up to date
 	_recalculate_integrity()
@@ -266,29 +257,23 @@ func _evaluate_day():
 	emit_signal("day_complete", final_score)
 
 func _on_time_up():
-	print("GameManager: Time is up!")
 	_evaluate_day()
 
 func _on_integrity_decay():
 	"""Called periodically to decrease integrity score"""
 	if day_over:
-		print("[Integrity Decay] Day is over, skipping decay")
 		return  # Don't decay if day is over
 	
-	var old_score = integrity_score
 	var decay_loss = integrity_decay_rate
 	integrity_score = max(0.0, integrity_score - decay_loss)
 	integrity_decrements["decay"] += decay_loss
 	integrity_breakdown["base_score"] = integrity_score
 	_update_integrity_display()
 	
-	print("[Integrity Decay] Score decreased from %.2f to %.2f (decay rate: %.2f)" % [old_score, integrity_score, integrity_decay_rate])
-	
 	# Mark as failed but let player continue until end of day
 	# game_failed_popup will handle showing the failure at end of day
 	if integrity_score <= 0.0 and not instant_death:
 		instant_death = true
-		print("GameManager: Integrity dropped to 0 - will fail at end of day")
 
 func _setup_integrity_decay():
 	"""Setup timer for integrity score decay over time"""
@@ -302,23 +287,76 @@ func _setup_integrity_decay():
 	integrity_decay_timer.autostart = false
 	integrity_decay_timer.one_shot = false
 	add_child(integrity_decay_timer)
-	print("GameManager: Integrity decay timer set up (%.1f every %.1f seconds)" % [integrity_decay_rate, integrity_decay_interval])
 
 func _start_decay_timer():
 	"""Start the integrity decay timer (called via call_deferred)"""
 	if integrity_decay_timer and is_instance_valid(integrity_decay_timer):
 		integrity_decay_timer.start()
-		print("GameManager: Integrity decay timer started")
 
 func _on_article_spawn_requested(article_data: Dictionary):
 	_spawn_article_popup(article_data)
 
 func _spawn_article_popup(article_data: Dictionary):
-	return
+	"""Spawn an article popup when an article is requested"""
+	if not article_popup_scene:
+		push_warning("[GameManager] Cannot spawn article popup - scene not loaded")
+		return
+	
+	# Create popup instance
+	var popup = article_popup_scene.instantiate()
+	if not popup:
+		push_warning("[GameManager] Failed to instantiate article popup")
+		return
+	
+	# Add to scene tree (add to current scene root or UI layer)
+	var scene_root = get_tree().current_scene
+	if not scene_root:
+		push_warning("[GameManager] No current scene to add popup to")
+		popup.queue_free()
+		return
+	
+	# Find UI layer or add to scene root
+	var ui_layer = scene_root.get_node_or_null("UI") if scene_root.has_node("UI") else scene_root
+	ui_layer.add_child(popup)
+	
+	# Wait a frame for the node to be ready
+	await get_tree().process_frame
+	
+	# Check if the root node has the ArticlePopup script attached
+	var article_popup = null
+	var article_popup_script = load("res://Scripts/article_popup.gd")
+	
+	# Check if script is already attached
+	if popup.get_script() == article_popup_script:
+		article_popup = popup
+	else:
+		# Script not attached - attach it manually
+		if article_popup_script:
+			popup.set_script(article_popup_script)
+			# Wait another frame for script to initialize
+			await get_tree().process_frame
+			article_popup = popup
+	
+	# If we have the ArticlePopup script, use it
+	if article_popup and article_popup.get_script() == article_popup_script:
+		article_popup.setup(article_data, self)
+		
+		# Connect signals
+		if not article_popup.article_added.is_connected(_on_article_added):
+			article_popup.article_added.connect(_on_article_added)
+		if not article_popup.article_removed.is_connected(_on_article_removed):
+			article_popup.article_removed.connect(_on_article_removed)
+		if not article_popup.popup_closed.is_connected(_on_popup_closed):
+			article_popup.popup_closed.connect(_on_popup_closed)
+		
+		# Track popup
+		current_article_popups.append(article_popup)
+	else:
+		push_error("[GameManager] Failed to attach ArticlePopup script to popup. Root node type: %s" % popup.get_class())
+		popup.queue_free()
 
 func _on_article_added(article_data: Dictionary):
 	articles_added.append(article_data)
-	print("Article added to queue: ", article_data.get("article_text", "").substr(0, 30))
 	_open_article_comparer(article_data)
 	_remove_popup_from_list(article_data)
 
@@ -326,13 +364,11 @@ func _on_article_removed(article_data: Dictionary):
 	articles_removed.append(article_data)
 	integrity_score = max(0.0, integrity_score - 0.5)
 	_update_integrity_display()
-	print("Article removed: ", article_data.get("article_text", "").substr(0, 30))
 	_remove_popup_from_list(article_data)
 
 func _on_popup_closed(article_data: Dictionary):
 	integrity_score = max(0.0, integrity_score - 0.2)
 	_update_integrity_display()
-	print("Popup closed: ", article_data.get("article_text", "").substr(0, 30))
 	_remove_popup_from_list(article_data)
 
 func _remove_popup_from_list(article_data: Dictionary):

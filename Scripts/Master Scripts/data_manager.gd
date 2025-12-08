@@ -60,14 +60,9 @@ static func save_data() -> void:
 
 static func load_data() -> void:
 	if not FileAccess.file_exists(FILE_PATH):
-		print("[DataManager.load_data] Creating default save data...")
-		player_data = player_data_template.duplicate(true)
-		settings_data = settings_data_template.duplicate(true)
-		notes_data = []
-		todos_data = []
-		save_data()
-		return
-	
+		print("[DataManager.load_data] No save file found.")
+		return  # <-- IMPORTANT: Don't create a file
+
 	var file = FileAccess.open(FILE_PATH, FileAccess.READ)
 	if file:
 		var json_text = file.get_as_text()
@@ -92,11 +87,9 @@ static func load_data() -> void:
 			music_vol = settings_dict.get("music_vol", 100)
 			sfx_vol = settings_dict.get("sfx_vol", 100)
 		
-			print("[DataManager.load_data] Data loaded successfully :D")
+			print("[DataManager.load_data] Data loaded successfully!")
 		else:
-			push_error("[DataManager.load_data] Data loaded not so successfully D:.")
-	else:
-		push_error("[DataManager.load_data] Yeah... no")
+			push_error("[DataManager.load_data] Invalid data format.")
 
 # ---------- NOTES METHODS ----------
 static func add_note_runtime(title: String, content: String) -> void:

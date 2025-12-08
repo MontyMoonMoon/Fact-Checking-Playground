@@ -41,7 +41,7 @@ func _ready():
 	master = get_node("/root/Master")
 	
 	if master == null:
-		print("[Evidence_bank_controller._ready] Master is still null. Calling members from this object may cause issues.")
+		push_warning("[Evidence_bank_controller._ready] Master is still null. Calling members from this object may cause issues.")
 		return
 	
 	if master.sound_manager:
@@ -57,29 +57,49 @@ func _ready():
 	visible = false
 
 func _initialize_evidence_bank() -> void:
-	"""Initialize evidence bank - load data after scene is ready"""
-	_load_collected_infos()
+	"""Initialize evidence bank - start empty, will be populated by reset_for_new_game"""
+	# Don't load data here - start empty on new game
+	# Data will be loaded after reset_for_new_game or when app becomes visible
+	stored_infos.clear()
 	_display_info_buttons()
 	set_evidence_text()
 
 func _notification(what):
 	if what == NOTIFICATION_VISIBILITY_CHANGED and visible:
+		# Force fresh reload when becoming visible
+		var json_manager = JSONManager.get_instance()
+		if json_manager:
+			json_manager.collected_infos_cache.clear()
+		
+		# Check if file is actually empty before loading
+		var file_check = JSONManager.load_json("user://collected_infos.json", [])
+		if typeof(file_check) == TYPE_ARRAY and file_check.size() == 0:
+			# File is empty - don't load, just clear
+			stored_infos.clear()
+			if evidence_list_container:
+				_display_info_buttons()
+			set_evidence_text()
+			return
+		
 		_load_collected_infos()
-		_display_info_buttons()
+		# Only display if container is ready
+		if evidence_list_container:
+			_display_info_buttons()
+		else:
+			push_warning("[Evidence Bank] evidence_list_container is null when becoming visible!")
 
 func reset_for_new_game() -> void:
 	"""Reset evidence bank for new game - clear stored infos and reload"""
 	var json_manager = JSONManager.get_instance()
 	if json_manager:
 		json_manager.clear_collected_infos()
-		print("[Evidence Bank] Cleared collected infos via JSONManager")
+		# Force clear cache
+		json_manager.collected_infos_cache.clear()
 	else:
-		# Fallback: clear file directly
 		var file = FileAccess.open("user://collected_infos.json", FileAccess.WRITE)
 		if file:
 			file.store_string("[]")
 			file.close()
-			print("[Evidence Bank] Cleared collected infos (fallback)")
 	
 	stored_infos.clear()
 	trashed_infos.clear()
@@ -92,12 +112,11 @@ func reset_for_new_game() -> void:
 		for child in evidence_list_container.get_children():
 			child.queue_free()
 	
-	# Reload collected infos (will be empty now)
+	# Reload collected infos (will be empty now) - force fresh read
 	_load_collected_infos()
 	_display_info_buttons()
 	set_evidence_text()
 	
-	print("[Evidence Bank] Reset for new game - all stored infos cleared")
 
 func set_ai_analysis_ref(ref: Node):
 	ai_analysis_ref = ref
@@ -200,6 +219,13 @@ func set_laptop_ref(laptop: Node):
 	"""Set reference to laptop for app switching"""
 	laptop_ref = laptop
 
+func _find_vbox_containers(node: Node, results: Array):
+	"""Recursively find all VBoxContainer nodes"""
+	if node is VBoxContainer:
+		results.append(node)
+	for child in node.get_children():
+		_find_vbox_containers(child, results)
+
 # ---------- DATA HELPER METHODS ----------
 func _get_trashed_article_texts() -> Dictionary:
 	"""Helper to create lookup dictionary of trashed article texts"""
@@ -242,16 +268,22 @@ func _load_collected_infos():
 	_load_trashed_infos()
 	var trashed_lookup = _get_trashed_article_texts()
 	
-	var saved_data = json_manager.load_collected_infos()
-	if saved_data.size() > 0:
-		stored_infos = _filter_trashed_infos(saved_data, trashed_lookup)
-		print("Evidence Bank: Loaded %d cases from saved file (after filtering trashed)" % stored_infos.size())
-		return
+	# Always check collected_infos.json first (where emails save articles)
+	# Force fresh reload by clearing cache and reading directly from file
+	json_manager.collected_infos_cache.clear()
+	# Read directly from file to bypass any stale cache
+	var saved_data = JSONManager.load_json("user://collected_infos.json", [])
+	if typeof(saved_data) != TYPE_ARRAY:
+		saved_data = []
 	
-	var all_cases = json_manager.get_all_cases(true)
-	stored_infos = _convert_cases_to_infos(all_cases)
-	stored_infos = _filter_trashed_infos(stored_infos, trashed_lookup)
-	print("Evidence Bank: Total %d cases loaded (after filtering trashed)" % stored_infos.size())
+	# Update cache with fresh data
+	json_manager.collected_infos_cache = saved_data.duplicate(true)
+	
+	# Use saved data if available (even if empty array - that's fine for new game)
+	stored_infos = _filter_trashed_infos(saved_data, trashed_lookup)
+	
+	
+	# Don't fall back to base dataset - on new game, collected_infos.json is empty and that's correct
 
 func _load_collected_infos_fallback():
 	"""Fallback method using static JSONManager methods"""
@@ -259,34 +291,13 @@ func _load_collected_infos_fallback():
 	var trashed_lookup = _get_trashed_article_texts()
 	
 	var saved_data = JSONManager.load_json("user://collected_infos.json", [])
+	# Use saved data if available (even if empty array - that's fine for new game)
+	# Don't fall back to base dataset - on new game, collected_infos.json is empty and that's correct
 	if saved_data.size() > 0:
 		stored_infos = _filter_trashed_infos(saved_data, trashed_lookup)
-		print("Evidence Bank: Loaded %d cases from saved file (fallback)" % stored_infos.size())
-		return
-	
-	var dataset = JSONManager.load_json("res://JSONs/dataset.json", {})
-	var all_cases = []
-	if typeof(dataset) == TYPE_DICTIONARY and dataset.has("cases"):
-		all_cases = dataset["cases"].duplicate()
-	elif typeof(dataset) == TYPE_ARRAY:
-		all_cases = dataset
-	
-	var additions = JSONManager.load_json("user://dataset_additions.json", [])
-	var existing_texts = {}
-	for case in all_cases:
-		var article_text = case.get("article_text", "")
-		if article_text != "":
-			existing_texts[article_text] = true
-	
-	for addition in additions:
-		var article_text = addition.get("article_text", "")
-		if article_text != "" and not existing_texts.has(article_text):
-			all_cases.append(addition)
-			existing_texts[article_text] = true
-	
-	var all_infos = _convert_cases_to_infos(all_cases)
-	stored_infos = _filter_trashed_infos(all_infos, trashed_lookup)
-	print("Evidence Bank: Total %d cases loaded (fallback)" % stored_infos.size())
+	else:
+		# Empty on new game - that's correct, don't load from base dataset
+		stored_infos = []
 
 func _format_case_content(case: Dictionary) -> String:
 	var content = "[b]Article:[/b] " + case.get("article_text", "") + "\n\n"
@@ -302,7 +313,29 @@ func _format_facts(facts: Array) -> String:
 	return out.strip_edges()
 
 func _display_info_buttons():
+	# Try to find container if not assigned - search more thoroughly
 	if not evidence_list_container:
+		# Try the actual path from the scene structure
+		evidence_list_container = get_node_or_null("ScrollContainer/TextsContainer/Texts/Evidence List/TextsContainer/Contents")
+		# Try finding by name "Contents" 
+		if not evidence_list_container:
+			evidence_list_container = find_child("Contents", true, false)
+		# Try finding any VBoxContainer that might be the list
+		if not evidence_list_container:
+			var vbox_containers = []
+			_find_vbox_containers(self, vbox_containers)
+			# Look for the one named "Contents" first
+			for vbox in vbox_containers:
+				if vbox.name == "Contents":
+					evidence_list_container = vbox
+					break
+			# If still not found, use the first VBoxContainer
+			if not evidence_list_container and vbox_containers.size() > 0:
+				evidence_list_container = vbox_containers[0]
+	
+	if not evidence_list_container:
+		push_warning("[Evidence Bank] evidence_list_container is null! Cannot display buttons.")
+		push_warning("[Evidence Bank] Please assign evidence_list_container @export variable in the scene inspector!")
 		return
 	
 	# Ensure evidence_list_container expands properly to allow scrolling and align to left
@@ -318,11 +351,22 @@ func _display_info_buttons():
 	# Group infos by category/stance
 	var categories = {}
 	for info in stored_infos:
+		if info.is_empty():
+			continue
 		var case_data = info.get("case_data", {})
+		if case_data.is_empty():
+			# Try to use info directly if it has article_text
+			if info.has("article_text"):
+				case_data = info
+			else:
+				continue
 		var category = case_data.get("stance", "Unknown")
+		if category == "" or category == null:
+			category = "Unknown"
 		if not categories.has(category):
 			categories[category] = []
 		categories[category].append(info)
+	
 
 	# Load tahoma font
 	var tahoma_font = preload("res://Assets/Fonts/windows-xp-tahoma.otf")
@@ -405,10 +449,11 @@ func _display_info_buttons():
 		for info in categories[category_name]:
 			info_to_button[info] = category_btn
 
-		category_index =- 1
+		category_index += 1
 
 func _on_category_selected(category_name: String, infos: Array):
 	"""Handle category button press - select first info from category"""
+	master.sound_manager.play_sound("mouse_click")
 	if infos.size() > 0:
 		_on_info_selected(infos[0], info_to_button.get(infos[0], null))
 
@@ -460,14 +505,11 @@ func _on_add_pressed() -> void:
 	# Add to AI Analysis pool
 	if ai_analysis_ref and ai_analysis_ref.has_method("add_article_to_pool"):
 		ai_analysis_ref.add_article_to_pool(case_data)
-		print("Evidence Bank: Article added to AI Analysis pool")
 	else:
 		push_warning("AI Analysis controller not available or missing add_article_to_pool method")
 	
-	# Also add to Article Publisher pool
 	if article_publisher_ref and article_publisher_ref.has_method("add_article_to_pool"):
 		article_publisher_ref.add_article_to_pool(case_data)
-		print("Evidence Bank: Article added to Article Publisher pool")
 	else:
 		push_warning("Article Publisher controller not available or missing add_article_to_pool method")
 	
@@ -477,7 +519,6 @@ func _on_add_pressed() -> void:
 		_save_updated_infos()
 		_display_info_buttons()
 		_clear_selection()
-		print("Evidence Bank: Article added to both pools and removed from evidence bank")
 
 func _on_trash_pressed() -> void:
 	if sound_manager:
@@ -494,8 +535,7 @@ func _on_trash_pressed() -> void:
 	var case_data = selected_info.get("case_data", {})
 	var article_text = case_data.get("article_text", "")
 	
-	if not _remove_info_by_article_text(article_text):
-		print("Evidence Bank: WARNING - Could not find matching entry in stored_infos to remove")
+	_remove_info_by_article_text(article_text)
 	
 	_save_updated_infos()
 	_save_trashed_infos()
@@ -510,8 +550,6 @@ func _on_trash_pressed() -> void:
 	
 	if trash_controller_ref:
 		call_deferred("_notify_trash_refresh")
-	else:
-		print("Evidence Bank: WARNING - trash_controller_ref is null!")
 	
 	_clear_selection()
 
@@ -522,15 +560,12 @@ func _notify_trash_refresh():
 			trash_controller_ref._load_trashed_infos(true)  # Force reload
 		if trash_controller_ref.has_method("_refresh_list"):
 			trash_controller_ref._refresh_list()
-		print("Evidence Bank: Trash controller notified to refresh")
 
 func set_trash_controller_ref(ref: Node):
 	trash_controller_ref = ref
-	print("Evidence Bank: trash_controller_ref set to: %s" % (ref.name if ref else "null"))
 
 func set_article_publisher_ref(ref: Node):
 	article_publisher_ref = ref
-	print("Evidence Bank: article_publisher_ref set to: %s" % (ref.name if ref else "null"))
 
 func _remove_from_trashed_by_article_text(article_text: String) -> bool:
 	"""Helper to remove info from trashed_infos by article_text"""
@@ -555,7 +590,6 @@ func restore_from_trash(info: Dictionary):
 		_save_updated_infos()
 		_save_trashed_infos()
 		_display_info_buttons()
-		print("Evidence Bank: Restored item from trash - %s" % info.get("title", "Unknown"))
 	
 	if trash_controller_ref:
 		if trash_controller_ref.has_method("_load_trashed_infos"):
@@ -573,23 +607,17 @@ func _load_trashed_infos():
 	var json_manager = JSONManager.get_instance()
 	if json_manager:
 		trashed_infos = json_manager.load_trashed_infos(true)  # Force reload to get latest data
-		print("Evidence Bank: Loaded %d trashed articles" % trashed_infos.size())
 	else:
 		trashed_infos = JSONManager.load_json("user://trashed_infos.json", [])
-		print("Evidence Bank: Loaded %d trashed articles (fallback)" % trashed_infos.size())
 
 func _save_trashed_infos():
 	"""Save trashed articles to JSON"""
 	var json_manager = JSONManager.get_instance()
 	if json_manager:
-		if json_manager.save_trashed_infos(trashed_infos):
-			print("Evidence Bank: Saved %d trashed articles to trashed_infos.json" % trashed_infos.size())
-		else:
+		if not json_manager.save_trashed_infos(trashed_infos):
 			push_error("Evidence Bank: Could not save trashed_infos.json")
 	else:
-		if JSONManager.save_json("user://trashed_infos.json", trashed_infos):
-			print("Evidence Bank: Saved %d trashed articles to trashed_infos.json" % trashed_infos.size())
-		else:
+		if not JSONManager.save_json("user://trashed_infos.json", trashed_infos):
 			push_error("Evidence Bank: Could not save trashed_infos.json")
 
 func _on_refresh_pressed() -> void:
@@ -598,7 +626,6 @@ func _on_refresh_pressed() -> void:
 	
 	_load_collected_infos()
 	_display_info_buttons()
-	print("Evidence Bank refreshed")
 
 
 func reset_evidence_bank():
@@ -615,7 +642,6 @@ func reset_evidence_bank():
 	_load_collected_infos()
 	_display_info_buttons()
 	
-	print("Evidence Bank: Reset for new game")
 
 func _save_updated_infos():
 	# Save to a separate file if needed
@@ -625,38 +651,63 @@ func _save_updated_infos():
 	else:
 		JSONManager.save_json("user://collected_infos.json", stored_infos)
 
-func _add_info_directly(info: Dictionary):
-	"""Add info directly to evidence bank (used by emails) and save to dataset.json"""
+func _add_info_directly(info: Dictionary, add_to_dataset: bool = false):
+	"""Add info directly to evidence bank (used by emails)
+	
+	Args:
+		info: The info dictionary to add
+		add_to_dataset: If true, also adds to dataset_additions.json (for article publisher).
+		               If false (default), only adds to evidence bank. Player must click Add button to add to AI analysis/Publisher.
+	"""
 	if info.is_empty():
-		push_warning("Cannot add empty info to evidence bank")
 		return
 	
-	# Add to stored_infos
+	# Add to stored_infos immediately (don't wait for reload)
 	stored_infos.append(info)
 	
-	# Save to dataset.json if case_data exists
-	var case_data = info.get("case_data", {})
-	if not case_data.is_empty():
-		_save_to_dataset_json(case_data)
+	# Only save to dataset_additions.json if explicitly requested
+	# When called from emails, this should be false so articles stay in evidence bank only
+	if add_to_dataset:
+		var case_data = info.get("case_data", {})
+		if not case_data.is_empty():
+			_save_to_dataset_json(case_data)
 	
-	# Also save to user file
-	_save_updated_infos()
-	_display_info_buttons()
+	# Save to collected_infos.json and update cache immediately
+	var json_manager = JSONManager.get_instance()
+	if json_manager:
+		# Update cache immediately with new data
+		json_manager.collected_infos_cache = stored_infos.duplicate(true)
+		var save_result = json_manager.save_collected_infos(stored_infos)
+		if not save_result:
+			push_warning("[Evidence Bank] Failed to save collected_infos.json")
+		else:
+			# Verify the save by reading it back
+			json_manager.collected_infos_cache.clear()
+			json_manager.load_collected_infos()
+	else:
+		var save_result = JSONManager.save_json("user://collected_infos.json", stored_infos)
+		if not save_result:
+			push_warning("[Evidence Bank] Failed to save collected_infos.json")
+	
+	# Refresh display immediately (don't reload from file - we already have the data)
+	# Only refresh display if container is ready (might not be if called before _ready completes)
+	if evidence_list_container:
+		_display_info_buttons()
 	
 	# Notify article publisher to refresh
 	if article_publisher_ref and article_publisher_ref.has_method("refresh_articles"):
 		article_publisher_ref.refresh_articles()
-		print("Evidence Bank: Notified article publisher to refresh")
-	
-	print("Evidence Bank: Added info directly - %s" % info.get("title", "Untitled"))
 
 func _save_to_dataset_json(case_data: Dictionary):
 	"""Append case data to dataset_additions.json (can't write to res:// at runtime)"""
+	# Tag with current map so AI analysis can filter properly
+	var current_map = _get_current_map()
+	var tagged_case_data = case_data.duplicate(true)
+	tagged_case_data["map"] = current_map
+	
 	var json_manager = JSONManager.get_instance()
 	if json_manager:
-		if json_manager.add_to_dataset_additions(case_data):
-			print("Evidence Bank: Added case to dataset_additions.json - %s" % case_data.get("article_text", ""))
-			
+		json_manager.add_to_dataset_additions(tagged_case_data)
 	else:
 		# Fallback: manual save
 		var additions = JSONManager.load_json("user://dataset_additions.json", [])
@@ -670,6 +721,21 @@ func _save_to_dataset_json(case_data: Dictionary):
 				break
 		
 		if not exists:
-			additions.append(case_data.duplicate(true))
+			additions.append(tagged_case_data)
 			JSONManager.save_json("user://dataset_additions.json", additions)
-			print("Evidence Bank: Added case to dataset_additions.json - %s" % article_text)
+
+# Helper: Get current map
+func _get_current_map() -> String:
+	# Try to get from DataManager first
+	if DataManager.current_map in ["map_01", "map_02", "map_03"]:
+		return DataManager.current_map
+	
+	# Fallback: detect from scene path
+	var scene_path = get_tree().current_scene.scene_file_path if get_tree().current_scene else ""
+	if scene_path:
+		var scene_name = scene_path.get_file().get_basename()
+		if scene_name in ["map_01", "map_02", "map_03"]:
+			return scene_name
+	
+	# Default to map_01
+	return "map_01"

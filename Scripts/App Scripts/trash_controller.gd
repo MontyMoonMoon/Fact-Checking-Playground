@@ -24,10 +24,6 @@ func _ready():
 	if master.sound_manager:
 		sound_manager = master.sound_manager
 	
-	# Find trash list container - FRONTUI structure: TextsContainer/Texts/Trash/TrashContainer/ScrollContainer/VBoxContainer
-	if not trash_list_container:
-		trash_list_container = get_node_or_null("TextsContainer/Texts/Trash/TrashContainer/ScrollContainer/VBoxContainer")
-	
 	# Find restore button
 	if not restore_button:
 		restore_button = get_node_or_null("Restore")
@@ -104,12 +100,8 @@ func _refresh_list():
 	# Try to find trash_list_container if not already set
 	if not trash_list_container:
 		# Try FRONTUI structure path
-		trash_list_container = get_node_or_null("TextsContainer/Texts/Trash/TrashContainer/ScrollContainer/VBoxContainer")
-		
-		# If still not found, try old structure path
-		if not trash_list_container:
-			trash_list_container = get_node_or_null("ScrollableArea/ContentContainer/ListContainer/ScrollContainer/VBoxContainer")
-		
+		trash_list_container = get_node_or_null("TextsContainer/Texts/Trash/TrashContainer/ScrollContainer/VBoxContainer/TrashContainer")
+			
 		if not trash_list_container:
 			print("Trash Controller: ERROR - trash_list_container not found!")
 			return
@@ -132,16 +124,23 @@ func _refresh_list():
 		child.queue_free()
 	
 	print("Trash Controller: Refreshing list with %d items" % trashed_infos.size())
+	var tahoma_font = preload("res://Assets/Fonts/windows-xp-tahoma.otf")
 	
 	if trashed_infos.is_empty():
 		var empty = Label.new()
 		empty.text = "Trash is empty."
-		empty.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		empty.size_flags_vertical = SIZE_SHRINK_CENTER
 		empty.add_theme_color_override("font_color", Color.BLACK)
+		
+		# Apply font
+		empty.add_theme_font_override("font", tahoma_font)
+		
+		# Apply font size
+		empty.add_theme_font_size_override("font_size", 32)  
+		
 		trash_list_container.add_child(empty)
-		print("Trash Controller: Displaying empty message")
 		return
-	
+		
 	# Display each trashed item using trash.tscn component
 	var trash_prefab = preload("res://Prefabs/Components/trash.tscn")
 	
@@ -162,19 +161,6 @@ func _refresh_list():
 			var display_text_node = trash_instance.get_node_or_null("Content/TextContent/VBoxContainer/Label")
 			if display_text_node and display_text_node is Label:
 				display_text_node.text = item_title
-		
-		# Ensure trash component fits properly and adheres to container
-		trash_instance.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		trash_instance.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		# Remove any vertical offset to adhere to container
-		var content_node = trash_instance.get_node_or_null("Content")
-		if content_node:
-			content_node.offset_top = 0.0
-			content_node.offset_bottom = 60.0
-		
-		# Ensure trash_list_container expands properly for layout
-		trash_list_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		trash_list_container.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		
 		trash_list_container.add_child(trash_instance)
 		print("Trash Controller: Successfully added item %d: %s (using trash.tscn component)" % [i, item_title])

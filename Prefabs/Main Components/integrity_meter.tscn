@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://0er4ikvu0igi"]
+[gd_scene load_steps=8 format=3 uid="uid://0er4ikvu0igi"]
 
 [ext_resource type="Script" uid="uid://cvnloe0rt5ubl" path="res://Scripts/Main Component Scripts/integrity_meter.gd" id="1_h18f2"]
 [ext_resource type="Texture2D" uid="uid://di7v7d6w5joes" path="res://Assets/PNGs/Main Components/IntegrityMeter.png" id="2_5u6gd"]
 [ext_resource type="Texture2D" uid="uid://cr5t5fl0mbews" path="res://Assets/PNGs/Main Components/IntegrityMeterPointer.png" id="2_an6fg"]
+[ext_resource type="FontFile" uid="uid://bhqhtnkkcerbn" path="res://Assets/Fonts/BMmini.TTF" id="4_xaxt6"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_an6fg"]
 texture = ExtResource("2_5u6gd")
@@ -56,6 +57,7 @@ theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_xaxt6"
 [node name="Integrity" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_xaxt6")
 text = "Integrity"
 horizontal_alignment = 1
 vertical_alignment = 1

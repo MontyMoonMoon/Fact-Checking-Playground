@@ -28,10 +28,10 @@ func show_breakdown(breakdown: Dictionary, stats: Dictionary):
 	if header:
 		if game_failed_state:
 			header.text = "GAME FAILED"
-			header.add_theme_color_override("font_color", Color(1, 0.3, 0.3, 1))
+			header.add_theme_color_override("font_color", Color(0.722, 0.298, 0.298, 1))
 		else:
 			header.text = "DAY COMPLETE"
-			header.add_theme_color_override("font_color", Color(0.3, 1, 0.3, 1))
+			header.add_theme_color_override("font_color", Color(0.353, 0.549, 0.353, 1))
 	
 	# Get integrity increments and decrements from breakdown
 	var increments = breakdown.get("integrity_increments", {})
@@ -101,7 +101,7 @@ func show_breakdown(breakdown: Dictionary, stats: Dictionary):
 		if label2 and label2 is Label:
 			var ai_value = correct_ai_analysis if typeof(correct_ai_analysis) == TYPE_FLOAT else 0.0
 			label2.text = "+ %.1f" % ai_value
-			label2.add_theme_color_override("font_color", Color(0.3, 1, 0.3, 1))
+			label2.add_theme_color_override("font_color", Color(0.353, 0.549, 0.353, 1))
 			label2.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 			label2.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 			label2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -125,7 +125,7 @@ func show_breakdown(breakdown: Dictionary, stats: Dictionary):
 		if label2 and label2 is Label:
 			var msg_value = correct_messages if typeof(correct_messages) == TYPE_FLOAT else 0.0
 			label2.text = "+ %.1f" % msg_value
-			label2.add_theme_color_override("font_color", Color(0.3, 1, 0.3, 1))
+			label2.add_theme_color_override("font_color", Color(0.353, 0.549, 0.353, 1))
 			label2.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 			label2.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 			label2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -149,7 +149,7 @@ func show_breakdown(breakdown: Dictionary, stats: Dictionary):
 		if label2 and label2 is Label:
 			var art_value = correct_articles_published if typeof(correct_articles_published) == TYPE_FLOAT else 0.0
 			label2.text = "+ %.1f" % art_value
-			label2.add_theme_color_override("font_color", Color(0.3, 1, 0.3, 1))
+			label2.add_theme_color_override("font_color", Color(0.353, 0.549, 0.353, 1))
 			label2.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 			label2.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 			label2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -173,7 +173,7 @@ func show_breakdown(breakdown: Dictionary, stats: Dictionary):
 		if label2 and label2 is Label:
 			var loss_value = total_loss if typeof(total_loss) == TYPE_FLOAT else 0.0
 			label2.text = "- %.1f" % loss_value
-			label2.add_theme_color_override("font_color", Color(1, 0.3, 0.3, 1))
+			label2.add_theme_color_override("font_color", Color(0.722, 0.298, 0.298, 1))
 			label2.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 			label2.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 			label2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -197,7 +197,7 @@ func show_breakdown(breakdown: Dictionary, stats: Dictionary):
 		if label2 and label2 is Label:
 			var decay_value = decay_loss if typeof(decay_loss) == TYPE_FLOAT else 0.0
 			label2.text = "- %.1f" % decay_value
-			label2.add_theme_color_override("font_color", Color(1, 0.3, 0.3, 1))
+			label2.add_theme_color_override("font_color", Color(0.722, 0.298, 0.298, 1))
 			label2.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 			label2.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 			label2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -212,9 +212,9 @@ func show_breakdown(breakdown: Dictionary, stats: Dictionary):
 		total.text = total_text
 		# Color code total: green if passed, red if failed
 		if game_failed_state:
-			total.add_theme_color_override("font_color", Color(1, 0.3, 0.3, 1))
+			total.add_theme_color_override("font_color", Color(0.722, 0.298, 0.298, 1))
 		else:
-			total.add_theme_color_override("font_color", Color(0.3, 1, 0.3, 1))
+			total.add_theme_color_override("font_color", Color(0.353, 0.549, 0.353, 1))
 	
 	# Update button
 	if button:

@@ -1,13 +1,13 @@
-[gd_scene load_steps=22 format=3 uid="uid://ccetierkoni7f"]
+[gd_scene load_steps=23 format=3 uid="uid://ccetierkoni7f"]
 
 [ext_resource type="Script" uid="uid://c7eqmov67u6ak" path="res://Scripts/Master Scripts/master.gd" id="1_qemos"]
 [ext_resource type="Script" uid="uid://5nhq2bfua1p0" path="res://Scripts/Master Scripts/scene_loader.gd" id="2_tcv0n"]
 [ext_resource type="PackedScene" uid="uid://c3kbynasxfujb" path="res://Scenes/map_0.tscn" id="3_urij7"]
 [ext_resource type="PackedScene" uid="uid://c0t6505sx6arq" path="res://Scenes/map_01.tscn" id="4_4kcn7"]
-[ext_resource type="PackedScene" uid="uid://c0xiooku4752i" path="res://Scenes/map_02.tscn" id="5_map02"]
-[ext_resource type="PackedScene" uid="uid://desh6xaynqmmc" path="res://Scenes/map_03.tscn" id="6_map03"]
+[ext_resource type="PackedScene" uid="uid://me6ds5re13g2" path="res://Scenes/map_02.tscn" id="5_map02"]
 [ext_resource type="Script" uid="uid://c3rxcmmbsf0ks" path="res://Scripts/Master Scripts/data_manager.gd" id="5_sxu81"]
 [ext_resource type="AudioStream" uid="uid://bawdtknx6pwjd" path="res://Assets/SFX/mouse_click2.mp3" id="6_0hine"]
+[ext_resource type="PackedScene" uid="uid://d4huuhiklcqer" path="res://Scenes/map_03.tscn" id="6_map03"]
 [ext_resource type="Script" uid="uid://db5i32iw08st8" path="res://Scripts/Master Scripts/settings_manager.gd" id="6_tcv0n"]
 [ext_resource type="AudioStream" uid="uid://hs3imt6mhedv" path="res://Assets/SFX/mouse_click1.mp3" id="7_0hine"]
 [ext_resource type="AudioStream" uid="uid://b0t4j5gjvus07" path="res://Assets/SFX/error_sound.mp3" id="7_iwwxa"]
@@ -16,11 +16,12 @@
 [ext_resource type="Script" uid="uid://5vln78lpacer" path="res://Scripts/Master Scripts/json_manager.gd" id="8_4kcn7"]
 [ext_resource type="AudioStream" uid="uid://nt7vgb2vnjbl" path="res://Assets/SFX/phone_click.mp3" id="9_0hine"]
 [ext_resource type="Script" uid="uid://bt78ohuwpelix" path="res://Scripts/Master Scripts/time_date_manager.gd" id="9_sxu81"]
-[ext_resource type="AudioStream" uid="uid://bghm5nfxar03i" path="res://Assets/SFX/NewEmail.mp3" id="10_0hine"]
-[ext_resource type="AudioStream" uid="uid://db1e4eo7qrtx3" path="res://Assets/SFX/NewMessage.mp3" id="11_0hine"]
-[ext_resource type="AudioStream" uid="uid://cn48yd6dmmiuy" path="res://Assets/SFX/Glitch1.mp3" id="12_0hine"]
-[ext_resource type="AudioStream" uid="uid://pyuwmihd4c3x" path="res://Assets/SFX/IntegScoreIncrement.mp3" id="13_0hine"]
-[ext_resource type="AudioStream" uid="uid://xk6lyl3ol3nb" path="res://Assets/SFX/IntegScoreDecrement.mp3" id="14_0hine"]
+[ext_resource type="AudioStream" uid="uid://cf06yomc24kko" path="res://Assets/SFX/NewEmail.mp3" id="10_0hine"]
+[ext_resource type="AudioStream" uid="uid://cacccjnje27kn" path="res://Assets/SFX/NewMessage.mp3" id="11_0hine"]
+[ext_resource type="AudioStream" uid="uid://dqgfqbecvr7ti" path="res://Assets/SFX/Glitch1.mp3" id="12_0hine"]
+[ext_resource type="AudioStream" uid="uid://bx2m8y7l0y2n5" path="res://Assets/SFX/IntegScoreIncrement.mp3" id="13_0hine"]
+[ext_resource type="AudioStream" uid="uid://deagcr8kta3ne" path="res://Assets/SFX/IntegScoreDecrement.mp3" id="14_0hine"]
+[ext_resource type="AudioStream" uid="uid://grbg5au3pem6" path="res://Assets/SFX/page_turn.mp3" id="18_ijivw"]
 
 [node name="Master" type="Node" node_paths=PackedStringArray("scene_loader", "data_manager", "settings_manager", "sound_manager", "json_manager", "timedate_manager")]
 script = ExtResource("1_qemos")
@@ -46,6 +47,7 @@ sound_effects = Dictionary[String, AudioStream]({
 "error_sound": ExtResource("7_iwwxa"),
 "mouse_click": ExtResource("7_0hine"),
 "notif_sound": ExtResource("8_0hine"),
+"page_turn": ExtResource("18_ijivw"),
 "phone_click": ExtResource("9_0hine"),
 "ui_click": ExtResource("6_0hine")
 })

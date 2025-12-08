@@ -2,15 +2,16 @@ extends MarginContainer
 
 var master: Master
 
+@export var message_app: Panel
 @export var notes_scroll_container: VBoxContainer
 
 @export_subgroup("Note Content")
-@export var note_title: LineEdit
+@export var note_title: TextEdit
 @export var note_content: TextEdit
 @export var note_date_time: Label
 
 @export_subgroup("Add New")
-@export var new_note_title: LineEdit
+@export var new_note_title: TextEdit
 @export var new_note_content: TextEdit
 @export var new_note_date_time: Label
 
@@ -24,7 +25,7 @@ var notes = preload("res://Prefabs/Components/note.tscn")
 func spawn_notes() -> void:
 	for child in notes_scroll_container.get_children():
 		child.queue_free()
-	
+
 	var all_notes: Array = []
 	
 	var json_notes = master.json_manager.load_notes()
@@ -39,25 +40,36 @@ func spawn_notes() -> void:
 		return
 	
 	var hbox: HBoxContainer = null
+	var notes_in_hbox = 0
 	
 	for i in range(all_notes.size()):
 		var note_data: Dictionary = all_notes[i]
 		
-		if i % 2 == 0:
+		if note_data.is_empty():
+			continue
+		if note_data.get("note_header", "").strip_edges() == "" and note_data.get("note_content", "").strip_edges() == "":
+			continue
+		
+		if hbox == null or notes_in_hbox >= 2:
 			hbox = HBoxContainer.new()
 			hbox.add_theme_constant_override("separation", 10)
 			notes_scroll_container.add_child(hbox)
+			notes_in_hbox = 0  # reset counter
 		
 		var note_instance = notes.instantiate()
 		note_instance.name = note_data.get("noteid", "note_%d" % i)
 		note_instance.note_data = note_data
-		note_instance.title.text = note_data.get("note_header", "")
-		note_instance.date.text = note_data.get("note_date_time", "")
+		
+		if note_instance.title:
+			note_instance.title.text = note_data.get("note_header", "")
+		if note_instance.preview:
+			note_instance.preview.text = note_data.get("note_content", "")
 		
 		if note_instance.has_signal("open_note"):
 			note_instance.connect("open_note", Callable(self, "_on_notes_opened"))
 		
 		hbox.add_child(note_instance)
+		notes_in_hbox += 1
 
 func _on_notes_opened(note_data: Dictionary) -> void:
 	master.sound_manager.play_sound("phone_click")
@@ -103,6 +115,8 @@ func _ready() -> void:
 		print("[WARN: Notes_app._ready] Master is still null. Calling members from this object may cause issues.")
 		return
 	
+	message_app.connect("call_spawn_notes", Callable(self, "spawn_notes"))
+
 	master.json_manager.load_notes()
 	
 	spawn_notes()

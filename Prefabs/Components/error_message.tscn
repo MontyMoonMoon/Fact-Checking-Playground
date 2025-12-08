@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ck84d2nlo7v2d" path="res://Scripts/Component Scripts/error_message.gd" id="1_cm0hd"]
 [ext_resource type="Texture2D" uid="uid://dq83lbqfexi88" path="res://Assets/PNGs/UI/UI Assets.png" id="2_2la5w"]
-[ext_resource type="FontFile" uid="uid://de2qiyybswcte" path="res://Assets/Fonts/windows-xp-tahoma.otf" id="3_cm0hd"]
+[ext_resource type="FontFile" uid="uid://bhqhtnkkcerbn" path="res://Assets/Fonts/BMmini.TTF" id="3_cm0hd"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0cmhb"]
 texture = ExtResource("2_2la5w")
@@ -79,12 +79,13 @@ layout_mode = 2
 mouse_filter = 2
 
 [node name="ErrorMessage" type="Label" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(300, 60)
+custom_minimum_size = Vector2(340, 60)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_cm0hd")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 16
+text = "Error Message here"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3

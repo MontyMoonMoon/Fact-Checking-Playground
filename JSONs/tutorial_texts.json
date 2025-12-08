@@ -1,0 +1,224 @@
+{
+  "tutorial_steps": [
+	{ 
+	  "id": "text1",
+	  "text_content": "Welcome to The Republia Post",
+	  "required_input": "none",
+	}, 
+	{
+		"id": "text2",
+		"text_content": "Let's get you started",
+		"required_input": "none",
+	},
+	{
+		"id": "text3",
+		"text_content": "First, check the newspaper on your desk.",
+		"required_input": "newspaper",
+	},
+	{
+		"id": "text6",
+		"text_content": "Always pay attention to your table.",
+		"required_input": "none",
+	},
+	{
+		"id": "text7",
+		"text_content": "That's where you'll find what cases you need to research.",
+		"required_input": "none",
+	},
+	{
+		"id": "text8",
+		"text_content": "Moving on, go check your phone",
+		"required_input": "phone",
+	},
+	{
+		"id": "text9",
+		"text_content": "Since you're at work, it's pretty limited, but still useful",
+		"required_input": "none",
+	},
+	{
+		"id": "text10",
+		"text_content": "You'll receive messages now and then.",
+		"required_input": "none",
+	},
+	{
+		"id": "text11",
+		"text_content": "You can save some messages as a note, which might come in handy.",
+		"required_input": "none",
+	},
+	{
+		"id": "text12",
+		"text_content": "You can also delete them if you want to.",
+		"required_input": "none",
+	},
+	{
+		"id": "text13",
+		"text_content": "You can explore that later.",
+		"required_input": "none",
+	},
+	{
+		"id": "text14",
+		"text_content": "Try closing it by clicking the button on the bottom of the phone.",
+		"required_input": "phone_closed",
+	},
+	{
+		"id": "text15",
+		"text_content": "Next up, the most important thing, your laptop.",
+		"required_input": "laptop",
+	},
+	{
+		"id": "text16",
+		"text_content": "There are 5 apps you can use here.",
+		"required_input": "none",
+	},
+	{
+		"id": "text17",
+		"text_content": "First up, the Email app.",
+		"required_input": "email",
+	},
+	{
+		"id": "text18",
+		"text_content": "You can click any of them to expand their contents.",
+		"required_input": "none",
+	},
+	{
+		"id": "text20",
+		"text_content": "You can choose to add it to the evidence bank or discard them.",
+		"required_input": "none",
+	},
+	{
+		"id": "text21",
+		"text_content": "You can exit apps by clicking the button on the top right.",
+		"required_input": "exit",
+	},
+	{
+		"id": "text22",
+		"text_content": "Next, the Evidence Bank app.",
+		"required_input": "evidence_bank",
+	},
+	{
+		"id": "text23",
+		"text_content": "You will be able to see an overview of the evidences you gather.",
+		"required_input": "none",
+	},
+	{
+		"id": "text24",
+		"text_content": "Clicking 'add' will send it to the AI Analysis.",
+		"required_input": "none",
+	},
+	{
+		"id": "text25",
+		"text_content": "Clicking 'trash' will send it to the trash bin.",
+		"required_input": "none",
+	},
+	{
+		"id": "text26",
+		"text_content": "Let's go back to the homescreen.",
+		"required_input": "exit",
+	},
+	{
+		"id": "text27",
+		"text_content": "Let's open the AI Analysis app.",
+		"required_input": "ai_analysis",
+	},
+	{
+		"id": "text28",
+		"text_content": "In here, you can compare articles and tips",
+		"required_input": "none",
+	},
+	{
+		"id": "text29",
+		"text_content": "You can navigate through the list by clicking 'Prev' or 'Next'.",
+		"required_input": "none",
+	},
+	{
+		"id": "text30",
+		"text_content": "Clicking 'Analyze' will give you a detailed breadown.",
+		"required_input": "none",
+	},
+	{
+		"id": "text31",
+		"text_content": "The breakdown will give you an overview of how credible the information is.",
+		"required_input": "none",
+	},
+	{
+		"id": "text32",
+		"text_content": "Let's move onto the next app.",
+		"required_input": "exit",
+	},
+	{
+		"id": "text33",
+		"text_content": "Open the Article Publisher.",
+		"required_input": "article_publisher",
+	},
+	{
+		"id": "text34",
+		"text_content": "Evidences that you have analyzed will appear here.",
+		"required_input": "none",
+	},
+	{
+		"id": "text35",
+		"text_content": "Clicking on the articles will add them to the publishing paper (right side).",
+		"required_input": "none",
+	},
+	{
+		"id": "text36",
+		"text_content": "You can add up to 4 articles.",
+		"required_input": "none",
+	},
+	{
+		"id": "text37",
+		"text_content": "Publishing the articles will remove them from your article list.",
+		"required_input": "none",
+	},
+	{
+		"id": "text39",
+		"text_content": "Let's move to the next app.",
+		"required_input": "exit",
+	},
+	{
+		"id": "text40",
+		"text_content": "Open the trash bin.",
+		"required_input": "trash_bin",
+	},
+	{
+		"id": "text41",
+		"text_content": "This one's simple, you can restore any discarded information or just leave them be.",
+		"required_input": "none",
+	},
+	{
+		"id": "text42",
+		"text_content": "That's all for the laptop. Let's go back",
+		"required_input": "exit",
+	},
+	{
+		"id": "text43",
+		"text_content": "You can close the laptop anytime by clicking 'Exit Laptop'",
+		"required_input": "exit_laptop",
+	},
+	{
+		"id": "text44",
+		"text_content": "Lastly, the Integrity Meter, it's on the left side of the screen.",
+		"required_input": "none",
+	},
+	{
+		"id": "text45",
+		"text_content": "As its name suggest, it's a visualization of your integrity.",
+		"required_input": "none",
+	},
+	{
+		"id": "text46",
+		"text_content": "If you publish articles that are not 'credible' your integrity reduces.",
+		"required_input": "none",
+	},
+	{
+		"id": "text47",
+		"text_content": "We have provided you with a textbook will all the information we just told you.",
+		"required_input": "none",
+	},
+	{
+		"id": "text48",
+		"text_content": "That's all for now, goodluck with your work.",
+		"required_input": "next",
+	},
+  ]
+}

@@ -1,12 +1,13 @@
-[gd_scene load_steps=18 format=3 uid="uid://do8m3fycviffl"]
+[gd_scene load_steps=19 format=3 uid="uid://do8m3fycviffl"]
 
 [ext_resource type="Texture2D" uid="uid://dq83lbqfexi88" path="res://Assets/PNGs/UI/UI Assets.png" id="1_o6147"]
-[ext_resource type="Script" uid="uid://dgghe2l27b6xc" path="res://Scripts/Component Scripts/credits_panel.gd" id="1_tyg3m"]
+[ext_resource type="Script" path="res://Scripts/Component Scripts/credits_panel.gd" id="1_tyg3m"]
 [ext_resource type="FontFile" uid="uid://de2qiyybswcte" path="res://Assets/Fonts/windows-xp-tahoma.otf" id="2_hnnrw"]
 [ext_resource type="FontFile" uid="uid://bhqhtnkkcerbn" path="res://Assets/Fonts/BMmini.TTF" id="3_hibwv"]
 [ext_resource type="Theme" uid="uid://df6e0ld8c6ydr" path="res://Assets/Default.tres" id="4_mx7yf"]
 [ext_resource type="FontFile" uid="uid://oluhvxue80kf" path="res://Assets/Fonts/MyDearestBit.ttf" id="5_c8pnd"]
-[ext_resource type="Texture2D" uid="uid://brll6eec1kgi4" path="res://Assets/PNGs/LogoFull.png" id="5_ogdd0"]
+[ext_resource type="Texture2D" uid="uid://bfio16ka0j3co" path="res://Assets/PNGs/LogoFull.png" id="5_ogdd0"]
+[ext_resource type="Texture2D" uid="uid://ps7igyophrhv" path="res://Assets/PNGs/23346-2805583466.png" id="8_mrmi0"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_o6147"]
 texture = ExtResource("1_o6147")
@@ -462,8 +463,12 @@ theme_override_fonts/font = ExtResource("5_c8pnd")
 text = "- - Sound Effects  - -"
 
 [node name="NinePatchRect" type="NinePatchRect" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Sounds"]
+custom_minimum_size = Vector2(256, 88)
 layout_mode = 2
-region_rect = Rect2(0, 0, 197, 197)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("8_mrmi0")
+region_rect = Rect2(0, 168, 512, 176)
 
 [node name="Control" type="Control" parent="NinePatchRect/MarginContainer/MainContent/ScrollContainer/VBoxContainer/Content/TextContent/VBoxContainer/Sounds"]
 custom_minimum_size = Vector2(0, 1)
