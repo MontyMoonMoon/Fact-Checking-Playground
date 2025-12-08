@@ -294,7 +294,7 @@ func _get_days_in_month(month_name: String, year: int) -> int:
 # Helper: Get days in month by number
 func _get_days_in_month_numeric(month: int, year: int) -> int:
 	var month_names = ["January", "February", "March", "April", "May", "June",
-	                  "July", "August", "September", "October", "November", "December"]
+					  "July", "August", "September", "October", "November", "December"]
 	if month >= 1 and month <= 12:
 		return _get_days_in_month(month_names[month - 1], year)
 	return 31

@@ -15,7 +15,7 @@ run/main_scene="uid://ccetierkoni7f"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Fact-Check"
 config/features=PackedStringArray("4.5", "GL Compatibility")
-boot_splash/image="uid://d4mtwbxrjjslf"
+boot_splash/image="uid://ba1b7cddtv1k5"
 boot_splash/minimum_display_time=2000
 
 [display]

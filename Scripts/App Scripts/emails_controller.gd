@@ -25,7 +25,7 @@ var _has_spawned_initial: bool = false
 var _spawned_emails: Array = []
 
 const SPAM_EVIDENCE_PENALTY := -3.0
-const SPAM_DISCARD_REWARD := 0.25
+const SPAM_DISCARD_REWARD := 0.10
 const SPAM_GLITCH_DURATION := 2.5
 
 func _on_open_emails() -> void:
